@@ -1029,6 +1029,10 @@ div.documentwrapper {
     background-color: #000;
 }
 
+.highlight-yaml pre {
+    background-color: #000;
+}
+
 
 
 

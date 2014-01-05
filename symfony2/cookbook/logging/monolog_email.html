@@ -1,0 +1,368 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>エラーメールを送る Monolog の設定方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="クックブック" href="../index.html" />
+    <link rel="next" title="クラスのオートローディングの方法" href="../tools/autoloader.html" />
+    <link rel="prev" title="ログメッセージを複数ファイルへ出力させるには" href="channels_handlers.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="monolog">
+<h1>エラーメールを送る Monolog の設定方法<a class="headerlink" href="#monolog" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="https://github.com/Seldaek/monolog">Monolog</a> は、アプリケーションでエラーが起きた際にメールを送信するように設定することができます。あまりにも多くのメールを受け取らないようにするために、コンフィギュレーションで少しネストされたハンドラが必要になります。次のようになりますが、最初は複雑に見えますがハンドラ１つずつを見ていけば、とても簡単です。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">monolog</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">handlers</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">mail</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>         <span class="l-Scalar-Plain">fingers_crossed</span>
+            <span class="l-Scalar-Plain">action_level</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">critical</span>
+            <span class="l-Scalar-Plain">handler</span><span class="p-Indicator">:</span>      <span class="l-Scalar-Plain">buffered</span>
+        <span class="l-Scalar-Plain">buffered</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>    <span class="l-Scalar-Plain">buffer</span>
+            <span class="l-Scalar-Plain">handler</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">swift</span>
+        <span class="l-Scalar-Plain">swift</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>       <span class="l-Scalar-Plain">swift_mailer</span>
+            <span class="l-Scalar-Plain">from_email</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">error@example.com</span>
+            <span class="l-Scalar-Plain">to_email</span><span class="p-Indicator">:</span>   <span class="l-Scalar-Plain">error@example.com</span>
+            <span class="l-Scalar-Plain">subject</span><span class="p-Indicator">:</span>    <span class="l-Scalar-Plain">An Error Occurred!</span>
+            <span class="l-Scalar-Plain">level</span><span class="p-Indicator">:</span>      <span class="l-Scalar-Plain">debug</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:monolog=</span><span class="s">&quot;http://symfony.com/schema/dic/monolog&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd</span>
+<span class="s">                        http://symfony.com/schema/dic/monolog http://symfony.com/schema/dic/monolog/monolog-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;monolog:config&gt;</span>
+        <span class="nt">&lt;monolog:handler</span>
+            <span class="na">name=</span><span class="s">&quot;mail&quot;</span>
+            <span class="na">type=</span><span class="s">&quot;fingers_crossed&quot;</span>
+            <span class="na">action-level=</span><span class="s">&quot;critical&quot;</span>
+            <span class="na">handler=</span><span class="s">&quot;buffered&quot;</span>
+        <span class="nt">/&gt;</span>
+        <span class="nt">&lt;monolog:handler</span>
+            <span class="na">name=</span><span class="s">&quot;buffered&quot;</span>
+            <span class="na">type=</span><span class="s">&quot;buffer&quot;</span>
+            <span class="na">handler=</span><span class="s">&quot;swift&quot;</span>
+        <span class="nt">/&gt;</span>
+        <span class="nt">&lt;monolog:handler</span>
+            <span class="na">name=</span><span class="s">&quot;swift&quot;</span>
+            <span class="na">from-email=</span><span class="s">&quot;error@example.com&quot;</span>
+            <span class="na">to-email=</span><span class="s">&quot;error@example.com&quot;</span>
+            <span class="na">subject=</span><span class="s">&quot;An Error Occurred!&quot;</span>
+            <span class="na">level=</span><span class="s">&quot;debug&quot;</span>
+        <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/monolog:config&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">mail</span></tt> ハンドラは <tt class="docutils literal"><span class="pre">fingers_crossed</span></tt> ハンドラで、これはつまり指定したアクションレベルに到達したときのみトリガーされます。上記の場合であれば、 <tt class="docutils literal"><span class="pre">critical</span></tt> の際に到達したとみなされます。そうなると <tt class="docutils literal"><span class="pre">critical</span></tt> より下のアクションレベルのメッセージも全てログをとるようになります。 <tt class="docutils literal"><span class="pre">critical</span></tt> レベルは HTTP のエラーステータスの 500 番台のときのみトリガーされます。 <tt class="docutils literal"><span class="pre">handler</span></tt> 設定は、出力が <tt class="docutils literal"><span class="pre">buffered</span></tt> ハンドラに渡されることを意味しています。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">もし 400 番台と 500 番台のエラーレベルでメール送信をトリガーしたい際には、 <tt class="docutils literal"><span class="pre">action_level</span></tt> を <tt class="docutils literal"><span class="pre">critical</span></tt> ではなく <tt class="docutils literal"><span class="pre">error</span></tt> に設定してください。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">buffered</span></tt> ハンドラは、リクエストの全てのメッセージを保持して、ネストされたハンドラにそのメッセージを渡すだけです。このハンドラを使用しなければ、それぞれのメッセージは別々にメール送信されてしまいます。このハンドラを使うことで <tt class="docutils literal"><span class="pre">swift</span></tt> ハンドラにメッセージが渡されます。 <tt class="docutils literal"><span class="pre">swift</span></tt> あは、実際にエラーメールの送信を担います。この設定は送信先のアドレス、送信者のアドレス、そして件名のみで、簡単です。</p>
+<p>これらのハンドラは、他のハンドラと組み合わせることができますので、メールを送信するのと同時にサーバにもログを付けることができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><pre># app/config/config.yml
+monolog:
+    handlers:
+        main:
+            type:         fingers_crossed
+            action_level: critical
+            handler:      grouped
+        grouped:
+            type:    group
+            members: [streamed, buffered]
+        streamed:
+            type:  stream
+            path:  %kernel.logs_dir%/%kernel.environment%.log
+            level: debug
+        buffered:
+            type:    buffer
+            handler: swift
+        swift:
+            type:       swift_mailer
+            from_email: error@example.com
+            to_email:   error@example.com
+            subject:    An Error Occurred!
+            level:      debug</pre>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:monolog=</span><span class="s">&quot;http://symfony.com/schema/dic/monolog&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd</span>
+<span class="s">                        http://symfony.com/schema/dic/monolog http://symfony.com/schema/dic/monolog/monolog-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;monolog:config&gt;</span>
+        <span class="nt">&lt;monolog:handler</span>
+            <span class="na">name=</span><span class="s">&quot;main&quot;</span>
+            <span class="na">type=</span><span class="s">&quot;fingers_crossed&quot;</span>
+            <span class="na">action_level=</span><span class="s">&quot;critical&quot;</span>
+            <span class="na">handler=</span><span class="s">&quot;grouped&quot;</span>
+        <span class="nt">/&gt;</span>
+        <span class="nt">&lt;monolog:handler</span>
+            <span class="na">name=</span><span class="s">&quot;grouped&quot;</span>
+            <span class="na">type=</span><span class="s">&quot;group&quot;</span>
+        <span class="nt">&gt;</span>
+            <span class="nt">&lt;member</span> <span class="na">type=</span><span class="s">&quot;stream&quot;</span><span class="nt">/&gt;</span>
+            <span class="nt">&lt;member</span> <span class="na">type=</span><span class="s">&quot;buffered&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;/monolog:handler&gt;</span>
+        <span class="nt">&lt;monolog:handler</span>
+            <span class="na">name=</span><span class="s">&quot;stream&quot;</span>
+            <span class="na">path=</span><span class="s">&quot;%kernel.logs_dir%/%kernel.environment%.log&quot;</span>
+            <span class="na">level=</span><span class="s">&quot;debug&quot;</span>
+        <span class="nt">/&gt;</span>
+        <span class="nt">&lt;monolog:handler</span>
+            <span class="na">name=</span><span class="s">&quot;buffered&quot;</span>
+            <span class="na">type=</span><span class="s">&quot;buffer&quot;</span>
+            <span class="na">handler=</span><span class="s">&quot;swift&quot;</span>
+        <span class="nt">/&gt;</span>
+        <span class="nt">&lt;monolog:handler</span>
+            <span class="na">name=</span><span class="s">&quot;swift&quot;</span>
+            <span class="na">from-email=</span><span class="s">&quot;error@example.com&quot;</span>
+            <span class="na">to-email=</span><span class="s">&quot;error@example.com&quot;</span>
+            <span class="na">subject=</span><span class="s">&quot;An Error Occurred!&quot;</span>
+            <span class="na">level=</span><span class="s">&quot;debug&quot;</span>
+        <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/monolog:config&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>この設定では <tt class="docutils literal"><span class="pre">group</span></tt> ハンドラを使って <tt class="docutils literal"><span class="pre">buffered</span></tt> ハンドラと <tt class="docutils literal"><span class="pre">stream</span></tt> ハンドラの２つのグループメンバーにメッセージを送っています。これでメッセージはログファイルに書かれますし、またメールも送信されるようになりました。</p>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="channels_handlers.html">< ログメッセージを複数ファイルへ出力させるには</a>
+<a class="next" href="../tools/autoloader.html">クラスのオートローディングの方法 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/logging/monolog_email.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/logging/monolog_email.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/logging/monolog_email.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="channels_handlers.html"
+                        title="previous chapter">ログメッセージを複数ファイルへ出力させるには</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../tools/autoloader.html"
+                        title="next chapter">クラスのオートローディングの方法</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/logging/monolog_email.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

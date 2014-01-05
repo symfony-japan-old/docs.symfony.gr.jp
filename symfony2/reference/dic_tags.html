@@ -1,0 +1,1400 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Dependency Injectionタグ | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="リファレンスドキュメント" href="index.html" />
+    <link rel="next" title="このページの翻訳はまだ行われていません。" href="YAML.html" />
+    <link rel="prev" title="Valid" href="constraints/Valid.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン : 2.3+</li>
+<li>翻訳更新日 : 2013/11/23</li>
+</ul>
+</div>
+<div class="section" id="dependency-injection">
+<h1>Dependency Injectionタグ<a class="headerlink" href="#dependency-injection" title="Permalink to this headline">¶</a></h1>
+<p>Dependency Injectionタグはサービスに、特別な方法でフラグを立てるのに使う短い文字列です。たとえば、Symfonyのコアのイベントに対するリスナーを登録したいときは <tt class="docutils literal"><span class="pre">kernel.event_listener</span></tt> タグを使います。</p>
+<p>タグについてより詳しく知りたいときはサービスコンテナの章の &#8220;<a class="reference internal" href="../book/service_container.html#book-service-container-tags"><em>タグ (tags)</em></a>&#8221; セクションを読んで下さい。</p>
+<p>以下はSymfony2の内部で利用可能なタグの一覧です。他のバンドルで使うタグについてはここには載っていません。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>タグ名</td>
+<td>使い方</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#assetic-asset">assetic.asset</a></td>
+<td>asseticの現在のアセットマネージャーにアセットを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#assetic-factory-worker">assetic.factory_worker</a></td>
+<td>asseticのfactory workerを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#assetic-filter">assetic.filter</a></td>
+<td>asseticのfilterを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#assetic-formula-loader">assetic.formula_loader</a></td>
+<td>asseticの現在のアセットマネージャーにformula loaderを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#assetic-formula-resource">assetic.formula_resource</a></td>
+<td>asseticの現在のアセットマネージャーにリソースを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#assetic-templating-php">assetic.templating.php</a></td>
+<td>phpテンプレートエンジンが使われていない場合にサービスを削除します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#assetic-templating-twig">assetic.templating.twig</a></td>
+<td>twigテンプレートエンジンが使われていないときにサービスを削除します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#console-command">console.command</a></td>
+<td>コンソールコマンドを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#data-collector">data_collector</a></td>
+<td>プロファイラ用にカスタムデータコレクタを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#doctrine-event-listener">doctrine.event_listener</a></td>
+<td>Doctrineのイベントリスナーを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#doctrine-event-subscriber">doctrine.event_subscriber</a></td>
+<td>Doctrineのイベントサブスクライバーを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#form-type">form.type</a></td>
+<td>カスタムフォームフィールドタイプを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#form-type-extension">form.type_extension</a></td>
+<td>カスタムフォームエクステンションを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#form-type-guesser">form.type_guesser</a></td>
+<td>独自のフォームタイプ推測器（Guessor）を追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#kernel-cache-clearer">kernel.cache_clearer</a></td>
+<td>キャッシュクリア時に呼び出すサービスを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#kernel-cache-warmer">kernel.cache_warmer</a></td>
+<td>キャッシュウォームアップ時に呼び出すサービスを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#kernel-event-listener">kernel.event_listener</a></td>
+<td>Symfonyのさまざまなイベント・フックにイベントリスナーを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#kernel-event-subscriber">kernel.event_subscriber</a></td>
+<td>Symfonyのさまざまなイベント・フックにサブスクライバーを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#kernel-fragment-renderer">kernel.fragment_renderer</a></td>
+<td>新しいHTTPレンダリング方法を追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#monolog-logger">monolog.logger</a></td>
+<td>カスタムログチャンネルを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#monolog-processor">monolog.processor</a></td>
+<td>カスタムログプロセッサーを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#routing-loader">routing.loader</a></td>
+<td>ルーティング設定を読み込む独自のサービスを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#security-voter">security.voter</a></td>
+<td>Symfonyの認証機構に独自のvoterを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#security-remember-me-aware">security.remember_me_aware</a></td>
+<td>次回から自動ログイン機能を使う</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#serializer-encoder">serializer.encoder</a></td>
+<td><tt class="docutils literal"><span class="pre">serializer</span></tt> サービスに独自のエンコーダーを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#serializer-normalizer">serializer.normalizer</a></td>
+<td><tt class="docutils literal"><span class="pre">serializer</span></tt> サービスに独自のノーマライザーを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#swiftmailer-plugin">swiftmailer.plugin</a></td>
+<td>SwiftMailerのプラグインを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#templating-helper">templating.helper</a></td>
+<td>サービスをPHPテンプレートエンジンでヘルパーとして利用できるようにする</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#translation-loader">translation.loader</a></td>
+<td>独自の翻訳ローダー追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#translation-extractor">translation.extractor</a></td>
+<td>テンプレートから翻訳が必要なメッセージを展開する独自サービスを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#translation-dumper">translation.dumper</a></td>
+<td>翻訳メッセージをダンプする独自サービスを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#twig-extension">twig.extension</a></td>
+<td>独自のTwigエクステンションを追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#twig-loader">twig.loader</a></td>
+<td>Twigテンプレートを読み込む独自サービスを追加します</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#validator-constraint-validator">validator.constraint_validator</a></td>
+<td>独自のバリデーション制約を追加します</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#validator-initializer">validator.initializer</a></td>
+<td>バリデーション前にオブジェクトを初期化する独自サービスを追加します</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="assetic-asset">
+<h2>assetic.asset<a class="headerlink" href="#assetic-asset" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 現在のアセットマネージャにアセットを追加します</p>
+</div>
+<div class="section" id="assetic-factory-worker">
+<h2>assetic.factory_worker<a class="headerlink" href="#assetic-factory-worker" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: Factory workerを追加する</p>
+<p>Factory worker は <tt class="docutils literal"><span class="pre">Assetic\Factory\Worker\WorkerInterface</span></tt> を実装したクラスです。
+<tt class="docutils literal"><span class="pre">process($asset)</span></tt> メソッドは、各アセットの作成後に呼び出され、アセットを変更したり、別の新しいアセットを返すことができます。</p>
+<p>新しいFactory workerを追加するには、まずクラスを作ります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Assetic\Asset\AssetInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Assetic\Factory\Worker\WorkerInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyWorker</span> <span class="k">implements</span> <span class="nx">WorkerInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">process</span><span class="p">(</span><span class="nx">AssetInterface</span> <span class="nv">$asset</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// ... $asset を変更するか新しいものを返します</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>そして、タグ付けされたサービスとして登録します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">acme.my_worker</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">MyWorker</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">assetic.factory_worker</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><pre>&lt;service id="acme.my_worker" class="MyWorker&gt;
+    &lt;tag name="assetic.factory_worker" /&gt;
+&lt;/service&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;acme.my_worker&#39;</span><span class="p">,</span> <span class="s1">&#39;MyWorker&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;assetic.factory_worker&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="assetic-filter">
+<h2>assetic.filter<a class="headerlink" href="#assetic-filter" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: フィルタを追加します</p>
+<p>AsseticBundle はこのタグを使って共通のフィルタを登録します。このタグを使うと、独自のフィルタを登録することができます。</p>
+<p>まず、フィルタクラスを作ります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Assetic\Asset\AssetInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Assetic\Filter\FilterInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyFilter</span> <span class="k">implements</span> <span class="nx">FilterInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">filterLoad</span><span class="p">(</span><span class="nx">AssetInterface</span> <span class="nv">$asset</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$asset</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="s1">&#39;alert(&quot;yo&quot;);&#39;</span> <span class="o">.</span> <span class="nv">$asset</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">());</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">filterDump</span><span class="p">(</span><span class="nx">AssetInterface</span> <span class="nv">$asset</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>次に、サービスを定義します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">acme.my_filter</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">MyFilter</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">assetic.filter</span><span class="p-Indicator">,</span> <span class="nv">alias</span><span class="p-Indicator">:</span> <span class="nv">my_filter</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;acme.my_filter&quot;</span> <span class="na">class=</span><span class="s">&quot;MyFilter&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;assetic.filter&quot;</span> <span class="na">alias=</span><span class="s">&quot;my_filter&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;acme.my_filter&#39;</span><span class="p">,</span> <span class="s1">&#39;MyFilter&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;assetic.filter&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;alias&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;my_filter&#39;</span><span class="p">))</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>最後に、フィルタを適用します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">javascripts</span>
+    <span class="s1">&#39;@AcmeBaseBundle/Resources/public/js/global.js&#39;</span>
+    <span class="nv">filter</span><span class="o">=</span><span class="s1">&#39;my_filter&#39;</span>
+<span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;script src=&quot;</span><span class="cp">{{</span> <span class="nv">asset_url</span> <span class="cp">}}</span><span class="x">&quot;&gt;&lt;/script&gt;</span>
+<span class="cp">{%</span> <span class="k">endjavascripts</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../cookbook/assetic/apply_to_option.html"><em>特定の拡張子に Assetic フィルターを適用するには？</em></a> で説明されているように、 <tt class="docutils literal"><span class="pre">assetic.filters.my_filter.apply_to</span></tt> を使ってフィルタを適用することもできます。
+この場合、独自のフィルタサービスを独立した xml の設定ファイルで定義し、そのファイルのパスを <tt class="docutils literal"><span class="pre">assetic.filters.my_filter.resource</span></tt> という設定名で指し示す必要があります。</p>
+</div>
+<div class="section" id="assetic-formula-loader">
+<h2>assetic.formula_loader<a class="headerlink" href="#assetic-formula-loader" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 現在のアセットマネージャーにformula loaderを追加します</p>
+<p>Formula loader は <tt class="docutils literal"><span class="pre">Assetic\\Factory\Loader\\FormulaLoaderInterface</span></tt> を実装したクラスです。このクラスは特定の種類のリソース（たとえば、twigテンプレート）からアセットを読み込むことを担当します。Assetic には php と twig テンプレート用のローダーを提供してます。</p>
+<p><tt class="docutils literal"><span class="pre">alias</span></tt> 属性を使ってローダーの名前を定義することができます。</p>
+</div>
+<div class="section" id="assetic-formula-resource">
+<h2>assetic.formula_resource<a class="headerlink" href="#assetic-formula-resource" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 現在のアセットマネージャーにリソースを追加します</p>
+<p>リソースは読み込むことのできる形式です。たとえば、twigテンプレートはリソースの一種です。</p>
+</div>
+<div class="section" id="assetic-templating-php">
+<h2>assetic.templating.php<a class="headerlink" href="#assetic-templating-php" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: phpテンプレートエンジンが使われていない場合にサービスを削除します</p>
+<p>このタグがついているサービスは、 <tt class="docutils literal"><span class="pre">framework.templating.engines</span></tt> 設定セクションが php を含んでいない場合にコンテナから削除されます。</p>
+</div>
+<div class="section" id="assetic-templating-twig">
+<h2>assetic.templating.twig<a class="headerlink" href="#assetic-templating-twig" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: twigテンプレートエンジンが使われていない場合にサービスを削除します</p>
+<p>このタグがついているサービスは、 <tt class="docutils literal"><span class="pre">framework.templating.engines</span></tt> 設定セクションが twig を含んでいない場合にコンテナから削除されます。</p>
+</div>
+<div class="section" id="console-command">
+<h2>console.command<a class="headerlink" href="#console-command" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span>New in version 2.4: </span>サービスコンテナによるコマンド登録は 2.4 から追加されました。</p>
+</div>
+<p><strong>目的</strong>: アプリケーションにコマンドを追加します</p>
+<p>サービスコンテナによる独自コマンド登録について、詳細は <a class="reference internal" href="../cookbook/console/console_command.html#cookbook-console-dic"><em>サービスコンテナにコマンドを登録する</em></a> を読んでください。</p>
+</div>
+<div class="section" id="data-collector">
+<h2>data_collector<a class="headerlink" href="#data-collector" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: プロファイラ用にカスタムデータコレクタを追加する</p>
+<p>カスタムデータコレクタ作成について詳細は <a class="reference internal" href="../cookbook/profiler/data_collector.html"><em>カスタムデータコレクタの作成方法</em></a> を参照してください。</p>
+</div>
+<div class="section" id="doctrine-event-listener">
+<h2>doctrine.event_listener<a class="headerlink" href="#doctrine-event-listener" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: Doctrineのイベントリスナーを追加する</p>
+<p>Doctrineのイベントリスナー作成について詳細は <a class="reference internal" href="../cookbook/doctrine/event_listeners_subscribers.html"><em>イベントリスナーとサブスクライバーを登録する</em></a> を参照してください。</p>
+</div>
+<div class="section" id="doctrine-event-subscriber">
+<h2>doctrine.event_subscriber<a class="headerlink" href="#doctrine-event-subscriber" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: Doctrineのイベントサブスクライバ―を追加する</p>
+<p>Doctrineのイベントサブスクライバ―作成について詳細は <a class="reference internal" href="../cookbook/doctrine/event_listeners_subscribers.html"><em>イベントリスナーとサブスクライバーを登録する</em></a> を参照してください。</p>
+</div>
+<div class="section" id="form-type">
+<span id="dic-tags-form-type"></span><h2>form.type<a class="headerlink" href="#form-type" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: カスタムフォームフィールドタイプを追加します</p>
+<p>カスタムフォームフィールドタイプの作成について詳細は <a class="reference internal" href="../cookbook/form/create_custom_field_type.html"><em>カスタムフォームフィールドタイプの作成方法</em></a> を参照してください。</p>
+</div>
+<div class="section" id="form-type-extension">
+<h2>form.type_extension<a class="headerlink" href="#form-type-extension" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: カスタムフォームエクステンションを追加します</p>
+<p>フォームタイプエクステンションを使うと、フォームのすべての項目の作成時にホックすることができます。たとえば、 CSRF トークンの追加は、あるフォームタイプエクステンションを使って行われています。 (<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Csrf\Type\FormTypeCsrfExtension</span></tt>).</p>
+<p>フォームタイプエクステンションは、フォームの中のどの項目のどの部分でも動作を変更することができます。フォームタイプエクステンションを作るには、まず <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\FormTypeExtensionInterface</span></tt> を実装したクラスを作ります。
+より簡単に、インターフェースではなく <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\AbstractTypeExtension</span></tt> を継承することもできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/MainBundle/Form/Type/MyFormTypeExtension.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\MainBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractTypeExtension</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyFormTypeExtension</span> <span class="k">extends</span> <span class="nx">AbstractTypeExtension</span>
+<span class="p">{</span>
+    <span class="c1">// ... ここに動作を変更したいメソッドを書きます</span>
+    <span class="c1">// buildForm(), buildView(), finishView(), setDefaultOptions() など</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Symfony に新しく追加したフォームエクステンションを使うことを知らせるために <tt class="docutils literal"><span class="pre">form.type_extension</span></tt> タグをつけます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">main.form.type.my_form_type_extension</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\MainBundle\Form\Type\MyFormTypeExtension</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">form.type_extension</span><span class="p-Indicator">,</span> <span class="nv">alias</span><span class="p-Indicator">:</span> <span class="nv">field</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;main.form.type.my_form_type_extension&quot;</span> <span class="na">class=</span><span class="s">&quot;Acme\MainBundle\Form\Type\MyFormTypeExtension&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;form.type_extension&quot;</span> <span class="na">alias=</span><span class="s">&quot;field&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;main.form.type.my_form_type_extension&#39;</span><span class="p">,</span> <span class="s1">&#39;Acme\MainBundle\Form\Type\MyFormTypeExtension&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;form.type_extension&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;alias&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;field&#39;</span><span class="p">))</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>タグの <tt class="docutils literal"><span class="pre">alias</span></tt> はこのフォームエクステンションを適用する対象を表しています。たとえば、すべてのフォームのすべての項目に適用したい場合は &#8220;form&#8221; を使ってください。</p>
+</div>
+<div class="section" id="form-type-guesser">
+<h2>form.type_guesser<a class="headerlink" href="#form-type-guesser" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 独自のフォームタイプ推測器を追加する</p>
+<p>このタグを使うと <a class="reference internal" href="../book/forms.html#book-forms-field-guessing"><em>Form Guessing</em></a> に独自のロジックを追加することができます。
+デフォルトでは、フォームタイプの推測はバリデーションメタデータとDoctrineのメタデータ（Doctrineを使用している場合）に基づいて行われます。</p>
+<p>独自のフォームタイプ推測器を追加するには、まず、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\FormTypeGuesserInterface</span></tt> を実装したクラスを作成します。
+次に、そのサービスに <tt class="docutils literal"><span class="pre">form.type_guesser</span></tt> タグ（オプションはありません）をつけます。</p>
+<p>フォームタイプ推測器の書き方の例を知りたければ、 <tt class="docutils literal"><span class="pre">Form</span></tt> コンポーネントの <tt class="docutils literal"><span class="pre">ValidatorTypeGuesser</span></tt> を見てください。</p>
+</div>
+<div class="section" id="kernel-cache-clearer">
+<h2>kernel.cache_clearer<a class="headerlink" href="#kernel-cache-clearer" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: キャッシュクリア時に呼び出すサービスを追加する</p>
+<p>キャッシュクリアは <tt class="docutils literal"><span class="pre">cache:clear</span></tt> コマンドを実行したときに行われます。バンドルでファイルをキャッシュするのであれば、キャッシュクリア時に動作する独自のキャッシュクリアサービスを追加すべきです。</p>
+<p>独自のキャッシュクリアサービスを登録するには、まずサービスクラスを作ります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/MainBundle/Cache/MyClearer.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\MainBundle\Cache</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyClearer</span> <span class="k">implements</span> <span class="nx">CacheClearerInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">clear</span><span class="p">(</span><span class="nv">$cacheDir</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// キャッシュクリアの動作を書きます</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>そして、コンテナに登録し、 <tt class="docutils literal"><span class="pre">kernel.cache_clearer</span></tt> タグをつけます:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">my_cache_clearer</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\MainBundle\Cache\MyClearer</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">kernel.cache_clearer</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;my_cache_clearer&quot;</span> <span class="na">class=</span><span class="s">&quot;Acme\MainBundle\Cache\MyClearer&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;kernel.cache_clearer&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;my_cache_clearer&#39;</span><span class="p">,</span> <span class="s1">&#39;Acme\MainBundle\Cache\MyClearer&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;kernel.cache_clearer&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="kernel-cache-warmer">
+<h2>kernel.cache_warmer<a class="headerlink" href="#kernel-cache-warmer" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: キャッシュウォームアップ時に呼び出すサービスを追加する</p>
+<p>キャッシュウォームアップは <tt class="docutils literal"><span class="pre">cache:warmup</span></tt> コマンドまたは <tt class="docutils literal"><span class="pre">cache:clear</span></tt> コマンドを実行すると行われます（ <tt class="docutils literal"><span class="pre">cache:clear</span></tt> に <tt class="docutils literal"><span class="pre">--no-warmup</span></tt> オプションを付けなかったときに限る）。
+アプリケーションの動作に必要なキャッシュを初期化し、最初にアクセスしたユーザーがキャッシュを自動的に生成する際の重い動作に悩まされるのを防止するのが目的です。</p>
+<p>独自のキャッシュウォーマーを登録するには、まず、 the <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface</span></tt> を実装するサービスを作成します。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/MainBundle/Cache/MyCustomWarmer.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\MainBundle\Cache</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyCustomWarmer</span> <span class="k">implements</span> <span class="nx">CacheWarmerInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">warmUp</span><span class="p">(</span><span class="nv">$cacheDir</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// キャッシュをウォームアップの動作を書きます</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">isOptional</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">isOptional</span></tt> メソッドは、そのキャッシュウォーマーを使用せずにアプリケーションを動作させることができるなら、trueを返すようにしてください。
+Symfony 2.0 では、オプションのウォーマーは isOptional() の返り値に関わらず常に実行されるため、このメソッドは実際の効果がありません。</p>
+<p>キャッシュウォーマーをSymfonyに登録するには、 <tt class="docutils literal"><span class="pre">kernel.cache_warmer</span></tt> タグを使ってください。
+:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">main.warmer.my_custom_warmer</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\MainBundle\Cache\MyCustomWarmer</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">kernel.cache_warmer</span><span class="p-Indicator">,</span> <span class="nv">priority</span><span class="p-Indicator">:</span> <span class="nv">0</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;main.warmer.my_custom_warmer&quot;</span> <span class="na">class=</span><span class="s">&quot;Acme\MainBundle\Cache\MyCustomWarmer&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;kernel.cache_warmer&quot;</span> <span class="na">priority=</span><span class="s">&quot;0&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;main.warmer.my_custom_warmer&#39;</span><span class="p">,</span> <span class="s1">&#39;Acme\MainBundle\Cache\MyCustomWarmer&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;kernel.cache_warmer&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;priority&#39;</span> <span class="o">=&gt;</span> <span class="mi">0</span><span class="p">))</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">priority</span></tt> は必須ではなく、デフォルトの値は0です。
+-255 から 255 までの値を設定することができ、キャッシュウォーマーはこの優先度の順に実行されます。</p>
+</div>
+<div class="section" id="kernel-event-listener">
+<span id="dic-tags-kernel-event-listener"></span><h2>kernel.event_listener<a class="headerlink" href="#kernel-event-listener" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: Symfonyのさまざまなイベント・フックにイベントリスナーを追加する</p>
+<p>このタグを使うと、独自のクラスを Symfony のプロセスにフックさせることができます。</p>
+<p>イベントリスナーの例については、 <tt class="xref doc docutils literal"><span class="pre">/cookbook/service_container/event_listener</span></tt> を参照してください。</p>
+<p>実際のイベントリスナーの例は <a class="reference internal" href="../cookbook/request/mime_type.html"><em>新しいリクエストのフォーマットとマイムタイプの登録方法</em></a> にもあります。</p>
+<div class="section" id="event-listener">
+<h3>コアEvent Listenerリファレンス<a class="headerlink" href="#event-listener" title="Permalink to this headline">¶</a></h3>
+<p>リスナーを追加する場合、Symfony コアのリスナーについての知識が役立つでしょう。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">下記の一覧に掲載されているリスナーは、アプリケーションの環境・設定・バンドルにより動作していないかもしれません。
+また、サードパーティのバンドルでは、下記に載っていないリスナーが動作しているかもしれません。</p>
+</div>
+<div class="section" id="kernel-request">
+<h4>kernel.request<a class="headerlink" href="#kernel-request" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="89%" />
+<col width="11%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>リスナーのクラス名</td>
+<td>優先度</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ProfilerListener</span></tt></td>
+<td>1024</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\EventListener\TestSessionListener</span></tt></td>
+<td>192</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\EventListener\SessionListener</span></tt></td>
+<td>128</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\RouterListener</span></tt></td>
+<td>32</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\LocaleListener</span></tt></td>
+<td>16</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Http\Firewall</span></tt></td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="kernel-controller">
+<h4>kernel.controller<a class="headerlink" href="#kernel-controller" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="90%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>リスナーのクラス名</td>
+<td>優先度</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\DataCollector\RequestDataCollector</span></tt></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="kernel-response">
+<h4>kernel.response<a class="headerlink" href="#kernel-response" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="90%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>リスナーのクラス名</td>
+<td>優先度</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\EsiListener</span></tt></td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ResponseListener</span></tt></td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SecurityBundle\EventListener\ResponseListener</span></tt></td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ProfilerListener</span></tt></td>
+<td>-100</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\EventListener\TestSessionListener</span></tt></td>
+<td>-128</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener</span></tt></td>
+<td>-128</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\StreamedResponseListener</span></tt></td>
+<td>-1024</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="kernel-exception">
+<h4>kernel.exception<a class="headerlink" href="#kernel-exception" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="90%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>リスナーのクラス名</td>
+<td>優先度</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ProfilerListener</span></tt></td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ExceptionListener</span></tt></td>
+<td>-128</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="kernel-terminate">
+<h4>kernel.terminate<a class="headerlink" href="#kernel-terminate" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<colgroup>
+<col width="90%" />
+<col width="10%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>リスナーのクラス名</td>
+<td>優先度</td>
+</tr>
+<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SwiftmailerBundle\EventListener\EmailSenderListener</span></tt></td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="section" id="kernel-event-subscriber">
+<span id="dic-tags-kernel-event-subscriber"></span><h2>kernel.event_subscriber<a class="headerlink" href="#kernel-event-subscriber" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: Symfonyのさまざまなイベント・フックにサブスクライバーを追加する</p>
+<p>独自のサブスクライバーを利用するには、 <tt class="docutils literal"><span class="pre">kernel.event_subscriber</span></tt> タグをつけてサービスを登録してください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">kernel.subscriber.your_subscriber_name</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Fully\Qualified\Subscriber\Class\Name</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">kernel.event_subscriber</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;kernel.subscriber.your_subscriber_name&quot;</span> <span class="na">class=</span><span class="s">&quot;Fully\Qualified\Subscriber\Class\Name&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;kernel.event_subscriber&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;kernel.subscriber.your_subscriber_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Fully\Qualified\Subscriber\Class\Name&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;kernel.event_subscriber&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">イベントサブスクライバとして登録するサービスは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\EventDispatcher\EventSubscriberInterface</span></tt> を実装しなければなりません。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">サービスがファクトリによって作成される場合は <tt class="docutils literal"><span class="pre">class</span></tt> パラメータを <strong>絶対に</strong> 正しく設定する必要があります。</p>
+</div>
+</div>
+<div class="section" id="kernel-fragment-renderer">
+<h2>kernel.fragment_renderer<a class="headerlink" href="#kernel-fragment-renderer" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 新しいHTMLレンダリング方法を追加します</p>
+<p><tt class="docutils literal"><span class="pre">EsiFragmentRenderer</span></tt>  のようなコアのレンダリング方法に加えて、新しいレンダリング方法を追加するには、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface</span></tt> を実装したクラスを作成して、サービスとして登録し、 <tt class="docutils literal"><span class="pre">kernel.fragment_renderer</span></tt> タグをつけます。</p>
+</div>
+<div class="section" id="monolog-logger">
+<span id="dic-tags-monolog"></span><h2>monolog.logger<a class="headerlink" href="#monolog-logger" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: Monologのカスタムログチャンネルを追加します</p>
+<p>Monolog を使うと、複数のログチャンネルでハンドラを共有することができます。
+ロガーサービスは通常 <tt class="docutils literal"><span class="pre">app</span></tt> チャンネルを使いますが、このタグを使うと、ロガーをサービスに注入するときにチャンネルを変更することができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">my_service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Fully\Qualified\Loader\Class\Name</span>
+        <span class="l-Scalar-Plain">arguments</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&quot;@logger&quot;</span><span class="p-Indicator">]</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">monolog.logger</span><span class="p-Indicator">,</span> <span class="nv">channel</span><span class="p-Indicator">:</span> <span class="nv">acme</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;my_service&quot;</span> <span class="na">class=</span><span class="s">&quot;Fully\Qualified\Loader\Class\Name&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;argument</span> <span class="na">type=</span><span class="s">&quot;service&quot;</span> <span class="na">id=</span><span class="s">&quot;logger&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;monolog.logger&quot;</span> <span class="na">channel=</span><span class="s">&quot;acme&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$definition</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Definition</span><span class="p">(</span><span class="s1">&#39;Fully\Qualified\Loader\Class\Name&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="k">new</span> <span class="nx">Reference</span><span class="p">(</span><span class="s1">&#39;logger&#39;</span><span class="p">));</span>
+<span class="nv">$definition</span><span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;monolog.logger&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;channel&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;acme&#39;</span><span class="p">));</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;my_service&#39;</span><span class="p">,</span> <span class="nv">$definition</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="monolog-processor">
+<span id="dic-tags-monolog-processor"></span><h2>monolog.processor<a class="headerlink" href="#monolog-processor" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: カスタムログプロセッサーを追加します</p>
+<p>Monolog では、ログのレコードに追加のデータを含めるために、ロガーやハンドラにプロセッサーを追加できるようになっています。
+プロセッサーはログのレコードを受け取り、 <tt class="docutils literal"><span class="pre">extra</span></tt> 属性に追加のデータを足した後にそのレコードを返さなければなりません。</p>
+<p>ビルトインの <tt class="docutils literal"><span class="pre">IntrospectionProcessor</span></tt> を使って、ロガーを呼び出したファイル名・行数・クラス・メソッドをどのように追加するか、見てみましょう。</p>
+<p>プロセッサーはグローバルに追加することができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">my_service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Monolog\Processor\IntrospectionProcessor</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">monolog.processor</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;my_service&quot;</span> <span class="na">class=</span><span class="s">&quot;Monolog\Processor\IntrospectionProcessor&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;monolog.processor&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$definition</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Definition</span><span class="p">(</span><span class="s1">&#39;Monolog\Processor\IntrospectionProcessor&#39;</span><span class="p">);</span>
+<span class="nv">$definition</span><span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;monolog.processor&#39;</span><span class="p">);</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;my_service&#39;</span><span class="p">,</span> <span class="nv">$definition</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">サービスが <tt class="docutils literal"><span class="pre">__invoke</span></tt> を使って実行できない場合は、タグに <tt class="docutils literal"><span class="pre">method</span></tt> 属性を追加することで呼び出すメソッドを指定することができます。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">handler</span></tt> 属性を使って、プロセッサーを特定のhandlerに追加することもできます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">my_service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Monolog\Processor\IntrospectionProcessor</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">monolog.processor</span><span class="p-Indicator">,</span> <span class="nv">handler</span><span class="p-Indicator">:</span> <span class="nv">firephp</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;my_service&quot;</span> <span class="na">class=</span><span class="s">&quot;Monolog\Processor\IntrospectionProcessor&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;monolog.processor&quot;</span> <span class="na">handler=</span><span class="s">&quot;firephp&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$definition</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Definition</span><span class="p">(</span><span class="s1">&#39;Monolog\Processor\IntrospectionProcessor&#39;</span><span class="p">);</span>
+<span class="nv">$definition</span><span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;monolog.processor&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;handler&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;firephp&#39;</span><span class="p">);</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;my_service&#39;</span><span class="p">,</span> <span class="nv">$definition</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">channel</span></tt> 属性を使えば、プロセッサーを指定したログチャンネルだけに追加することもできます。
+下記ではプロセッサーを Security コンポーネントで使用される <tt class="docutils literal"><span class="pre">security</span></tt> ログチャンネルだけに追加しています。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">my_service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Monolog\Processor\IntrospectionProcessor</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">monolog.processor</span><span class="p-Indicator">,</span> <span class="nv">channel</span><span class="p-Indicator">:</span> <span class="nv">security</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;my_service&quot;</span> <span class="na">class=</span><span class="s">&quot;Monolog\Processor\IntrospectionProcessor&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;monolog.processor&quot;</span> <span class="na">channel=</span><span class="s">&quot;security&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$definition</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Definition</span><span class="p">(</span><span class="s1">&#39;Monolog\Processor\IntrospectionProcessor&#39;</span><span class="p">);</span>
+<span class="nv">$definition</span><span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;monolog.processor&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;channel&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;security&#39;</span><span class="p">);</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;my_service&#39;</span><span class="p">,</span> <span class="nv">$definition</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">handler</span></tt> と <tt class="docutils literal"><span class="pre">channel</span></tt> 属性は同時に使用することができません。
+ハンドラはすべてのチャンネルで共有されるためです。</p>
+</div>
+</div>
+<div class="section" id="routing-loader">
+<h2>routing.loader<a class="headerlink" href="#routing-loader" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: ルーティング設定を読み込む独自のサービスを追加します</p>
+<p>独自のルーティングローダーを使うには、サービスとして登録し、 <tt class="docutils literal"><span class="pre">routing.loader</span></tt> タグをつけてください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">routing.loader.your_loader_name</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Fully\Qualified\Loader\Class\Name</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">routing.loader</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;routing.loader.your_loader_name&quot;</span> <span class="na">class=</span><span class="s">&quot;Fully\Qualified\Loader\Class\Name&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;routing.loader&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;routing.loader.your_loader_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Fully\Qualified\Loader\Class\Name&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;routing.loader&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>詳細は <a class="reference internal" href="../cookbook/routing/custom_route_loader.html"><em>カスタムルートローダーの作り方</em></a> を参照してください。</p>
+</div>
+<div class="section" id="security-remember-me-aware">
+<h2>security.remember_me_aware<a class="headerlink" href="#security-remember-me-aware" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 次回から自動ログイン機能を使う</p>
+<p>このタグは、次回から自動ログイン機能を動作させるために内部的に使われています。
+アプリケーションに次回から自動ログイン機能を使う独自の認証方法があるなら、このタグを使う必要があるでしょう。</p>
+<p>カスタムの認証ファクトリが <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory</span></tt> を継承していて、認証リスナーが <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Http\Firewall\AbstractAuthenticationListener</span></tt> を継承しているなら、その認証には既にこのタグが付けられており、自動的に動作するでしょう。</p>
+</div>
+<div class="section" id="security-voter">
+<h2>security.voter<a class="headerlink" href="#security-voter" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: Symfonyの認証機構に独自のvoterを追加します</p>
+<p>Symfony のセキュリティコンテクストで <tt class="docutils literal"><span class="pre">isGranted</span></tt> を呼び出したとき、ユーザーのアクセス権限を調べるために内部的に voter の仕組みが動作しています。
+<tt class="docutils literal"><span class="pre">security.voter</span></tt> タグを使うと、アプリケーションに独自の voter を追加することができます。</p>
+<p>詳細は <a class="reference internal" href="../cookbook/security/voters.html"><em>IPアドレスのブラックリストの独自 Voter の実装方法</em></a> を参照してください。</p>
+</div>
+<div class="section" id="serializer-encoder">
+<span id="reference-dic-tags-serializer-encoder"></span><h2>serializer.encoder<a class="headerlink" href="#serializer-encoder" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: <tt class="docutils literal"><span class="pre">serializer</span></tt> サービスに独自のエンコーダーを追加します</p>
+<p>このタグをつけるクラスは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Encoder\EncoderInterface</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Encoder\DecoderInterface</span></tt> を実装している必要があります。</p>
+<p>詳細は <a class="reference internal" href="../cookbook/serializer.html"><em>Serializerの使い方</em></a> を参照してください。</p>
+</div>
+<div class="section" id="serializer-normalizer">
+<span id="reference-dic-tags-serializer-normalizer"></span><h2>serializer.normalizer<a class="headerlink" href="#serializer-normalizer" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: <tt class="docutils literal"><span class="pre">serializer</span></tt> サービスに独自のノーマライザーを追加します</p>
+<p>このタグをつけるクラスは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Normalizer\NormalizerInterface</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Normalizer\DenormalizerInterface</span></tt> を実装している必要があります。</p>
+<p>詳細は <a class="reference internal" href="../cookbook/serializer.html"><em>Serializerの使い方</em></a> を参照してください。</p>
+</div>
+<div class="section" id="swiftmailer-plugin">
+<h2>swiftmailer.plugin<a class="headerlink" href="#swiftmailer-plugin" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: SwiftMailer のプラグインを追加します。</p>
+<p>SwiftMailer の独自プラグインを使用している（または作成して使いたい）場合は <tt class="docutils literal"><span class="pre">swiftmailer.plugin</span></tt> タグ（オプションは何もありません）をつけてサービスを登録することで SwiftMailer のプラグインとして使うことができます。</p>
+<p>SwiftMailer のプラグインは <tt class="docutils literal"><span class="pre">Swift_Events_EventListener</span></tt> を実装しなければなりません。
+プラグインについて詳細は <a class="reference external" href="http://swiftmailer.org/docs/plugins.html">SwiftMailer&#8217;s Plugin Documentation</a> を参照してください。</p>
+<p>いくつかの SwiftMailer プラグインは、 Symfony のコアに含まれており、別の設定で有効化することができます。詳細は <a class="reference internal" href="configuration/swiftmailer.html"><em>SwiftmailerBundle 設定</em></a> を参照してください。</p>
+</div>
+<div class="section" id="templating-helper">
+<h2>templating.helper<a class="headerlink" href="#templating-helper" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: サービスをPHPテンプレートエンジンでヘルパーとして利用できるようにする</p>
+<p>独自のテンプレートヘルパーを使うには、 <tt class="docutils literal"><span class="pre">templating.helper</span></tt> タグをつけてサービスとして登録し、 <tt class="docutils literal"><span class="pre">alias</span></tt> 属性を定義してください（ヘルパーは、テンプレートから <tt class="docutils literal"><span class="pre">alias</span></tt> を使って呼び出すことができます）。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">templating.helper.your_helper_name</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Fully\Qualified\Helper\Class\Name</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">templating.helper</span><span class="p-Indicator">,</span> <span class="nv">alias</span><span class="p-Indicator">:</span> <span class="nv">alias_name</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;templating.helper.your_helper_name&quot;</span> <span class="na">class=</span><span class="s">&quot;Fully\Qualified\Helper\Class\Name&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;templating.helper&quot;</span> <span class="na">alias=</span><span class="s">&quot;alias_name&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;templating.helper.your_helper_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Fully\Qualified\Helper\Class\Name&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;templating.helper&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;alias&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;alias_name&#39;</span><span class="p">))</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="translation-loader">
+<span id="dic-tags-translation-loader"></span><h2>translation.loader<a class="headerlink" href="#translation-loader" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 独自の翻訳ローダーを追加します</p>
+<p>翻訳は通常、ファイルシステムから様々な形式（YAML, XLIFF, PHPなど）で読み込まれます。
+他のソースから翻訳を読み込ませたい場合は、まず <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Loader\LoaderInterface</span></tt> を実装したクラスを作成します。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/MainBundle/Translation/MyCustomLoader.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\MainBundle\Translation</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Translation\Loader\LoaderInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Translation\MessageCatalogue</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MyCustomLoader</span> <span class="k">implements</span> <span class="nx">LoaderInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">load</span><span class="p">(</span><span class="nv">$resource</span><span class="p">,</span> <span class="nv">$locale</span><span class="p">,</span> <span class="nv">$domain</span> <span class="o">=</span> <span class="s1">&#39;messages&#39;</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$catalogue</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MessageCatalogue</span><span class="p">(</span><span class="nv">$locale</span><span class="p">);</span>
+
+        <span class="c1">// 何かのリソースから翻訳を読み込み、カタログにセットします</span>
+        <span class="nv">$catalogue</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;hello.world&#39;</span><span class="p">,</span> <span class="s1">&#39;Hello World!&#39;</span><span class="p">,</span> <span class="nv">$domain</span><span class="p">);</span>
+
+        <span class="k">return</span> <span class="nv">$catalogue</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>カスタムローダーの <tt class="docutils literal"><span class="pre">load</span></tt> メソッドは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\MessageCatalogue</span></tt> を返す必要があります。</p>
+<p>次に、サービスとして登録し、 <tt class="docutils literal"><span class="pre">translation.loader</span></tt> タグをつけてください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">main.translation.my_custom_loader</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\MainBundle\Translation\MyCustomLoader</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">translation.loader</span><span class="p-Indicator">,</span> <span class="nv">alias</span><span class="p-Indicator">:</span> <span class="nv">bin</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;main.translation.my_custom_loader&quot;</span> <span class="na">class=</span><span class="s">&quot;Acme\MainBundle\Translation\MyCustomLoader&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;translation.loader&quot;</span> <span class="na">alias=</span><span class="s">&quot;bin&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;main.translation.my_custom_loader&#39;</span><span class="p">,</span> <span class="s1">&#39;Acme\MainBundle\Translation\MyCustomLoader&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;translation.loader&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;alias&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;bin&#39;</span><span class="p">))</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">alias</span></tt> オプションは必須で、とても重要です。このローダーが読み込むファイルのエクステンション子として使われるからです。
+たとえば、翻訳ファイルとして読み込ませたい <tt class="docutils literal"><span class="pre">bin</span></tt> フォーマットがあるとします。
+<tt class="docutils literal"><span class="pre">messages</span></tt> ドメインのフランス語の翻訳メッセージを含む <tt class="docutils literal"><span class="pre">bin</span></tt> ファイルは、 <tt class="docutils literal"><span class="pre">app/Resources/translations/messages.fr.bin</span></tt> になるでしょう。</p>
+<p>Symfony が <tt class="docutils literal"><span class="pre">bin</span></tt> ファイルを読み込むとき、カスタムローダーには翻訳ファイルのパスが <tt class="docutils literal"><span class="pre">$resource</span></tt> として渡されます。
+カスタムローダーでは、翻訳メッセージの読み込むのに必要な処理を自由に実行することができます。</p>
+<p>もしデータベースから翻訳メッセージを読み込む場合であっても、リソースファイルが必要ですが、空のファイルやデータベースから読み込む旨の簡単な記述だけでも構いません。
+ファイルは、カスタムローダーの <tt class="docutils literal"><span class="pre">load</span></tt> メソッドを動作させるための鍵になっているのです。</p>
+</div>
+<div class="section" id="translation-extractor">
+<h2>translation.extractor<a class="headerlink" href="#translation-extractor" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: テンプレートファイルから翻訳が必要なメッセージを展開する独自サービスを追加します</p>
+<p><tt class="docutils literal"><span class="pre">translation:update</span></tt> コマンドを実行したとき、ファイルから翻訳が必要なメッセージを展開するのにextractorが使われます。
+Symfony2 フレームワークは通常、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Twig\Translation\TwigExtractor</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Translation\PhpExtractor</span></tt> を使用して Twig テンプレートや PHP ファイルから翻訳が必要なメッセージを抽出して展開しています。</p>
+<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Extractor\ExtractorInterface</span></tt> を実装したクラスを作成し、 <tt class="docutils literal"><span class="pre">translation.extractor</span></tt> タグをつけることで独自のextractorを作成することができます。タグには <tt class="docutils literal"><span class="pre">alias</span></tt> オプションが必要で、extractorの名前として使われます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Translation/FooExtractor.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Translation</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Translation\Extractor\ExtractorInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Translation\MessageCatalogue</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">FooExtractor</span> <span class="k">implements</span> <span class="nx">ExtractorInterface</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$prefix</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * テンプレートディレクトリから翻訳が必要なメッセージを抽出し、MessageCatalogueに入れます</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">extract</span><span class="p">(</span><span class="nv">$directory</span><span class="p">,</span> <span class="nx">MessageCatalogue</span> <span class="nv">$catalogue</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * 新しく発見されたメッセージに使用するプリフィックスを設定します</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setPrefix</span><span class="p">(</span><span class="nv">$prefix</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">prefix</span> <span class="o">=</span> <span class="nv">$prefix</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">acme_demo.translation.extractor.foo</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\DemoBundle\Translation\FooExtractor</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">translation.extractor</span><span class="p-Indicator">,</span> <span class="nv">alias</span><span class="p-Indicator">:</span> <span class="nv">foo</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;acme_demo.translation.extractor.foo&quot;</span>
+    <span class="na">class=</span><span class="s">&quot;Acme\DemoBundle\Translation\FooExtractor&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;translation.extractor&quot;</span> <span class="na">alias=</span><span class="s">&quot;foo&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span>
+    <span class="s1">&#39;acme_demo.translation.extractor.foo&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Acme\DemoBundle\Translation\FooExtractor&#39;</span>
+<span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;translation.extractor&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;alias&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;foo&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="translation-dumper">
+<h2>translation.dumper<a class="headerlink" href="#translation-dumper" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 翻訳メッセージをダンプする独自サービスを追加します</p>
+<p><a class="reference external" href="translation.extractor">Extractor</a> がテンプレートからすべてのメッセージを展開し終わった後、特別なフォーマットで翻訳メッセージをダンプするためにdumperが実行されます。</p>
+<p>Symfony2 には既にたくさんのdumperが含まれています。</p>
+<ul class="simple">
+<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\CsvFileDumper</span></tt></li>
+<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\IcuResFileDumper</span></tt></li>
+<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\IniFileDumper</span></tt></li>
+<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\MoFileDumper</span></tt></li>
+<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\PoFileDumper</span></tt></li>
+<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\QtFileDumper</span></tt></li>
+<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\XliffFileDumper</span></tt></li>
+<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\YamlFileDumper</span></tt></li>
+</ul>
+<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\FileDumper</span></tt> を継承するか、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\DumperInterface</span></tt> を実装して <tt class="docutils literal"><span class="pre">translation.dumper</span></tt> タグをつけることで dumper を追加することができます。 <tt class="docutils literal"><span class="pre">alias</span></tt> は必須のオプションで、この名前はどの dumper を使うべきか決定する際に使用されます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">acme_demo.translation.dumper.json</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\DemoBundle\Translation\JsonFileDumper</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">translation.dumper</span><span class="p-Indicator">,</span> <span class="nv">alias</span><span class="p-Indicator">:</span> <span class="nv">json</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;acme_demo.translation.dumper.json&quot;</span>
+    <span class="na">class=</span><span class="s">&quot;Acme\DemoBundle\Translation\JsonFileDumper&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;translation.dumper&quot;</span> <span class="na">alias=</span><span class="s">&quot;json&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span>
+    <span class="s1">&#39;acme_demo.translation.dumper.json&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Acme\DemoBundle\Translation\JsonFileDumper&#39;</span>
+<span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;translation.dumper&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;alias&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;json&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="twig-extension">
+<span id="reference-dic-tags-twig-extension"></span><h2>twig.extension<a class="headerlink" href="#twig-extension" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 独自のTwigエクステンションを追加します</p>
+<p>Twigエクステンションを使うには、サービスとして登録して <tt class="docutils literal"><span class="pre">twig.extension</span></tt> タグをつけます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">twig.extension.your_extension_name</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Fully\Qualified\Extension\Class\Name</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">twig.extension</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;twig.extension.your_extension_name&quot;</span> <span class="na">class=</span><span class="s">&quot;Fully\Qualified\Extension\Class\Name&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;twig.extension&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;twig.extension.your_extension_name&#39;</span><span class="p">,</span> <span class="s1">&#39;Fully\Qualified\Extension\Class\Name&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;twig.extension&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>実際に Twig のエクステンションクラスを作成する方法については <a class="reference external" href="http://twig.sensiolabs.org/doc/advanced.html#creating-an-extension">Twig のドキュメント</a> や <a class="reference internal" href="../cookbook/templating/twig_extension.html"><em>カスタムTwig拡張の書き方</em></a> を参照してください。</p>
+<p>独自の Twig エクステンションを書く前に、 <a class="reference external" href="https://github.com/fabpot/Twig-extensions">Twig 公式エクステンションレポジトリ</a> をチェックしてください。役に立つエクステンションが登録されています。
+たとえば <tt class="docutils literal"><span class="pre">Intl</span></tt> エクステンションや、 <tt class="docutils literal"><span class="pre">Intl</span></tt> に含まれるロケールに従って日付をフォーマットする <tt class="docutils literal"><span class="pre">localizeddate</span></tt> フィルタなどです。
+Twig の公式エクステンションであっても、通常通りサービスとして登録する必要があります。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">twig.extension.intl</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Twig_Extensions_Extension_Intl</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">twig.extension</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;twig.extension.intl&quot;</span> <span class="na">class=</span><span class="s">&quot;Twig_Extensions_Extension_Intl&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;twig.extension&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;twig.extension.intl&#39;</span><span class="p">,</span> <span class="s1">&#39;Twig_Extensions_Extension_Intl&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;twig.extension&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="twig-loader">
+<h2>twig.loader<a class="headerlink" href="#twig-loader" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: Twig テンプレートを読み込む独自サービスを追加します</p>
+<p>Symfony は通常、 <a class="reference external" href="http://twig.sensiolabs.org/doc/api.html#loaders">Twig Loader</a> つまり <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\TwigBundle\Loader\FilesystemLoader</span></tt> だけを使います。
+他のリソースからテンプレートを読み込ませる必要がある場合は、新しいローダーを作成して <tt class="docutils literal"><span class="pre">twig.loader</span></tt> タグをつけてください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">acme.demo_bundle.loader.some_twig_loader</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\DemoBundle\Loader\SomeTwigLoader</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">twig.loader</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;acme.demo_bundle.loader.some_twig_loader&quot;</span> <span class="na">class=</span><span class="s">&quot;Acme\DemoBundle\Loader\SomeTwigLoader&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;twig.loader&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">register</span><span class="p">(</span><span class="s1">&#39;acme.demo_bundle.loader.some_twig_loader&#39;</span><span class="p">,</span> <span class="s1">&#39;Acme\DemoBundle\Loader\SomeTwigLoader&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;twig.loader&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="validator-constraint-validator">
+<h2>validator.constraint_validator<a class="headerlink" href="#validator-constraint-validator" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: 独自のバリデーション制約を追加します</p>
+<p>このタグを使うと、独自のバリデーション制約を追加して登録することができます。
+詳しくは、  <a class="reference internal" href="../cookbook/validation/custom_constraint.html"><em>カスタムバリデーション制約の作成方法</em></a> を参照してください。</p>
+</div>
+<div class="section" id="validator-initializer">
+<h2>validator.initializer<a class="headerlink" href="#validator-initializer" title="Permalink to this headline">¶</a></h2>
+<p><strong>目的</strong>: バリデーション前にオブジェクトを初期化する独自サービスを追加します</p>
+<p>このタグを使うと、バリデーションの直前に何かの処理を加えるという極めて稀な挙動を追加することができます。
+たとえば、 Doctrine はこの機能を使って、遅延ロードすべきデータをバリデーション前のオブジェクトに追加しています。
+initializerがなければ、 Doctrine のエンティティに含まれるデータが現実には存在していても、バリデーション時には存在しないように見えてしまいます。</p>
+<p>本当にこの機能が必要なら、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Validator\ObjectInitializerInterface</span></tt> を実装してクラスを作成し、 <tt class="docutils literal"><span class="pre">validator.initializer</span></tt> タグをつけてください。このタグにオプションはありません。</p>
+<p>一例として、Doctrine Bridge に含まれる <tt class="docutils literal"><span class="pre">EntityInitializer</span></tt> クラスがあります。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="constraints/Valid.html">< Valid</a>
+<a class="next" href="YAML.html">このページの翻訳はまだ行われていません。 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/reference/dic_tags.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/dic_tags.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/dic_tags.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Dependency Injectionタグ</a><ul>
+<li><a class="reference internal" href="#assetic-asset">assetic.asset</a></li>
+<li><a class="reference internal" href="#assetic-factory-worker">assetic.factory_worker</a></li>
+<li><a class="reference internal" href="#assetic-filter">assetic.filter</a></li>
+<li><a class="reference internal" href="#assetic-formula-loader">assetic.formula_loader</a></li>
+<li><a class="reference internal" href="#assetic-formula-resource">assetic.formula_resource</a></li>
+<li><a class="reference internal" href="#assetic-templating-php">assetic.templating.php</a></li>
+<li><a class="reference internal" href="#assetic-templating-twig">assetic.templating.twig</a></li>
+<li><a class="reference internal" href="#console-command">console.command</a></li>
+<li><a class="reference internal" href="#data-collector">data_collector</a></li>
+<li><a class="reference internal" href="#doctrine-event-listener">doctrine.event_listener</a></li>
+<li><a class="reference internal" href="#doctrine-event-subscriber">doctrine.event_subscriber</a></li>
+<li><a class="reference internal" href="#form-type">form.type</a></li>
+<li><a class="reference internal" href="#form-type-extension">form.type_extension</a></li>
+<li><a class="reference internal" href="#form-type-guesser">form.type_guesser</a></li>
+<li><a class="reference internal" href="#kernel-cache-clearer">kernel.cache_clearer</a></li>
+<li><a class="reference internal" href="#kernel-cache-warmer">kernel.cache_warmer</a></li>
+<li><a class="reference internal" href="#kernel-event-listener">kernel.event_listener</a><ul>
+<li><a class="reference internal" href="#event-listener">コアEvent Listenerリファレンス</a><ul>
+<li><a class="reference internal" href="#kernel-request">kernel.request</a></li>
+<li><a class="reference internal" href="#kernel-controller">kernel.controller</a></li>
+<li><a class="reference internal" href="#kernel-response">kernel.response</a></li>
+<li><a class="reference internal" href="#kernel-exception">kernel.exception</a></li>
+<li><a class="reference internal" href="#kernel-terminate">kernel.terminate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#kernel-event-subscriber">kernel.event_subscriber</a></li>
+<li><a class="reference internal" href="#kernel-fragment-renderer">kernel.fragment_renderer</a></li>
+<li><a class="reference internal" href="#monolog-logger">monolog.logger</a></li>
+<li><a class="reference internal" href="#monolog-processor">monolog.processor</a></li>
+<li><a class="reference internal" href="#routing-loader">routing.loader</a></li>
+<li><a class="reference internal" href="#security-remember-me-aware">security.remember_me_aware</a></li>
+<li><a class="reference internal" href="#security-voter">security.voter</a></li>
+<li><a class="reference internal" href="#serializer-encoder">serializer.encoder</a></li>
+<li><a class="reference internal" href="#serializer-normalizer">serializer.normalizer</a></li>
+<li><a class="reference internal" href="#swiftmailer-plugin">swiftmailer.plugin</a></li>
+<li><a class="reference internal" href="#templating-helper">templating.helper</a></li>
+<li><a class="reference internal" href="#translation-loader">translation.loader</a></li>
+<li><a class="reference internal" href="#translation-extractor">translation.extractor</a></li>
+<li><a class="reference internal" href="#translation-dumper">translation.dumper</a></li>
+<li><a class="reference internal" href="#twig-extension">twig.extension</a></li>
+<li><a class="reference internal" href="#twig-loader">twig.loader</a></li>
+<li><a class="reference internal" href="#validator-constraint-validator">validator.constraint_validator</a></li>
+<li><a class="reference internal" href="#validator-initializer">validator.initializer</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="constraints/Valid.html"
+                        title="previous chapter">Valid</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="YAML.html"
+                        title="next chapter">このページの翻訳はまだ行われていません。</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/reference/dic_tags.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

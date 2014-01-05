@@ -1,0 +1,365 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Symfony2 コントローラで SOAP ウェブサービスを作成する方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="symfony2-soap">
+<span id="index-0"></span><h1>Symfony2 コントローラで SOAP ウェブサービスを作成する方法<a class="headerlink" href="#symfony2-soap" title="Permalink to this headline">¶</a></h1>
+<p>SOAP サーバとして動作するコントローラをセットアップするには、数個のツールを使うだけで簡単にできます。まず <a href="#id1"><span class="problematic" id="id2">`PHP_SOAP`_</span></a> エクステンションをインストールしておく必要があります。この記事の執筆時点の PHP SOAP エクステンションは、 WSDL を生成することができないので、自分で書くか、サードパーティのジェネレータを使用する必要があります。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">PHP で SOAP のサーバを実装するには、複数の選択肢があります。 <a class="reference external" href="http://framework.zend.com/manual/en/zend.soap.server.html">ZEND SOAP</a> や <cite>NuSOAP</cite> はその例です。この例では、 PHP SOAP エクステンションを使用しますが、基本的な考えはこれらの他の実装にも適用できます。</p>
+</div>
+<p>SOAP は、 PHP オブジェクトのメソッドを外部のエンティティ(SOAP サービスを使用しているユーザ)にさらすことによって、動作します。まず、 SOAP サービスでさらすことになる機能の <tt class="docutils literal"><span class="pre">HelloService</span></tt> クラスを作成します。このケースでは SOAP サービスはメールを送信する <tt class="docutils literal"><span class="pre">hello</span></tt> のメソッドを、クライアントが呼ぶことができるようにしています。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Acme\SoapBundle</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">HelloService</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$mailer</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">\Swift_Mailer</span> <span class="nv">$mailer</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">mailer</span> <span class="o">=</span> <span class="nv">$mailer</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">hello</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+    <span class="p">{</span>
+
+        <span class="nv">$message</span> <span class="o">=</span> <span class="nx">\Swift_Message</span><span class="o">::</span><span class="na">newInstance</span><span class="p">()</span>
+                                <span class="o">-&gt;</span><span class="na">setTo</span><span class="p">(</span><span class="s1">&#39;me@example.com&#39;</span><span class="p">)</span>
+                                <span class="o">-&gt;</span><span class="na">setSubject</span><span class="p">(</span><span class="s1">&#39;Hello Service&#39;</span><span class="p">)</span>
+                                <span class="o">-&gt;</span><span class="na">setBody</span><span class="p">(</span><span class="nv">$name</span> <span class="o">.</span> <span class="s1">&#39; says hi!&#39;</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">mailer</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
+
+
+        <span class="k">return</span> <span class="s1">&#39;Hello, &#39;</span> <span class="o">.</span> <span class="nv">$name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>次に、　Symfony にこのクラスのインスタンスを作成できるように修正しましょう。メール送信のクラスなので、 <tt class="docutils literal"><span class="pre">Swift_Mailer</span></tt> のインスタンスを受け取ることができるように設計します。サービスコンテナを使用すれば、 Symfony に <tt class="docutils literal"><span class="pre">HelloService</span></tt> オブジェクトを適切に作成する設定をすることができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">hello_service</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\DemoBundle\Services\HelloService</span>
+        <span class="l-Scalar-Plain">arguments</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">mailer</span><span class="p-Indicator">]</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="nt">&lt;services&gt;</span>
+ <span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;hello_service&quot;</span> <span class="na">class=</span><span class="s">&quot;Acme\DemoBundle\Services\HelloService&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;argument&gt;</span>mailer<span class="nt">&lt;/argument&gt;</span>
+ <span class="nt">&lt;/service&gt;</span>
+<span class="nt">&lt;/services&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>以下は、 SOAP リクエストを扱うことのできるコントローラの例です。 <tt class="docutils literal"><span class="pre">indexAction()</span></tt> が <tt class="docutils literal"><span class="pre">/soap</span></tt> ルートを通してアクセスができれば、 WSDL ドキュメントは、 <tt class="docutils literal"><span class="pre">/soap?wsdl`</span></tt> を通して取得することができます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Acme\SoapBundle\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Controller\Controller</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">HelloServiceController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$server</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\SoapServer</span><span class="p">(</span><span class="s1">&#39;/path/to/hello.wsdl&#39;</span><span class="p">);</span>
+        <span class="nv">$server</span><span class="o">-&gt;</span><span class="na">setObject</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;hello_service&#39;</span><span class="p">));</span>
+
+        <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">();</span>
+        <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/xml; charset=ISO-8859-1&#39;</span><span class="p">);</span>
+
+        <span class="nb">ob_start</span><span class="p">();</span>
+        <span class="nv">$server</span><span class="o">-&gt;</span><span class="na">handle</span><span class="p">();</span>
+        <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="nb">ob_get_clean</span><span class="p">());</span>
+
+        <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">ob_start()</span></tt> と <tt class="docutils literal"><span class="pre">ob_get_clean()</span></tt> を呼ぶようにしてください。この２つのメソッドは、 <a href="#id3"><span class="problematic" id="id4">`output.buffering`_</span></a> を制御して、 <tt class="docutils literal"><span class="pre">$server-&gt;handle()</span></tt> の出力をまとめることができます。 Symfony はコントローラが &#8220;コンテント&#8221; としての出力を持つ <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返すことを想定しているので、このバッファリングが必要になります。また、クライアントが想定するように &#8220;Content-Type&#8221; ヘッダを &#8220;text/xml&#8221; にすることも忘れないでください。 <tt class="docutils literal"><span class="pre">ob_start()</span></tt> メソッドを使用し、 STDOUT のバッファリングを始め、 <tt class="docutils literal"><span class="pre">ob_get_clean()</span></tt> メソッドで Response のコンテントに溜まったバッファを全部吐き出し、そして出力バッファをクリアします。そしてその結果、 <tt class="docutils literal"><span class="pre">Response</span></tt> を返す準備ができます。</p>
+<p>以下が、 <a class="reference external" href="http://sourceforge.net/projects/nusoap">NuSOAP</a> クライアントを使用してサービスを呼び出す例です。この例では、上記のコントローラの <tt class="docutils literal"><span class="pre">indexAction</span></tt> が <tt class="docutils literal"><span class="pre">/soap</span></tt> ルートでアクセスができることを想定しています。
+::
+route <tt class="docutils literal"><span class="pre">/soap</span></tt>:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\soapclient</span><span class="p">(</span><span class="s1">&#39;http://example.com/app.php/soap?wsdl&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">);</span>
+
+<span class="nv">$result</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">call</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Scott&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>WSDL の例は以下の通りです。</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;ISO-8859-1&quot;?&gt;</span>
+ <span class="nt">&lt;definitions</span> <span class="na">xmlns:SOAP-ENV=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span>
+     <span class="na">xmlns:xsd=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema&quot;</span>
+     <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+     <span class="na">xmlns:SOAP-ENC=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span>
+     <span class="na">xmlns:tns=</span><span class="s">&quot;urn:arnleadservicewsdl&quot;</span>
+     <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/wsdl/soap/&quot;</span>
+     <span class="na">xmlns:wsdl=</span><span class="s">&quot;http://schemas.xmlsoap.org/wsdl/&quot;</span>
+     <span class="na">xmlns=</span><span class="s">&quot;http://schemas.xmlsoap.org/wsdl/&quot;</span>
+     <span class="na">targetNamespace=</span><span class="s">&quot;urn:helloservicewsdl&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;types&gt;</span>
+   <span class="nt">&lt;xsd:schema</span> <span class="na">targetNamespace=</span><span class="s">&quot;urn:hellowsdl&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;xsd:import</span> <span class="na">namespace=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;xsd:import</span> <span class="na">namespace=</span><span class="s">&quot;http://schemas.xmlsoap.org/wsdl/&quot;</span> <span class="nt">/&gt;</span>
+   <span class="nt">&lt;/xsd:schema&gt;</span>
+  <span class="nt">&lt;/types&gt;</span>
+  <span class="nt">&lt;message</span> <span class="na">name=</span><span class="s">&quot;helloRequest&quot;</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;part</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span> <span class="na">type=</span><span class="s">&quot;xsd:string&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/message&gt;</span>
+  <span class="nt">&lt;message</span> <span class="na">name=</span><span class="s">&quot;helloResponse&quot;</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;part</span> <span class="na">name=</span><span class="s">&quot;return&quot;</span> <span class="na">type=</span><span class="s">&quot;xsd:string&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/message&gt;</span>
+  <span class="nt">&lt;portType</span> <span class="na">name=</span><span class="s">&quot;hellowsdlPortType&quot;</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;operation</span> <span class="na">name=</span><span class="s">&quot;hello&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;documentation&gt;</span>Hello World<span class="nt">&lt;/documentation&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">message=</span><span class="s">&quot;tns:helloRequest&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;output</span> <span class="na">message=</span><span class="s">&quot;tns:helloResponse&quot;</span><span class="nt">/&gt;</span>
+   <span class="nt">&lt;/operation&gt;</span>
+  <span class="nt">&lt;/portType&gt;</span>
+  <span class="nt">&lt;binding</span> <span class="na">name=</span><span class="s">&quot;hellowsdlBinding&quot;</span> <span class="na">type=</span><span class="s">&quot;tns:hellowsdlPortType&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:binding</span> <span class="na">style=</span><span class="s">&quot;rpc&quot;</span> <span class="na">transport=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/http&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;operation</span> <span class="na">name=</span><span class="s">&quot;hello&quot;</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;soap:operation</span> <span class="na">soapAction=</span><span class="s">&quot;urn:arnleadservicewsdl#hello&quot;</span> <span class="na">style=</span><span class="s">&quot;rpc&quot;</span><span class="nt">/&gt;</span>
+   <span class="nt">&lt;input&gt;</span>
+    <span class="nt">&lt;soap:body</span> <span class="na">use=</span><span class="s">&quot;encoded&quot;</span> <span class="na">namespace=</span><span class="s">&quot;urn:hellowsdl&quot;</span>
+        <span class="na">encodingStyle=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span><span class="nt">/&gt;</span>
+   <span class="nt">&lt;/input&gt;</span>
+   <span class="nt">&lt;output&gt;</span>
+    <span class="nt">&lt;soap:body</span> <span class="na">use=</span><span class="s">&quot;encoded&quot;</span> <span class="na">namespace=</span><span class="s">&quot;urn:hellowsdl&quot;</span>
+        <span class="na">encodingStyle=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/encoding/&quot;</span><span class="nt">/&gt;</span>
+   <span class="nt">&lt;/output&gt;</span>
+  <span class="nt">&lt;/operation&gt;</span>
+ <span class="nt">&lt;/binding&gt;</span>
+ <span class="nt">&lt;service</span> <span class="na">name=</span><span class="s">&quot;hellowsdl&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;port</span> <span class="na">name=</span><span class="s">&quot;hellowsdlPort&quot;</span> <span class="na">binding=</span><span class="s">&quot;tns:hellowsdlBinding&quot;</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;soap:address</span> <span class="na">location=</span><span class="s">&quot;http://example.com/app.php/soap&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/port&gt;</span>
+ <span class="nt">&lt;/service&gt;</span>
+<span class="nt">&lt;/definitions&gt;</span>
+</pre></div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/web_services/php_soap_extension.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/web_services/php_soap_extension.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/web_services/php_soap_extension.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/web_services/php_soap_extension.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

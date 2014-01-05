@@ -1,0 +1,348 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>フォームイベントを使用してフォームを動的に生成する方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="index-0">
+<span id="id1"></span><h1>フォームイベントを使用してフォームを動的に生成する方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>動的なフォーム生成に入る前に、初期状態のフォームクラスがどうなっているか見てみましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">//src/Acme/DemoBundle/Form/ProductType.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Form</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ProductType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;product&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">上記の記事のコードが理解できない方は、先に <a class="reference internal" href="../../book/forms.html"><em>Forms chapter</em></a>  を参照してから、この記事を読んでください。</p>
+</div>
+<p>仮想的な &#8220;Product&#8221; クラスを使用したフォームがあることを想定してください。 <tt class="docutils literal"><span class="pre">Product</span></tt> クラスには、 &#8220;name&#8221; と &#8220;price&#8221; の２つのプロパティがあるとします。このクラスによって生成されたフォームは、新しく Product を作成する際にも、データベース等で保存されている内容を編集する際にも、同じものが使われます。</p>
+<p>オブジェクトを作成した後の編集の際に <cite>name</cite> の値を変更させたくないとしましょう。そうするには、Symfony のイベントディスパッチャー  <em class="xref std std-ref">Event Dispatcher</em> を使用してオブジェクトのデータを解析して、 Product のデータに基づいたフォームを変更することができます。この記事では、そのフォームの柔軟性について学びます。</p>
+<div class="section" id="event-subscriber">
+<span id="cookbook-forms-event-subscriber"></span><h2>フォームクラスにイベントサブスライバ(Event Subscriber)を追加する<a class="headerlink" href="#event-subscriber" title="Permalink to this headline">¶</a></h2>
+<p>ProductType のフォームクラスに &#8220;name&#8221; ウィジェットを追加する代わりに、イベントサブスクライバ(Event Subscriber)にフィールド作成の責任を移譲しましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">//src/Acme/DemoBundle/Form/ProductType.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Form</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Acme\DemoBundle\Form\EventListener\AddNameFieldSubscriber</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ProductType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$subscriber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AddNameFieldSubscriber</span><span class="p">(</span><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">getFormFactory</span><span class="p">());</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">addEventSubscriber</span><span class="p">(</span><span class="nv">$subscriber</span><span class="p">);</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;product&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>イベントサブスライバは、 FormFactory オブジェクトのコンストラクタに渡されるので、このサブスクライバは、フォーム作成時にディスパッチされたイベントを通知されたときにフォームウィジェットを作成することができます。</p>
+</div>
+<div class="section" id="cookbook-forms-inside-subscriber-class">
+<span id="id2"></span><h2>イベントサブスライバ(Event Subscriber)クラスの内部<a class="headerlink" href="#cookbook-forms-inside-subscriber-class" title="Permalink to this headline">¶</a></h2>
+<p>まだデータベースに保存されていないときなど、フォーム内の Product オブジェクトが新規のとき <em>のみ</em> &#8220;name&#8221; フィールドを作成することが今回のゴールです。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Form/EventListener/AddNameFieldSubscriber.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Form\EventListener</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\Event\DataEvent</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormFactoryInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\EventSubscriberInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormEvents</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AddNameFieldSubscriber</span> <span class="k">implements</span> <span class="nx">EventSubscriberInterface</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$factory</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">FormFactoryInterface</span> <span class="nv">$factory</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">factory</span> <span class="o">=</span> <span class="nv">$factory</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// ディスパッチャに form.pre_set_data イベントをリッスンして</span>
+        <span class="c1">// preSetData メソッドが呼ばれるように伝えます</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">(</span><span class="nx">FormEvents</span><span class="o">::</span><span class="na">PRE_SET_DATA</span> <span class="o">=&gt;</span> <span class="s1">&#39;preSetData&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">preSetData</span><span class="p">(</span><span class="nx">DataEvent</span> <span class="nv">$event</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$data</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">();</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+
+        <span class="c1">// フォーム作成時に FormBuilder のコンストラクタによって setData() は null の引数で呼ばれます。</span>
+        <span class="c1">// Doctrine に新規に保存するとき、またはデータを取ってきたときなど</span>
+        <span class="c1">// 実際のエンティティオブジェクトを操作する際の setData() のみを対象にします。</span>
+        <span class="c1">// そのため、この if 文は null の条件をスキップさせます。</span>
+        <span class="k">if</span> <span class="p">(</span><span class="k">null</span> <span class="o">===</span> <span class="nv">$data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="c1">// Product オブジェクトが &quot;new&quot; かどうか調べます</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$data</span><span class="o">-&gt;</span><span class="na">getId</span><span class="p">())</span> <span class="p">{</span>
+            <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">factory</span><span class="o">-&gt;</span><span class="na">createNamed</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="s1">&#39;name&#39;</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">このイベントディスパッチャの <tt class="docutils literal"><span class="pre">if</span> <span class="pre">(null</span> <span class="pre">===</span> <span class="pre">$data)</span></tt> 部の目的がよく間違って理解されます。正しく理解するために、 <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Form.php">Form class</a> の中を参照し、特にコンストラクタの最後で <tt class="docutils literal"><span class="pre">setData()</span></tt> メソッドが呼ばれるところと <tt class="docutils literal"><span class="pre">setData()</span></tt> メソッド自体に注目してください。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">FormEvents::PRE_SET_DATA</span></tt> の行は実際に <tt class="docutils literal"><span class="pre">form.pre_set_data</span></tt> 文字列となります。 <a href="#id3"><span class="problematic" id="id4">`FormEvent class`_</span></a> は構造上の目的を担います。 <a href="#id5"><span class="problematic" id="id6">`FormEvent class`_</span></a> は、中央の場所となり、そこで利用可能ないろんなフォームイベントを探すことができます。</p>
+<p>今回の例では、 <tt class="docutils literal"><span class="pre">form.set_data</span></tt> イベントや <tt class="docutils literal"><span class="pre">form.post_set_data</span></tt> イベントを使用することができました。しかし、 <tt class="docutils literal"><span class="pre">form.pre_set_data</span></tt> を使用することで、 <tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトから取り出したデータが他のサブスライバやリスナによって変更されることがないということを保証することができる点で違います。なぜなら <tt class="docutils literal"><span class="pre">form.pre_set_data</span></tt> は <cite>form.set_data`</cite> イベントによって渡される <tt class="docutils literal"><span class="pre">FilterDataEvent</span></tt> オブジェクトではなく、 <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Event/DataEvent.php">DataEvent</a> オブジェクトを渡すからです。 <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Event/DataEvent.php">DataEvent</a> は <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Event/FilterDataEvent.php">FilterDataEvent</a> の親クラスで setData() メソッドはありませんので、サブスライバやリスナによって変更されることはないのです。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームイベントの完全な一覧は <a class="reference external" href="https://github.com/symfony/Form/blob/master/FormEvents.php">FormEvents class</a> を参照してください。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/form/dynamic_form_generation.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/form/dynamic_form_generation.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/form/dynamic_form_generation.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">フォームイベントを使用してフォームを動的に生成する方法</a><ul>
+<li><a class="reference internal" href="#event-subscriber">フォームクラスにイベントサブスライバ(Event Subscriber)を追加する</a></li>
+<li><a class="reference internal" href="#cookbook-forms-inside-subscriber-class">イベントサブスライバ(Event Subscriber)クラスの内部</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/form/dynamic_form_generation.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

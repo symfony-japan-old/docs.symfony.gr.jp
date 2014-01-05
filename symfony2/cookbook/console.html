@@ -1,0 +1,508 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>コンソール/コマンドラインツールとしてのコマンドの作成方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="クックブック" href="index.html" />
+    <link rel="next" title="symfony1 ユーザーのための Symfony2" href="symfony1.html" />
+    <link rel="prev" title="特定の拡張子に Assetic フィルターを適用するには？" href="assetic/apply_to_option.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="index-0">
+<span id="id1"></span><h1>コンソール/コマンドラインツールとしてのコマンドの作成方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>Symfony2 はコマンドラインツールとしてのコマンドを作成することのできるコンソールコンポーネントが付いてきます。コンソールコマンドは、cronジョブやインポートなどのバッチジョブなどの自動更新タスクに使用されます。</p>
+<div class="section" id="id2">
+<h2>ベーシックなコマンドの作成<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 において、コンソールコマンドを自動的に使用可能にするには、 <tt class="docutils literal"><span class="pre">Command</span></tt> ディレクトリをバンドル内に作成し、その中に提供したいコマンドを実装した <tt class="docutils literal"><span class="pre">Command.php</span></tt> という接尾辞を追加した PHP ファイルを作成してください。例えば、 Symfony Standard Edition に含まれている <tt class="docutils literal"><span class="pre">AcmeDemoBundle</span></tt> を拡張し、コマンドラインから挨拶をしようとするならば、次のように <tt class="docutils literal"><span class="pre">GreetCommand.php</span></tt> ファイルを作成してください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Command/GreetCommand.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Command</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Console\Input\InputArgument</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Console\Input\InputInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Console\Input\InputOption</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Console\Output\OutputInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">GreetCommand</span> <span class="k">extends</span> <span class="nx">ContainerAwareCommand</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">configure</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span>
+            <span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;demo:greet&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="s1">&#39;Greet someone&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nx">InputArgument</span><span class="o">::</span><span class="na">OPTIONAL</span><span class="p">,</span> <span class="s1">&#39;Who do you want to greet?&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">addOption</span><span class="p">(</span><span class="s1">&#39;yell&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="nx">InputOption</span><span class="o">::</span><span class="na">VALUE_NONE</span><span class="p">,</span> <span class="s1">&#39;If set, the task will yell in uppercase letters&#39;</span><span class="p">)</span>
+        <span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$name</span> <span class="o">=</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getArgument</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$text</span> <span class="o">=</span> <span class="s1">&#39;Hello &#39;</span><span class="o">.</span><span class="nv">$name</span><span class="p">;</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nv">$text</span> <span class="o">=</span> <span class="s1">&#39;Hello&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">&#39;yell&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$text</span> <span class="o">=</span> <span class="nx">strtoupper</span><span class="p">(</span><span class="nv">$text</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="nv">$text</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>次のように新しく作成したコンソールコマンドを実行してみましょう。</p>
+<div class="highlight-bash"><div class="highlight"><pre>app/console demo:greet Fabien
+</pre></div>
+</div>
+<p>結果として次のコマンドラインが表示されます。</p>
+<div class="highlight-text"><div class="highlight"><pre>Hello Fabien
+</pre></div>
+</div>
+<p>また <tt class="docutils literal"><span class="pre">--yell</span></tt> オプションを使用し、大文字で表示することができます。</p>
+<div class="highlight-bash"><div class="highlight"><pre>app/console demo:greet Fabien --yell
+</pre></div>
+</div>
+<p>結果は以下の通りです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nx">HELLO</span> <span class="nx">FABIEN</span>
+</pre></div>
+</div>
+<div class="section" id="id3">
+<h3>出力に色を付ける<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>テキストを出力する際に、タグの付いたテキストに色を付けることができます。例えば</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// green text</span>
+<span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">&#39;&lt;info&gt;foo&lt;/info&gt;&#39;</span><span class="p">);</span>
+
+<span class="c1">// yellow text</span>
+<span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">&#39;&lt;comment&gt;foo&lt;/comment&gt;&#39;</span><span class="p">);</span>
+
+<span class="c1">// black text on a cyan background</span>
+<span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">&#39;&lt;question&gt;foo&lt;/question&gt;&#39;</span><span class="p">);</span>
+
+<span class="c1">// white text on a red background</span>
+<span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="s1">&#39;&lt;error&gt;foo&lt;/error&gt;&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>コマンドラインの引数の使用<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>コマンドの最も興味深い部分は、指定可能な引数とオプションです。引数はスペースで区切られた文字列で、コマンドラインに続いて指定します。これは順序があり、オプションや必須項目であるという指定ができます。例えば、コマンドにオプションの <tt class="docutils literal"><span class="pre">last_name</span></tt> 引数、、必須項目の <tt class="docutils literal"><span class="pre">name</span></tt> 引数を追加してみます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span>
+    <span class="c1">// ...</span>
+    <span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="nx">InputArgument</span><span class="o">::</span><span class="na">REQUIRED</span><span class="p">,</span> <span class="s1">&#39;Who do you want to greet?&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">addArgument</span><span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">,</span> <span class="nx">InputArgument</span><span class="o">::</span><span class="na">OPTIONAL</span><span class="p">,</span> <span class="s1">&#39;Your last name?&#39;</span><span class="p">)</span>
+    <span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>これで、次のようにコマンドの <tt class="docutils literal"><span class="pre">last_name</span></tt> 引数を受け取ることができるようになりました。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$lastName</span> <span class="o">=</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getArgument</span><span class="p">(</span><span class="s1">&#39;last_name&#39;</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$text</span> <span class="o">.=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="nv">$lastName</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>結果、コマンドは、次のように使用できるようになりました。</p>
+<div class="highlight-bash"><div class="highlight"><pre>app/console demo:greet Fabien
+app/console demo:greet Fabien Potencier
+</pre></div>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>コマンドのオプションの使用方法<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>引数とは違い、オプションは指定する順番は関係がありません。そして、 <tt class="docutils literal"><span class="pre">--yell</span></tt> のようにハイフンを２つ使用し、指定します。実際は、ショートカットとして <tt class="docutils literal"><span class="pre">-y</span></tt> のようにハイフン１つ使用し、１文字で指定することもできます。オプションは <em>必ず</em> 指定しなくても問題ありません。また、 <tt class="docutils literal"><span class="pre">dir=src</span></tt> のような値も有効ですし、 <tt class="docutils literal"><span class="pre">yell</span></tt> のように単純に値無しの真偽値としても有効です。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">さらに、オプションに <tt class="docutils literal"><span class="pre">--yell</span></tt> や <tt class="docutils literal"><span class="pre">yell=loud</span></tt> のように、どちらでも使用できるような値を受け取らせることも <em>可能</em> です。</p>
+</div>
+<p>例として、コマンドに新しいオプションを追加してみましょう。このオプションは、表示するメッセージの回数を指定することにします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span>
+    <span class="c1">// ...</span>
+    <span class="o">-&gt;</span><span class="na">addOption</span><span class="p">(</span><span class="s1">&#39;iterations&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="nx">InputOption</span><span class="o">::</span><span class="na">VALUE_REQUIRED</span><span class="p">,</span> <span class="s1">&#39;How many times should the message be printed?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>次に、複数回このメッセージを表示するように、このコマンド内でオプションである <tt class="docutils literal"><span class="pre">iterations</span></tt> を使用します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getOption</span><span class="p">(</span><span class="s1">&#39;iterations&#39;</span><span class="p">);</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="nv">$text</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これでタスクを実行すれば、 <tt class="docutils literal"><span class="pre">--iterations</span></tt> のフラグをオプションとして指定できるようになりました。</p>
+<div class="highlight-bash"><div class="highlight"><pre>app/console demo:greet Fabien
+
+app/console demo:greet Fabien --iterations<span class="o">=</span>5
+</pre></div>
+</div>
+<p>最初の例では、 <tt class="docutils literal"><span class="pre">iterations</span></tt> を渡していないので、一度だけ表示します。これは、 <tt class="docutils literal"><span class="pre">addOption</span></tt> メソッドの最後の引数でデフォルト値に 1 を指定しているからです。そして２つ目の例では、５回表示します。</p>
+<p>オプションには、順番は関係ないので、次の例のどちらも同じように動作します。</p>
+<div class="highlight-bash"><div class="highlight"><pre>app/console demo:greet Fabien --iterations<span class="o">=</span>5 --yell
+app/console demo:greet Fabien --yell --iterations<span class="o">=</span>5
+</pre></div>
+</div>
+<p>４つのオプションが使用できます。:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="67%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Option</th>
+<th class="head">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>InputOption::VALUE_IS_ARRAY</td>
+<td>このオプションは複数の値を受け取ります</td>
+</tr>
+<tr class="row-odd"><td>InputOption::VALUE_NONE</td>
+<td>このオプションへの入力を受け取りません (e.g. <tt class="docutils literal"><span class="pre">--yell</span></tt>)</td>
+</tr>
+<tr class="row-even"><td>InputOption::VALUE_REQUIRED</td>
+<td>値は必須です (e.g. <tt class="docutils literal"><span class="pre">iterations=5</span></tt>)</td>
+</tr>
+<tr class="row-odd"><td>InputOption::VALUE_OPTIONAL</td>
+<td>値はオプショナルです</td>
+</tr>
+</tbody>
+</table>
+<p>次のように VALUE_REQUIRED と VALUE_OPTIONAL を組み合わせた VALUE_IS_ARRAY も可能です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span>
+    <span class="c1">// ...</span>
+    <span class="o">-&gt;</span><span class="na">addOption</span><span class="p">(</span><span class="s1">&#39;iterations&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="nx">InputOption</span><span class="o">::</span><span class="na">VALUE_REQUIRED</span> <span class="o">|</span> <span class="nx">InputOption</span><span class="o">::</span><span class="na">VALUE_IS_ARRAY</span><span class="p">,</span> <span class="s1">&#39;How many times should the message be printed?&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>ユーザに情報を尋ねる<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>コマンドを作成する際に、ユーザに質問を尋ねて情報を集めることもできます。例えば、あるアクションに対して実行前にユーザに確認させるようにしたいとしましょう。次のようにしてください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dialog</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getHelperSet</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;dialog&#39;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$dialog</span><span class="o">-&gt;</span><span class="na">askConfirmation</span><span class="p">(</span><span class="nv">$output</span><span class="p">,</span> <span class="s1">&#39;&lt;question&gt;Continue with this action?&lt;/question&gt;&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>このケースでは、ユーザに &#8220;Continue with the action&#8221; と尋ねています。そして、ユーザが <tt class="docutils literal"><span class="pre">y</span></tt> を返さなければこのタスクは実行しないようにします。 <tt class="docutils literal"><span class="pre">askConfirmation</span></tt> の３つ目の引数は、ユーザが何も入力しなかった際のデフォルト値です。</p>
+<p>また、単なる yes/no の答え以外にも質問を尋ねることができます。例えば、何かの名前を知りたいとしましょう。その際には、次のようにします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dialog</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getHelperSet</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;dialog&#39;</span><span class="p">);</span>
+<span class="nv">$name</span> <span class="o">=</span> <span class="nv">$dialog</span><span class="o">-&gt;</span><span class="na">ask</span><span class="p">(</span><span class="nv">$output</span><span class="p">,</span> <span class="s1">&#39;Please enter the name of the widget&#39;</span><span class="p">,</span> <span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>コマンドのテスト<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 はコマンドを容易にテストできるようになるツールをいくつか用意しています。最も便利なものは、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Console\Tester\CommandTester</span></tt> クラスです。このクラスは、実際のコンソール無しでテストができるように、特別な入力と出力のクラスを使用します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Console\Tester\CommandTester</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Console\Application</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Acme\DemoBundle\Command\GreetCommand</span><span class="o">.</span><span class="nx">php</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ListCommandTest</span> <span class="k">extends</span> <span class="nx">\PHPUnit_Framework_TestCase</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testExecute</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// mock the Kernel or create one depending on your needs</span>
+        <span class="nv">$application</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Application</span><span class="p">(</span><span class="nv">$kernel</span><span class="p">);</span>
+        <span class="nv">$application</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="k">new</span> <span class="nx">GreetCommand</span><span class="p">());</span>
+
+        <span class="nv">$command</span> <span class="o">=</span> <span class="nv">$application</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="s1">&#39;demo:greet&#39;</span><span class="p">);</span>
+        <span class="nv">$commandTester</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">CommandTester</span><span class="p">(</span><span class="nv">$command</span><span class="p">);</span>
+        <span class="nv">$commandTester</span><span class="o">-&gt;</span><span class="na">execute</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;command&#39;</span> <span class="o">=&gt;</span> <span class="nv">$command</span><span class="o">-&gt;</span><span class="na">getName</span><span class="p">()));</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertRegExp</span><span class="p">(</span><span class="s1">&#39;/.../&#39;</span><span class="p">,</span> <span class="nv">$commandTester</span><span class="o">-&gt;</span><span class="na">getDisplay</span><span class="p">());</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><a href="#id8"><span class="problematic" id="id9">:method:`Symfony\\Component\\Console\\Tester\\CommandTester::getDisplay`</span></a> メソッドは、コンソールからのコマンド実行で、表示されるはずの結果を返します。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Console\Tester\ApplicationTester</span></tt> クラスを使用すれば、全てのコンソールアプリケーションのテストもできます。</p>
+</div>
+</div>
+<div class="section" id="id10">
+<h2>サービスコンテナからサービスを取得する<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<p>コマンドのベースクラスに <tt class="xref php php-class docutils literal"><span class="pre">SymfonyComponentConsoleCommandCommand</span></tt> ではなく、 <tt class="xref php php-class docutils literal"><span class="pre">SymfonyBundleFrameworkBundleCommandContainerAwareCommand</span></tt> を使用すれば、サービスコンテナへのアクセスもできるようになります。 つまり、設定された全てのサービスにアクセスができるのです。例えば次のように、簡単にタスクを拡張して、翻訳可能にもできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$name</span> <span class="o">=</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getArgument</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+    <span class="nv">$translator</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getContainer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;translator&#39;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="nv">$translator</span><span class="o">-&gt;</span><span class="na">trans</span><span class="p">(</span><span class="s1">&#39;Hello %name%!&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;%name%&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">)));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="nv">$translator</span><span class="o">-&gt;</span><span class="na">trans</span><span class="p">(</span><span class="s1">&#39;Hello!&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>すでにあるコマンドの呼び出し<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>あるコマンドを実行する前に、他のコマンドを既に実行し終わっていないと、いけないという順番の管理が必要なときもあるでしょう。実行の順番をユーザに覚えてもらうのではなく、あなた自身で直接管理することができます。たくさんのコマンドをまとめて実行する &#8220;meta&#8221; コマンドを作成する際に便利です。 &#8220;meta&#8221; コマンドとは、例えば本番サーバのプロジェクトのコードを変更した際に、実行すべき全てのコードをまとめたものです。キャッシュのクリア、 Doctrine2 のプロクシの生成、 Assetic アセットのダンプなどなど。</p>
+<p>コマンドから他のコマンドを呼ぶのは簡単で、次のようできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$command</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getApplication</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="s1">&#39;demo:greet&#39;</span><span class="p">);</span>
+
+    <span class="nv">$arguments</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;command&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;demo:greet&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span>    <span class="o">=&gt;</span> <span class="s1">&#39;Fabien&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;--yell&#39;</span>  <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+    <span class="p">);</span>
+
+    <span class="nv">$input</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ArrayInput</span><span class="p">(</span><span class="nv">$arguments</span><span class="p">);</span>
+    <span class="nv">$returnCode</span> <span class="o">=</span> <span class="nv">$command</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">(</span><span class="nv">$input</span><span class="p">,</span> <span class="nv">$output</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>まず、 <a href="#id12"><span class="problematic" id="id13">:method:`Symfony\\Component\\Console\\Command\\Command::find`</span></a> メソッドにコマンド名を渡し、実行したいコマンドを探します。</p>
+<p>そして、指定したい引数とオプションを渡し <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Console\Input\ArrayInput</span></tt> クラスを新しく作成します。</p>
+<p>最後に、 <tt class="docutils literal"><span class="pre">run()</span></tt> メソッドを呼んで、実際にコマンドを実行し、そのコマンドの返り値を返します。全てうまく行けば <tt class="docutils literal"><span class="pre">0</span></tt> が返ってきますし、何か問題があれば、他の整数値が返ってきます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ほとんどの場合、コマンドライン上で実行されないコードからコマンドを呼び出すのは、次の理由から良いアイデアではありません。まず、コマンドの出力は、コンソールのために最適化されています。しかし、より大事なこととして、コマンドをコントローラのように考えることができます。コントローラは、モデルを使用し処理を行い、ユーザにフィードバックを表示します。ウェブからコマンドを呼ぶのではなく、コードをリファクタリングして、ロジックを新しいクラスに移すべきです。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="assetic/apply_to_option.html">< 特定の拡張子に Assetic フィルターを適用するには？</a>
+<a class="next" href="symfony1.html">symfony1 ユーザーのための Symfony2 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/console.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/console.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/console.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">コンソール/コマンドラインツールとしてのコマンドの作成方法</a><ul>
+<li><a class="reference internal" href="#id2">ベーシックなコマンドの作成</a><ul>
+<li><a class="reference internal" href="#id3">出力に色を付ける</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">コマンドラインの引数の使用</a></li>
+<li><a class="reference internal" href="#id5">コマンドのオプションの使用方法</a></li>
+<li><a class="reference internal" href="#id6">ユーザに情報を尋ねる</a></li>
+<li><a class="reference internal" href="#id7">コマンドのテスト</a></li>
+<li><a class="reference internal" href="#id10">サービスコンテナからサービスを取得する</a></li>
+<li><a class="reference internal" href="#id11">すでにあるコマンドの呼び出し</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="assetic/apply_to_option.html"
+                        title="previous chapter">特定の拡張子に Assetic フィルターを適用するには？</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="symfony1.html"
+                        title="next chapter">symfony1 ユーザーのための Symfony2</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/cookbook/console.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

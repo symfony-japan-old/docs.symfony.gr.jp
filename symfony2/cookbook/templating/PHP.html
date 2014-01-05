@@ -1,0 +1,450 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>PHP をテンプレートエンジンとして使う | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="クックブック" href="../index.html" />
+    <link rel="next" title="エラーページのカスタマイズ方法" href="../controller/error_pages.html" />
+    <link rel="prev" title="サービスコンテナで外部パラメータをセットする方法" href="../configuration/external_parameters.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="php">
+<h1>PHP をテンプレートエンジンとして使う<a class="headerlink" href="#php" title="Permalink to this headline">¶</a></h1>
+<p>Symfony2 では、Twig を標準のテンプレートエンジンとして利用ています。ただし、通常の PHP コードをテンプレートエンジンとして利用することもできます。この場合の機能的な違いはなく、Symfony2 では同等に扱うことができます。テンプレートエンジンとしてPHPを使う場合にも、より強力に記述する仕組みを Symfony2 が提供しています。</p>
+<div class="section" id="id1">
+<h2>PHP のテンプレートを出力する<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>PHP テンプレートエンジンを使用する際には、まず、アプリケーションコンフィギュレーションファイルで PHP エンジンの使用を有効にしてください:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="c1"># ...</span>
+    <span class="l-Scalar-Plain">templating</span><span class="p-Indicator">:</span>    <span class="p-Indicator">{</span> <span class="nv">engines</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&#39;twig&#39;</span><span class="p-Indicator">,</span> <span class="s">&#39;php&#39;</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+&lt;framework:config ... &gt;
+    &lt;!-- ... --&gt;
+    &lt;framework:templating ... &gt;
+        &lt;framework:engine id="twig" /&gt;
+        &lt;framework:engine id="php" /&gt;
+    &lt;/framework:templating&gt;
+&lt;/framework:config&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+    <span class="s1">&#39;templating&#39;</span>      <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;engines&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;twig&#39;</span><span class="p">,</span> <span class="s1">&#39;php&#39;</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>これでテンプレートの名称の拡張子を <tt class="docutils literal"><span class="pre">.twig</span></tt> ではなく <tt class="docutils literal"><span class="pre">.php</span></tt> にすれば、Twig でなく PHP のテンプレートを利用できるようになりました。たとえば下記のコントローラは <tt class="docutils literal"><span class="pre">index.html.php</span></tt> テンプレートを出力します:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Controller/HelloController.php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeHelloBundle:Hello:index.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="index-0">
+<span id="id2"></span><h2>テンプレートのデコレーション<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h2>
+<p>ヘッダーやフッターなど、プロジェクト共通で画面の一部を共有することが良くあります。Symfony2 では、この仕組みを一般的な方法とは異なった方法で解決したいと思います。それはテンプレートのデコレーションという仕組みで、一つのテンプレートは別のテンプレートにデコレーションされる、という考え方です。</p>
+<p>たとえば <tt class="docutils literal"><span class="pre">index.html.php</span></tt> テンプレートが、 <tt class="docutils literal"><span class="pre">layout.html.php</span></tt> にデコレーションされる例を掲載します。この場合、 <tt class="docutils literal"><span class="pre">extend()</span></tt> メソッドを呼び出して下記の通り記述します。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/views/Hello/index.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">extend</span><span class="p">(</span><span class="s1">&#39;AcmeHelloBundle::layout.html.php&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$name</span> <span class="cp">?&gt;</span>!
+</pre></div>
+</div>
+<p>この <tt class="docutils literal"><span class="pre">AcmeHelloBundle::layout.html.php</span></tt> という表記は、他のテンプレートファイルを参照する場合と同じ表記となります。 <tt class="docutils literal"><span class="pre">::</span></tt> の部分は、コントローラ要素が空白となっているため、該当するファイルは <tt class="docutils literal"><span class="pre">views/</span></tt> ディレクトリの直下に格納されている必要があります。</p>
+<p><tt class="docutils literal"><span class="pre">layout.html.php</span></tt> ファイルの内容は下記の通りとなります。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/views/layout.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">extend</span><span class="p">(</span><span class="s1">&#39;::base.html.php&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="nt">&lt;h1&gt;</span>Hello Application<span class="nt">&lt;/h1&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;_content&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p>このレイアウトは、別のファイル(<tt class="docutils literal"><span class="pre">::base.html.php</span></tt>)からデコレーションされています。
+このように、Symfony2では複数階層にわたるデコレーションに対応しており、一つのレイアウトファイルが他のファイルからデコレーションされることも可能です。
+また、このようにテンプレート名のバンドル部分に記述がない場合、該当するビューは <tt class="docutils literal"><span class="pre">app/Resources/views/</span></tt> ディレクトリに配置されていることを示します。このディレクトリには、プロジェクトに共通のレイアウトファイルを格納すると良いでしょう。下記に <tt class="docutils literal"><span class="pre">base.html.php</span></tt> ファイルの例を示します。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- app/Resources/views/base.html.php --&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title&gt;</span><span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Hello Application&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;_content&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>両方のレイアウトについて <tt class="docutils literal"><span class="pre">$view['slots']-&gt;output('_content')</span></tt> と記述ある部分は子テンプレートの内容に差し替えられます。今回の例では、それぞれ <tt class="docutils literal"><span class="pre">index.html.php</span></tt> と <tt class="docutils literal"><span class="pre">layout.html.php</span></tt> ファイルの内容となります。</p>
+<p>コードの中には <tt class="docutils literal"><span class="pre">$view</span></tt> というオブジェクトが使われています。Symfony2のテンプレートでは <tt class="docutils literal"><span class="pre">$view</span></tt> 変数が常に用意されており、テンプレートエンジンの動作を手助けする多くのメソッドを提供しています。</p>
+</div>
+<div class="section" id="index-1">
+<span id="id3"></span><h2>スロットを使う<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>スロットは、テンプレートをデコレーションするどのレイアウトからも再利用可能なスニペットで、テンプレート内で定義します。
+たとえば <tt class="docutils literal"><span class="pre">index.html.php</span></tt> テンプレートで、下記の通り <tt class="docutils literal"><span class="pre">title</span></tt> スロットに値をセットします。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/views/Hello/index.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">extend</span><span class="p">(</span><span class="s1">&#39;AcmeHelloBundle::layout.html.php&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Hello World Application&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$name</span> <span class="cp">?&gt;</span>!
+</pre></div>
+</div>
+<p>ベースレイアウトでは、既にヘッダ内のタイトルを出力するコードがあります。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- app/Resources/views/base.html.php --&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Hello Application&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+</pre></div>
+</div>
+<p>このように <tt class="docutils literal"><span class="pre">set()</span></tt> メソッドでスロットに値をセットし、 <tt class="docutils literal"><span class="pre">output()</span></tt> メソッドでスロットの内容を埋め込みます。このとき、スロットに値がセットされていない場合は <tt class="docutils literal"><span class="pre">output()</span></tt> メソッドの第2引数に、デフォルト値を定義することもできます。
+他にも <tt class="docutils literal"><span class="pre">_content</span></tt> という特別なスロットが定義されており、描画される子テンプレートの内容が含まれています。</p>
+<p>長い文字を含むスロットを作成したい場合は、下記のように <tt class="docutils literal"><span class="pre">start()</span></tt> メソッドと <tt class="docutils literal"><span class="pre">stop()</span></tt> メソッドを活用した構文も利用できます。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    Some large amount of HTML
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">stop</span><span class="p">()</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="index-2">
+<span id="id4"></span><h2>別のテンプレートを取り込む<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<p>テンプレートの内容を部分的に共有するには、共有する部分だけをまとめたテンプレートを定義し、別のテンプレートから取り込むと便利です。</p>
+<p>ここでは <tt class="docutils literal"><span class="pre">hello.html.php</span></tt> テンプレートを作成します。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/views/Hello/hello.html.php --&gt;</span>
+Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$name</span> <span class="cp">?&gt;</span>!
+</pre></div>
+</div>
+<p>次に <tt class="docutils literal"><span class="pre">index.html.php</span></tt> テンプレートを書き換え、 <tt class="docutils literal"><span class="pre">hello.html.php</span></tt> ファイルを取り込むように記述します。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/views/Hello/index.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">extend</span><span class="p">(</span><span class="s1">&#39;AcmeHelloBundle::layout.html.php&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeHelloBundle:Hello:hello.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">))</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">render()</span></tt> メソッドでは、コードの内容を評価し、別のテンプレートの結果を返します。この仕組みは、コントローラで使われている方法と同じものです。</p>
+</div>
+<div class="section" id="index-3">
+<span id="id5"></span><h2>別のコントローラを取り込む<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2では、別のコントローラの実行結果をテンプレート内に取り込むことができます。これは、Ajax系の処理や、他のコントローラにある変数を取り込みたい場合に効果を発揮します。</p>
+<p>たとえば <tt class="docutils literal"><span class="pre">fancy</span></tt> という名前のアクションを作成し、この実行結果を <tt class="docutils literal"><span class="pre">index.html.php</span></tt> テンプレートに取り込みたい場合には、下記のコードを記述します。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/views/Hello/index.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;HelloBundle:Hello:fancy&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;green&#39;</span><span class="p">))</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p>ここで <tt class="docutils literal"><span class="pre">AcmeHelloBundle:Hello:fancy</span></tt> の部分は、 <tt class="docutils literal"><span class="pre">Hello</span></tt> コントローラの <tt class="docutils literal"><span class="pre">fancy</span></tt> アクションを表しています。さて、その <tt class="docutils literal"><span class="pre">Hello</span></tt> コントローラは、下記のようなコードとなっています。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Controller/HelloController.php</span>
+
+<span class="k">class</span> <span class="nc">HelloController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">fancyAction</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$color</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// create some object, based on the $color variable</span>
+        <span class="nv">$object</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;HelloBundle:Hello:fancy.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span> <span class="s1">&#39;object&#39;</span> <span class="o">=&gt;</span> <span class="nv">$object</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>さて、コントローラ内には <tt class="docutils literal"><span class="pre">$view['actions']</span></tt> 変数の定義が行われていません。実は、スロットの際に自動的に定義されていた <tt class="docutils literal"><span class="pre">$view['slots']</span></tt> 変数と同様、 <tt class="docutils literal"><span class="pre">$view['actions']</span></tt> 変数についても自動的に定義されます。この特別な変数については、次のセクションで詳しく解説します。</p>
+</div>
+<div class="section" id="index-4">
+<span id="id6"></span><h2>テンプレート ヘルパを使う<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2のテンプレート システムでは、ヘルパーという仕組みを通じて簡単に拡張することができます。ヘルパーは、テンプレートを処理する時に使う機能を提供するためのPHPオブジェクトです。たとえば、Symfony2では <tt class="docutils literal"><span class="pre">actions</span></tt> と <tt class="docutils literal"><span class="pre">slots</span></tt> の2つのヘルパーが内蔵されています。</p>
+<div class="section" id="id7">
+<h3>ページ間のリンクを作成する<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Webアプリケーションでは、次ページへのリンクがないページは考えられません。テンプレート内にURLを直接記述する代わりに <tt class="docutils literal"><span class="pre">router</span></tt> ヘルパーを使うことで、アプリケーションのルーティング設定に応じて自動的にURLの生成が行われます。こうすることで、簡単にURL表記を変更することが可能になります。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;router&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Thomas&#39;</span><span class="p">))</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+    Greet Thomas!
+<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">generate()</span></tt> メソッドでは、引数としてルート名とパラメータの配列を渡します。ルート名はルーティング設定で定義された名前で、パラメータにはルーティング設定で定義された値を指定するために利用します。たとえば、上記の <tt class="docutils literal"><span class="pre">hello</span></tt> ルートは下記のようなルーティング定義となっています。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/HelloBundle/Resources/config/routing.yml</span>
+<span class="l-Scalar-Plain">hello</span><span class="p-Indicator">:</span> <span class="c1"># The route name</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/hello/{name}</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">AcmeHelloBundle</span><span class="p-Indicator">:</span><span class="nv">Hello</span><span class="p-Indicator">:</span><span class="nv">index</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="javascript">
+<h3>画像、JavaScript、スタイルシートなどのアセットを活用する<a class="headerlink" href="#javascript" title="Permalink to this headline">¶</a></h3>
+<p>Symfony2では、アセットを簡単に扱うために <tt class="docutils literal"><span class="pre">assets</span></tt> タグを提供しています。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;assets&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">getUrl</span><span class="p">(</span><span class="s1">&#39;css/blog.css&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;assets&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">getUrl</span><span class="p">(</span><span class="s1">&#39;images/logo.png&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">assets</span></tt> ヘルパーの目的は、Webアプリケーションの汎用性をあげることにあります。このヘルパーを使うと、アプリケーションのルートディレクトリの場所を意識することなく変更できます。</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>出力エスケープ<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>PHPをテンプレートエンジンとする場合、ユーザーに表示する変数は、必ず変数のエスケープが必要です。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$var</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+<p>このように <tt class="docutils literal"><span class="pre">escape()</span></tt> メソッドを使用すると、HTMLコンテキスト内に変数を埋め込むためのエスケープ処理が行われます。出力先のコンテキストは第2引数で変更できるため、たとえばJavaScript向けの出力を行う場合は、下記の通り、コンテキストを <tt class="docutils literal"><span class="pre">js</span></tt> に指定します:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$var</span><span class="p">,</span> <span class="s1">&#39;js&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="../configuration/external_parameters.html">< サービスコンテナで外部パラメータをセットする方法</a>
+<a class="next" href="../controller/error_pages.html">エラーページのカスタマイズ方法 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/templating/PHP.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/templating/PHP.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/templating/PHP.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">PHP をテンプレートエンジンとして使う</a><ul>
+<li><a class="reference internal" href="#id1">PHP のテンプレートを出力する</a></li>
+<li><a class="reference internal" href="#index-0">テンプレートのデコレーション</a></li>
+<li><a class="reference internal" href="#index-1">スロットを使う</a></li>
+<li><a class="reference internal" href="#index-2">別のテンプレートを取り込む</a></li>
+<li><a class="reference internal" href="#index-3">別のコントローラを取り込む</a></li>
+<li><a class="reference internal" href="#index-4">テンプレート ヘルパを使う</a><ul>
+<li><a class="reference internal" href="#id7">ページ間のリンクを作成する</a></li>
+<li><a class="reference internal" href="#javascript">画像、JavaScript、スタイルシートなどのアセットを活用する</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">出力エスケープ</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="../configuration/external_parameters.html"
+                        title="previous chapter">サービスコンテナで外部パラメータをセットする方法</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../controller/error_pages.html"
+                        title="next chapter">エラーページのカスタマイズ方法</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/templating/PHP.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

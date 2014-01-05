@@ -1,0 +1,701 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Symfony2 と HTTP の基礎 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="ガイドブック" href="index.html" />
+    <link rel="next" title="Symfony2 vs フラットなPHP" href="from_flat_php_to_symfony2.html" />
+    <link rel="prev" title="ガイドブック" href="index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.4 (2.0以降)</li>
+<li>翻訳更新日：2013/12/28</li>
+</ul>
+</div>
+<div class="section" id="symfony2-http">
+<h1>Symfony2 と HTTP の基礎<a class="headerlink" href="#symfony2-http" title="Permalink to this headline">¶</a></h1>
+<p>Symfony2 は、ソフトウェアの基本を大切にしています。
+迅速で堅牢なアプリケーション開発を可能にしながらも、開発者にフレームワークのルールを押し付けたりしません。
+また、Symfony は、さまざまな技術的知見を基に作られています。たくさんの人々が長年積み上げてきた知恵の結晶を、Symfony のツールやコンセプトから学ぶことができます。</p>
+<p>この章では Web 開発に共通した基礎的なコンセプトである、HTTP を説明することから始めましょう。
+どんな経歴を持っていても、どんなプログラミング言語が好きでも、この章はすべての人にとって<strong>必読</strong>です。</p>
+<div class="section" id="http">
+<h2>HTTP はシンプル<a class="headerlink" href="#http" title="Permalink to this headline">¶</a></h2>
+<p>HTTP (Hypertext Transfer Protocol) は、2 台のマシンがお互いにやり取りするためのテキスト言語です。
+例えば、Web コミックの <a class="reference external" href="http://xkcd.com/">xkcd</a> 最新情報をチェックしたいとしましょう。
+その場合、おおよそこんな会話が起こっています。</p>
+<div class="figure align-center">
+<img alt="../_images/http-xkcd.png" src="../_images/http-xkcd.png" />
+<p class="caption">browser-&gt;server「おーい！今日の分ある？」/
+server: ページの HTML を用意する /
+server-&gt;browser「あるよ！HTML あげるね。」</p>
+</div>
+<p>実際にはもう少し形式的ですが、本当にシンプルです。
+HTTP は、このシンプルなテキストベースの言語を記述するための規約です。
+Web の開発ということであれば、サーバーの役割はテキストのリクエストを解釈し、テキストのレスポンスを返すことです。</p>
+<p>HTTP のやりとりを順に見て行きましょう。</p>
+<div class="section" id="index-1">
+<span id="id1"></span><h3>ステップ 1: クライアントがリクエストを送る<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h3>
+<p>WEB 上でのやりとりは、どんな時でも<em>リクエスト</em>から始まります。
+リクエストとは、クライアント(ブラウザやiPhoneアプリ等)が作成するテキストメッセージで、HTTP として知られている特別なフォーマットを使って作成されます。
+クライアントは、サーバーにリクエストを送り、レスポンスを待ちます。</p>
+<p>ブラウザと xkcd の WEB サーバーとのやりとりのうち、最初の部分(リクエスト)を見てみましょう。</p>
+<div class="figure align-center">
+<img alt="../_images/http-xkcd-request.png" src="../_images/http-xkcd-request.png" />
+<p class="caption">browser-&gt;server「おーい！今日の分ある？」</p>
+</div>
+<p>HTTP において、リクエストは次のようになります。</p>
+<div class="highlight-text"><div class="highlight"><pre>GET / HTTP/1.1
+Host: xkcd.com
+Accept: text/html
+User-Agent: Mozilla/5.0 (Macintosh)
+</pre></div>
+</div>
+<p>このシンプルなメッセージだけで、クライアントがどのリソースをリクエストしてきているのか、必要なことが<em>すべて</em>わかります。
+1 行目が最も重要で、URI と HTTP メソッドが記載されています。</p>
+<p>URI (<tt class="docutils literal"><span class="pre">/</span></tt> や <tt class="docutils literal"><span class="pre">/contact</span></tt> など) は、クライアントが必要としているリソースのユニークなアドレス/場所です。
+HTTP メソッド (<tt class="docutils literal"><span class="pre">GET</span></tt> など) は、そのリソースに対して<em>どうしたい</em>のか定義します。
+HTTP メソッドはリクエストの<em>動詞</em>にあたり、そのリソースに対してどのように振る舞いたいのかを限定された操作によって定義します。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><em>GET</em></td>
+<td>サーバーからリソースを読み込む</td>
+</tr>
+<tr class="row-even"><td><em>POST</em></td>
+<td>サーバー上でリソースを作成する</td>
+</tr>
+<tr class="row-odd"><td><em>PUT</em></td>
+<td>サーバー上のリソースをアップデートする</td>
+</tr>
+<tr class="row-even"><td><em>DELETE</em></td>
+<td>サーバー上のリソースを削除する</td>
+</tr>
+</tbody>
+</table>
+<p>上記を考慮すると、例えばブログのとあるエントリを削除する HTTP リクエストはこうなります。</p>
+<div class="highlight-text"><div class="highlight"><pre>DELETE /blog/15 HTTP/1.1
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">HTTP 仕様には 9 個の HTTP メソッドが定義されていますが、多くはそれほど広く使われておらず、サポートもされていません。
+実際、最近のブラウザでも <tt class="docutils literal"><span class="pre">PUT</span></tt> や <tt class="docutils literal"><span class="pre">DELETE</span></tt> はサポートされていません。</p>
+</div>
+<p>HTTP リクエストは、1 行目の後に、必ずリクエストヘッダと呼ばれる行が複数行続きます。
+ヘッダーには幅広い範囲の情報を与えることができ、例えば、リクエスト元の <tt class="docutils literal"><span class="pre">Host</span></tt> や、クライアントが <tt class="docutils literal"><span class="pre">Accept</span></tt> できるレスポンスフォーマット、リクエストを作成する際に使用したアプリケーション(<tt class="docutils literal"><span class="pre">User-Agent</span></tt>)などの情報を与えることができるようになっています。
+ヘッダーは他にもたくさんあるので、Wikipedia の <a class="reference external" href="http://en.wikipedia.org/wiki/List_of_HTTP_header_fields">List of HTTP header fields</a> の記事を参照してみてください。</p>
+</div>
+<div class="section" id="id2">
+<h3>ステップ 2: サーバーがレスポンスを返す<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>サーバーはリクエストを受け取ると、URI を通じて、クライアントが何を必要としているのか、また、メソッドを通じて、そのリソースに対してどうしたいのかを知ることができます。
+例えば、GET リクエストであれば、サーバーはリソースを用意し、HTTP レスポンスとして返します。
+xkcd WEB サーバーのレスポンスを見てみましょう。</p>
+<div class="figure align-center">
+<img alt="../_images/http-xkcd.png" src="../_images/http-xkcd.png" />
+<p class="caption">browser-&gt;server「おーい！今日分ある？」/
+server: HTMLを用意する /
+server-&gt;browser「あるよ！HTMLあげるね。」</p>
+</div>
+<p>HTTP では、次のようなレスポンスを返すことに相当します。</p>
+<div class="highlight-text"><div class="highlight"><pre>HTTP/1.1 200 OK
+Date: Sat, 02 Apr 2011 21:05:05 GMT
+Server: lighttpd/1.4.19
+Content-Type: text/html
+
+&lt;html&gt;
+  &lt;!-- ... xkcd コミックのHTML --&gt;
+&lt;/html&gt;
+</pre></div>
+</div>
+<p>HTTP レスポンスには、リクエストされたリソース(この場合では HTML コンテンツ)、および、レスポンスに関する情報が含まれています。
+1 行目が特に重要で、HTTP レスポンスのステータスコード(ここでは 200)が記載されます。
+ステータスコードは、リクエストがどのような結果になったのかをクライアントに伝える役割を果たします。
+リクエストは成功したのか？エラーがあったのか？
+ステータスコードには、成功、エラー、クライアントがすべきこと(リダイレクトで別ページに遷移する等)の意味が割り振られています。
+Wikipedia の <a class="reference external" href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes">List of HTTP status codes</a> に、ステータスコードのリストがありますので、参照してみてください。</p>
+<p>リクエストと同様に、HTTP レスポンスには、HTTP ヘッダーとして、付加的な情報が含まれています。
+例えば、HTTP レスポンスヘッダーとして重要なものに、<tt class="docutils literal"><span class="pre">Content-Type</span></tt> があります。
+同じリソースを返すにしても、例えば HTML や XML、JSON といった様々な返し方があります。
+<tt class="docutils literal"><span class="pre">Content-Type</span></tt> ヘッダーでは、<tt class="docutils literal"><span class="pre">text/html</span></tt> といったインターネットメディアタイプにより、返されるフォーマットの種類をクライアントに知らせます。
+一般的なメディアタイプの一覧は、Wikipedia の <a class="reference external" href="http://en.wikipedia.org/wiki/Internet_media_type#List_of_common_media_types">List of common media types</a> を参照してください。</p>
+<p>他にもたくさんのヘッダーがあります。例えば、強力なキャッシュシステムのために使われるヘッダもあります。</p>
+</div>
+<div class="section" id="web">
+<h3>リクエスト、レスポンス、そして Web 開発<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h3>
+<p>このリクエスト-レスポンス間のやりとりは、Web 上で通信を行う上で基本的なプロセスとなります。
+このプロセスは、重要で強力であると同時に、必然的にシンプルです。</p>
+<p>もっとも重要なのは、どんなプログラミング言語を使っていようとも、どんなアプリケーション(Web、モバイル、JSON API)を作ろうとも、そして、どんな開発方針に従っていようとも、アプリケーションの最終的な目的は、リクエストを解釈して適切なレスポンスを返すことにある、ということです。</p>
+<p>Symfony は、この事実に応えられるように設計されています。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">HTTP の仕様についてより詳しく知りたければ、オリジナルの <a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">HTTP 1.1 RFC</a> を読んでみてください。
+もしくは、オリジナル仕様を積極的に明確化している <a class="reference external" href="http://datatracker.ietf.org/wg/httpbis/">HTTP Bis</a> を読んでみてもいいでしょう。
+<a class="reference external" href="https://addons.mozilla.org/en-US/firefox/addon/live-http-headers/">Live HTTP Headers</a> という、ブラウジング中のリクエスト/レスポンスヘッダを検証する Firefox のエクステンションもあります。</p>
+</div>
+</div>
+</div>
+<div class="section" id="php">
+<span id="index-2"></span><h2>PHP におけるリクエストとレスポンス<a class="headerlink" href="#php" title="Permalink to this headline">¶</a></h2>
+<p>それでは PHP を使った場合、「リクエスト」や「レスポンス」はどのように実装するのでしょうか。
+PHP を使うと、作業は少し簡単になります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s1">&#39;REQUEST_URI&#39;</span><span class="p">];</span>
+<span class="nv">$foo</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;foo&#39;</span><span class="p">];</span>
+
+<span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Content-type: text/html&#39;</span><span class="p">);</span>
+<span class="k">echo</span> <span class="s1">&#39;リクエストされたURIは &#39;</span><span class="o">.</span><span class="nv">$uri</span><span class="p">;</span>
+<span class="k">echo</span> <span class="s1">&#39;パラメータ &quot;foo&quot; の中身は &#39;</span><span class="o">.</span><span class="nv">$foo</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>奇妙に聞こえるかもしれませんが、上記の例では、HTTP リクエストから情報を取得し、その情報を使って HTTP レスポンスを組み立てています。
+PHP では、わざわざ HTTP リクエストをパースしなくても、<tt class="docutils literal"><span class="pre">$_SERVER</span></tt> や <tt class="docutils literal"><span class="pre">$_GET</span></tt> のようなスーパーグローバル変数にリクエストの情報がすべて格納されています。
+同様に、HTTP プロトコルに従ったテキストレスポンスを返さなくても、<tt class="docutils literal"><span class="pre">header()</span></tt> 関数を使用してレスポンスヘッダを送信し、コンテンツ内容部のみを出力すれば、PHP が正しいフォーマットの HTTP レスポンスを作成し、クライアントに返されます。</p>
+<div class="highlight-text"><div class="highlight"><pre>HTTP/1.1 200 OK
+Date: Sat, 03 Apr 2011 02:14:33 GMT
+Server: Apache/2.2.17 (Unix)
+Content-Type: text/html
+
+リクエストされたURIは /testing?foo=symfony
+パラメータ &quot;foo&quot; の中身は symfony
+</pre></div>
+</div>
+</div>
+<div class="section" id="symfony">
+<h2>Symfony におけるリクエストとレスポンス<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h2>
+<p>Symfony では、先ほど説明した PHP よる直接的なアプローチの代わりに、HTTP のリクエストとレスポンスを手軽に扱える 2 つのクラスを使います。
+<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt> クラスは、HTTP リクエストメッセージをシンプルなオブジェクト指向で表現したクラスです。
+これを使えば、すべてのリクエスト情報が簡単に手に入ります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+
+<span class="c1">// リクエストされたURI(例: /about)</span>
+<span class="c1">// ただし、クエリパラメータはすべて除去されます</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">();</span>
+
+<span class="c1">// それぞれ GET 変数と POST 変数を取得</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">query</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;bar が存在しない場合のデフォルト値&#39;</span><span class="p">);</span>
+
+<span class="c1">// SERVER 変数を取得</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">server</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;HTTP_HOST&#39;</span><span class="p">);</span>
+
+<span class="c1">// foo で指定した UploadedFile オブジェクトの取得</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">files</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+
+<span class="c1">// COOKIE の値を取得</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">cookies</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;PHPSESSID&#39;</span><span class="p">);</span>
+
+<span class="c1">// HTTP リクエストヘッダーの値を取得（正規化、小文字化したキーを使用）</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;host&#39;</span><span class="p">);</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;content_type&#39;</span><span class="p">);</span>
+
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">();</span>          <span class="c1">// GET, POST, PUT, DELETE, HEAD</span>
+<span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getLanguages</span><span class="p">();</span>       <span class="c1">// クライアントが許可している言語のリスト</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">Request</span></tt> クラスでは、開発者の手を煩わせないように様々な処理も行われます。
+例えば、<tt class="docutils literal"><span class="pre">isSecure()</span></tt> メソッドは、 PHP 内の<em>3 つ</em>の値をチェックしていて、ユーザーがセキュアな接続(<tt class="docutils literal"><span class="pre">HTTPS</span></tt>)を利用しているのかどうかを確認することができます。</p>
+<div class="sidebar">
+<p class="first sidebar-title">ParameterBags と Request の属性</p>
+<p>上で見たように、<tt class="docutils literal"><span class="pre">$_GET</span></tt> と <tt class="docutils literal"><span class="pre">$_POST</span></tt> 変数には、それぞれ <tt class="docutils literal"><span class="pre">query</span></tt> および <tt class="docutils literal"><span class="pre">request</span></tt> というパブリックなプロパティでアクセスできます。
+これらはいずれも <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\ParameterBag</span></tt> オブジェクトで、
+<a href="#id3"><span class="problematic" id="id4">:method:`Symfony\\Component\\HttpFoundation\\ParameterBag::get`</span></a>、
+<a href="#id5"><span class="problematic" id="id6">:method:`Symfony\\Component\\HttpFoundation\\ParameterBag::has`</span></a>、
+<a href="#id7"><span class="problematic" id="id8">:method:`Symfony\\Component\\HttpFoundation\\ParameterBag::all`</span></a> などのメソッドを持っています。
+上の例にあるパブリックプロパティも ParameterBag のインスタンスです。</p>
+<p class="last" id="book-fundamentals-attributes">Request クラスには <tt class="docutils literal"><span class="pre">attributes</span></tt> というパブリックプロパティもあります。
+このプロパティには、アプリケーションで内部的に利用される特殊なデータが格納されます。
+Symfony2 フレームワークでは、マッチしたルートにおける <tt class="docutils literal"><span class="pre">_controller</span></tt> の値や、ルートに <tt class="docutils literal"><span class="pre">{id}</span></tt> ワイルドカードがある場合は <tt class="docutils literal"><span class="pre">id</span></tt> の値、およびマッチしたルートの名前(<tt class="docutils literal"><span class="pre">_route</span></tt>)が <tt class="docutils literal"><span class="pre">attributes</span></tt> プロパティに格納されます。
+<tt class="docutils literal"><span class="pre">attributes</span></tt> プロパティは、リクエストに関するコンテキスト独自の情報を準備して格納する場所として使うこともできます。</p>
+</div>
+<p>Symfony は、HTTP レスポンスメッセージを表す <tt class="docutils literal"><span class="pre">Response</span></tt> クラスも提供しています。
+オブジェクト指向インターフェイスで、クライアントに返すレスポンスを作成することができます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">();</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Hello world!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setStatusCode</span><span class="p">(</span><span class="nx">Response</span><span class="o">::</span><span class="na">HTTP_OK</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span> <span class="s1">&#39;text/html&#39;</span><span class="p">);</span>
+
+<span class="c1">// HTTP ヘッダを出力し、続いてコンテンツも出力する</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span>New in version 2.4: </span>Support for HTTP status code constants was added in Symfony 2.4.</p>
+</div>
+<p>もし Symfony にこれ以上の機能がなかったとしても、リクエスト情報に容易にアクセス可能な、そして、オブジェクト指向インターフェイスでレスポンス作成が可能なツールキットを手にしたことになります。
+Symfony のもっと強力な機能を勉強したとしても、次のことだけは心に留めておいて下さい。
+アプリケーションの目標は、常に、<em>リクエストを解釈し、ロジックに基づき、適切なレスポンスを作成すること</em>にあります。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><tt class="docutils literal"><span class="pre">Request</span></tt> クラスと <tt class="docutils literal"><span class="pre">Response</span></tt> クラスは、HttpFoundation という
+Symfony 付属のスタンドアロンなコンポーネントに含まれています。
+このコンポーネントは、Symfony とは独立して利用できます。
+他にも、セッションやファイルアップロードを扱うクラスもあります。</p>
+</div>
+</div>
+<div class="section" id="request-response">
+<h2>Request から Response ができるまで<a class="headerlink" href="#request-response" title="Permalink to this headline">¶</a></h2>
+<p>HTTP それ自体がそうであるように、<tt class="docutils literal"><span class="pre">Request</span></tt> と <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトは本当にシンプルです。
+アプリケーションを作る上で一番大変なのは、それらの「間」を実装することです。
+つまり、本来やるべき作業は、リクエストを解釈し、レスポンスを作成するコードを書くこと、ということなのです。</p>
+<p>アプリケーションは、時に、メールを送ったり、フォームの送信を受け付けたり、データベースに値を保存したり、HTML ページをレンダリングしたり、コンテンツをセキュアにしておいたりすることがありますが、これらを達成し、整ったコードを保ち、そして保守し続けることが可能なようにするにはどうしたら良いのでしょうか。</p>
+<div class="section" id="id9">
+<h3>フロントコントローラー<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>従来、アプリケーションは、サイト内の各「ページ」に物理的なファイルを置くように作られてきました。</p>
+<div class="highlight-text"><div class="highlight"><pre>index.php
+contact.php
+blog.php
+</pre></div>
+</div>
+<p>この方針のままでは、いくつか問題が生じてきます。
+例えば、URL の柔軟性についてです。
+「<tt class="docutils literal"><span class="pre">blog.php</span></tt> から <tt class="docutils literal"><span class="pre">news.php</span></tt> にファイル名を変更したいけど、リンクは壊したくない。」
+こんな場合はどうしたら良いでしょうか。
+また、各ファイルは、セキュリティの確保やデータベース接続、サイトの「見た目」を一貫したものにするために、コアファイルを<em>例外なく</em>いちいちインクルードしているという点があります。</p>
+<p><em class="xref std std-term">フロントコントローラー</em>を使うのは、良い解決方法でしょう。
+アプリケーションへのすべてのリクエストを、1つの PHP ファイルで一手に引き受けるのです。
+たとえば、次のようになります。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">/index.php</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">index.php</span></tt> を実行する</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">/index.php/contact</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">index.php</span></tt> を実行する</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">/index.php/blog</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">index.php</span></tt> を実行する</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Apache の <tt class="docutils literal"><span class="pre">mod_rewrite</span></tt> (Apache以外でも、それに相当するもの) を使えば、URLを <tt class="docutils literal"><span class="pre">/</span></tt> や <tt class="docutils literal"><span class="pre">/contact</span></tt> や <tt class="docutils literal"><span class="pre">/blog</span></tt> のように短縮することは簡単です。</p>
+</div>
+<p>さて、すべてのリクエストが全く同じように処理されるようになりました。
+URL によって別々の PHP ファイルが実行されるのではなく、<em>常に</em>フロントコントローラーが実行されます。
+フロントコントローラーの内部で、URL に応じた処理にルーティングされるのです。
+こうしておけば、先の 2 つの問題は解決されます。
+モダンな Web アプリケーションでは、ほとんどこのアプローチをとっていて、例えば WordPress のようなアプリケーションも同様です。</p>
+</div>
+<div class="section" id="id10">
+<h3>整ったコードを保つ<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>フロントコントローラーの中では、どのコードを実行し、どのコンテンツを返すのかを指示する必要があります。
+リクエストされた URI をチェックし、URI の値に応じたコードを実行するようにします。
+これを文字通りのコードにするのは簡単ですが、すぐに手を付けられないコードになることは明白です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// index.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+<span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">();</span> <span class="c1">// リクエストされた URI パス</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$path</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">)))</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Welcome to the homepage.&#39;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$path</span> <span class="o">==</span> <span class="s1">&#39;/contact&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Contact us&#39;</span><span class="p">);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Page not found.&#39;</span><span class="p">,</span> <span class="nx">Response</span><span class="o">::</span><span class="na">HTTP_NOT_FOUND</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>Symfony による解決法を見ていきましょう。</p>
+</div>
+<div class="section" id="id11">
+<h3>Symfony アプリケーションのフロー<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>Symfony がリクエストを扱えるようになれば、人生楽しくなります。
+Symfony はすべてのリクエストで、同じシンプルなパターンを踏みます。</p>
+<div class="figure align-center" id="request-flow-figure">
+<img alt="Symfony2 request flow" src="../_images/request-flow.png" />
+<p class="caption">入ってきたリクエストは、ルーティングにより解釈された後、コントローラ関数に渡され、 <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返す。</p>
+</div>
+<p>「ページ」は、ルーティングの設定ファイルで定義します。
+URL を PHP に割り振るというわけです。
+この割り当てられた PHP の処理を、<em class="xref std std-term">コントローラー</em>と呼び、リクエストの情報を使用し、また同時に Symfony により使用可能になる様々なツールも使用して、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを作成して返します。
+コントローラーこそが、実装していく対象で、リクエストからレスポンスを作る場所なのです。</p>
+<p>たったそれだけのことなのです。おさらいしていきましょう。</p>
+<ul class="simple">
+<li>リクエストが来たら、常にフロントコントローラーが実行される</li>
+<li>ルーティングシステムは、リクエストの情報とルーティング設定ファイルから、どの PHP コードが実行されるべきか決定する。</li>
+<li>適切な担当 PHP コードが実行され、そのコードは <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを作って返す。</li>
+</ul>
+</div>
+<div class="section" id="symfony-request">
+<h3>アクションにおける Symfony Request<a class="headerlink" href="#symfony-request" title="Permalink to this headline">¶</a></h3>
+<p>あまり深追いはしませんが、一連の流れがどのように処理されていくのか見てみましょう。
+Symfony アプリケーションに <tt class="docutils literal"><span class="pre">/contact</span></tt> ページを追加してみます。
+まずは、ルーティングの設定ファイルに <tt class="docutils literal"><span class="pre">/contact</span></tt> 関連の行を追加します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/routing.yml</span>
+<span class="l-Scalar-Plain">contact</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span>     <span class="l-Scalar-Plain">/contact</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">AcmeDemoBundle</span><span class="p-Indicator">:</span><span class="nv">Main</span><span class="p-Indicator">:</span><span class="nv">contact</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;routes</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/routing&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/routing</span>
+<span class="s">        http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;route</span> <span class="na">id=</span><span class="s">&quot;contact&quot;</span> <span class="na">path=</span><span class="s">&quot;/contact&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;default</span> <span class="na">key=</span><span class="s">&quot;_controller&quot;</span><span class="nt">&gt;</span>AcmeDemoBundle:Main:contact<span class="nt">&lt;/default&gt;</span>
+    <span class="nt">&lt;/route&gt;</span>
+<span class="nt">&lt;/routes&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/routing.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\RouteCollection</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Route</span><span class="p">;</span>
+
+<span class="nv">$collection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RouteCollection</span><span class="p">();</span>
+<span class="nv">$collection</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;contact&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Route</span><span class="p">(</span><span class="s1">&#39;/contact&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;_controller&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;AcmeDemoBundle:Main:contact&#39;</span><span class="p">,</span>
+<span class="p">)));</span>
+
+<span class="k">return</span> <span class="nv">$collection</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">例ではルーティングコンフィギュレーションの定義に <tt class="xref doc docutils literal"><span class="pre">YAML</span></tt> を使っています。
+XML や PHP で記述することも可能です。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">/contact</span></tt> に誰かがアクセスしてきたら、このルートがマッチして、指定したコントローラーが実行されます。
+詳しくは<a class="reference internal" href="routing.html"><em>ルーティングの章</em></a>で説明しますが、<tt class="docutils literal"><span class="pre">AcmeDemoBundle:Main:contact</span></tt> という文字列は、<tt class="docutils literal"><span class="pre">MainController</span></tt> クラス内の <tt class="docutils literal"><span class="pre">contactAction</span></tt> メソッドを示す省略記法です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Controller/MainController.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">MainController</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">contactAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;&lt;h1&gt;Contact us!&lt;/h1&gt;&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>この例はとてもシンプルで、&#8221;&lt;h1&gt;Contact us!&lt;/h1&gt;&#8221; という HTML コードから
+<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response</span></tt> オブジェクトを作っています。
+<a class="reference internal" href="controller.html"><em>コントローラーの章</em></a>では、コントローラーがどうやってテンプレートをレンダリングするのか、や、バラバラのテンプレートファイルから &#8220;presentation&#8221;  コード(つまり HTML を出力するもの)をどうやって作っているのか、などを説明しています。
+ということで、コントローラーでは、データベースとのやりとりや、送信されてきたデータの処理、メール送信といった肝心な部分だけを心配すればいいのです。</p>
+</div>
+</div>
+<div class="section" id="symfony2">
+<h2>Symfony2: ツールではなく、自分のアプリケーションの関心事に取り組むために<a class="headerlink" href="#symfony2" title="Permalink to this headline">¶</a></h2>
+<p>どんなアプリケーションでも、リクエストを解釈して、適切なレスポンスを返すことが目標だということは分かっていただけたと思います。
+アプリケーションが大きくなってくると、整理されていてメンテしやすいコードを保つことは難しくなってきます。
+それでも、同じように複雑なタスクは矢のように降ってきます。
+データベースへの永続化とか、テンプレートのレンダリング・再利用、フォームの処理、メール送信、入力のバリデーション、セキュリティの確保など。</p>
+<p>とはいえ、別にどの問題もユニークなわけではありません。
+Symfony はフレームワークに、アプリケーションを作成するためのツールをたくさん提供しています。
+従ってツールを作る必要はありません。
+Symfony2 を使えば、面倒な作業は必要ありません。
+Symfony フレームワークを使い倒すもよし、一部分だけを使うもよし、です。</p>
+<div class="section" id="index-3">
+<span id="id12"></span><h3>スタンドアロンなツール: Symfony2 <em>コンポーネント</em><a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
+<p>結局のところ、Symfony2 とはいったい何なのでしょうか？
+Symfony2 は、独立した 20 以上のライブラリの集合体で、それらの一つ一つは <em>どんな</em> PHP プロジェクトでも使用可能です。
+それらを <em>Symfony2 コンポーネント</em>と呼んでいますが、どんな開発の場合でも、ほとんどすべてのシチュエーションで便利なものとなっています。
+いくつか紹介しましょう。</p>
+<ul class="simple">
+<li><tt class="xref doc docutils literal"><span class="pre">HttpFoundation</span></tt> - <tt class="docutils literal"><span class="pre">Request</span></tt> クラスや <tt class="docutils literal"><span class="pre">Response</span></tt> クラスの他、セッションやファイルアップロードを扱うクラスもある</li>
+<li><tt class="xref doc docutils literal"><span class="pre">Routing</span></tt> - 強力で高速なルーティングシステムで、指定されたURL(例: <tt class="docutils literal"><span class="pre">/contact</span></tt>)を
+どう処理すべきかという情報にマップする(例:  <tt class="docutils literal"><span class="pre">contactAction()</span></tt> を実行する)</li>
+<li><a class="reference external" href="https://github.com/symfony/Form">Form</a> - フォーム用のフル機能で柔軟なフレームワークで、フォームの作成や、受付を扱うことができる</li>
+<li><a class="reference external" href="https://github.com/symfony/Validator">Validator</a> - データに対するルールづくりのシステムで、ユーザの送信してきたデータが、そのルールに則っているか検証する</li>
+<li><tt class="xref doc docutils literal"><span class="pre">ClassLoader</span></tt> - クラスを使うときに、そのファイルを手動で <tt class="docutils literal"><span class="pre">require</span></tt> しなくても、ライブラリをオートロードしてくれる</li>
+<li><tt class="xref doc docutils literal"><span class="pre">Templating</span></tt> - テンプレートのレンダリング、テンプレート継承(レイアウトでテンプレートをデコレートできる)、その他テンプレートの共通タスクなどを扱うツールキット</li>
+<li><a class="reference external" href="https://github.com/symfony/Security">Security</a> - アプリ内のあらゆるタイプのセキュリティ事項を扱う強力なライブラリ</li>
+<li><a class="reference external" href="https://github.com/symfony/Translation">Translation</a> アプリ内の文字列を翻訳するためのフレームワーク</li>
+</ul>
+<p>すべてのコンポーネントは互いに独立していて、Symfony2 フレームワークを使っていようがいまいが、<em>どんな</em> PHP プロジェクトでも使用できます。
+すべて、必要があるときに使えばいいように作られていますし、必要であれば置き換えも可能です。</p>
+</div>
+<div class="section" id="id13">
+<h3>完全なソリューション: Symfony2 <em>フレームワーク</em><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>では、Symfony2 <em>フレームワーク</em> と言ったときは、一体何を指すのでしょうか。
+<em>Symfony2 フレームワーク</em> は、PHPライブラリで、次の独立した 2 つのタスクを達成しています。</p>
+<ol class="arabic simple">
+<li>コンポーネント(Symfony2 コンポーネント)とサードパーティ製のライブラリ(メール送信の <a class="reference external" href="http://swiftmailer.org/">Swift Mailer</a> など)を選択して提供すること</li>
+<li>実用本位な設定ができ、上記のバラバラになっている部品群を紐付けする&#8221;接着剤&#8221;としての役割を提供すること</li>
+</ol>
+<p>フレームワークの目的は、独立したツール群を統合し、開発者に一貫したエクスペリエンスを提供することです。
+フレームワークそれ自体も、Symfony2 バンドル(プラグイン)であり、設定可能です。置き換えることすら可能になっています。</p>
+<p>Symfony2 は強力なツール群を提供しており、無理を強いること無く、迅速な Web アプリケーションの開発が可能になっています。
+一般的なユーザであれば、実用的なデフォルト値が設定済みのスケルトンプロジェクトが入っている Symfony2 ディストリビューションを使えば、簡単に開発を始めることができます。
+上級ユーザであれば、お好きなようにお使いください。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="index.html">< ガイドブック</a>
+<a class="next" href="from_flat_php_to_symfony2.html">Symfony2 vs フラットなPHP ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/book/http_fundamentals.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/http_fundamentals.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/http_fundamentals.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Symfony2 と HTTP の基礎</a><ul>
+<li><a class="reference internal" href="#http">HTTP はシンプル</a><ul>
+<li><a class="reference internal" href="#index-1">ステップ 1: クライアントがリクエストを送る</a></li>
+<li><a class="reference internal" href="#id2">ステップ 2: サーバーがレスポンスを返す</a></li>
+<li><a class="reference internal" href="#web">リクエスト、レスポンス、そして Web 開発</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#php">PHP におけるリクエストとレスポンス</a></li>
+<li><a class="reference internal" href="#symfony">Symfony におけるリクエストとレスポンス</a></li>
+<li><a class="reference internal" href="#request-response">Request から Response ができるまで</a><ul>
+<li><a class="reference internal" href="#id9">フロントコントローラー</a></li>
+<li><a class="reference internal" href="#id10">整ったコードを保つ</a></li>
+<li><a class="reference internal" href="#id11">Symfony アプリケーションのフロー</a></li>
+<li><a class="reference internal" href="#symfony-request">アクションにおける Symfony Request</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#symfony2">Symfony2: ツールではなく、自分のアプリケーションの関心事に取り組むために</a><ul>
+<li><a class="reference internal" href="#index-3">スタンドアロンなツール: Symfony2 <em>コンポーネント</em></a></li>
+<li><a class="reference internal" href="#id13">完全なソリューション: Symfony2 <em>フレームワーク</em></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">ガイドブック</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="from_flat_php_to_symfony2.html"
+                        title="next chapter">Symfony2 vs フラットなPHP</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/book/http_fundamentals.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

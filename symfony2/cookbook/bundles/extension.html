@@ -1,0 +1,649 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>セマンティックコンフィギュレーションを通してバンドルを設定する方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="クックブック" href="../index.html" />
+    <link rel="next" title="新しいリクエストのフォーマットとマイムタイプの登録方法" href="../request/mime_type.html" />
+    <link rel="prev" title="カスタムデータコレクタの作成方法" href="../profiler/data_collector.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="index-0">
+<span id="id1"></span><h1>セマンティックコンフィギュレーションを通してバンドルを設定する方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>アプリケーションのコンフィギュレーションファイル (通常は <tt class="docutils literal"><span class="pre">app/config/config.yml</span></tt>)を見てみると、 <tt class="docutils literal"><span class="pre">framework</span></tt> 、 <tt class="docutils literal"><span class="pre">twig</span></tt> 、 <tt class="docutils literal"><span class="pre">doctrine</span></tt> といった、たくさんの異なるコンフィギュレーションの &#8220;namespaces&#8221; があります。これらの設定は、それぞれ指定のバンドルに適用されます。アプリケーション開発者には高レベルな設定を用意して、バンドルにはその内容に基づき低いレベルの複雑な変更を担うようにしています。</p>
+<p>例えば、以下では <tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> に、多くのサービスを定義して、フォームの統合を可能にしています。これは他の関係するコンポーネントの統合でも同様です。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="c1"># ...</span>
+    <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>            <span class="l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;framework:config&gt;</span>
+    <span class="nt">&lt;framework:form</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/framework:config&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+    <span class="s1">&#39;form&#39;</span>            <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>バンドルを作成する際に、コンフィギュレーションを取り扱うのに２つの方法があります。:</p>
+<ol class="arabic">
+<li><p class="first"><strong>普通のサービスコンフィギュレーション</strong> (<em>簡単</em>):</p>
+<blockquote>
+<div><p>サービスを、あなたのバンドル内の <tt class="docutils literal"><span class="pre">services.yml</span></tt> などのコンフィギュレーションファイルで指定することができ、メインとなるアプリケーションのコンフィギュレーションからインポートできます。この方法はとても簡単でかつ素早く効果的です。 <a class="reference internal" href="../../book/service_container.html#book-service-container-parameters"><em>parameters</em></a> を使用すると、アプリケーションのコンフィギュレーションからあなたのバンドルをカスタマイズできるといった柔軟性も兼ね備えることになります。詳細は、 &#8220;<a class="reference internal" href="../../book/service_container.html#service-container-imports-directive"><em>imports を使ってコンフィギュレーションをインポートする</em></a>&#8221; を参照してください。</p>
+</div></blockquote>
+</li>
+<li><p class="first"><strong>セマンティックコンフィギュレーション</strong> (<em>高度</em>):</p>
+<blockquote>
+<div><p>この方法は、上記で説明したコアバンドルで使用されているコンフィギュレーションの方法です。基本の考えは、ユーザに個々のパラメータをオーバーライドさせるのではなく、コンフィギュレーションを少なくし、限定したオプションのみをユーザに設定させることになります。バンドルの開発者として、あなたは &#8220;Extension&#8221; クラスの内部にあるコンフィギュレーションやロードサービスを通じてパースを行います。この方法では、メインのアプリケーションのコンフィギュレーションからは何もインポートする必要がありません。 &#8220;Extension&#8221; クラスが全ての処理を担います。</p>
+</div></blockquote>
+</li>
+</ol>
+<p>この記事で学ぶことになる２つ目のオプションの方がより柔軟ですが、その一方で準備に時間がかかってしまいます。どちらの方法を使用するべきか悩んだ際には、まず１つ目の方法で試してください。２つ目の方法は必要になった際に使用してください。</p>
+<p>２つ目の方法の方には次のアドバンテージがあります。:</p>
+<ul class="simple">
+<li>単にパラメータを定義するだけよりもはるかに強力です。パラメータに指定する際には、特定のオプションの値が、多くのサービス定義をしなければいけなくなるかもしれません。</li>
+<li>コンフィギュレーションの階層を可能にします。</li>
+<li><tt class="docutils literal"><span class="pre">config_dev.yml</span></tt> と <tt class="docutils literal"><span class="pre">config.yml</span></tt> のようなコンフィギュレーションファイルのオーバライドをする際に、スマートなマージが可能です。</li>
+<li><a class="reference internal" href="#cookbook-bundles-extension-config-class"><em>Configuration Class</em></a> を使用すれば、コンフィギュレーションバリデーションが使用できます。</li>
+<li>あなたが XSD を作成しており、開発者が XML を使用する際に IDE の自動補完が可能になります。</li>
+</ul>
+<div class="sidebar">
+<p class="first sidebar-title">バンドルのパラメータのオーバライド</p>
+<p class="last">バンドルが Extension クラスを提供する際には、一般的なルールとして、そのバンドルからどのサービスコンテナパラメータもオーバーライドしてはいけません。なぜなら、 Extension クラスは、同クラスによって使用可能になるコンフィギュレーション内にも、必要な設定全てを指定しなければならないからです。つまり、 Extension クラスが、後方互換性を維持するには、パブリックにサポートされているコンフィギュレーションの設定を全て定義しないといけないのです。</p>
+</div>
+<div class="section" id="extension">
+<span id="index-1"></span><h2>Extension クラスの作成<a class="headerlink" href="#extension" title="Permalink to this headline">¶</a></h2>
+<p>バンドルに、セマンティックコンフィギュレーションで指定することを決めたら、まず、処理を担当する &#8220;Extension&#8221; クラスを新しく作成する必要があります。このクラスは、作成するバンドルの <tt class="docutils literal"><span class="pre">DependencyInjection</span></tt> ディレクトリにください。また、クラス名は、バンドル名の <tt class="docutils literal"><span class="pre">Bundle</span></tt> 接尾辞を <tt class="docutils literal"><span class="pre">Extension</span></tt> で置き換えて作成してください。例えば、 <tt class="docutils literal"><span class="pre">AcmeHelloBundle</span></tt> バンドルの Extension クラスであれば、 <tt class="docutils literal"><span class="pre">AcmeHelloExtension</span></tt> になります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// Acme/HelloBundle/DependencyInjection/AcmeHelloExtension.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\DependencyInjection\Extension</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\ContainerBuilder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AcmeHelloExtension</span> <span class="k">extends</span> <span class="nx">Extension</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">load</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configs</span><span class="p">,</span> <span class="nx">ContainerBuilder</span> <span class="nv">$container</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// where all of the heavy logic is done</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getXsdValidationBasePath</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../Resources/config/&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getNamespace</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;http://www.example.com/symfony/schema/&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">getXsdValidationBasePath</span></tt> メソッドと <tt class="docutils literal"><span class="pre">getNamespace</span></tt> メソッドは、バンドルが コンフィギュレーションのためにオプションの XSD を提供する際のみ必要です。</p>
+</div>
+<p>上記のクラス名があれば、どのコンフィギュレーションファイルからも <tt class="docutils literal"><span class="pre">acme_hello</span></tt> コンフィギュレーションネームスペースを定義できるようになります。 <tt class="docutils literal"><span class="pre">acme_hello</span></tt> ネームスペースは、クラス名の <tt class="docutils literal"><span class="pre">Extension</span></tt> という語を除去し、残りを小文字化してアンダースコア化されたものになります。例えば、 <tt class="docutils literal"><span class="pre">AcmeHelloExtension</span></tt> の場合は、 <tt class="docutils literal"><span class="pre">acme_hello</span></tt> になります。</p>
+<p>このネームスペースの下で早速コンフィギュレーションを指定することができます。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">acme_hello</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
+
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:acme_hello=</span><span class="s">&quot;http://www.example.com/symfony/schema/&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://www.example.com/symfony/schema/ http://www.example.com/symfony/schema/hello-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+   <span class="nt">&lt;acme_hello:config</span> <span class="nt">/&gt;</span>
+   ...
+
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;acme_hello&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">());</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">上記のようにネーミングの慣習に沿うことによって、カーネルにバンドルを登録すると常に Extension クラスの <tt class="docutils literal"><span class="pre">load()</span></tt> メソッドが呼ばれます。つまり、ユーザが <tt class="docutils literal"><span class="pre">acme_hello</span></tt> エントリ等を書かずに、コンフィギュレーションを提供しなくても、<tt class="docutils literal"><span class="pre">load()</span></tt> メソッドが呼ばれ、空の <tt class="docutils literal"><span class="pre">$configs</span></tt> 配列を受け取ったことになります。必要であれば、バンドルの細かなデフォルトも指定することができます。</p>
+</div>
+</div>
+<div class="section" id="configs">
+<h2><tt class="docutils literal"><span class="pre">$configs</span></tt> 配列のパージング<a class="headerlink" href="#configs" title="Permalink to this headline">¶</a></h2>
+<p>ユーザがコンフィギュレーションファイルに <tt class="docutils literal"><span class="pre">acme_hello</span></tt> ネームスペースをインクルードすると、そのコンフィギュレーションがコンフィギュレーションの配列の後尾に加えられ、あなたの Extension の <tt class="docutils literal"><span class="pre">load()</span></tt> メソッドに渡されます。 Symfony2 は自動的に XML や YAML を配列に変換します。</p>
+<p>次のコンフィギュレーションを見てみましょう。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">acme_hello</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">foo</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fooValue</span>
+    <span class="l-Scalar-Plain">bar</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">barValue</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
+
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:acme_hello=</span><span class="s">&quot;http://www.example.com/symfony/schema/&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://www.example.com/symfony/schema/ http://www.example.com/symfony/schema/hello-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;acme_hello:config</span> <span class="na">foo=</span><span class="s">&quot;fooValue&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;acme_hello:bar&gt;</span>barValue<span class="nt">&lt;/acme_hello:bar&gt;</span>
+    <span class="nt">&lt;/acme_hello:config&gt;</span>
+
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;acme_hello&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;foo&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;fooValue&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;bar&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;barValue&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">load()</span></tt> メソッドに渡される配列は以下のようになります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">array</span><span class="p">(</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;foo&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;fooValue&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;bar&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;barValue&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>これは、ただのコンフィギュレーションの値の配列ではなく、 <em>多重配列</em> であることに注意してください。例えば、 <tt class="docutils literal"><span class="pre">config_dev.yml</span></tt> コンフィギューレーションファイルに <tt class="docutils literal"><span class="pre">acme_hello</span></tt> があると、直下に異なる値を追加します。そして、受け取る配列は以下のようになります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">array</span><span class="p">(</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;foo&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;fooValue&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;bar&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;barValue&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;foo&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;fooDevValue&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;baz&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;newConfigEntry&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>２つの配列の順番は最初に設定したもの順になります。</p>
+<p>そして、これらのコンフィギューレーションをどうやってマージするのを決定するのかは、あなたが実装する内容です。例えば、２つ目の値が最初の値をオーバーライドしたり、マージしたりするなどできます。</p>
+<p>後に、 <a class="reference internal" href="#cookbook-bundles-extension-config-class"><em>Configuration Class</em></a> のセクションにあるように、その実装方法に関する強固なやり方を学びます。しかし、今回は、単純なマージをするだけにしましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">load</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configs</span><span class="p">,</span> <span class="nx">ContainerBuilder</span> <span class="nv">$container</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$config</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$configs</span> <span class="k">as</span> <span class="nv">$subConfig</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$config</span> <span class="o">=</span> <span class="nb">array_merge</span><span class="p">(</span><span class="nv">$config</span><span class="p">,</span> <span class="nv">$subConfig</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// now use the flat $config array</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">上記のマージのテクニックが、開発しているバンドルのロジックに合致しているか確かめてください。今回は、単なる例ですので、盲目的に合うのは良くりません。</p>
+</div>
+</div>
+<div class="section" id="load">
+<h2><tt class="docutils literal"><span class="pre">load()</span></tt> メソッドの使用<a class="headerlink" href="#load" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">load()</span></tt> メソッドの中で、 <tt class="docutils literal"><span class="pre">$container</span></tt> 変数が、コンテナを指しており、このコンテナのみが、使用しているネームスペースコンフィギューレーションについての情報を保持しています。コンテナは、他のバンドルからロードされたサービスの情報は保持していません。 <tt class="docutils literal"><span class="pre">load()</span></tt> メソッドのゴールは、開発しているバンドルが必要なメソッドやサービスのコンフィギュレーションを追加して、コンテナを操ることです。</p>
+<div class="section" id="id2">
+<h3>外部のコンフィギュレーションリソースをロードする<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>共通にタスクとして、外部のコンフィギュレーションファイルをロードすることが挙げられます。外部のコンフィギュレーションには、開発しているバンドルが必要としているサービスの大部分が含まれることがあります。例えば、開発しているバンドルのサービスコンフィギュレーションのほとんどを <tt class="docutils literal"><span class="pre">services.xml</span></tt> ファイルで定義していることを想定してください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\Loader\XmlFileLoader</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Config\FileLocator</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">load</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configs</span><span class="p">,</span> <span class="nx">ContainerBuilder</span> <span class="nv">$container</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// prepare your $config variable</span>
+
+    <span class="nv">$loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XmlFileLoader</span><span class="p">(</span><span class="nv">$container</span><span class="p">,</span> <span class="k">new</span> <span class="nx">FileLocator</span><span class="p">(</span><span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../Resources/config&#39;</span><span class="p">));</span>
+    <span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s1">&#39;services.xml&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>コンフィギュレーションの値に基づいて、さらにこの条件を追加するかもしれません。例えば、 <tt class="docutils literal"><span class="pre">enabled</span></tt> オプションが渡されて、 <tt class="docutils literal"><span class="pre">true</span></tt> と設定されているときのみ、サービス一式をロードしたいとしましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">load</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configs</span><span class="p">,</span> <span class="nx">ContainerBuilder</span> <span class="nv">$container</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// prepare your $config variable</span>
+
+    <span class="nv">$loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XmlFileLoader</span><span class="p">(</span><span class="nv">$container</span><span class="p">,</span> <span class="k">new</span> <span class="nx">FileLocator</span><span class="p">(</span><span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../Resources/config&#39;</span><span class="p">));</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;enabled&#39;</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;enabled&#39;</span><span class="p">])</span> <span class="p">{</span>
+        <span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s1">&#39;services.xml&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>サービスのコンフィギュレーションとパラメータの設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>サービスのコンフィギュレーションをロードしてしまった後で、入力値に基づいてコンフィギュレーションを変更する必要があるかもしれません。例えば、内部で使う文字列の &#8220;type&#8221; を第一引数として渡すサービスがあるとしましょう。バンドルを使用するユーザが簡単に使うことができるようにするには、 <tt class="docutils literal"><span class="pre">services.xml</span></tt> のようなサービスコンフィギュレーションファイルの内で、このサービスを定義します。第一引数として <tt class="docutils literal"><span class="pre">acme_hello.my_service_type</span></tt> を空のパラメータを使用します。</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;</span>
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;parameters&gt;</span>
+        <span class="nt">&lt;parameter</span> <span class="na">key=</span><span class="s">&quot;acme_hello.my_service_type&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/parameters&gt;</span>
+
+    <span class="nt">&lt;services&gt;</span>
+        <span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;acme_hello.my_service&quot;</span> <span class="na">class=</span><span class="s">&quot;Acme\HelloBundle\MyService&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;argument&gt;</span>%acme_hello.my_service_type%<span class="nt">&lt;/argument&gt;</span>
+        <span class="nt">&lt;/service&gt;</span>
+    <span class="nt">&lt;/services&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+<p>しかし、なぜ空のパラメータを定義して、あなたのサービスに渡すようするのでしょうか？答えは、このパラメータは、受け取るコンフィギュレーションの値を元に、あなたの Extension クラスで設定するからです。例えば、 <tt class="docutils literal"><span class="pre">my_type</span></tt> のキーとして、ユーザにこの <em>種類(type)</em> オプションを定義可能にしているとしましょう。 <tt class="docutils literal"><span class="pre">load()</span></tt> メソッドの後にこれを追加したコードが以下になります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">load</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configs</span><span class="p">,</span> <span class="nx">ContainerBuilder</span> <span class="nv">$container</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// prepare your $config variable</span>
+
+    <span class="nv">$loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">XmlFileLoader</span><span class="p">(</span><span class="nv">$container</span><span class="p">,</span> <span class="k">new</span> <span class="nx">FileLocator</span><span class="p">(</span><span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../Resources/config&#39;</span><span class="p">));</span>
+    <span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">load</span><span class="p">(</span><span class="s1">&#39;services.xml&#39;</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;my_type&#39;</span><span class="p">]))</span> <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nx">\InvalidArgumentException</span><span class="p">(</span><span class="s1">&#39;The &quot;my_type&quot; option must be set&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="s1">&#39;acme_hello.my_service_type&#39;</span><span class="p">,</span> <span class="nv">$config</span><span class="p">[</span><span class="s1">&#39;my_type&#39;</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これで、ユーザは <tt class="docutils literal"><span class="pre">my_type</span></tt> コンフィギュレーション値を特定することができるので、効果的に設定することができます。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">acme_hello</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">my_type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foo</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; ?&gt;</span>
+
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:acme_hello=</span><span class="s">&quot;http://www.example.com/symfony/schema/&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://www.example.com/symfony/schema/ http://www.example.com/symfony/schema/hello-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;acme_hello:config</span> <span class="na">my_type=</span><span class="s">&quot;foo&quot;</span><span class="nt">&gt;</span>
+        <span class="c">&lt;!-- ... --&gt;</span>
+    <span class="nt">&lt;/acme_hello:config&gt;</span>
+
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;acme_hello&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;my_type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>グローバルパラメータ<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>コンテナを設定する際に、次のグローバルパラメータが使用可能になっています。:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">kernel.name</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kernel.environment</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kernel.debug</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kernel.root_dir</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kernel.cache_dir</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kernel.logs_dir</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kernel.bundle_dirs</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kernel.bundles</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">kernel.charset</span></tt></li>
+</ul>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last"><tt class="docutils literal"><span class="pre">_</span></tt> から始まる全てのパラメータとサービス名は、フレームワークの予約語ですので、バンドルで定義しないでください。</p>
+</div>
+</div>
+</div>
+<div class="section" id="cookbook-bundles-extension-config-class">
+<span id="id5"></span><h2>コンフィギュレーションクラスを使ったバリデーションとマージ<a class="headerlink" href="#cookbook-bundles-extension-config-class" title="Permalink to this headline">¶</a></h2>
+<p>これまでは、手動でコンフィギュレーションの配列のマージや、 PHP の <tt class="docutils literal"><span class="pre">isset()</span></tt> 関数を使用してコンフィグ値の存在のチェックをしてきました。オプションの <em>コンフィギュレーション</em> システムを使用すれば、マージ、バリデーション、デフォルト値、フォーマットの正規化をすることができます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">特定のフォーマット(ほとんどの場合 XML)は、最終的にほんの少し異なるコンフィギュレーション配列になり、これらの配列が他の全てと一致するために &#8220;正規化&#8221; される必要があることがあります。そのために、フォーマットの正規化が必要です。</p>
+</div>
+<p>このシステムのアドバンテージを受けるために、 <tt class="docutils literal"><span class="pre">Configuration</span></tt> クラスを作成し、そのクラス内でコンフィギュレーションを定義するツリーを構築しましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/DependencyExtension/Configuration.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\HelloBundle\DependencyInjection</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Config\Definition\Builder\TreeBuilder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Config\Definition\ConfigurationInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Configuration</span> <span class="k">implements</span> <span class="nx">ConfigurationInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getConfigTreeBuilder</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$treeBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">TreeBuilder</span><span class="p">();</span>
+        <span class="nv">$rootNode</span> <span class="o">=</span> <span class="nv">$treeBuilder</span><span class="o">-&gt;</span><span class="na">root</span><span class="p">(</span><span class="s1">&#39;acme_hello&#39;</span><span class="p">);</span>
+
+        <span class="nv">$rootNode</span>
+            <span class="o">-&gt;</span><span class="na">children</span><span class="p">()</span>
+                <span class="o">-&gt;</span><span class="na">scalarNode</span><span class="p">(</span><span class="s1">&#39;my_type&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">defaultValue</span><span class="p">(</span><span class="s1">&#39;bar&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">end</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">end</span><span class="p">()</span>
+        <span class="p">;</span>
+
+        <span class="k">return</span> <span class="nv">$treeBuilder</span><span class="p">;</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>上記の例は、 <em>とても</em> 簡単ですが、 <tt class="docutils literal"><span class="pre">load()</span></tt> メソッドを使用してこのくのクラスを使用することができ、あなたのコンフィギュレーションをマージでき、バリデーションを強制化させることができます。 <tt class="docutils literal"><span class="pre">my_type</span></tt> 以外のオプションが渡されると、サポートしていないオプションが渡ったことを説明する例外を返します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Config\Definition\Processor</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">load</span><span class="p">(</span><span class="k">array</span> <span class="nv">$configs</span><span class="p">,</span> <span class="nx">ContainerBuilder</span> <span class="nv">$container</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$processor</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Processor</span><span class="p">();</span>
+    <span class="nv">$configuration</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Configuration</span><span class="p">();</span>
+    <span class="nv">$config</span> <span class="o">=</span> <span class="nv">$processor</span><span class="o">-&gt;</span><span class="na">processConfiguration</span><span class="p">(</span><span class="nv">$configuration</span><span class="p">,</span> <span class="nv">$configs</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">processConfiguration()</span></tt> メソッドは、 <tt class="docutils literal"><span class="pre">Configuration</span></tt> クラス内で定義されたコンフィギュレーションツリーを使い、全てのコンフィギュレーションの配列を合わせてバリデート、正規化、マージをします。</p>
+<p><tt class="docutils literal"><span class="pre">Configuration</span></tt> クラスは、ここでの紹介よりももっと複雑になりえます。 <tt class="docutils literal"><span class="pre">Configuration</span></tt> クラスは、配列ノード、 &#8220;prototype&#8221; ノード、高度なバリデーション、 XMLに特化した正規化、高度なマージのサポートをしています。この実際に動いているコード見る最も良い方法は、コアのコンフィギュレーションクラスをしてくることです。 <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bundle/FrameworkBundle/DependencyInjection/Configuration.php">FrameworkBundle Configuration</a> や <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bundle/TwigBundle/DependencyInjection/Configuration.php">TwigBundle Configuration</a> がその一例です。</p>
+</div>
+<div class="section" id="index-2">
+<span id="id6"></span><h2>Extension の規格<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<p>Extension を作成する際に、次の簡単な規約に従ってください。:</p>
+<ul class="simple">
+<li>Extension は、 <tt class="docutils literal"><span class="pre">DependencyInjection</span></tt> に格納すること。</li>
+<li>Extension は、必ずバンドル名の後に <tt class="docutils literal"><span class="pre">Extension</span></tt> 接尾辞を付けること。 <tt class="docutils literal"><span class="pre">AcmeHelloBundle</span></tt> であれば、 <tt class="docutils literal"><span class="pre">AcmeHelloExtension</span></tt> になります。</li>
+<li>Extension は、 XSD スキーマを用意すること。</li>
+</ul>
+<p>これらの簡単な規約に従えば、あなたの作るエスクテンションは、Symfony2 によって自動的に登録されます。もし、規約に従わないのであれば、あなたのバンドル内で <a href="#id7"><span class="problematic" id="id8">:method:`Symfony\\Component\\HttpKernel\\Bundle\\Bundle::build`</span></a> メソッドをオーバーライドしてください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Acme\HelloBundle\DependencyInjection\UnconventionalExtensionClass</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AcmeHelloBundle</span> <span class="k">extends</span> <span class="nx">Bundle</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">build</span><span class="p">(</span><span class="nx">ContainerBuilder</span> <span class="nv">$container</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">parent</span><span class="o">::</span><span class="na">build</span><span class="p">(</span><span class="nv">$container</span><span class="p">);</span>
+
+        <span class="c1">// register extensions that do not follow the conventions manually</span>
+        <span class="nv">$container</span><span class="o">-&gt;</span><span class="na">registerExtension</span><span class="p">(</span><span class="k">new</span> <span class="nx">UnconventionalExtensionClass</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>上記のケースでは、 Extension クラスは、必ず <tt class="docutils literal"><span class="pre">getAlias()</span></tt> メソッドを実装して、バンドル名にちなんだユニークなエイリアスを返す必要があります(例えば、 <tt class="docutils literal"><span class="pre">acme_hello</span></tt>)。標準的な <tt class="docutils literal"><span class="pre">Extension</span></tt> で終わるクラス名を付けるのを無視しているので、必須の作業となります。</p>
+<p>さらに、あなたの Extension の <tt class="docutils literal"><span class="pre">load()</span></tt> メソッドは、コンフィギュレーションファイル内で、一度でも <tt class="docutils literal"><span class="pre">acme_hello</span></tt> エイリアスを特定化した <em>ときのみ</em> 呼ばれます。繰り返しますが、 Extension クラスが上記のように標準的な方法に従っていないので、自動的に登録されることはないのです。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="../profiler/data_collector.html">< カスタムデータコレクタの作成方法</a>
+<a class="next" href="../request/mime_type.html">新しいリクエストのフォーマットとマイムタイプの登録方法 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/bundles/extension.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/bundles/extension.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/bundles/extension.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">セマンティックコンフィギュレーションを通してバンドルを設定する方法</a><ul>
+<li><a class="reference internal" href="#extension">Extension クラスの作成</a></li>
+<li><a class="reference internal" href="#configs"><tt class="docutils literal"><span class="pre">$configs</span></tt> 配列のパージング</a></li>
+<li><a class="reference internal" href="#load"><tt class="docutils literal"><span class="pre">load()</span></tt> メソッドの使用</a><ul>
+<li><a class="reference internal" href="#id2">外部のコンフィギュレーションリソースをロードする</a></li>
+<li><a class="reference internal" href="#id3">サービスのコンフィギュレーションとパラメータの設定</a></li>
+<li><a class="reference internal" href="#id4">グローバルパラメータ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cookbook-bundles-extension-config-class">コンフィギュレーションクラスを使ったバリデーションとマージ</a></li>
+<li><a class="reference internal" href="#index-2">Extension の規格</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="../profiler/data_collector.html"
+                        title="previous chapter">カスタムデータコレクタの作成方法</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../request/mime_type.html"
+                        title="next chapter">新しいリクエストのフォーマットとマイムタイプの登録方法</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/bundles/extension.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,538 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>式の構文 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="式言語" href="index.html" />
+    <link rel="next" title="ExpressionLanguage の拡張" href="extending.html" />
+    <link rel="prev" title="ExpressionLanguage コンポーネント" href="introduction.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.4以降</li>
+<li>翻訳更新日：2013/12/19</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h1>式の構文<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>ExpressionLanguage コンポーネントでは、Twig をもとにした式の構文を採用しています。
+サポートしているすべての構文について解説します。</p>
+<div class="section" id="id2">
+<h2>リテラル<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>次のリテラルをサポートしています:</p>
+<ul class="simple">
+<li><strong>文字列</strong> - シングルクォートまたはダブルクォートで囲みます (<tt class="docutils literal"><span class="pre">'hello'</span></tt>)</li>
+<li><strong>数値</strong> - <tt class="docutils literal"><span class="pre">103</span></tt></li>
+<li><strong>配列</strong> - JSON に似た表記 (<tt class="docutils literal"><span class="pre">[1,</span> <span class="pre">2]</span></tt>)</li>
+<li><strong>連想配列</strong> - JSON に似た表記 (<tt class="docutils literal"><span class="pre">{</span> <span class="pre">foo:</span> <span class="pre">'bar'</span> <span class="pre">}</span></tt>)</li>
+<li><strong>ブール値</strong> - <tt class="docutils literal"><span class="pre">true</span></tt> または <tt class="docutils literal"><span class="pre">false</span></tt></li>
+<li><strong>null</strong> - <tt class="docutils literal"><span class="pre">null</span></tt></li>
+</ul>
+</div>
+<div class="section" id="component-expression-objects">
+<span id="id3"></span><h2>オブジェクトの使用<a class="headerlink" href="#component-expression-objects" title="Permalink to this headline">¶</a></h2>
+<p>式へオブジェクトを渡した場合、プロパティへのアクセス、メソッドの呼び出し用の構文を使います。</p>
+<div class="section" id="id4">
+<h3>パブリックプロパティへのアクセス<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>オブジェクトのパブリックプロパティへアクセスするには、<tt class="docutils literal"><span class="pre">.</span></tt> を使います。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Apple</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$variety</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$apple</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Apple</span><span class="p">();</span>
+<span class="nv">$apple</span><span class="o">-&gt;</span><span class="na">variety</span> <span class="o">=</span> <span class="s1">&#39;Honeycrisp&#39;</span><span class="p">;</span>
+
+<span class="k">echo</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;fruit.variety&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;fruit&#39;</span> <span class="o">=&gt;</span> <span class="nv">$apple</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>このコードを実行すると <tt class="docutils literal"><span class="pre">Honeycrisp</span></tt> と表示されます。</p>
+</div>
+<div class="section" id="id5">
+<h3>メソッド呼び出し<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>オブジェクトのメソッド呼び出しにも <tt class="docutils literal"><span class="pre">.</span></tt> を使います。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Robot</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">sayHi</span><span class="p">(</span><span class="nv">$times</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$greetings</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nv">$times</span><span class="p">;</span> <span class="nv">$i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$greetings</span><span class="p">[]</span> <span class="o">=</span> <span class="s1">&#39;Hi&#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nb">implode</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="nv">$greetings</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;!&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nv">$robot</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Robot</span><span class="p">();</span>
+
+<span class="k">echo</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;robot.sayHi(3)&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;robot&#39;</span> <span class="o">=&gt;</span> <span class="nv">$robot</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>このコードを実行すると、<tt class="docutils literal"><span class="pre">Hi</span> <span class="pre">Hi</span> <span class="pre">Hi!</span></tt> と表示されます。</p>
+</div>
+</div>
+<div class="section" id="component-expression-functions">
+<span id="id6"></span><h2>関数の使用<a class="headerlink" href="#component-expression-functions" title="Permalink to this headline">¶</a></h2>
+<p>式の中で登録済みの関数を使うこともできます。関数を呼び出す構文は PHP や JavaScript と共通です。
+ExpressionLanguage コンポーネントには、PHP の定数値を返す <tt class="docutils literal"><span class="pre">constant()</span></tt> という関数がデフォルトで組み込まれています。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nb">define</span><span class="p">(</span><span class="s1">&#39;DB_USER&#39;</span><span class="p">,</span> <span class="s1">&#39;root&#39;</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;constant(&quot;DB_USER&quot;)&#39;</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>このコードを実行すると <tt class="docutils literal"><span class="pre">root</span></tt> と表示されます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">式で利用するために独自の関数を登録する方法は、&#8221;<a class="reference internal" href="extending.html"><em>ExpressionLanguage の拡張</em></a>&#8221; を参照してください。</p>
+</div>
+</div>
+<div class="section" id="component-expression-arrays">
+<span id="id7"></span><h2>配列の使用<a class="headerlink" href="#component-expression-arrays" title="Permalink to this headline">¶</a></h2>
+<p>式に配列（または連想配列）を渡した場合、<tt class="docutils literal"><span class="pre">[]</span></tt> で配列の添字または連想配列のキーを指定して要素にアクセスできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;life&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;universe&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;everything&#39;</span> <span class="o">=&gt;</span> <span class="mi">22</span><span class="p">);</span>
+
+<span class="k">echo</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;data[&quot;life&quot;] + data[&quot;universe&quot;] + data[&quot;everything&quot;]&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="nv">$data</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>このコードを実行すると <tt class="docutils literal"><span class="pre">42</span></tt> と表示されます。</p>
+</div>
+<div class="section" id="id8">
+<h2>サポートされる演算子<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>多くの演算子がサポートされています:</p>
+<div class="section" id="id9">
+<h3>算術演算子<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">+</span></tt> (加算)</li>
+<li><tt class="docutils literal"><span class="pre">-</span></tt> (減算)</li>
+<li><tt class="docutils literal"><span class="pre">*</span></tt> (乗算)</li>
+<li><tt class="docutils literal"><span class="pre">/</span></tt> (除算)</li>
+<li><tt class="docutils literal"><span class="pre">%</span></tt> (剰余)</li>
+<li><tt class="docutils literal"><span class="pre">**</span></tt> (べき乗)</li>
+</ul>
+<p>例</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;life + universe + everything&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;life&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;universe&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;everything&#39;</span> <span class="o">=&gt;</span> <span class="mi">22</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>このコードを実行すると <tt class="docutils literal"><span class="pre">42</span></tt> と表示されます。</p>
+</div>
+<div class="section" id="id10">
+<h3>ビット演算子<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">&amp;</span></tt> (and)</li>
+<li><tt class="docutils literal"><span class="pre">|</span></tt> (or)</li>
+<li><tt class="docutils literal"><span class="pre">^</span></tt> (xor)</li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>比較演算子<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">==</span></tt> (等価)</li>
+<li><tt class="docutils literal"><span class="pre">===</span></tt> (同一)</li>
+<li><tt class="docutils literal"><span class="pre">!=</span></tt> (非等価)</li>
+<li><tt class="docutils literal"><span class="pre">!==</span></tt> (非同一)</li>
+<li><tt class="docutils literal"><span class="pre">&lt;</span></tt> (未満)</li>
+<li><tt class="docutils literal"><span class="pre">&gt;</span></tt> (より大きい)</li>
+<li><tt class="docutils literal"><span class="pre">&lt;=</span></tt> (以下)</li>
+<li><tt class="docutils literal"><span class="pre">&gt;=</span></tt> (以上)</li>
+<li><tt class="docutils literal"><span class="pre">matches</span></tt> (正規表現にマッチ)</li>
+</ul>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>文字列が正規表現に <em>マッチしない</em> ことをテストするには、<tt class="docutils literal"><span class="pre">match</span></tt> 演算子と論理 <tt class="docutils literal"><span class="pre">not</span></tt> 演算子を組み合わせて次のようにします。</p>
+<p>..code_block:: php</p>
+<blockquote class="last">
+<div>$language-&gt;evaluate(&#8216;not &#8220;foo&#8221; matches &#8220;/bar/&#8221;&#8217;); // true が返る</div></blockquote>
+</div>
+<p>例</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$ret1</span> <span class="o">=</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;life == everything&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;life&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;universe&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;everything&#39;</span> <span class="o">=&gt;</span> <span class="mi">22</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="nv">$ret2</span> <span class="o">=</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;life &gt; everything&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;life&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;universe&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;everything&#39;</span> <span class="o">=&gt;</span> <span class="mi">22</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">$ret1</span></tt> と <tt class="docutils literal"><span class="pre">$ret2</span></tt> のいずれも <tt class="docutils literal"><span class="pre">false</span></tt> になります。</p>
+</div>
+<div class="section" id="id12">
+<h3>論理演算子<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">not</span></tt> または <tt class="docutils literal"><span class="pre">!</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">and</span></tt> または <tt class="docutils literal"><span class="pre">&amp;&amp;</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">or</span></tt> または <tt class="docutils literal"><span class="pre">||</span></tt></li>
+</ul>
+<p>例</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$ret</span> <span class="o">=</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;life &lt; universe or life &lt; everything&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;life&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;universe&#39;</span> <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="s1">&#39;everything&#39;</span> <span class="o">=&gt;</span> <span class="mi">22</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">$ret</span></tt> は <tt class="docutils literal"><span class="pre">true</span></tt> になります。</p>
+</div>
+<div class="section" id="id13">
+<h3>文字列演算子<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">~</span></tt> (連結)</li>
+</ul>
+<p>例</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;firstName~&quot; &quot;~lastName&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;firstName&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Arthur&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;lastName&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Dent&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>このコードを実行すると <tt class="docutils literal"><span class="pre">Arthur</span> <span class="pre">Dent</span></tt> と表示されます。</p>
+</div>
+<div class="section" id="id14">
+<h3>配列演算子<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">in</span></tt> (要素を含む)</li>
+<li><tt class="docutils literal"><span class="pre">not</span> <span class="pre">in</span></tt> (要素を含まない)</li>
+</ul>
+<p>例</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">User</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$group</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">();</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="na">group</span> <span class="o">=</span> <span class="s1">&#39;human_resources&#39;</span><span class="p">;</span>
+
+<span class="nv">$inGroup</span> <span class="o">=</span> <span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;user.group in [&quot;human_resources&quot;, &quot;marketing&quot;]&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;user&#39;</span> <span class="o">=&gt;</span> <span class="nv">$user</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">$inGroup</span></tt> の値は <tt class="docutils literal"><span class="pre">true</span></tt> になります。</p>
+</div>
+<div class="section" id="id15">
+<h3>数値演算子<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">..</span></tt> (範囲)</li>
+</ul>
+<p>例</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">User</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$age</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nv">$user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">();</span>
+<span class="nv">$user</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="mi">34</span><span class="p">;</span>
+
+<span class="nv">$language</span><span class="o">-&gt;</span><span class="na">evaluate</span><span class="p">(</span>
+    <span class="s1">&#39;user.age in 18..45&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;user&#39;</span> <span class="o">=&gt;</span> <span class="nv">$user</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">user.age</span></tt> は <tt class="docutils literal"><span class="pre">18</span></tt> から <tt class="docutils literal"><span class="pre">45</span></tt> の間にあるので、評価結果は <tt class="docutils literal"><span class="pre">true</span></tt> になります。</p>
+</div>
+<div class="section" id="id16">
+<h3>三項演算子<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">foo</span> <span class="pre">?</span> <span class="pre">'yes'</span> <span class="pre">:</span> <span class="pre">'no'</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">foo</span> <span class="pre">?:</span> <span class="pre">'no'</span></tt> (<tt class="docutils literal"><span class="pre">foo</span> <span class="pre">?</span> <span class="pre">foo</span> <span class="pre">:</span> <span class="pre">'no'</span></tt> と同じ)</li>
+<li><tt class="docutils literal"><span class="pre">foo</span> <span class="pre">?</span> <span class="pre">'yes'</span></tt> (<tt class="docutils literal"><span class="pre">foo</span> <span class="pre">?</span> <span class="pre">'yes'</span> <span class="pre">:</span> <span class="pre">''</span></tt> と同じ)</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="introduction.html">< ExpressionLanguage コンポーネント</a>
+<a class="next" href="extending.html">ExpressionLanguage の拡張 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/components/expression_language/syntax.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/expression_language/syntax.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/expression_language/syntax.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">式の構文</a><ul>
+<li><a class="reference internal" href="#id2">リテラル</a></li>
+<li><a class="reference internal" href="#component-expression-objects">オブジェクトの使用</a><ul>
+<li><a class="reference internal" href="#id4">パブリックプロパティへのアクセス</a></li>
+<li><a class="reference internal" href="#id5">メソッド呼び出し</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#component-expression-functions">関数の使用</a></li>
+<li><a class="reference internal" href="#component-expression-arrays">配列の使用</a></li>
+<li><a class="reference internal" href="#id8">サポートされる演算子</a><ul>
+<li><a class="reference internal" href="#id9">算術演算子</a></li>
+<li><a class="reference internal" href="#id10">ビット演算子</a></li>
+<li><a class="reference internal" href="#id11">比較演算子</a></li>
+<li><a class="reference internal" href="#id12">論理演算子</a></li>
+<li><a class="reference internal" href="#id13">文字列演算子</a></li>
+<li><a class="reference internal" href="#id14">配列演算子</a></li>
+<li><a class="reference internal" href="#id15">数値演算子</a></li>
+<li><a class="reference internal" href="#id16">三項演算子</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="previous chapter">ExpressionLanguage コンポーネント</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="extending.html"
+                        title="next chapter">ExpressionLanguage の拡張</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/components/expression_language/syntax.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

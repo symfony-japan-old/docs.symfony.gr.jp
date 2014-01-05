@@ -1,0 +1,377 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>アクセス制御リスト(ACL) | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="acl">
+<span id="index-0"></span><h1>アクセス制御リスト(ACL)<a class="headerlink" href="#acl" title="Permalink to this headline">¶</a></h1>
+<p>複雑なアプリケーションでは、アクセスしてきたユーザ(<tt class="docutils literal"><span class="pre">Token</span></tt>)のみに基づいてアクセスの可否を判断することができないこともあります。アクセスの可否の判断は、アクセスを行ったドメインオブジェクトが関わるときもあります。こういったときに ACL(Access Control List:アクセス制御リスト) システムが必要になります。</p>
+<p>ブログの設計をしていて、ユーザが投稿にコメントができるようにしたいとしましょう。そしてユーザに他人のコメントは編集できないが、自分のコメントを編集できるようにしたいとします。また、ブログの管理者であるあなたには全てのコメントを編集できるようにしたいとします。このシナリオでは、 <tt class="docutils literal"><span class="pre">Comment</span></tt> はアクセスを制限したいドメインオブジェクトになります。 Symfony2 を使用すれば、いろんなアプローチでこれを実現できますが、次の２つが一般的です。</p>
+<ul class="simple">
+<li><em>ビジネスロジックのセキュリティを強化する</em>: このアプローチでは、個々の  <tt class="docutils literal"><span class="pre">Comment</span></tt> 内にアクセス権を持つユーザを参照できるようにしておき、ユーザの持つ <tt class="docutils literal"><span class="pre">Token</span></tt> を比較します。</li>
+<li><em>権限のセキュリティを強化する</em>: このアプローチでは、個々の <tt class="docutils literal"><span class="pre">Comment</span></tt> オブジェクトに権限を追加します。例えば、 <tt class="docutils literal"><span class="pre">ROLE_COMMENT_1</span></tt> や <tt class="docutils literal"><span class="pre">ROLE_COMMENT_2</span></tt> のようにです。</li>
+</ul>
+<p>両方のアプローチは、どちらも有効です。しかし、認証のロジックとビジネスロジックのコードの結合が密になってしまい、他で再利用しにくくなりますし、ユニットテストもしにくくなります。さらに、ユーザの数が多ければ、１つのドメインオブジェクトにアクセスが増えてしまい、パフォーマンス悪化の問題にもつながります。</p>
+<p>幸運にも、上記の方法よりも良い方法がありますので、これから説明をしていきます。</p>
+<div class="section" id="id1">
+<h2>ブートストラップをする<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>まず始める前に、ブートストラップをしましょう。まず、 ACL システムが使用する接続を設定する必要があります。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/security.yml</span>
+<span class="l-Scalar-Plain">security</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">acl</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">connection</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">default</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/security.xml --&gt;</span>
+<span class="nt">&lt;acl&gt;</span>
+    <span class="nt">&lt;connection&gt;</span>default<span class="nt">&lt;/connection&gt;</span>
+<span class="nt">&lt;/acl&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/security.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;security&#39;</span><span class="p">,</span> <span class="s1">&#39;acl&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;connection&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;default&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ACL システムを使用するには、少なくとも１つは Doctrine DBAL 接続を設定しておく必要があります。しかし、ドメインオブジェクトをマップするのに、 Doctrine を使わなければならないわけではありません。オブジェクトのマッパーには、好きなものを使用できますので、 Doctrine ORM,  Mongo ODM,  Propel,  生の SQL など選択ができます。</p>
+</div>
+<p>接続を設定したら、データベース構造をインポートします。幸運にも、次のコマンドを走らせることによって、これを行うことができます。</p>
+<div class="highlight-text"><div class="highlight"><pre>php app/console init:acl
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>開始する<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>最初の小さな例に戻って、ACL を実装しましょう。</p>
+<div class="section" id="acl-ace-access-control-entry">
+<h3>ACL を作成して、ACE(Access Control Entry:アクセス制御エントリー) を追加する<a class="headerlink" href="#acl-ace-access-control-entry" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Security\Core\Exception\AccessDeniedException</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Security\Acl\Domain\ObjectIdentity</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Security\Acl\Domain\UserSecurityIdentity</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Security\Acl\Permission\MaskBuilder</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="c1">// BlogController.php</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addCommentAction</span><span class="p">(</span><span class="nx">Post</span> <span class="nv">$post</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$comment</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Comment</span><span class="p">();</span>
+
+    <span class="c1">// setup $form, and bind data</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nv">$entityManager</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;doctrine.orm.default_entity_manager&#39;</span><span class="p">);</span>
+        <span class="nv">$entityManager</span><span class="o">-&gt;</span><span class="na">persist</span><span class="p">(</span><span class="nv">$comment</span><span class="p">);</span>
+        <span class="nv">$entityManager</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
+
+        <span class="c1">// creating the ACL</span>
+        <span class="nv">$aclProvider</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;security.acl.provider&#39;</span><span class="p">);</span>
+        <span class="nv">$objectIdentity</span> <span class="o">=</span> <span class="nx">ObjectIdentity</span><span class="o">::</span><span class="na">fromDomainObject</span><span class="p">(</span><span class="nv">$comment</span><span class="p">);</span>
+        <span class="nv">$acl</span> <span class="o">=</span> <span class="nv">$aclProvider</span><span class="o">-&gt;</span><span class="na">createAcl</span><span class="p">(</span><span class="nv">$objectIdentity</span><span class="p">);</span>
+
+        <span class="c1">// retrieving the security identity of the currently logged-in user</span>
+        <span class="nv">$securityContext</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;security.context&#39;</span><span class="p">);</span>
+        <span class="nv">$user</span> <span class="o">=</span> <span class="nv">$securityContext</span><span class="o">-&gt;</span><span class="na">getToken</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getUser</span><span class="p">();</span>
+        <span class="nv">$securityIdentity</span> <span class="o">=</span> <span class="nx">UserSecurityIdentity</span><span class="o">::</span><span class="na">fromAccount</span><span class="p">(</span><span class="nv">$user</span><span class="p">);</span>
+
+        <span class="c1">// grant owner access</span>
+        <span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">insertObjectAce</span><span class="p">(</span><span class="nv">$securityIdentity</span><span class="p">,</span> <span class="nx">MaskBuilder</span><span class="o">::</span><span class="na">MASK_OWNER</span><span class="p">);</span>
+        <span class="nv">$aclProvider</span><span class="o">-&gt;</span><span class="na">updateAcl</span><span class="p">(</span><span class="nv">$acl</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>上記のコードスニペットには、いくつかの重要な実装があります。ここでは、それに関して２つ取り上げましょう。</p>
+<p>まず、 <tt class="docutils literal"><span class="pre">-&gt;createAcl()</span></tt> メソッドの呼び出しが直接ドメインオブジェクトではなく <tt class="docutils literal"><span class="pre">ObjectIdentityInterface</span></tt> の実装のみを受け取っていることに気づくでしょう。間接的な受け渡しによって、ドメインオブジェクトのインスタンスを持っていなくても、 ACL を操作することができます。実際にこれらのオブジェクトをハイドレートしなくても多くのオブジェクトのパーミッションをチェックできるので、非常に便利です。</p>
+<p>また、 <tt class="docutils literal"><span class="pre">-&gt;insertObjectAce()</span></tt> メソッドの呼び出しも興味深い点です。この例では、現在ログインしているユーザに Comment へのオーナーアクセスを与えています。 <tt class="docutils literal"><span class="pre">MaskBuilder::MASK_OWNER</span></tt> は、整数値のビットマスク(bitmask) として前もって定義してあります。マスクビルダー(MaskBuilder)は、ほとんどの技術的な詳細を抽象化しており、この技術を使えば、多くの異なるパーミッションを１列に格納するだけなので、パフォーマンスの改善の享受ができるようになっています。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">ACE がチェックされる順番は重要です。一般的に、始めにより特定したエントリを入れることが推奨されます。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>アクセスをチェックする<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// BlogController.php</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">editCommentAction</span><span class="p">(</span><span class="nx">Comment</span> <span class="nv">$comment</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$securityContext</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;security.context&#39;</span><span class="p">);</span>
+
+    <span class="c1">// check for edit access</span>
+    <span class="k">if</span> <span class="p">(</span><span class="k">false</span> <span class="o">===</span> <span class="nv">$securityContext</span><span class="o">-&gt;</span><span class="na">isGranted</span><span class="p">(</span><span class="s1">&#39;EDIT&#39;</span><span class="p">,</span> <span class="nv">$comment</span><span class="p">))</span>
+    <span class="p">{</span>
+        <span class="k">throw</span> <span class="k">new</span> <span class="nx">AccessDeniedException</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// retrieve actual comment object, and do your editing here</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>この例では、ユーザが <tt class="docutils literal"><span class="pre">EDIT</span></tt> パーミッションを持ってるかどうかチェックしています。内部的に Symfony2 は、パーミッションをいくつもの整数値のビットマスク(bitmask)にマップしており、ユーザの持ってるパーミッションをチェックします。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">３２ものパーミッションを定義することができます(動作している OS の PHP によって３０もしくは３２になります)。さらに累積(cumulative)パーミッションも定義することができます。</p>
+</div>
+</div>
+</div>
+<div class="section" id="cumulative">
+<h2>累積(cumulative)パーミッション<a class="headerlink" href="#cumulative" title="Permalink to this headline">¶</a></h2>
+<p>上記の最初の例では、ユーザに <tt class="docutils literal"><span class="pre">OWNER</span></tt> パーミッションを与えるのみでした。確かにこれでユーザに対して、ドメインオブジェクトの参照、編集などのオペレーションを行うことを可能にさせることができます。しかし、より明示的にこれらのパーミッションを与たいときなどもあると思います。</p>
+<p><tt class="docutils literal"><span class="pre">MaskBuilder</span></tt> を使って、パーミッションのベースを結合させることで簡単にビットマスク(bitmask)を作成することができます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MaskBuilder</span><span class="p">();</span>
+<span class="nv">$builder</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;view&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;edit&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;delete&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;undelete&#39;</span><span class="p">)</span>
+<span class="p">;</span>
+<span class="nv">$mask</span> <span class="o">=</span> <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">();</span> <span class="c1">// int(15)</span>
+</pre></div>
+</div>
+<p>整数値のビットマスク(bitmask)は、上記でユーザに追加したパーミッションとして使われます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$acl</span><span class="o">-&gt;</span><span class="na">insertObjectAce</span><span class="p">(</span><span class="k">new</span> <span class="nx">UserSecurityIdentity</span><span class="p">(</span><span class="s1">&#39;johannes&#39;</span><span class="p">),</span> <span class="nv">$mask</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>これでユーザはオブジェクトに対して、参照、編集、削除、そして削除の取り消しができるようになりました。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/security/acl.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/security/acl.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/security/acl.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">アクセス制御リスト(ACL)</a><ul>
+<li><a class="reference internal" href="#id1">ブートストラップをする</a></li>
+<li><a class="reference internal" href="#id2">開始する</a><ul>
+<li><a class="reference internal" href="#acl-ace-access-control-entry">ACL を作成して、ACE(Access Control Entry:アクセス制御エントリー) を追加する</a></li>
+<li><a class="reference internal" href="#id3">アクセスをチェックする</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cumulative">累積(cumulative)パーミッション</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/security/acl.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

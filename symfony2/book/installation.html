@@ -1,0 +1,487 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Symfony のインストールと設定 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="ガイドブック" href="index.html" />
+    <link rel="next" title="Symfony2 でのページ作成" href="page_creation.html" />
+    <link rel="prev" title="Symfony2 vs フラットなPHP" href="from_flat_php_to_symfony2.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3 (2.1以降)</li>
+<li>翻訳更新日：2013/9/27</li>
+</ul>
+</div>
+<div class="section" id="symfony">
+<h1>Symfony のインストールと設定<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h1>
+<p>この章では、Symfony をインストールする方法について解説します。
+Symfony では「ディストリビューション」が提供されています。
+ディストリビューションとは入門者向けの Symfony プロジェクトファイル一式で、これをダウンロードすればすぐに開発を始められます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">ソースコード管理システムの元でプロジェクトを新規作成し、ソースコード管理システムに登録するベストプラクティスを知りたい方は、この章の<a class="reference internal" href="#id5">ソースコード管理システムで管理するには</a>の節を参照してください。</p>
+</div>
+<div class="section" id="symfony2">
+<h2>Symfony2 ディストリビューションのダウンロード<a class="headerlink" href="#symfony2" title="Permalink to this headline">¶</a></h2>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">まずはじめに、PHP 5.3.8 以上が動作する Web サーバ(Apache など)がインストールされ、設定済みかどうか確認して下さい。
+Symfony2 の動作要件について詳しくは、<a class="reference internal" href="../reference/requirements.html"><em>Symfony2 の動作に必要な要件</em></a> を参照してください。</p>
+</div>
+<p>Symfony2 のディストリビューションは完全に動作するアプリケーションです。Symfony2 コアライブラリとコアバンドルが実用的なディレクトリ構造に格納され、いくつかの初期設定が含まれています。
+Symfony2 のディストリビューションをダウンロードすることは、
+アプリケーションをすぐに開発し始められる実用的なアプリケーションのスケルトンをダウンロードしている事にもなります。</p>
+<p>はじめに Symfony2 ダウンロードページ(<a class="reference external" href="http://symfony.com/download">http://symfony.com/download</a>)にアクセスしてください。
+このページから Symfony2 のメインのディストリビューションである <em>Symfony Standard Edition</em> をダウンロードできます。このディストリビューションを使ってプロジェクトを開始する方法を説明します。</p>
+<div class="section" id="composer">
+<h3>その1) Composer<a class="headerlink" href="#composer" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://getcomposer.org/">Composer</a> は PHP の依存パッケージ管理ライブラリです。Composer を使って Symfony2 Standard Edition をダウンロードできます。</p>
+<p>ローカルコンピュータにまだ Composer を準備していない場合は、<a class="reference external" href="http://getcomposer.org/download/">Composer をダウンロード</a> してください。curl がインストールされていれば、次のコマンドだけでインストールできます。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>curl -s https://getcomposer.org/installer | php
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ローカルコンピュータで Composer を使う環境が整っていない場合は、上記コマンドの実行時にいくつかの指示が表示されます。Composer を適切に動作させるためには、表示された指示にしたがって環境を整えてください。</p>
+</div>
+<p>Composer は実行可能な PHAR ファイルです。Composer を使って次のコマンドで Symfony Standard ディストリビューションをダウンロードします:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar create-project symfony/framework-standard-edition /path/to/webroot/Symfony 2.3.0
+<span class="c"># ★最後のバージョンの部分を最新安定版の数字に置き換えてください</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">ダウンロードするバージョンを明示的に指定するには、<cite>2.3.0</cite> の部分を最新の Symfony のバージョンに置き換えてください。詳細は<a class="reference external" href="http://symfony.com/download">Symfony のダウンロードページ</a> を参照してください。</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">ベンダーファイル群のダウンロード時間を短縮するには、Composer コマンドの末尾に <tt class="docutils literal"><span class="pre">--prefer-dist</span></tt> オプションを追加してください。</p>
+</div>
+<p>このコマンドにより、Standard ディストリビューションと必要なすべてのベンダーライブラリが Composer によりダウンロードされるので、完了までしばらく時間がかかります。コマンドが完了すると、次のようなディレクトリ構造ができています:</p>
+<div class="highlight-text"><div class="highlight"><pre>path/to/webroot/ &lt;- Web サーバーディレクトリ（htdocs や public といったディレクトリ名）
+    Symfony/ &lt;- 作成されたディレクトリ
+        app/
+            cache/
+            config/
+            logs/
+        src/
+            ...
+        vendor/
+            ...
+        web/
+            app.php
+            ...
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>その2) アーカイブをダウンロード<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Standard Edition のアーカイブをダウンロードすることもできます。次の 2 つの選択肢に対応したアーカイブがあります:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">.tgz</span></tt> 形式、もしくは <tt class="docutils literal"><span class="pre">.zip</span></tt> 形式の選択 - どちらも中身は同じですので、使いやすい方を選んでください。</li>
+<li>ディストリビューションにベンダーファイル群を含めるか含めないか。
+サードパーティのライブラリやバンドルを追加し、それらを Composer で管理したい場合は、&#8221;without vendors(ベンダーライブラリなし)&#8221; を選択してください。</li>
+</ul>
+<p>いずれかのアーカイブをダウンロードし、ローカル Web サーバーの公開ディレクトリ配下などへ展開してください。
+UNIX のコマンドラインであれば、以下のコマンドのどちらかを実行するとアーカイブを展開できます(<tt class="docutils literal"><span class="pre">###</span></tt> 部分は実際のファイル名に置き換えて実行してください)。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># .tgz ファイル用</span>
+<span class="nv">$ </span>tar zxvf Symfony_Standard_Vendors_2.3.###.tgz
+
+<span class="c"># .zip ファイル用</span>
+<span class="nv">$ </span>unzip Symfony_Standard_Vendors_2.3.###.zip
+</pre></div>
+</div>
+<p>&#8220;without vendors&#8221; のアーカイブをダウンロードした場合は、次に説明するベンダーの更新も行なってください。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">デフォルトのディレクトリ構造を変更することもできます。
+詳細は <tt class="xref doc docutils literal"><span class="pre">/cookbook/configuration/override_dir_structure</span></tt> を参照してください。</p>
+</div>
+<p>すべての公開ファイル、および Symfony2 アプリケーションですべてのリクエストを受け取るフロントコントローラーは、<tt class="docutils literal"><span class="pre">Symfony/web/</span></tt> ディレクトリにあります。
+Web サーバー自身のドキュメントルート、もしくはバーチャルホストのドキュメントルートに Symfony のファイル群を展開した場合、アプリケーションの URL は <tt class="docutils literal"><span class="pre">http://localhost/Symfony/web/</span></tt> から始まります。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">以降の例では、ドキュメントルートの設定を変更しておらず、アプリケーションの URL が <tt class="docutils literal"><span class="pre">http://localhost/Symfony/web/</span></tt> から始まることを前提としています。設定を変更している場合は適宜読み替えてください。</p>
+</div>
+</div>
+<div class="section" id="installation-updating-vendors">
+<span id="id2"></span><h3>ベンダーの更新<a class="headerlink" href="#installation-updating-vendors" title="Permalink to this headline">¶</a></h3>
+<p>ここまでの手順で、完全に機能する 1 つの Symfony プロジェクトのダウンロードが完了しました。
+このプロジェクトを起点としてアプリケーション開発を開始できます。Symfony プロジェクトは、多くの外部ライブラリを利用しています。
+外部ライブラリは <a class="reference external" href="http://getcomposer.org/">Composer</a> により <cite>vendor/</cite> ディレクトリへダウンロードされます。</p>
+<p>Symfony プロジェクトのダウンロード方法に応じて、ここでベンダーライブラリの更新を行なってください。
+ベンダーライブラリの更新は安全で、必要なベンダーライブラリがすべて揃っていることが保証されます。</p>
+<p>ステップ 1: PHP のパッケージングシステムである <a class="reference external" href="http://getcomposer.org/">Composer</a> を入手する</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>curl -s http://getcomposer.org/installer | php
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">composer.phar</span></tt> をダウンロードしたディレクトリ <tt class="docutils literal"><span class="pre">composer.json</span></tt> ファイルが存在することを確認してください(デフォルトでは、ここが Symfony プロジェクトルートです)。</p>
+<p>ステップ 2: ベンダーのインストール</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php composer.phar install
+</pre></div>
+</div>
+<p>このコマンドを実行すると、Symfony 本体を含む必要なベンダーライブラリがすべてダウンロードされ、<tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリへ格納されます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>お使いの環境に <tt class="docutils literal"><span class="pre">curl</span></tt> がインストールされていない場合は、<a class="reference external" href="http://getcomposer.org/installer">http://getcomposer.org/installer</a> から <tt class="docutils literal"><span class="pre">installer</span></tt> ファイルを手動でダウンロードしてください。
+このファイルをプロジェクトルートへ配置し、次のコマンドを実行してください:</p>
+<div class="last highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php installer
+<span class="nv">$ </span>php composer.phar install
+</pre></div>
+</div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p><tt class="docutils literal"><span class="pre">php</span> <span class="pre">composer.phar</span> <span class="pre">install</span></tt> コマンド、または <tt class="docutils literal"><span class="pre">php</span> <span class="pre">composer.phar</span> <span class="pre">update</span></tt> コマンドを実行すると、Composer によりインストール後(post install)コマンド、または更新後(post update)コマンドが実行されます。これらのコマンドによりキャッシュのクリアやアセットのインストールが行われます。
+デフォルトで、アセットは <tt class="docutils literal"><span class="pre">web</span></tt> ディレクトリへコピーされます。
+お使いのOSがシンボリックリンクをサポートしている場合、アセットのコピーではなくシンボリックリンクを作成するようにできます。次のように composer.json ファイルの <tt class="docutils literal"><span class="pre">extra</span></tt> ノードにキーが <tt class="docutils literal"><span class="pre">symfony-asseets-install</span></tt>、値が <tt class="docutils literal"><span class="pre">symlink</span></tt> のノードを追加してください:</p>
+<div class="highlight-text"><div class="highlight"><pre>&quot;extra&quot;: {
+    &quot;symfony-app-dir&quot;: &quot;app&quot;,
+    &quot;symfony-web-dir&quot;: &quot;web&quot;,
+    &quot;symfony-assets-install&quot;: &quot;symlink&quot;
+}
+</pre></div>
+</div>
+<p class="last">symfony-assets-install に <tt class="docutils literal"><span class="pre">symlink</span></tt> の代わりに <tt class="docutils literal"><span class="pre">relative</span></tt> を指定すると、コマンドにより相対シンボリックリンクが作成されます。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>設定とセットアップ<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>ここまでの手順で、必要なサードパーティライブラリのすべてが <tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリに存在します。
+また標準のアプリケーションが <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリにセットアップされ、
+いくつかのサンプルコードが <tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリの中にあります。</p>
+<p>Symfony2 には、Web ブラウザからアクセスできる設定テスターが同梱されています。この設定テスターを使って、Web サーバーと PHP が Symfony を使えるよう設定されているかを確認できます。以下の URL で設定テスターにアクセスします。</p>
+<div class="highlight-text"><div class="highlight"><pre>http://localhost/Symfony/web/config.php
+</pre></div>
+</div>
+<p>設定テスターで問題が表示された場合は、この段階で修正しておくことをおすすめします。</p>
+<div class="sidebar">
+<p class="first sidebar-title">パーミッションの設定</p>
+<p>よくある問題としては、 <tt class="docutils literal"><span class="pre">app/cache</span></tt> と <tt class="docutils literal"><span class="pre">app/logs</span></tt> ディレクトリが、Web サーバーの実行ユーザーとコマンドラインの実行ユーザーのいずれからも書き込み可能でなければならないことです。
+UNIX システム上で Web サーバーのユーザーとコマンドラインユーザーが異なる場合は、以下のコマンドをプロジェクト内で1度実行するだけで、パーミッションを適切にセットアップできます。</p>
+<p><strong>1. chmod +a コマンドをサポートしているシステム上で ACL を使う</strong></p>
+<p>多くのシステムでは <tt class="docutils literal"><span class="pre">chmod</span> <span class="pre">+a</span></tt> コマンドが使えます。
+パーミッションの設定には、最初にこのコマンドを試してください。
+このコマンドでは、お使いの環境の Web サーバーユーザーを検出し、<tt class="docutils literal"><span class="pre">APACHEUSER</span></tt> にセットしています。
+コマンドがエラーになった場合は、2 の方法を試してください。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>rm -rf app/cache/*
+<span class="nv">$ </span>rm -rf app/logs/*
+
+<span class="nv">$ APACHEUSER</span><span class="o">=</span><span class="sb">`</span>ps aux | grep -E <span class="s1">&#39;[a]pache|[h]ttpd&#39;</span> | grep -v root | head -1 | cut -d<span class="se">\ </span> -f1<span class="sb">`</span>
+<span class="nv">$ </span>sudo chmod +a <span class="s2">&quot;$APACHEUSER allow delete,write,append,file_inherit,directory_inherit&quot;</span> app/cache app/logs
+<span class="nv">$ </span>sudo chmod +a <span class="s2">&quot;`whoami` allow delete,write,append,file_inherit,directory_inherit&quot;</span> app/cache app/logs
+</pre></div>
+</div>
+<p><strong>2. chmod +a コマンドをサポートしていないシステム上で ACL を使う</strong></p>
+<p><tt class="docutils literal"><span class="pre">chmod</span> <span class="pre">+a</span></tt> コマンドがサポートされていないシステムもあります。
+このようなシステムでも <tt class="docutils literal"><span class="pre">setfacl</span></tt> ユーティリティがサポートされているかもしれません。
+たとえば Ubuntu であれば、まず setfacl ユーティリティをインストールし、使用しているパーティションに対して <a class="reference external" href="https://help.ubuntu.com/community/FilePermissions#ACLs">ACL サポートを有効にする</a> 設定を行ってください。
+このコマンドでは、お使いの環境の Web サーバーユーザーを検出し、<tt class="docutils literal"><span class="pre">APACHEUSER</span></tt> にセットしています。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ APACHEUSER</span><span class="o">=</span><span class="sb">`</span>ps aux | grep -E <span class="s1">&#39;[a]pache|[h]ttpd&#39;</span> | grep -v root | head -1 | cut -d<span class="se">\ </span> -f1<span class="sb">`</span>
+<span class="nv">$ </span>sudo setfacl -R -m u:<span class="nv">$APACHEUSER</span>:rwX -m u:<span class="sb">`</span>whoami<span class="sb">`</span>:rwX app/cache app/logs
+<span class="nv">$ </span>sudo setfacl -dR -m u:<span class="nv">$APACHEUSER</span>:rwX -m u:<span class="sb">`</span>whoami<span class="sb">`</span>:rwX app/cache app/logs
+</pre></div>
+</div>
+<p><strong>3. ACL を使わない方法</strong></p>
+<p>もしディレクトリの ACL を変更するためのアクセス権がなければ、umask を変更して対応します。
+この場合、cache ディレクトリと log ディレクトリには、グループ書き込み権限か全てのユーザー書き込み権限
+(Web サーバーのユーザーとコマンドラインユーザーが同じグループかどうかに依存する)が必要になります。</p>
+<p>umask の変更を有効にするには、以下の行を <tt class="docutils literal"><span class="pre">app/console</span></tt>、<tt class="docutils literal"><span class="pre">web/app.php</span></tt>、<tt class="docutils literal"><span class="pre">web/app_dev.php</span></tt> ファイルの先頭に記述します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nb">umask</span><span class="p">(</span><span class="mo">0002</span><span class="p">);</span> <span class="c1">// パーミッションを 0775 に設定します</span>
+
+<span class="c1">// or</span>
+
+<span class="nb">umask</span><span class="p">(</span><span class="mo">0000</span><span class="p">);</span> <span class="c1">// パーミッションを 0777 に設定します</span>
+</pre></div>
+</div>
+<p class="last">umask の変更はスレッドセーフではないため、ACL で設定可能な場合は ACL を使うことをおすすめします。</p>
+</div>
+<p>すべて設定したら、「Go to the Welcome page(ウェルカムページへ行く)」をクリックして、最初の「リアルな」Symfony2 の Web ページをリクエストしましょう。</p>
+<div class="highlight-text"><div class="highlight"><pre>http://localhost/Symfony/web/app_dev.php/
+</pre></div>
+</div>
+<p>Symfony2 のウェルカム画面が表示されます。</p>
+<img alt="../_images/welcome.jpg" src="../_images/welcome.jpg" />
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">アプリケーションで短いきれいな URL を使うには、Web サーバーまたはバーチャルホストのドキュメントルートを <tt class="docutils literal"><span class="pre">Symfony/web/</span></tt> ディレクトリに設定してください。
+この設定は開発段階では必須ではありませんが、運用環境ではシステムのソースコードや設定ファイルへ Web 経由でアクセスすることを防ぐ意味でも、この設定を行なっておくことをおすすめします。
+Web サーバーのドキュメントルートを設定する方法については、<tt class="xref doc docutils literal"><span class="pre">/cookbook/configuration/web_server_configuration</span></tt> または各 Web サーバーのドキュメントを参照してください。 <a class="reference external" href="http://httpd.apache.org/docs/current/mod/core.html#documentroot">Apache</a> | <a class="reference external" href="http://wiki.nginx.org/Symfony">Nginx</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>開発を始める<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>これで完全に機能する Symfony2 アプリケーションのセットアップが完了しましたので、開発を始められます。ディストリビューションの中にはいくつかのサンプルコードが含まれています。
+<tt class="docutils literal"><span class="pre">README.rst</span></tt> ファイルを(テキストファイルとして開いて)確認し、
+どんなサンプルコードが含まれていて、後でどうやってそのサンプルコードを削除するかを学んでください。</p>
+<p>もし Symfony での開発が初めてであれば、&#8221;<a class="reference internal" href="page_creation.html"><em>Symfony2 でのページ作成</em></a>&#8221; へ進んでください。
+このページでは、新しくアプリケーションを開発するために最初に必要となるページの作り方や設定の変更方法について説明しています。</p>
+<p>さまざまな問題についてのHow-Toを知りたい方は <a class="reference internal" href="../cookbook/index.html"><em>クックブック</em></a> を参照してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ディストリビューションからサンプルコードを削除したい場合は、クックブックの記事 &#8220;<tt class="xref doc docutils literal"><span class="pre">/cookbook/bundles/remove</span></tt>&#8221; を参照してください。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>ソースコード管理システムで管理するには<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">Git</span></tt> や <tt class="docutils literal"><span class="pre">Subversion</span></tt> のようなバージョン管理システムを使っている場合は
+バージョン管理システムをセットアップして、いつも通りにプロジェクトのコミットを始めることができます。
+Symfony Standard Edition は、新しいプロジェクトを開始する起点として使うことができます。</p>
+<p>Git を使ったプロジェクトのセットアップ手順の詳細は、<a class="reference internal" href="../cookbook/workflow/new_project_git.html"><em>git 上で、Symfony2 プロジェクトを作成し、管理する方法</em></a> を参照してください。</p>
+<div class="section" id="vendor">
+<h3><tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリを除外する<a class="headerlink" href="#vendor" title="Permalink to this headline">¶</a></h3>
+<p><em>without vendors</em> アーカイブをダウンロードした場合、<tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリ全体がソースコード管理対象から除外されるよう設定し、ソースコード管理システムにコミットされないようにできます。
+<tt class="docutils literal"><span class="pre">Git</span></tt> を使っている場合は、次の内容で <tt class="docutils literal"><span class="pre">.gitignore</span></tt> ファイルを作成して追加するだけで、除外設定が完了します。</p>
+<div class="highlight-text"><div class="highlight"><pre>vendor/
+</pre></div>
+</div>
+<p>これで vendor ディレクトリはソースコード管理システムにコミットされなくなったでしょう。
+他の誰かがプロジェクトをクローンしたりチェックアウトする時に、その人は必要なベンダーライブラリ全てをダウンロードするために <tt class="docutils literal"><span class="pre">php</span> <span class="pre">composer.phar</span> <span class="pre">install</span></tt> というスクリプトを実行するだけです。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="from_flat_php_to_symfony2.html">< Symfony2 vs フラットなPHP</a>
+<a class="next" href="page_creation.html">Symfony2 でのページ作成 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/book/installation.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/installation.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/installation.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Symfony のインストールと設定</a><ul>
+<li><a class="reference internal" href="#symfony2">Symfony2 ディストリビューションのダウンロード</a><ul>
+<li><a class="reference internal" href="#composer">その1) Composer</a></li>
+<li><a class="reference internal" href="#id1">その2) アーカイブをダウンロード</a></li>
+<li><a class="reference internal" href="#installation-updating-vendors">ベンダーの更新</a></li>
+<li><a class="reference internal" href="#id3">設定とセットアップ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">開発を始める</a></li>
+<li><a class="reference internal" href="#id5">ソースコード管理システムで管理するには</a><ul>
+<li><a class="reference internal" href="#vendor"><tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリを除外する</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="from_flat_php_to_symfony2.html"
+                        title="previous chapter">Symfony2 vs フラットなPHP</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="page_creation.html"
+                        title="next chapter">Symfony2 でのページ作成</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/book/installation.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="#">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

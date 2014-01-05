@@ -1,0 +1,455 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>@ParamConverter | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../../index.html" />
+    <link rel="up" title="SensioFrameworkExtraBundle" href="../index.html" />
+    <link rel="next" title="@Template" href="view.html" />
+    <link rel="prev" title="@Route and @Method" href="routing.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../../index.html">トップ（索引）</a></li>
+          <li><a href="../../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="paramconverter">
+<h1>&#64;ParamConverter<a class="headerlink" href="#paramconverter" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">&#64;ParamConverter</span></tt> annotation calls <em>converters</em> to convert request
+parameters to objects. These objects are stored as request attributes and so
+they can be injected as controller method arguments:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Sensio\Bundle\FrameworkExtraBundle\Configuration\Route</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @Route(&quot;/blog/{id}&quot;)</span>
+<span class="sd"> * @ParamConverter(&quot;post&quot;, class=&quot;SensioBlogBundle:Post&quot;)</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nx">Post</span> <span class="nv">$post</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Several things happens under the hood:</p>
+<ul class="simple">
+<li>The converter tries to get a <tt class="docutils literal"><span class="pre">SensioBlogBundle:Post</span></tt> object from the
+request attributes (request attributes comes from route placeholders &#8211; here
+<tt class="docutils literal"><span class="pre">id</span></tt>);</li>
+<li>If no <tt class="docutils literal"><span class="pre">Post</span></tt> object is found, a <tt class="docutils literal"><span class="pre">404</span></tt> Response is generated;</li>
+<li>If a <tt class="docutils literal"><span class="pre">Post</span></tt> object is found, a new <tt class="docutils literal"><span class="pre">post</span></tt> request attribute is defined
+(accessible via <tt class="docutils literal"><span class="pre">$request-&gt;attributes-&gt;get('post')</span></tt>);</li>
+<li>As for any other request attribute, it is automatically injected in the
+controller when present in the method signature.</li>
+</ul>
+<p>If you use type hinting as in the example above, you can even omit the
+<tt class="docutils literal"><span class="pre">&#64;ParamConverter</span></tt> annotation altogether:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// automatic with method signature</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nx">Post</span> <span class="nv">$post</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To detect which converter is run on a parameter the following process is run:</p>
+<ul class="simple">
+<li>If an explicit converter choice was made with
+<tt class="docutils literal"><span class="pre">&#64;ParamConverter(converter=&quot;name&quot;)</span></tt> the converter with the given name is
+chosen.</li>
+<li>Otherwise all registered parameter converters are iterated by priority.
+The <tt class="docutils literal"><span class="pre">supports()</span></tt> method is invoked to check if a param converter can
+convert the request into the required parameter. If it returns <tt class="docutils literal"><span class="pre">true</span></tt>
+the param converter is invoked.</li>
+</ul>
+</div>
+<div class="section" id="built-in-converters">
+<h2>Built-in Converters<a class="headerlink" href="#built-in-converters" title="Permalink to this headline">¶</a></h2>
+<p>The bundle has two built-in converter, the Doctrine one and a DateTime
+converter.</p>
+<div class="section" id="doctrine-converter">
+<h3>Doctrine Converter<a class="headerlink" href="#doctrine-converter" title="Permalink to this headline">¶</a></h3>
+<p>Converter Name: <tt class="docutils literal"><span class="pre">doctrine.orm</span></tt></p>
+<p>The Doctrine Converter attempts to convert request attributes to Doctrine
+entities fetched from the database. Two different approaches are possible:</p>
+<ul class="simple">
+<li>Fetch object by primary key</li>
+<li>Fetch object by one or several fields which contain unique values in the
+database.</li>
+</ul>
+<p>The following algorithm determines which operation will be performed.</p>
+<ul class="simple">
+<li>If an <tt class="docutils literal"><span class="pre">{id}</span></tt> parameter is present in the route, find object by primary key.</li>
+<li>If an option <tt class="docutils literal"><span class="pre">'id'</span></tt> is configured and matches route parameters, find object by primary key.</li>
+<li>If the previous rules do not apply, attempt to find one entity by matching
+route parameters to entity fields. You can control this process by
+configuring <tt class="docutils literal"><span class="pre">exclude</span></tt> parameters or a attribute to field name <tt class="docutils literal"><span class="pre">mapping</span></tt>.</li>
+</ul>
+<p>By default, the Doctrine converter uses the <em>default</em> entity manager. This can
+be configured with the <tt class="docutils literal"><span class="pre">entity_manager</span></tt> option:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Sensio\Bundle\FrameworkExtraBundle\Configuration\Route</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @Route(&quot;/blog/{id}&quot;)</span>
+<span class="sd"> * @ParamConverter(&quot;post&quot;, class=&quot;SensioBlogBundle:Post&quot;, options={&quot;entity_manager&quot; = &quot;foo&quot;})</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nx">Post</span> <span class="nv">$post</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If the placeholder has not the same name as the primary key, pass the <tt class="docutils literal"><span class="pre">id</span></tt>
+option:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @Route(&quot;/blog/{post_id}&quot;)</span>
+<span class="sd"> * @ParamConverter(&quot;post&quot;, class=&quot;SensioBlogBundle:Post&quot;, options={&quot;id&quot; = &quot;post_id&quot;})</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nx">Post</span> <span class="nv">$post</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This also allows you to have multiple converters in one action:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @Route(&quot;/blog/{id}/comments/{comment_id}&quot;)</span>
+<span class="sd"> * @ParamConverter(&quot;comment&quot;, class=&quot;SensioBlogBundle:Comment&quot;, options={&quot;id&quot; = &quot;comment_id&quot;})</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nx">Post</span> <span class="nv">$post</span><span class="p">,</span> <span class="nx">Comment</span> <span class="nv">$comment</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the example above, the post parameter is handled automatically, but the comment is
+configured with the annotation since they can not both follow the default convention.</p>
+<p>If you want to match an entity using multiple fields use <tt class="docutils literal"><span class="pre">mapping</span></tt>:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @Route(&quot;/blog/{date}/{slug}/comments/{comment_slug}&quot;)</span>
+<span class="sd"> * @ParamConverter(&quot;post&quot;, options={&quot;mapping&quot;: {&quot;date&quot;: &quot;date&quot;, &quot;slug&quot;: &quot;slug&quot;})</span>
+<span class="sd"> * @ParamConverter(&quot;comment&quot;, options={&quot;mapping&quot;: {&quot;comment_slug&quot;: &quot;slug&quot;})</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nx">Post</span> <span class="nv">$post</span><span class="p">,</span> <span class="nx">Comment</span> <span class="nv">$comment</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>If you are matching an entity using several fields, but you want to exclude a
+route parameter from being part of the criteria:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @Route(&quot;/blog/{date}/{slug}&quot;)</span>
+<span class="sd"> * @ParamConverter(&quot;post&quot;, options={&quot;exclude&quot;: [&quot;date&quot;]})</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nx">Post</span> <span class="nv">$post</span><span class="p">,</span> <span class="nx">\DateTime</span> <span class="nv">$date</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="datetime-converter">
+<h3>DateTime Converter<a class="headerlink" href="#datetime-converter" title="Permalink to this headline">¶</a></h3>
+<p>Converter Name: <tt class="docutils literal"><span class="pre">datetime</span></tt></p>
+<p>The datetime converter converts any route or request attribute into a datetime
+instance:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @Route(&quot;/blog/archive/{start}/{end}&quot;)</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">archiveAction</span><span class="p">(</span><span class="nx">\DateTime</span> <span class="nv">$start</span><span class="p">,</span> <span class="nx">\DateTime</span> <span class="nv">$end</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>By default any date format that can be parsed by the <tt class="docutils literal"><span class="pre">DateTime</span></tt> constructor
+is accepted. You can be stricter with input given through the options:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * @Route(&quot;/blog/archive/{start}/{end}&quot;)</span>
+<span class="sd"> * @ParamConverter(&quot;start&quot;, options={&quot;format&quot;: &quot;Y-m-d&quot;})</span>
+<span class="sd"> * @ParamConverter(&quot;end&quot;, options={&quot;format&quot;: &quot;Y-m-d&quot;})</span>
+<span class="sd"> */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">archiveAction</span><span class="p">(</span><span class="nx">\DateTime</span> <span class="nv">$start</span><span class="p">,</span> <span class="nx">\DateTime</span> <span class="nv">$end</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="creating-a-converter">
+<h2>Creating a Converter<a class="headerlink" href="#creating-a-converter" title="Permalink to this headline">¶</a></h2>
+<p>All converters must implement the
+<tt class="xref php php-class docutils literal"><span class="pre">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter\ParamConverterInterface</span></tt>:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Sensio\Bundle\FrameworkExtraBundle\Request\ParamConverter</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Sensio\Bundle\FrameworkExtraBundle\Configuration\ConfigurationInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+
+<span class="k">interface</span> <span class="nx">ParamConverterInterface</span>
+<span class="p">{</span>
+    <span class="k">function</span> <span class="nf">apply</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">ConfigurationInterface</span> <span class="nv">$configuration</span><span class="p">);</span>
+
+    <span class="k">function</span> <span class="nf">supports</span><span class="p">(</span><span class="nx">ConfigurationInterface</span> <span class="nv">$configuration</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">supports()</span></tt> method must return <tt class="docutils literal"><span class="pre">true</span></tt> when it is able to convert the
+given configuration (a <tt class="docutils literal"><span class="pre">ParamConverter</span></tt> instance).</p>
+<p>The <tt class="docutils literal"><span class="pre">ParamConverter</span></tt> instance has three information about the annotation:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">name</span></tt>: The attribute name;</li>
+<li><tt class="docutils literal"><span class="pre">class</span></tt>: The attribute class name (can be any string representing a class
+name);</li>
+<li><tt class="docutils literal"><span class="pre">options</span></tt>: An array of options</li>
+</ul>
+<p>The <tt class="docutils literal"><span class="pre">apply()</span></tt> method is called whenever a configuration is supported. Based
+on the request attributes, it should set an attribute named
+<tt class="docutils literal"><span class="pre">$configuration-&gt;getName()</span></tt>, which stores an object of class
+<tt class="docutils literal"><span class="pre">$configuration-&gt;getClass()</span></tt>.</p>
+<p>To register your converter service you must add a tag to your service</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;my_converter&quot;</span> <span class="na">class=</span><span class="s">&quot;MyBundle/Request/ParamConverter/MyConverter&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;request.param_converter&quot;</span> <span class="na">priority=</span><span class="s">&quot;-2&quot;</span> <span class="na">name=</span><span class="s">&quot;my_converter&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>You can register a converter by priority, by name or both. If you don&#8217;t
+specifiy a priority or name the converter will be added to the converter stack
+with a priority of <cite>0</cite>. To explicitly disable the registration by priority you
+have to set <cite>priority=&#8221;false&#8221;</cite> in your tag definition.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Use the <tt class="docutils literal"><span class="pre">DoctrineParamConverter</span></tt> class as a template for your own converters.</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="routing.html">< &#64;Route and &#64;Method</a>
+<a class="next" href="view.html">&#64;Template ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/bundles/SensioFrameworkExtraBundle/annotations/converters.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/bundles/SensioFrameworkExtraBundle/annotations/converters.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/bundles/SensioFrameworkExtraBundle/annotations/converters.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">&#64;ParamConverter</a><ul>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#built-in-converters">Built-in Converters</a><ul>
+<li><a class="reference internal" href="#doctrine-converter">Doctrine Converter</a></li>
+<li><a class="reference internal" href="#datetime-converter">DateTime Converter</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-a-converter">Creating a Converter</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="routing.html"
+                        title="previous chapter">&#64;Route and &#64;Method</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="view.html"
+                        title="next chapter">&#64;Template</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/bundles/SensioFrameworkExtraBundle/annotations/converters.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../../index.html">トップ（索引）</a></li>
+          <li><a href="../../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

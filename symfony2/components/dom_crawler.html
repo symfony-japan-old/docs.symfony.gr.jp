@@ -1,0 +1,609 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>DomCrawlerコンポーネント | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../_static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="コンポーネント" href="index.html" />
+    <link rel="next" title="式言語" href="expression_language/index.html" />
+    <link rel="prev" title="Debugコンポーネント" href="debug.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3 (2.0以降)</li>
+<li>翻訳更新日：2013/11/30</li>
+</ul>
+</div>
+<div class="section" id="domcrawler">
+<h1>DomCrawlerコンポーネント<a class="headerlink" href="#domcrawler" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>DomCrawlerコンポーネントはHTML文書やXML文書中のDOM要素の調査を手助けします。</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">DomCrawlerは、DOM構造の編集や HTML/XML の再ダンプといった複雑な処理を行うようには設計されていません。</p>
+</div>
+<div class="section" id="id1">
+<h2>インストール<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>2通りの方法でインストール出来ます。</p>
+<ul class="simple">
+<li><a class="reference internal" href="using_components.html"><em>composerでインストール</em></a> (<tt class="docutils literal"><span class="pre">symfony/dom-crawler</span></tt> on <a class="reference external" href="https://packagist.org/packages/symfony/dom-crawler">Packagist</a>);</li>
+<li>公式Gitリポジトリからインストール (<a class="reference external" href="https://github.com/symfony/DomCrawler">https://github.com/symfony/DomCrawler</a>).</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>使い方<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Crawler</span></tt> クラスはHTML/XML文書のフィルタリングやDOM操作をするメソッドを提供します。</p>
+<p>Crawlerインスタンスは、DOMの要素を表す <a href="#id3"><span class="problematic" id="id4">:phpclass:`DOMElement`</span></a> クラスのインスタンスの集合です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\DomCrawler\Crawler</span><span class="p">;</span>
+
+<span class="nv">$html</span> <span class="o">=</span> <span class="s">&lt;&lt;&lt;&#39;HTML&#39;</span>
+<span class="s">&lt;!DOCTYPE html&gt;</span>
+<span class="s">&lt;html&gt;</span>
+<span class="s">    &lt;body&gt;</span>
+<span class="s">        &lt;p class=&quot;message&quot;&gt;Hello World!&lt;/p&gt;</span>
+<span class="s">        &lt;p&gt;Hello Crawler!&lt;/p&gt;</span>
+<span class="s">    &lt;/body&gt;</span>
+<span class="s">&lt;/html&gt;</span>
+<span class="s">HTML;</span>
+
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Crawler</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$crawler</span> <span class="k">as</span> <span class="nv">$domElement</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">print</span> <span class="nv">$domElement</span><span class="o">-&gt;</span><span class="na">nodeName</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Link</span></tt> クラス、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Form</span></tt> クラスは、それぞれHTMLのリンク、フォームを表す特別なクラスです。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">DomCrawlerはHTML構造中の間違いを自動的に補正して、仕様にマッチさせようとします。
+例えば <tt class="docutils literal"><span class="pre">&lt;p&gt;</span></tt> タグの中に <tt class="docutils literal"><span class="pre">&lt;p&gt;</span></tt> タグをネストすると、DomCrawlerはそれらを共通の親を持つ兄弟要素として解釈し直します。
+これはHTML5の仕様に従った正しい動作ですが、予期せぬ問題を引き起こす可能性もあります。
+DomCrawler本来の用途ではありませんが、DomCrawlerが解釈した<a class="reference internal" href="#component-dom-crawler-dumping"><em>DOM構造をHTMLとしてダンプ</em></a>して、問題の原因を調べることが出来ます。</p>
+</div>
+<div class="section" id="id5">
+<h3>ノードのフィルタリング<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>XPathによるフィルタリングは非常に簡単です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filterXPath</span><span class="p">(</span><span class="s1">&#39;descendant-or-self::body/p&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">内部的には <tt class="docutils literal"><span class="pre">DOMXPath::query</span></tt> メソッドが実際にXPathクエリを実行しています。</p>
+</div>
+<p>CssSelectorコンポーネントがインストールされていれば、フィルタリングはもっと簡単です。
+jQuery風のセレクタでDOMを走査することが出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>無名関数を使ったより複雑なフィルタリングも可能です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\DomCrawler\Crawler</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">reduce</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">Crawler</span> <span class="nv">$node</span><span class="p">,</span> <span class="nv">$i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// 偶数番目のノードをフィルタ</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nv">$i</span> <span class="o">%</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<p>無名関数がfalseを返すことで、ノードをフィルタすることが出来ます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">どのフィルタリングメソッドも、ノードをフィルタした新しい <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Crawler</span></tt> インスタンスを生成して返します。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>ノードの走査<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>選択済みのノード中の位置を指定してノードを選択</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>選択済みのノードのうち最初と最後のノードを選択</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">first</span><span class="p">();</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">last</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>選択済みのノードと同レベルのノード（兄弟ノード）を選択</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">siblings</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>選択済みのノードより前または後にある、同レベルのノードを選択</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">nextAll</span><span class="p">();</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">previousAll</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>全ての子ノードまたは全ての親ノードを選択</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">children</span><span class="p">();</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">parents</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">どの走査メソッドも、新しい <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Crawler</span></tt> インスタンスを生成して返します。</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>ノードの値の取得<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>選択済みのノードのうち最初のノードの内包するテキストを取得</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$message</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filterXPath</span><span class="p">(</span><span class="s1">&#39;//body/p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>選択済みのノードのうち最初のノードの属性値を取得</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$class</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filterXPath</span><span class="p">(</span><span class="s1">&#39;//body/p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">attr</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>選択済みのノードのテキストと属性値を配列として取得</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$attributes</span> <span class="o">=</span> <span class="nv">$crawler</span>
+    <span class="o">-&gt;</span><span class="na">filterXpath</span><span class="p">(</span><span class="s1">&#39;//body/p&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">extract</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;_text&#39;</span><span class="p">,</span> <span class="s1">&#39;class&#39;</span><span class="p">))</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">特殊属性 <tt class="docutils literal"><span class="pre">_text</span></tt> はノードのテキストを表します。</p>
+</div>
+<p>ノードリスト中の各要素に対して順番に無名関数を実行する</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\DomCrawler\Crawler</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="nv">$nodeValues</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">each</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">Crawler</span> <span class="nv">$node</span><span class="p">,</span> <span class="nv">$i</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$node</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">();</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span>New in version 2.3: </span>Symfony 2.3 では、 <tt class="docutils literal"><span class="pre">each</span></tt>, <tt class="docutils literal"><span class="pre">reduce</span></tt> メソッドに渡す無名関数は第1引数として <tt class="docutils literal"><span class="pre">Crawler</span></tt>
+オブジェクトを受け取ります。以前のバージョンでは第1引数は <a href="#id8"><span class="problematic" id="id9">:phpclass:`DOMNode`</span></a> でした。</p>
+</div>
+<p>無名関数は引数として <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトと、ノードリスト中の位置を受け取ります。
+無名関数が返す値の配列が <tt class="docutils literal"><span class="pre">each</span></tt> メソッドの返り値になります。</p>
+</div>
+<div class="section" id="id10">
+<h3>コンテンツの追加<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>Crawlerはノードにコンテンツを追加する様々な方法をサポートします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Crawler</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body /&gt;&lt;/html&gt;&#39;</span><span class="p">);</span>
+
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">addHtmlContent</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body /&gt;&lt;/html&gt;&#39;</span><span class="p">);</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">addXmlContent</span><span class="p">(</span><span class="s1">&#39;&lt;root&gt;&lt;node /&gt;&lt;/root&gt;&#39;</span><span class="p">);</span>
+
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">addContent</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body /&gt;&lt;/html&gt;&#39;</span><span class="p">);</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">addContent</span><span class="p">(</span><span class="s1">&#39;&lt;root&gt;&lt;node /&gt;&lt;/root&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;text/xml&#39;</span><span class="p">);</span>
+
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body /&gt;&lt;/html&gt;&#39;</span><span class="p">);</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;&lt;root&gt;&lt;node /&gt;&lt;/root&gt;&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ISO-8859-1 以外の文字コードを扱う場合は、
+HTMLコンテンツを追加するには
+<a href="#id11"><span class="problematic" id="id12">:method:`Symfony\\Component\\DomCrawler\\Crawler::addHTMLContent`</span></a>
+メソッドの第2引数に文字コードを指定して使います。</p>
+</div>
+<p>CrawlerはDOM拡張として実装されているため、
+<a href="#id13"><span class="problematic" id="id14">:phpclass:`DOMDocument`</span></a>, <a href="#id15"><span class="problematic" id="id16">:phpclass:`DOMNodeList`</span></a>, <a href="#id17"><span class="problematic" id="id18">:phpclass:`DOMNode`</span></a> の各インスタンスを利用することも出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$document</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DOMDocument</span><span class="p">();</span>
+<span class="nv">$document</span><span class="o">-&gt;</span><span class="na">loadXml</span><span class="p">(</span><span class="s1">&#39;&lt;root&gt;&lt;node /&gt;&lt;node /&gt;&lt;/root&gt;&#39;</span><span class="p">);</span>
+<span class="nv">$nodeList</span> <span class="o">=</span> <span class="nv">$document</span><span class="o">-&gt;</span><span class="na">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;node&#39;</span><span class="p">);</span>
+<span class="nv">$node</span> <span class="o">=</span> <span class="nv">$document</span><span class="o">-&gt;</span><span class="na">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;node&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">item</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">addDocument</span><span class="p">(</span><span class="nv">$document</span><span class="p">);</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">addNodeList</span><span class="p">(</span><span class="nv">$nodeList</span><span class="p">);</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">addNodes</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$node</span><span class="p">));</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">addNode</span><span class="p">(</span><span class="nv">$node</span><span class="p">);</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="nv">$document</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="sidebar" id="component-dom-crawler-dumping">
+<p class="first sidebar-title">Manipulating and Dumping a <tt class="docutils literal"><span class="pre">Crawler</span></tt></p>
+<p>これら <tt class="docutils literal"><span class="pre">Crawler</span></tt> のメソッドは複雑なDOM操作を目的として作られたわけではありません。
+しかし <tt class="docutils literal"><span class="pre">Crawler</span></tt> は <a href="#id19"><span class="problematic" id="id20">:phpclass:`DOMElement`</span></a> クラスのインスタンスの集合であるため、
+<a href="#id21"><span class="problematic" id="id22">:phpclass:`DOMElement`</span></a>, <a href="#id23"><span class="problematic" id="id24">:phpclass:`DOMNode`</span></a>, <a href="#id25"><span class="problematic" id="id26">:phpclass:`DOMDocument`</span></a> などのメソッドやプロパティを利用出来ます。
+例えばこのようにして、 <tt class="docutils literal"><span class="pre">Crawler</span></tt> にHTMLをダンプさせることも可能です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$html</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$crawler</span> <span class="k">as</span> <span class="nv">$domElement</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$html</span> <span class="o">.=</span> <span class="nv">$domElement</span><span class="o">-&gt;</span><span class="na">ownerDocument</span><span class="o">-&gt;</span><span class="na">saveHTML</span><span class="p">(</span><span class="nv">$domElement</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>もしくは <a href="#id27"><span class="problematic" id="id28">:method:`Symfony\\Component\\DomCrawler\\Crawler::html`</span></a> メソッドを使ってHTMLを取得出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$html</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">html</span><span class="p">();</span>
+</pre></div>
+</div>
+<p class="last"><tt class="docutils literal"><span class="pre">html</span></tt> メソッドは Symfony 2.3 で導入されました。</p>
+</div>
+</div>
+<div class="section" id="id29">
+<h3>リンク<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">Crawler</span></tt> の <tt class="docutils literal"><span class="pre">selectLink</span></tt> メソッドを使って、テキストリンクの文字列を指定して（もしくは画像リンクのalt属性の文字列を指定して）リンクを取得することが出来ます。
+このメソッドはリンクのノードを含む <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトを返します。
+この <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">link()</span></tt> メソッドを呼ぶことで、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Link</span></tt> のオブジェクトを取得出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$linksCrawler</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Go elsewhere...&#39;</span><span class="p">);</span>
+<span class="nv">$link</span> <span class="o">=</span> <span class="nv">$linksCrawler</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
+
+<span class="c1">// 上記を1行で</span>
+<span class="nv">$link</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Go elsewhere...&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Link</span></tt> オブジェクトのメソッドを使って、リンクの情報を取得出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// リンクのURIを返す</span>
+<span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$link</span><span class="o">-&gt;</span><span class="na">getUri</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">getUri()</span></tt> は、リンクの <tt class="docutils literal"><span class="pre">href</span></tt> 属性の値を完全なURIに変換して返してくれます。
+例えば <tt class="docutils literal"><span class="pre">href=&quot;#foo&quot;</span></tt> のようなリンクであれば、現在のURIの末尾に <tt class="docutils literal"><span class="pre">#foo</span></tt> を付加した完全なURIを返します。</p>
+</div>
+</div>
+<div class="section" id="id30">
+<h3>フォーム<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<p>フォーム要素を便利に扱うための特別なメソッドが用意されています。
+<tt class="docutils literal"><span class="pre">Crawler</span></tt> の <tt class="docutils literal"><span class="pre">selectButton()</span></tt> メソッドで、ボタンのテキストを指定してボタン要素 (<tt class="docutils literal"><span class="pre">input[type=submit]</span></tt>, <tt class="docutils literal"><span class="pre">input[type=image]</span></tt>, <tt class="docutils literal"><span class="pre">button</span></tt>) の <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトを取得出来ます。
+この <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトから、フォーム要素を表す <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Form</span></tt> オブジェクトが取得出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;validate&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+
+<span class="c1">// フォームのフィールドにデータを入力する</span>
+<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;validate&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Ryan&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Form</span></tt> オブジェクトには多くの便利なメソッドが用意されています。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getUri</span><span class="p">();</span>
+
+<span class="nv">$method</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><a href="#id31"><span class="problematic" id="id32">:method:`Symfony\\Component\\DomCrawler\\Form::getUri`</span></a> メソッドは単に <tt class="docutils literal"><span class="pre">action</span></tt> 属性の値を返すだけではありません。
+GETメソッドの場合は、フォームの入力値に基づいたクエリ文字列を付加したURIを返してくれます。</p>
+<p>フォームに仮想的に値を入力したり取得したり出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// 値を入力</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">setValues</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;registration[username]&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;symfonyfan&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;registration[terms]&#39;</span>    <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
+<span class="p">));</span>
+
+<span class="c1">// 値の配列を、上の例のようなフラットな配列で取得</span>
+<span class="nv">$values</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getValues</span><span class="p">();</span>
+
+<span class="c1">// 値の配列を、$_GET や $_POST で取得できるような形で取得</span>
+<span class="c1">// &quot;registration&quot; は配列になります</span>
+<span class="nv">$values</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getPhpValues</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>以下の様な、フィールドが多次元配列のフォームを扱う場合は、</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;form&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;multi[]&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;multi[]&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">name=</span><span class="s">&quot;multi[dimensional]&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+<p>値を多次元配列で渡します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// 単一のフィールドに入力</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">setValues</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;multi&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">)));</span>
+
+<span class="c1">// 複数のフィールドに一度に入力</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">setValues</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;multi&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="mi">1</span>             <span class="o">=&gt;</span> <span class="s1">&#39;value&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dimensional&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;an other value&#39;</span>
+<span class="p">)));</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">Form</span></tt> オブジェクトには、ラジオボタンやチェックボックスの選択、ファイルのアップロードなど、ブラウザのようにフォームを操作する方法が用意されており、より簡単にデータを入力することが出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;registration[username]&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">setValue</span><span class="p">(</span><span class="s1">&#39;symfonyfan&#39;</span><span class="p">);</span>
+
+<span class="c1">// チェックボックスを選択、非選択</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;registration[terms]&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">tick</span><span class="p">();</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;registration[terms]&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">untick</span><span class="p">();</span>
+
+<span class="c1">// option を選択</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;registration[birthday][year]&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="mi">1984</span><span class="p">);</span>
+
+<span class="c1">// &quot;multiple&quot; select の option を複数選択</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;registration[interests]&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;symfony&#39;</span><span class="p">,</span> <span class="s1">&#39;cookies&#39;</span><span class="p">));</span>
+
+<span class="c1">// ファイルアップロード</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;registration[photo]&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">upload</span><span class="p">(</span><span class="s1">&#39;/path/to/lucas.jpg&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="section" id="id33">
+<h4>フォームのデータを利用する<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<p>こうしてデータを入力した <tt class="docutils literal"><span class="pre">Form</span></tt> オブジェクトから、フォームを実際に送信した際にアプリケーションが受け取るデータを取得することが出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$values</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getPhpValues</span><span class="p">();</span>
+<span class="nv">$files</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getPhpFiles</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>外部のHTTPクライアントを利用してテストする場合でも、POSTリクエストを生成するための全ての情報を <tt class="docutils literal"><span class="pre">Form</span></tt> オブジェクトから取得出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getUri</span><span class="p">();</span>
+<span class="nv">$method</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">();</span>
+<span class="nv">$values</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getValues</span><span class="p">();</span>
+<span class="nv">$files</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getFiles</span><span class="p">();</span>
+
+<span class="c1">// こうして取得したデータを外部のHTTPクライアントに渡します</span>
+</pre></div>
+</div>
+<p>これらを利用出来る、素晴らしいツールの1つに <a class="reference external" href="https://github.com/fabpot/goutte">Goutte</a> があります。
+Goutte は Symfony の Crawler を直接受け取り、フォームを送信することが出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Goutte\Client</span><span class="p">;</span>
+
+<span class="c1">// 外部のウェブサイトにリクエストを送信</span>
+<span class="nv">$client</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Client</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;https://github.com/login&#39;</span><span class="p">);</span>
+
+<span class="c1">// フォームを取得してデータを入力</span>
+<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;Log in&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;login&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;symfonyfan&#39;</span><span class="p">;</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;anypass&#39;</span><span class="p">;</span>
+
+<span class="c1">// フォームを送信</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="components-dom-crawler-invalid">
+<span id="id34"></span><h4>選択フィールドに不正な値をセットする<a class="headerlink" href="#components-dom-crawler-invalid" title="Permalink to this headline">¶</a></h4>
+<div class="versionadded">
+<p><span>New in version 2.4: </span><a href="#id35"><span class="problematic" id="id36">:method:`Symfony\\Component\\DomCrawler\\Form::disableValidation`</span></a> メソッドは Symfony 2.4 で追加されました。</p>
+</div>
+<p>選択フィールド (select, radio) では、不正な値がセット出来ないようバリデーションが有効になっています。
+フォーム全体か単一のフィールドに対して <tt class="docutils literal"><span class="pre">disableValidation()</span></tt> メソッドを呼ぶことで、このバリデーションを無効にして不正な値をセットすることが出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// 単一のフィールドのバリデーションを無効にする</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">disableValidation</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;Invalid value&#39;</span><span class="p">);</span>
+
+<span class="c1">// フォーム全体のバリデーションを無効にする</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">disableValidation</span><span class="p">();</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;Invalid value&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="debug.html">< Debugコンポーネント</a>
+<a class="next" href="expression_language/index.html">式言語 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/components/dom_crawler.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/dom_crawler.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/dom_crawler.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">DomCrawlerコンポーネント</a><ul>
+<li><a class="reference internal" href="#id1">インストール</a></li>
+<li><a class="reference internal" href="#id2">使い方</a><ul>
+<li><a class="reference internal" href="#id5">ノードのフィルタリング</a></li>
+<li><a class="reference internal" href="#id6">ノードの走査</a></li>
+<li><a class="reference internal" href="#id7">ノードの値の取得</a></li>
+<li><a class="reference internal" href="#id10">コンテンツの追加</a></li>
+<li><a class="reference internal" href="#id29">リンク</a></li>
+<li><a class="reference internal" href="#id30">フォーム</a><ul>
+<li><a class="reference internal" href="#id33">フォームのデータを利用する</a></li>
+<li><a class="reference internal" href="#components-dom-crawler-invalid">選択フィールドに不正な値をセットする</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="debug.html"
+                        title="previous chapter">Debugコンポーネント</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="expression_language/index.html"
+                        title="next chapter">式言語</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/components/dom_crawler.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

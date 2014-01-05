@@ -1,0 +1,1444 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>フォーム | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="ガイドブック" href="index.html" />
+    <link rel="next" title="セキュリティ" href="security.html" />
+    <link rel="prev" title="バリデーション" href="validation.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="index-0">
+<span id="id1"></span><h1>フォーム<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>HTML のフォームを扱うことは多くの Web アプリケーションで行うことですが、考慮することが多く扱いが難しい部分の1つです。
+Symfony2 の Form コンポーネントを活用すると、フォームを簡単に扱うことができるようになります。
+本章では、複雑なフォームを1から作成を行う過程を通じて、フォームライブラリの重要な機能について学びます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Symfony の Form コンポーネントは単独で利用できるように設計されています。
+コンポーネントについて詳しく知りたい方は、Github の <a class="reference external" href="https://github.com/symfony/Form">Symfony2 Form Component</a> を見てください。</p>
+</div>
+<div class="section" id="index-1">
+<span id="id2"></span><h2>シンプルなフォームの作成<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>フォームを解説するために、商品を表示する簡単なストアアプリケーションを作成していきましょう。
+このアプリケーションには、ユーザーが商品の作成や編集を行うためのフォームを作成する必要があります。
+フォームを作成するに当たって、まずは商品情報を表す <tt class="docutils literal"><span class="pre">Product</span></tt> クラスを作成します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/StoreBundle/Entity/Product.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\StoreBundle\Entity</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Product</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+
+    <span class="k">protected</span> <span class="nv">$price</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getPrice</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">price</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setPrice</span><span class="p">(</span><span class="nv">$price</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">price</span> <span class="o">=</span> <span class="nv">$price</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>サンプルコードを入力しながら進めていく場合は、<tt class="docutils literal"><span class="pre">AcmeStoreBundle</span></tt> というバンドルを作成して、そこにファイルを作成するようにしましょう。
+次のコマンドを実行するとバンドルが作成されます。</p>
+<div class="last highlight-bash"><div class="highlight"><pre>php app/console generate:bundle --namespace<span class="o">=</span>Acme/StoreBundle
+</pre></div>
+</div>
+</div>
+<p>このようなクラスは Symfony などのライブラリを必要としないため、一般的に「プレーンオールド PHP オブジェクト」と呼ばれます。
+ストアアプリケーションにおける商品などのように、<em>あなたが作ろうとしている</em> アプリケーションに実装しなければならない本質的な問題を解決するための、とてもシンプルな PHP オブジェクトです。
+本章の最後までに、フォームを通じて送信されたデータを <tt class="docutils literal"><span class="pre">Product</span></tt> オブジェクトに反映し、検証を行い、データベースに保存することまで行います。</p>
+<p>ここまでで、アプリケーションの実装の中心となるシンプルな PHP クラスを作成しましたが、フォームに関連する作業は何も行っていません。
+本章における最終的な目標は、ユーザーがフォームを通じて <tt class="docutils literal"><span class="pre">Product</span></tt> オブジェクトをインタラクティブに操作できるようになることです。</p>
+<div class="section" id="index-2">
+<span id="id3"></span><h3>フォームを組み立てる<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">Product</span></tt> クラスを作成したので、次は実際にフォームをレンダリングを行います。
+Symfony2 では、フォームオブジェクトを組み立て、それをテンプレート内でレンダリングします。
+まずはこれらの処理をコントローラに記述していきます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/StoreBundle/Controller/DefaultController.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\StoreBundle\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Controller\Controller</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Acme\StoreBundle\Entity\Product</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">DefaultController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// Productオブジェクトを作成し、ダミーデータを設定する</span>
+        <span class="nv">$product</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Product</span><span class="p">();</span>
+        <span class="nv">$product</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="s1">&#39;Test product&#39;</span><span class="p">;</span>
+        <span class="nv">$product</span><span class="o">-&gt;</span><span class="na">setPrice</span><span class="p">(</span><span class="s1">&#39;50.00&#39;</span><span class="p">);</span>
+
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$product</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;money&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;USD&#39;</span><span class="p">))</span>
+            <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeStoreBundle:Default:index.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">(),</span>
+        <span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">今回のサンプルではコントローラの内部で直接フォームを組み立てています。
+この後、「<a class="reference internal" href="#book-form-creating-form-classes"><em>フォームクラスの作成</em></a>」節で、この組み立て処理を単独のクラスとして定義するようにします。
+再利用性のため、クラスとして定義する方法をおすすめします。</p>
+</div>
+<p>Symfony2では「フォームビルダー」を用いてフォームオブジェクトの組み立てるため、とても簡単にフォームが作成できます。
+フォームビルダーはフォームの組み立てを簡単に行うために用意されたオブジェクトです。</p>
+<p>今回のサンプルでは、フォームには2つのフィールドを定義します。
+定義するフィールドは <tt class="docutils literal"><span class="pre">name</span></tt> と <tt class="docutils literal"><span class="pre">price</span></tt> の2つで、これらはそれぞれ <tt class="docutils literal"><span class="pre">Product</span></tt> クラスの <tt class="docutils literal"><span class="pre">name</span></tt> と <tt class="docutils literal"><span class="pre">price</span></tt> プロパティに対応します。
+<tt class="docutils literal"><span class="pre">name</span></tt> フィールドは <tt class="docutils literal"><span class="pre">text</span></tt> というタイプが指定されており、このフィールドがテキストフィールドとして扱われることを意味します。
+<tt class="docutils literal"><span class="pre">price</span></tt> フィールドには <tt class="docutils literal"><span class="pre">money</span></tt> タイプが指定されており、これはローカライズされた金額が表示される特別なテキストフィールドとなります。
+Symfony2 には様々なタイプが組み込まれており、リファレンスページ(<a class="reference internal" href="#book-forms-type-reference"><em>用意されているフィールドタイプ</em></a>)にそれぞれの説明が記載してあります。</p>
+<p>フォームオブジェクトが作成できたので、次はこれをレンダリングします。
+レンダリングのために用意されたフォーム「ビュー」オブジェクトをテンプレートに渡し(前述のコントローラの <tt class="docutils literal"><span class="pre">$form-&gt;createView()</span></tt> の部分)、フォーム用のヘルパー関数にセットすることで行います。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/StoreBundle/Resources/views/Default/index.html.twig #}</span>
+
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;store_product&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+    <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/StoreBundle/Resources/views/Default/index.html.php --&gt;</span>
+
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;router&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;store_product&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">enctype</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span> <span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<img alt="../images/forms-simple.png" class="align-center" src="../_images/forms-simple.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この例では <tt class="docutils literal"><span class="pre">AcmeStoreBundle:Default:index</span></tt> コントローラに <tt class="docutils literal"><span class="pre">store_product</span></tt> というルーティングでアクセスできるように設定してあるものとしています。</p>
+</div>
+<p>これでレンダリングができました。
+<tt class="docutils literal"><span class="pre">form_widget(form)</span></tt> によってそれぞれのフィールド、ラベルのレンダリングが行われ、フォームに関するエラーメッセージもレンダリングされるようになりました。
+実際に開発を行う際は、フォームの配置を整えるため、フィールドごとにレンダリングを行いたいでしょう。
+それについては「 <a class="reference internal" href="#form-rendering-template"><em>フォームのレンダリング</em></a> 」を参考にしてください。</p>
+<p>次に進む前に、レンダリングされた <tt class="docutils literal"><span class="pre">name</span></tt> テキストフィールドの値に <tt class="docutils literal"><span class="pre">$product</span></tt> の <tt class="docutils literal"><span class="pre">name</span></tt> プロパティに設定した値(ここでは &#8220;Test product&#8221;)が設定されていることに注目してください。
+このように、オブジェクトに設定されたデータをフィールドに合わせて変換し、HTMLのフォームに適切に反映することが、フォームが行う1つめの仕事です。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">フォームの仕組みはとてもよくできており、 <tt class="docutils literal"><span class="pre">Product</span></tt> の <tt class="docutils literal"><span class="pre">price</span></tt> プロパティのようにprotectedで定義されたプロパティの場合、<tt class="docutils literal"><span class="pre">getPrice()</span></tt> や <tt class="docutils literal"><span class="pre">setPrice()</span></tt> メソッドを通じてプロパティにアクセスを行います。
+プロパティがpublicでない場合、フォームがプロパティにアクセスできるよう <em>必ず</em> ゲッターとセッターメソッドを定義しておかなければなりません。
+Boolean型のプロパティの場合、ゲッターの代わりに「is」ではじまるメソッド(たとえば <tt class="docutils literal"><span class="pre">getPublished()</span></tt> の代わりに <tt class="docutils literal"><span class="pre">isPublished()</span></tt>)を用いても構いません。</p>
+</div>
+</div>
+<div class="section" id="index-3">
+<span id="id4"></span><h3>フォームに送信されたデータを処理する<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
+<p>フォームの2つめの仕事は、ユーザーから送信されたデータをオブジェクトのプロパティに設定することです。
+それを行うために、ユーザーから送信されたデータをフォームに結びつける(バインドする)必要があります。
+コントローラに次のコードを記述してください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// 新規に $product オブジェクトを作成(ダミーデータは入れない)</span>
+    <span class="nv">$product</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Product</span><span class="p">();</span>
+
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$product</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;money&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;USD&#39;</span><span class="p">))</span>
+        <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+            <span class="c1">// データベースへの保存など、何らかのアクションを実行する</span>
+
+            <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;store_product_success&#39;</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これで、フォームから送信が行われたときに、コントローラが送信されたデータをフォームにバインドし、それらのデータが <tt class="docutils literal"><span class="pre">$product</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">name</span></tt> や <tt class="docutils literal"><span class="pre">price</span></tt> といったプロパティに設定されます。
+この一連の処理は <tt class="docutils literal"><span class="pre">bindRequest()</span></tt> メソッドを通じて行われます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">bindRequest()</span></tt> が呼び出された時点で、送信されたデータはフォームの内部に持つオブジェクトに反映されます。
+その際、データの妥当性に問わず、オブジェクトに反映されます。</p>
+</div>
+<p>今回実装したコントローラでは、フォームを操作する際に用いる一般的なパターンに乗っ取り、次の3つのことを行います。</p>
+<ol class="arabic simple">
+<li>最初にページがロードされる時は、<tt class="docutils literal"><span class="pre">GET</span></tt> リクエストメソッドによってアクセスされ、コントローラはフォームの生成とレンダリングのみを行います(バインドは行いません)。</li>
+<li>ユーザーが``POST`` メソッドを用いてフォームの送信を行った時、その中に妥当でない値を含んでいる場合(妥当性の検証(バリデーション)は次節で説明します)、バインドされたデータをレンダリングする際に、バリデーションエラーメッセージを含んだ状態でレンダリングが行われます。</li>
+<li>ユーザーが妥当なデータを送信した時、データベースへの保存など <tt class="docutils literal"><span class="pre">$product</span></tt> に対する何らかのアクションを行い、登録完了画面などへリダイレクトします。</li>
+</ol>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ユーザーがフォームを送信して何か操作を行った後にリダイレクトを行うことは、ユーザーがページを再読込みしてフォームが再送信されることを防ぐ意味を持っています。</p>
+</div>
+</div>
+</div>
+<div class="section" id="index-4">
+<span id="id5"></span><h2>フォームバリデーション<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
+<p>前節で、フォームから送信されたデータに対するバリデーションについて触れました。
+Symfony2では、バリデーションはフォームが保持しているオブジェクト(今回は <tt class="docutils literal"><span class="pre">Product</span></tt>)に対して行われます。
+つまり、フォームから送信された値が妥当かどうかではなく、その値が反映された <tt class="docutils literal"><span class="pre">$product</span></tt> オブジェクトが妥当かどうかを判定します。
+<tt class="docutils literal"><span class="pre">$form-&gt;isValid()</span></tt> は <tt class="docutils literal"><span class="pre">$product</span></tt> オブジェクトが妥当かどうかを判定するショートカットとなります。</p>
+<p>バリデーションを行うためには、クラスに対してルールのセット(これを「制約」と呼んでいます)を設定します。
+それでは、<tt class="docutils literal"><span class="pre">name</span></tt> フィールドには空以外の値を、<tt class="docutils literal"><span class="pre">price</span></tt> フィールドには空以外で、かつ0以上の数のみを受け付けるよう、制約を設定します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># Acme/StoreBundle/Resources/config/validation.yml</span>
+<span class="l-Scalar-Plain">Acme\StoreBundle\Entity\Product</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+        <span class="l-Scalar-Plain">price</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Min</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">0</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- Acme/StoreBundle/Resources/config/validation.xml --&gt;</span>
+<span class="nt">&lt;class</span> <span class="na">name=</span><span class="s">&quot;Acme\StoreBundle\Entity\Product&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;NotBlank&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;price&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;Min&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;value&gt;</span>0<span class="nt">&lt;/value&gt;</span>
+        <span class="nt">&lt;/constraint&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/class&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// Acme/StoreBundle/Entity/Product.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Product</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     * @Assert\Min(0)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$price</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// Acme/StoreBundle/Entity/Product.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\Min</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Product</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">());</span>
+
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">());</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Min</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>これでバリデーションが行われるようになります。
+フォームに妥当ではない値を入力して送信すると、対応するエラーメッセージが表示されるでしょう。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームが生成するHTMLのコードには、HTML5に新しく定義されたフィールドや、ブラウザ側で入力チェックを行う「required」属性が用いられています。
+Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動作が確認できるでしょう。</p>
+</div>
+<p>バリデーションはSymfony2が提供するとても強力な機能で、<a class="reference internal" href="validation.html"><em>独立した章</em></a> が設けられています。</p>
+<div class="section" id="book-forms-validation-groups">
+<span id="index-5"></span><span id="id6"></span><h3>バリデーショングループ<a class="headerlink" href="#book-forms-validation-groups" title="Permalink to this headline">¶</a></h3>
+<p>:ref:<a href="#id7"><span class="problematic" id="id8">`</span></a>バリデーショングループ &lt;book-validation-validation-groups&gt;`を活用したい場合、フォームにバリデーショングループを指定する必要があります:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$users</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;validation_groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1">// ...</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="#book-form-creating-form-classes"><em>フォームクラス</em></a> を作成しているのであれば、次のように <tt class="docutils literal"><span class="pre">getDefaultOptions()</span></tt> メソッドを定義します:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">getDefaultOptions</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;validation_groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>どちらのケースも、オブジェクトに対して <tt class="docutils literal"><span class="pre">registration</span></tt> バリデーショングループ <em>のみが</em> 用いられます。</p>
+</div>
+</div>
+<div class="section" id="book-forms-type-reference">
+<span id="index-6"></span><span id="id9"></span><h2>用意されているフィールドタイプ<a class="headerlink" href="#book-forms-type-reference" title="Permalink to this headline">¶</a></h2>
+<p>Symfonyでは一般的なフォームで用いるフィールドタイプを網羅しています。</p>
+<div class="section" id="id10">
+<h3>テキストフィールド<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/forms/types/text.html"><em>text</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/textarea.html"><em>textarea</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/email.html"><em>email</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/integer.html"><em>integer</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/money.html"><em>money</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/number.html"><em>number</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/password.html"><em>password</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/percent.html"><em>percent</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/search.html"><em>search</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/url.html"><em>url</em></a></li>
+</ul>
+</div>
+<div class="section" id="id11">
+<h3>選択フィールド<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/forms/types/choice.html"><em>choice</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/entity.html"><em>entity</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/country.html"><em>country</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/language.html"><em>language</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/locale.html"><em>locale</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/timezone.html"><em>timezone</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/currency.html"><em>currency</em></a></li>
+</ul>
+</div>
+<div class="section" id="id12">
+<h3>日付フィールド、時刻フィールド<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/forms/types/date.html"><em>date</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/datetime.html"><em>datetime</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/time.html"><em>time</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/birthday.html"><em>birthday</em></a></li>
+</ul>
+</div>
+<div class="section" id="id13">
+<h3>その他のフィールド<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/forms/types/checkbox.html"><em>checkbox</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/file.html"><em>file</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/radio.html"><em>radio</em></a></li>
+</ul>
+</div>
+<div class="section" id="id14">
+<h3>フィールドグループ<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/forms/types/collection.html"><em>collection</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/repeated.html"><em>repeated</em></a></li>
+</ul>
+</div>
+<div class="section" id="hidden">
+<h3>Hidden フィールド<a class="headerlink" href="#hidden" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/forms/types/hidden.html"><em>hidden</em></a></li>
+</ul>
+</div>
+<div class="section" id="id15">
+<h3>ボタンフィールド<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/forms/types/button.html"><em>button</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/reset.html"><em>reset</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/submit.html"><em>submit</em></a></li>
+</ul>
+</div>
+<div class="section" id="base">
+<h3>Base フィールド<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference internal" href="../reference/forms/types/form.html"><em>form</em></a></li>
+</ul>
+<p>もちろん、自分でカスタムしたフィールドタイプを作成することもできます。
+このやり方については、クックブックの「 <a class="reference internal" href="../cookbook/form/create_custom_field_type.html"><em>カスタムフォームフィールドタイプの作成方法</em></a> 」を見てください。</p>
+</div>
+<div class="section" id="index-7">
+<span id="id16"></span><h3>一般的なフィールドタイプのオプション<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">price</span></tt> フィールドに、連想配列でオプションが設定されていたことにはお気づきでしょうか。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;money&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;USD&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>それぞれのフィールドタイプにはそれに応じたオプションが用意されています。
+それぞれのタイプごとのドキュメントページをみると、タイプごとのオプションが確認できるでしょう。
+同じ内容を意味するオプションなど、複数のタイプで同じオプションが使えるものもあります。</p>
+</div>
+<div class="section" id="required">
+<h3>required<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+<p>trueの場合は <a class="reference external" href="http://diveintohtml5.info/forms.html">HTML5 の required 属性</a> がレンダリングされます。
+対応する <tt class="docutils literal"><span class="pre">label</span></tt> もまた <tt class="docutils literal"><span class="pre">required</span></tt> クラスをレンダリングします。</p>
+<p>これらは表面的でバリデーションからは独立しています。Symfonyに
+フィールドタイプを推測することを許可する場合は、
+このオプションの値はバリデーションの情報から推測されるのが理想的でしょう。</p>
+</div>
+<div class="section" id="max-length">
+<h3>max_length<a class="headerlink" href="#max-length" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>このオプションは <tt class="docutils literal"><span class="pre">maxlength</span></tt> 属性を追加する際に使用します。
+いくつかのブラウザでは、フィールド内のテキストの長さを制限するために使用されています。</p>
+</div>
+</div>
+<div class="section" id="book-forms-field-guessing">
+<span id="index-8"></span><span id="id17"></span><h2>フィールドタイプの推測<a class="headerlink" href="#book-forms-field-guessing" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">Product</span></tt> クラスにはバリデーション用のメタデータが設定されているため、Symfonyはそこに含まれる情報からフィールドに関する情報をいくらか得ることができます。
+そして、Symfonyはそれを元にフィールドタイプを「推測」し、フィールドのセットアップを行うことができます。
+先ほど設定したバリデーション制約の場合、<tt class="docutils literal"><span class="pre">name</span></tt> と <tt class="docutils literal"><span class="pre">price</span></tt> フィールドは どちらも <tt class="docutils literal"><span class="pre">text</span></tt> フィールドと推測されます。
+<tt class="docutils literal"><span class="pre">name</span></tt> フィールドについてはその推測が正しいので、コードを次のように変更し、Symfonyの推測機能を用いるようにします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$product</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Product</span><span class="p">();</span>
+
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$product</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;money&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;USD&#39;</span><span class="p">))</span>
+        <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>バリデーション制約を元にフィールドタイプが推測されることにより、 <tt class="docutils literal"><span class="pre">name</span></tt> フィールドから <tt class="docutils literal"><span class="pre">text</span></tt> タイプという記述を取り除くことができました。
+しかし、<tt class="docutils literal"><span class="pre">price</span></tt> フィールドは、Symfonyが推測するタイプ(<tt class="docutils literal"><span class="pre">text</span></tt>)よりも詳細な情報を持つ <tt class="docutils literal"><span class="pre">money</span></tt> タイプを設定しているため、指定はそのままにしています。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><tt class="docutils literal"><span class="pre">createFormBuilder()</span></tt> メソッドには次の2つの引数を指定できます。</p>
+<ul class="last simple">
+<li>フォームフィールドを初期化するためのデフォルトデータ。
+連想配列か、今回のようなプレーンオールドPHPオブジェクトを受け取ります。</li>
+<li>フォームに渡すオプション配列</li>
+</ul>
+</div>
+<p>この例はあまり実用的ではありませんが、フィールドタイプの推測によって記述量は大きく減らせるでしょう。
+後ほど解説しますが、推測はDoctrineのメタデータからも行えます。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">バリデーション制約を元にした推測では、バリデーショングループは考慮されません。
+推測されたものが正しくない場合、その値を上書きして設定することで対応します。</p>
+</div>
+</div>
+<div class="section" id="form-rendering-template">
+<span id="index-9"></span><span id="id18"></span><h2>フォームのレンダリング<a class="headerlink" href="#form-rendering-template" title="Permalink to this headline">¶</a></h2>
+<p>ここまでの部分で、1行でフォーム全体をレンダリングする方法については説明しました。
+もちろん、より柔軟にレンダリングすることもできます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/StoreBundle/Resources/views/Default/index.html.twig #}</span>
+
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;store_product&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+    <span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+
+    <span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.price</span><span class="o">)</span> <span class="cp">}}</span>
+
+    <span class="cp">{{</span> <span class="nv">form_rest</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- // src/Acme/StoreBundle/Resources/views/Default/index.html.php --&gt;</span>
+
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;router&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;store_product&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">enctype</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">rest</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>それぞれ部分的にみていきます。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">form_enctype(form)</span></tt> - 1つでもファイルアップロード用のフィールドが設定されている場合、 <tt class="docutils literal"><span class="pre">enctype=&quot;multipart/form-data&quot;</span></tt> をレンダリングします。</li>
+<li><tt class="docutils literal"><span class="pre">form_errors(form)</span></tt> - 複数のフィールドにまたがるものなど、フォーム全体に関わるエラー(グローバルエラー)をレンダリングします。</li>
+<li><tt class="docutils literal"><span class="pre">form_row(form.price)</span></tt> - 渡されたフィールド(ここでは <tt class="docutils literal"><span class="pre">price</span></tt>)に対するラベル、エラー、HTMLのフォームウィジェットをレンダリングします。</li>
+<li><tt class="docutils literal"><span class="pre">form_rest(form)</span></tt> - レンダリングされていないすべてのフィールドをレンダリングします。
+hiddenフィールドのレンダリングし忘れなどを防止するために、このヘルパーをフォームの下部に配置します。
+このヘルパーは <a class="reference internal" href="#forms-csrf"><em>CSRF 対策</em></a> としても利用されます。</li>
+</ul>
+<p>ラベルやエラー、HTMLフォームウィジェットのレンダリングなど、大部分の処理は <tt class="docutils literal"><span class="pre">form_row</span></tt> ヘルパーによって行われます。
+なお、デフォルトではフォームウィジェットは <tt class="docutils literal"><span class="pre">div</span></tt> タグで囲まれた状態でレンダリングされます。
+<em class="xref std std-ref">フォームテーマ</em> 節にて、<tt class="docutils literal"><span class="pre">form_row</span></tt> の出力をカスタマイズする方法を解説しています。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">HTML5では、ブラウザ側でフォームのバリデーションを行う仕組みが用意されています。
+Symfonyを用いて生成したフォームはその仕組みを最大限活用するようになっています。
+もしこの仕組みを無効にしたい場合、<tt class="docutils literal"><span class="pre">form</span></tt> タグに <tt class="docutils literal"><span class="pre">novalidate</span></tt> 属性を指定するか、サブミットボタンに <tt class="docutils literal"><span class="pre">formnovalidate</span></tt> 属性を指定します。</p>
+</div>
+<div class="section" id="id19">
+<h3>それぞれのフィールドを手動でレンダリングする<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">form_row</span></tt> ヘルパーは、フィールドを手っ取り早くレンダリングするのにうってつけです(「行(row)」のマークアップはカスタマイズも可能です)。
+複雑なフォームの場合はフィールドを好きなように配置することも可能です。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+
+<span class="nt">&lt;div&gt;</span>
+    <span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;div&gt;</span>
+    <span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.price</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form.price</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.price</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="cp">{{</span> <span class="nv">form_rest</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="nt">&lt;div&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">rest</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>もし自動生成されるラベルを変更したい場合は、次のようにして明示的に指定します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;Product name&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="s1">&#39;Product name&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>これらに加え、フィールドタイプごとにレンダリングオプションが用意されています。
+それぞれのオプションはドキュメントに記載してありますが、中でもよく使われるのがフォームの属性を指定するための <tt class="docutils literal"><span class="pre">attr</span></tt> オプションです。
+次の例ではフィールドに <tt class="docutils literal"><span class="pre">name_field</span></tt> class属性を指定します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="o">{</span> <span class="s1">&#39;attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;name_field&#39;</span><span class="o">}</span> <span class="o">})</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;name_field&#39;</span><span class="p">),</span>
+<span class="p">))</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="twig">
+<h3>Twigテンプレート 関数リファレンス<a class="headerlink" href="#twig" title="Permalink to this headline">¶</a></h3>
+<p>Twigを利用している場合、フォームに関する関数のリファレンスはすべて <a class="reference internal" href="../reference/forms/twig_reference.html"><em>リファレンスマニュアル</em></a> に記載されています。</p>
+</div>
+</div>
+<div class="section" id="book-form-creating-form-classes">
+<span id="index-10"></span><span id="id20"></span><h2>フォームクラスの作成<a class="headerlink" href="#book-form-creating-form-classes" title="Permalink to this headline">¶</a></h2>
+<p>フォームがコントローラ内で直接組み立てができることは既に解説しました。
+しかしながら、フォームの組み立て処理をクラスとして独立させることで、再利用性の向上につながります。
+次は商品フォームを組み立てる処理をクラス化したものです。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/StoreBundle/Form/Type/ProductType.php</span>
+
+<span class="k">namespace</span> <span class="nx">Acme\StoreBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ProductType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;money&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;USD&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;product&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>このクラスには商品フォームを作成するための処理がすべて記述されています(<tt class="docutils literal"><span class="pre">getName()</span></tt> メソッドはタイプを識別するユニークな値を返す必要があります)。
+あとはコントローラでこれを呼び出すだけで素早くフォームが組み立てられます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/StoreBundle/Controller/DefaultController.php</span>
+
+<span class="c1">// クラスの先頭にuseステートメントを追加</span>
+<span class="k">use</span> <span class="nx">Acme\StoreBundle\Form\Type\ProductType</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$product</span> <span class="o">=</span> <span class="c1">// ...</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">ProductType</span><span class="p">(),</span> <span class="nv">$product</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>フォームのデータは <tt class="docutils literal"><span class="pre">setData()</span></tt> メソッドを通じてセットすることもできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">ProductType</span><span class="p">());</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">setData</span><span class="p">(</span><span class="nv">$product</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">setData</span></tt> メソッドを使う場合、フィールドタイプの推測機能を利用するには次のようにフォームクラスを指定する必要があります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">getDefaultOptions</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Acme\StoreBundle\Entity\Product&#39;</span><span class="p">,</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p class="last">このようにするのは、 フォームが作成された時点でフォームタイプの推測が行われ、オブジェクトが渡されるのはそれより後になるためです。</p>
+</div>
+<p>フォームに関する処理をクラスとしてまとめることで、容易に再利用できるようになります。
+これがもっともよいやり方ですが、最終的にどうやるかはあなた次第です。</p>
+</div>
+<div class="section" id="doctrine">
+<span id="index-11"></span><h2>フォームと Doctrine<a class="headerlink" href="#doctrine" title="Permalink to this headline">¶</a></h2>
+<p>フォームを目的はオブジェクト(<tt class="docutils literal"><span class="pre">Product</span></tt> など)のデータを HTML のフォームに変換することと、フォームから送信されたデータを元のオブジェクトに反映することです。
+ここでは <tt class="docutils literal"><span class="pre">Product</span></tt> オブジェクトをデータベースに保存するやり方について解説しますが、フォームとは直接関係のない内容になります。
+<tt class="docutils literal"><span class="pre">Product</span></tt> クラスを Doctrine を用いて保存できるように設定しているのであれば、次のようにして送信されたデータが妥当な場合に保存を行います。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+    <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;doctrine&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getEntityManager</span><span class="p">();</span>
+    <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">persist</span><span class="p">(</span><span class="nv">$product</span><span class="p">);</span>
+    <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;store_product_success&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>もし何らかの理由により、もともとデータが格納されていた <tt class="docutils literal"><span class="pre">$product</span></tt> オブジェクトにアクセスしたくない場合、次のようにしてフォームから取得できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$product</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>より詳しい情報は、 <a class="reference internal" href="doctrine.html"><em>Doctrine ORM の章</em></a> を参照してください。</p>
+<p>重要なことは、フォームにデータがバインドされたとき、そのデータは内部に持つオブジェクトへ直ちに反映されるということです。
+つまりそのデータを保存したいのであれば、単純にそのオブジェクトを保存すればよいわけです。</p>
+<p>もしフォームの内部に持つオブジェクト(<tt class="docutils literal"><span class="pre">Product</span></tt> など)がDoctrine ORMによってマッピングされている場合、フォームフレームワークはバリデーションのメタデータと同様に、その情報をもとにタイプの推測を行います。</p>
+</div>
+<div class="section" id="index-12">
+<span id="id21"></span><h2>フォームの埋め込み<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
+<p>1つのフォームで複数のオブジェクトを使いたいことがしばしばあると思います。
+例えば、<tt class="docutils literal"><span class="pre">User</span></tt> オブジェクトを登録するフォームで <tt class="docutils literal"><span class="pre">Address</span></tt> などの様々なオブジェクトも扱わなければならない場合などです。
+フォームコンポーネントを用いると、簡単かつ自然にこれらの処理が行えます。</p>
+<div class="section" id="id22">
+<h3>単一のオブジェクトの埋め込み<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">Product</span></tt> には <tt class="docutils literal"><span class="pre">Category</span></tt> オブジェクトが紐づいているとします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/StoreBundle/Entity/Category.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\StoreBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Category</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">Product</span></tt> クラスは <tt class="docutils literal"><span class="pre">$category</span></tt> プロパティを持ち、そこに <tt class="docutils literal"><span class="pre">Category</span></tt> が紐づきます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Product</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\Type(type=&quot;Acme\StoreBundle\Entity\Category&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$category</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getCategory</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">category</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setCategory</span><span class="p">(</span><span class="nx">Category</span> <span class="nv">$category</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">category</span> <span class="o">=</span> <span class="nv">$category</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これらをアプリケーションへ反映したら、 <tt class="docutils literal"><span class="pre">Category</span></tt> オブジェクトをユーザーが修正できるようにフォームクラスを作成します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/StoreBundle/Form/Type/CategoryType.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\StoreBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">CategoryType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getDefaultOptions</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Acme\StoreBundle\Entity\Category&#39;</span><span class="p">,</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;category&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">name</span></tt> フィールドのフィールドタイプは <tt class="docutils literal"><span class="pre">Category</span></tt> クラスのバリデーションメタデータをもとに(<tt class="docutils literal"><span class="pre">text</span></tt> と)推測されます。</p>
+<p>ここでの最終目標は <tt class="docutils literal"><span class="pre">Product</span></tt> がもつ <tt class="docutils literal"><span class="pre">Category</span></tt> を  <tt class="docutils literal"><span class="pre">Product</span></tt> のフォームから変更できるようにすることです。
+それをするために <tt class="docutils literal"><span class="pre">ProductType</span></tt> に  <tt class="docutils literal"><span class="pre">category</span></tt> プロパティを追加し、そこに <tt class="docutils literal"><span class="pre">CategoryType</span></tt> オブジェクトを設定します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">CategoryType</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これで <tt class="docutils literal"><span class="pre">CategoryType</span></tt> は <tt class="docutils literal"><span class="pre">ProductType</span></tt> と共にレンダリングできるようになりました。
+<tt class="docutils literal"><span class="pre">Category</span></tt> フィールドのレンダリングは <tt class="docutils literal"><span class="pre">Product</span></tt> のフィールドをレンダリングするのと同じように行えます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# ... #}</span>
+<span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.price</span><span class="o">)</span> <span class="cp">}}</span>
+
+<span class="nt">&lt;h3&gt;</span>Category<span class="nt">&lt;/h3&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;category&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.category.name</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="cp">{{</span> <span class="nv">form_rest</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="c">{# ... #}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- ... --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;price&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+
+<span class="nt">&lt;h3&gt;</span>Category<span class="nt">&lt;/h3&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;category&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;category&#39;</span><span class="p">][</span><span class="s1">&#39;name&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">rest</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+<span class="c">&lt;!-- ... --&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>フォームからデータが送信されると、<tt class="docutils literal"><span class="pre">Category</span></tt> のフィールドに対応するデータが <tt class="docutils literal"><span class="pre">Category</span></tt> オブジェクトに反映されます。
+これらはすべて、メインの <tt class="docutils literal"><span class="pre">Product</span></tt> オブジェクトを操作する一環として行われます。
+<tt class="docutils literal"><span class="pre">Category</span></tt> オブジェクトは <tt class="docutils literal"><span class="pre">$product-&gt;getCategory()</span></tt> のように取得でき、データベースへ保存など、任意に操作できます。</p>
+</div>
+<div class="section" id="id23">
+<h3>複数フォームの埋め込み<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">collection</span></tt> フィールドタイプを使うと、1つのフォームの中に複数フォームを埋め込むこともできます。
+たとえば、<tt class="docutils literal"><span class="pre">reviews</span></tt> プロパティと、そこに対応する <tt class="docutils literal"><span class="pre">ProductReviewType</span></tt> タイプがあるとして、<tt class="docutils literal"><span class="pre">ProductType</span></tt> を次のように変更します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;reviews&#39;</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+       <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="k">new</span> <span class="nx">ProductReviewType</span><span class="p">(),</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="form-theming">
+<span id="index-13"></span><span id="id24"></span><h2>フォームのテーマ<a class="headerlink" href="#form-theming" title="Permalink to this headline">¶</a></h2>
+<p>Every part of how a form renders can be customized. You&#8217;re free to change
+how each form &#8220;row&#8221; renders, change the markup used to render errors, or
+even customize how a textarea tag should be rendered. Nothing is off-limits,
+and different customizations can be used in different places.</p>
+<p>Symfony uses templates to render each and every part of a form, such as
+field <tt class="docutils literal"><span class="pre">label</span></tt> tags, <tt class="docutils literal"><span class="pre">input</span></tt> tags, error messages and everything else.</p>
+<p>In Twig, each form &#8220;fragment&#8221; is represented by a Twig block. To customize
+any part of how a form renders, you just need to override the appropriate block.</p>
+<p>In PHP, each form &#8220;fragment&#8221; is rendered via an individual template file.
+To customize any part of how a form renders, you just need to override the
+existing template by creating a new one.</p>
+<p>To understand how this works, let&#8217;s customize the <tt class="docutils literal"><span class="pre">form_row</span></tt> fragment and
+add a class attribute to the <tt class="docutils literal"><span class="pre">div</span></tt> element that surrounds each row. To
+do this, create a new template file that will store the new markup:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/StoreBundle/Resources/views/Form/fields.html.twig #}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">field_row</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">spaceless</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form_row&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endspaceless</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">field_row</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/StoreBundle/Resources/views/Form/field_row.html.php --&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form_row&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$label</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="nv">$parameters</span><span class="p">)</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">field_row</span></tt> form fragment is used when rendering most fields via the
+<tt class="docutils literal"><span class="pre">form_row</span></tt> function. To tell the component to use your new <tt class="docutils literal"><span class="pre">field_row</span></tt>
+fragment defined above, add the following to the top of the template that
+renders the form:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><pre>{# src/Acme/StoreBundle/Resources/views/Default/index.html.twig #}
+
+{% form_theme form 'AcmeStoreBundle:Form:fields.html.twig' %}
+
+&lt;form ...&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><pre>&lt;!-- src/Acme/StoreBundle/Resources/views/Default/index.html.php --&gt;
+
+&lt;?php $view['form']-&gt;setTheme($form, array('AcmeStoreBundle:Form')) ?&gt;
+
+&lt;form ...&gt;</pre>
+</div>
+</li>
+</ul>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">form_theme</span></tt> tag (in Twig) &#8220;imports&#8221; the fragments defined in the given
+template and uses them when rendering the form. In other words, when <tt class="docutils literal"><span class="pre">form_row</span></tt>
+is called later in this template, it will use the <tt class="docutils literal"><span class="pre">field_row</span></tt> block from
+your custom theme.</p>
+<p>To customize any portion of a form, you just need to override the appropriate
+fragment. Knowing exactly which block or file to override is the subject of
+the next section.</p>
+<p>In the following section, you&#8217;ll learn more about how to customize different
+portions of a form. For a more extensive discussion, see <a class="reference internal" href="../cookbook/form/form_customization.html"><em>フォームのレンダリングのカスタマイズ方法</em></a>.</p>
+<div class="section" id="form-template-blocks">
+<span id="id25"></span><h3>Form Template Blocks<a class="headerlink" href="#form-template-blocks" title="Permalink to this headline">¶</a></h3>
+<p>In Symfony, every part a form that is rendered - HTML form elements, errors,
+labels, etc - is defined in a base theme, which is a collection of blocks
+in Twig and a collection of template files in PHP.</p>
+<p>In Twig, every block needed is defined in the <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig">form_div_layout.html.twig</a> file
+that lives inside the <a class="reference external" href="https://github.com/symfony/symfony/tree/master/src/Symfony/Bridge/Twig">Twig Bridge</a>. Inside this file, you can see every block
+needed to render a form and every default field type.</p>
+<p>In PHP, the fragments are individual template files. By default they are located in
+the <cite>Resources/views/Form</cite> directory of the framework bundle (<a class="reference external" href="https://github.com/symfony/symfony/tree/master/src/Symfony/Bundle/FrameworkBundle/Resources/views/Form">view on GitHub</a>).</p>
+<p>Each fragment name follows the same basic pattern and is broken up into two pieces,
+separated by a single underscore character (<tt class="docutils literal"><span class="pre">_</span></tt>). A few examples are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">field_row</span></tt> - used by <tt class="docutils literal"><span class="pre">form_row</span></tt> to render most fields;</li>
+<li><tt class="docutils literal"><span class="pre">textarea_widget</span></tt> - used by <tt class="docutils literal"><span class="pre">form_widget</span></tt> to render a <tt class="docutils literal"><span class="pre">textarea</span></tt> field
+type;</li>
+<li><tt class="docutils literal"><span class="pre">field_errors</span></tt> - used by <tt class="docutils literal"><span class="pre">form_errors</span></tt> to render errors for a field;</li>
+</ul>
+<p>Each fragment follows the same basic pattern: <tt class="docutils literal"><span class="pre">type_part</span></tt>. The <tt class="docutils literal"><span class="pre">type</span></tt> portion
+corresponds to the field type being rendered (e.g. <tt class="docutils literal"><span class="pre">textarea</span></tt> or <tt class="docutils literal"><span class="pre">checkbox</span></tt>)
+whereas the <tt class="docutils literal"><span class="pre">part</span></tt> portion corresponds to <em>what</em> is being rendered (e.g.
+<tt class="docutils literal"><span class="pre">label</span></tt>, <tt class="docutils literal"><span class="pre">widget</span></tt>). By default, there are exactly 7 possible parts of
+a form that can be rendered:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="28%" />
+<col width="58%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">label</span></tt></td>
+<td>(e.g. <tt class="docutils literal"><span class="pre">field_label</span></tt>)</td>
+<td>renders the field&#8217;s label</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">widget</span></tt></td>
+<td>(e.g. <tt class="docutils literal"><span class="pre">field_widget</span></tt>)</td>
+<td>renders the field&#8217;s HTML representation</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">errors</span></tt></td>
+<td>(e.g. <tt class="docutils literal"><span class="pre">field_errors</span></tt>)</td>
+<td>renders the field&#8217;s errors</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">row</span></tt></td>
+<td>(e.g. <tt class="docutils literal"><span class="pre">field_row</span></tt>)</td>
+<td>renders the field&#8217;s entire row (label+widget+errors)</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">rows</span></tt></td>
+<td>(e.g. <tt class="docutils literal"><span class="pre">field_rows</span></tt>)</td>
+<td>renders the child rows of a form</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">rest</span></tt></td>
+<td>(e.g. <tt class="docutils literal"><span class="pre">field_rest</span></tt>)</td>
+<td>renders the unrendered fields of a form</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">enctype</span></tt></td>
+<td>(e.g. <tt class="docutils literal"><span class="pre">field_enctype</span></tt>)</td>
+<td>renders the <tt class="docutils literal"><span class="pre">enctype</span></tt> attribute of a form</td>
+</tr>
+</tbody>
+</table>
+<p>By knowing the field type (e.g. <tt class="docutils literal"><span class="pre">textarea</span></tt>) and which part you want to
+customize (e.g. <tt class="docutils literal"><span class="pre">widget</span></tt>), you can construct the fragment name that needs
+to be overridden (e.g. <tt class="docutils literal"><span class="pre">textarea_widget</span></tt>).</p>
+</div>
+<div class="section" id="form-type-block-inheritance">
+<h3>Form Type Block Inheritance<a class="headerlink" href="#form-type-block-inheritance" title="Permalink to this headline">¶</a></h3>
+<p>In some cases, the fragment you want to customize will appear to be missing.
+For example, there is no <tt class="docutils literal"><span class="pre">textarea_errors</span></tt> fragment in the default themes
+provided with Symfony. So how are the errors for a textarea field rendered?</p>
+<p>The answer is: via the <tt class="docutils literal"><span class="pre">field_errors</span></tt> fragment. When Symfony renders the errors
+for a textarea type, it looks first for a <tt class="docutils literal"><span class="pre">textarea_errors</span></tt> fragment before
+falling back to the <tt class="docutils literal"><span class="pre">field_errors</span></tt> fragment. Each field type has a <em>parent</em>
+type (the parent type of <tt class="docutils literal"><span class="pre">textarea</span></tt> is <tt class="docutils literal"><span class="pre">field</span></tt>), and Symfony uses the
+fragment for the parent type if the base fragment doesn&#8217;t exist.</p>
+<p>So, to override the errors for <em>only</em> <tt class="docutils literal"><span class="pre">textarea</span></tt> fields, copy the
+<tt class="docutils literal"><span class="pre">field_errors</span></tt> fragment, rename it to <tt class="docutils literal"><span class="pre">textarea_errors</span></tt> and customize it. To
+override the default error rendering for <em>all</em> fields, copy and customize the
+<tt class="docutils literal"><span class="pre">field_errors</span></tt> fragment directly.</p>
+</div>
+<div class="section" id="global-form-theming">
+<h3>Global Form Theming<a class="headerlink" href="#global-form-theming" title="Permalink to this headline">¶</a></h3>
+<p>In addition to <em>theming</em> individual templates, you can also tell Symfony
+to import form customizations across your entire project.</p>
+<div class="section" id="id26">
+<h4>Twig<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
+<p>When using Twig, you&#8217;ve seen how you can use the <tt class="docutils literal"><span class="pre">form_theme</span></tt> Twig tag in a
+template to import form customizations that will be used inside that template.
+You can also tell Symfony to automatically use certain form customizations for
+all templates in your application. To automatically include the customized blocks
+from the <tt class="docutils literal"><span class="pre">fields.html.twig</span></tt> template created earlier, modify your application
+configuration file:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+
+<span class="l-Scalar-Plain">twig</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="s">&#39;AcmeStoreBundle:Form:fields.html.twig&#39;</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+
+&lt;twig:config ...&gt;
+        &lt;twig:form&gt;
+            &lt;resource&gt;AcmeStoreBundle:Form:fields.html.twig&lt;/resource&gt;
+        &lt;/twig:form&gt;
+        &lt;!-- ... --&gt;
+&lt;/twig:config&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;AcmeStoreBundle:Form:fields.html.twig&#39;</span><span class="p">,</span>
+     <span class="p">))</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>Any blocks inside the <tt class="docutils literal"><span class="pre">fields.html.twig</span></tt> template are now used globally
+to define form output.</p>
+<div class="sidebar">
+<p class="first sidebar-title">Customizing Form Output all in a Single File in Twig</p>
+<p>You can also customize a form block right inside the template where that
+customization is needed :</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;::base.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">form_theme</span> <span class="nv">form</span> <span class="p">_</span><span class="nv">self</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">field_row</span> <span class="cp">%}</span>
+    <span class="c">{# custom field row output #}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">field_row</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+    <span class="c">{# ... #}</span>
+
+    <span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">form_theme</span> <span class="pre">form</span> <span class="pre">_self</span> <span class="pre">%}</span></tt> tag allows form blocks to be customized
+directly inside the template that will use those customizations. Use
+this method to quickly make form output customizations that will only
+ever be needed in a single template.</p>
+<p>The form blocks defined in the extension resources (<a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig">form_div_layout.html.twig</a>)
+and in parent views themes are accessible from a form block. This feature is
+shown in the following form customization which uses the <tt class="docutils literal"><span class="pre">attributes</span></tt> block
+defined in <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig">form_div_layout.html.twig</a>:</p>
+<div class="last highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">block</span> <span class="nv">text_widget</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;text_widget&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;widget_attributes&#39;</span><span class="o">)</span> <span class="cp">}}</span> <span class="na">value=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">value</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="php">
+<h4>PHP<a class="headerlink" href="#php" title="Permalink to this headline">¶</a></h4>
+<p>When using PHP, you&#8217;ve seen how you can use the <tt class="docutils literal"><span class="pre">setTheme</span></tt> helper method in a
+template to import form customizations that will be used inside that template.
+You can also tell Symfony to automatically use certain form customizations for all
+templates in your application. To automatically include the customized templates
+from the <cite>Acme/StoreBundle/Resources/views/Form</cite> directory created earlier, modify
+your application configuration file:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">templating</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="s">&#39;AcmeStoreBundle:Form&#39;</span>
+<span class="c1"># ...</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+
+&lt;framework:config ...&gt;
+    &lt;framework:templating&gt;
+        &lt;framework:form&gt;
+            &lt;resource&gt;AcmeStoreBundle:Form&lt;/resource&gt;
+        &lt;/framework:form&gt;
+    &lt;/framework:templating&gt;
+    &lt;!-- ... --&gt;
+&lt;/framework:config&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;templating&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;AcmeStoreBundle:Form&#39;</span><span class="p">,</span>
+     <span class="p">)))</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>Any fragments inside the <cite>Acme/StoreBundle/Resources/views/Form</cite> directory are now
+used globally to define form output.</p>
+</div>
+</div>
+</div>
+<div class="section" id="csrf-protection">
+<span id="forms-csrf"></span><span id="index-14"></span><h2>CSRF Protection<a class="headerlink" href="#csrf-protection" title="Permalink to this headline">¶</a></h2>
+<p>CSRF - or <a class="reference external" href="http://en.wikipedia.org/wiki/Cross-site_request_forgery">Cross-site request forgery</a> - is a method by which a malicious
+user attempts to make your legitimate users unknowingly submit data that
+they don&#8217;t intend to submit. Fortunately, CSRF attacks can be prevented by
+using a CSRF token inside your forms.</p>
+<p>The good news is that, by default, Symfony embeds and validates CSRF tokens
+automatically for you. This means that you can take advantage of the CSRF
+protection without doing anything. In fact, every form in this chapter has
+taken advantage of the CSRF protection!</p>
+<p>CSRF protection works by adding a field to your form - called <tt class="docutils literal"><span class="pre">_token</span></tt> by
+default - that contains a value that only you and your user knows. This ensures
+that the user - not some other entity - is submitting the given data. Symfony
+automatically validates the presence and accuracy of this token.</p>
+<p>The <tt class="docutils literal"><span class="pre">_token</span></tt> field is a hidden field and will be automatically rendered
+if you include the <tt class="docutils literal"><span class="pre">form_rest()</span></tt> function in your template, which ensures
+that all un-rendered fields are output.</p>
+<p>The CSRF token can be customized on a form-by-form basis. For example:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">ProductType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getDefaultOptions</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;data_class&#39;</span>      <span class="o">=&gt;</span> <span class="s1">&#39;Acme\StoreBundle\Entity\Product&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;csrf_protection&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+            <span class="s1">&#39;csrf_field_name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;_token&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;intention&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;product_creation&#39;</span><span class="p">,</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;product&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To disable CSRF protection, set the <tt class="docutils literal"><span class="pre">csrf_protection</span></tt> option to false.
+Customizations can also be made globally in your project. For more information,
+see the <em class="xref std std-ref">form configuration reference</em>
+section.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <tt class="docutils literal"><span class="pre">intention</span></tt> option is optional but greatly enhances the security of
+the generated token by making it different for each form.</p>
+</div>
+</div>
+<div class="section" id="final-thoughts">
+<h2>Final Thoughts<a class="headerlink" href="#final-thoughts" title="Permalink to this headline">¶</a></h2>
+<p>You now know all of the building blocks necessary to build complex and
+functional forms for your application. When building forms, keep in mind that
+the first goal of a form is to translate data from an object (<tt class="docutils literal"><span class="pre">Product</span></tt>) to an
+HTML form so that the user can modify that data. The second goal of a form is to
+take the data submitted by the user and to re-apply it to the object.</p>
+<p>There&#8217;s still much more to learn about the powerful world of forms, such as
+how to handle <a class="reference internal" href="../cookbook/doctrine/file_uploads.html"><em>file uploads with Doctrine</em></a> or how to create a form where a dynamic
+number of sub-forms can be added (e.g. a todo list where you can keep adding
+more fields via Javascript before submitting). See the cookbook for these
+topics.</p>
+</div>
+<div class="section" id="learn-more-from-the-cookbook">
+<h2>Learn more from the Cookbook<a class="headerlink" href="#learn-more-from-the-cookbook" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../cookbook/doctrine/file_uploads.html"><em>Doctrine でファイルアップロードを扱う方法</em></a></li>
+<li><a class="reference internal" href="../reference/forms/types/file.html"><em>File Field Reference</em></a></li>
+<li><a class="reference internal" href="../cookbook/form/create_custom_field_type.html"><em>Creating Custom Field Types</em></a></li>
+<li><a class="reference internal" href="../cookbook/form/form_customization.html"><em>フォームのレンダリングのカスタマイズ方法</em></a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="validation.html">< バリデーション</a>
+<a class="next" href="security.html">セキュリティ ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/book/forms.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/forms.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/forms.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">フォーム</a><ul>
+<li><a class="reference internal" href="#index-1">シンプルなフォームの作成</a><ul>
+<li><a class="reference internal" href="#index-2">フォームを組み立てる</a></li>
+<li><a class="reference internal" href="#index-3">フォームに送信されたデータを処理する</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-4">フォームバリデーション</a><ul>
+<li><a class="reference internal" href="#book-forms-validation-groups">バリデーショングループ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#book-forms-type-reference">用意されているフィールドタイプ</a><ul>
+<li><a class="reference internal" href="#id10">テキストフィールド</a></li>
+<li><a class="reference internal" href="#id11">選択フィールド</a></li>
+<li><a class="reference internal" href="#id12">日付フィールド、時刻フィールド</a></li>
+<li><a class="reference internal" href="#id13">その他のフィールド</a></li>
+<li><a class="reference internal" href="#id14">フィールドグループ</a></li>
+<li><a class="reference internal" href="#hidden">Hidden フィールド</a></li>
+<li><a class="reference internal" href="#id15">ボタンフィールド</a></li>
+<li><a class="reference internal" href="#base">Base フィールド</a></li>
+<li><a class="reference internal" href="#index-7">一般的なフィールドタイプのオプション</a></li>
+<li><a class="reference internal" href="#required">required</a></li>
+<li><a class="reference internal" href="#max-length">max_length</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#book-forms-field-guessing">フィールドタイプの推測</a></li>
+<li><a class="reference internal" href="#form-rendering-template">フォームのレンダリング</a><ul>
+<li><a class="reference internal" href="#id19">それぞれのフィールドを手動でレンダリングする</a></li>
+<li><a class="reference internal" href="#twig">Twigテンプレート 関数リファレンス</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#book-form-creating-form-classes">フォームクラスの作成</a></li>
+<li><a class="reference internal" href="#doctrine">フォームと Doctrine</a></li>
+<li><a class="reference internal" href="#index-12">フォームの埋め込み</a><ul>
+<li><a class="reference internal" href="#id22">単一のオブジェクトの埋め込み</a></li>
+<li><a class="reference internal" href="#id23">複数フォームの埋め込み</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#form-theming">フォームのテーマ</a><ul>
+<li><a class="reference internal" href="#form-template-blocks">Form Template Blocks</a></li>
+<li><a class="reference internal" href="#form-type-block-inheritance">Form Type Block Inheritance</a></li>
+<li><a class="reference internal" href="#global-form-theming">Global Form Theming</a><ul>
+<li><a class="reference internal" href="#id26">Twig</a></li>
+<li><a class="reference internal" href="#php">PHP</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#csrf-protection">CSRF Protection</a></li>
+<li><a class="reference internal" href="#final-thoughts">Final Thoughts</a></li>
+<li><a class="reference internal" href="#learn-more-from-the-cookbook">Learn more from the Cookbook</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="validation.html"
+                        title="previous chapter">バリデーション</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="security.html"
+                        title="next chapter">セキュリティ</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/book/forms.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

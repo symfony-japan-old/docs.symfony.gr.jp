@@ -1,0 +1,400 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Serializerコンポーネント | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン : 2.3</li>
+<li>翻訳更新日 : 2013/11/25</li>
+</ul>
+</div>
+<div class="section" id="serializer">
+<h1>Serializerコンポーネント<a class="headerlink" href="#serializer" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div>Serializer コンポーネントは、オブジェクトを別のフォーマット（XML、JSON、 Yamlなど）に変更するのに使われます。</div></blockquote>
+<p>そのために、 Serializer コンポーネントは下図のようなシンプルな仕組みに従っています。</p>
+<span id="component-serializer-encoders"></span><img alt="../images/serializer_workflow.png" id="component-serializer-normalizers" src="../_images/serializer_workflow.png" />
+<p>上の図を見るとわかるように、配列（Array）が仲介として使われています。
+つまり、 Encoder は <strong>フォーマット</strong> を <strong>配列</strong> に変換したり元に戻したりするのを担当し、 Normalizer は <strong>オブジェクト</strong> を <strong>配列</strong> に変換したり戻したりするのを担当しています。</p>
+<p>シリアライズは複雑な課題であり、Serializer コンポーネントはすべてのケースに使えるわけではありませんが、開発者がシリアライズしたいオブジェクトをシリアライズする道具を作るのに役立つでしょう。</p>
+<div class="section" id="id1">
+<h2>インストール<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>コンポーネントをインストールする方法は2つあります。</p>
+<ul class="simple">
+<li><a class="reference internal" href="using_components.html"><em>Composer</em></a> (<a class="reference external" href="https://packagist.org/packages/symfony/serializer">Packagist</a> の <tt class="docutils literal"><span class="pre">symfony/serializer</span></tt>)</li>
+<li>公式Gitレポジトリ (<a class="reference external" href="https://github.com/symfony/Serializer">https://github.com/symfony/Serializer</a>)</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>使い方<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Serializer コンポーネントの使い方は、本当にシンプルです。利用できる Encoder と Normalizer を指定して <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Serializer</span></tt> を開始するだけです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Serializer</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Encoder\XmlEncoder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Encoder\JsonEncoder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer</span><span class="p">;</span>
+
+<span class="nv">$encoders</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="k">new</span> <span class="nx">XmlEncoder</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">JsonEncoder</span><span class="p">());</span>
+<span class="nv">$normalizers</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="k">new</span> <span class="nx">GetSetMethodNormalizer</span><span class="p">());</span>
+
+<span class="nv">$serializer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Serializer</span><span class="p">(</span><span class="nv">$normalizers</span><span class="p">,</span> <span class="nv">$encoders</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>オブジェクトをシリアライズする<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>例を動かしてみる前に、下のクラスがプロジェクトに含まれていることを確認してください。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Acme</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Person</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$age</span><span class="p">;</span>
+    <span class="k">private</span> <span class="nv">$name</span><span class="p">;</span>
+
+    <span class="c1">// Getters</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getAge</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Setters</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setAge</span><span class="p">(</span><span class="nv">$age</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">age</span> <span class="o">=</span> <span class="nv">$age</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>この Person オブジェクトを JSON にシリアライズしたいなら、先に作った Serializer サービスをこのように使うだけです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$person</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Acme\Person</span><span class="p">();</span>
+<span class="nv">$person</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
+<span class="nv">$person</span><span class="o">-&gt;</span><span class="na">setAge</span><span class="p">(</span><span class="mi">99</span><span class="p">);</span>
+
+<span class="nv">$jsonContent</span> <span class="o">=</span> <span class="nv">$serializer</span><span class="o">-&gt;</span><span class="na">serialize</span><span class="p">(</span><span class="nv">$person</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">);</span>
+
+<span class="c1">// $jsonContent には {&quot;name&quot;:&quot;foo&quot;,&quot;age&quot;:99} が入ります</span>
+
+<span class="k">echo</span> <span class="nv">$jsonContent</span><span class="p">;</span> <span class="c1">// もしくは、Responseに渡すこともできます</span>
+</pre></div>
+</div>
+<p><a href="#id4"><span class="problematic" id="id5">:method:`Symfony\\Component\\Serializer\\Serializer::serialize`</span></a> メソッドの第一引数はシリアライズしたいオブジェクト、第二引数は使いたい encoder を指定するのに使います。
+encoder は、この例では <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Encoder\JsonEncoder</span></tt> です。</p>
+<div class="section" id="id6">
+<h3>シリアライズ時に属性を無視する<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span>New in version 2.3: </span><a href="#id7"><span class="problematic" id="id8">:method:`GetSetMethodNormalizer::setIgnoredAttributes&lt;Symfony\\Component\\Serializer\\Normalizer\\GetSetMethodNormalizer::setIgnoredAttributes&gt;`</span></a> メソッドは Symfony 2.3 で追加されました。</p>
+</div>
+<p>オプションとして、シリアライズ時に元のオブジェクトの属性を無視させることもできます。
+属性を無視させたいときは、 normalizer の定義時に <a href="#id9"><span class="problematic" id="id10">:method:`Symfony\\Component\\Serializer\\Normalizer\\GetSetMethodNormalizer::setIgnoredAttributes`</span></a>
+を使います。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Serializer</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Encoder\JsonEncoder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer</span><span class="p">;</span>
+
+<span class="nv">$normalizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GetSetMethodNormalizer</span><span class="p">();</span>
+<span class="nv">$normalizer</span><span class="o">-&gt;</span><span class="na">setIgnoredAttributes</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;age&#39;</span><span class="p">));</span>
+<span class="nv">$encoder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JsonEncoder</span><span class="p">();</span>
+
+<span class="nv">$serializer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Serializer</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$normalizer</span><span class="p">),</span> <span class="k">array</span><span class="p">(</span><span class="nv">$encoder</span><span class="p">));</span>
+<span class="nv">$serializer</span><span class="o">-&gt;</span><span class="na">serialize</span><span class="p">(</span><span class="nv">$person</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">);</span> <span class="c1">// シリアライズ結果は {&quot;name&quot;:&quot;foo&quot;} になります</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id11">
+<h2>オブジェクトをデシリアライズする<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>今度はちょうど反対の処理を見てみましょう。
+<tt class="docutils literal"><span class="pre">Person</span></tt> クラスの情報は、 XML にエンコードされています。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="s">&lt;&lt;&lt;EOF</span>
+<span class="s">&lt;person&gt;</span>
+<span class="s">    &lt;name&gt;foo&lt;/name&gt;</span>
+<span class="s">    &lt;age&gt;99&lt;/age&gt;</span>
+<span class="s">&lt;/person&gt;</span>
+<span class="s">EOF;</span>
+
+<span class="nv">$person</span> <span class="o">=</span> <span class="nv">$serializer</span><span class="o">-&gt;</span><span class="na">deserialize</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span><span class="s1">&#39;Acme\Person&#39;</span><span class="p">,</span><span class="s1">&#39;xml&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>この例では、 <a href="#id12"><span class="problematic" id="id13">:method:`Symfony\\Component\\Serializer\\Serializer::deserialize`</span></a> メソッドには3つの引数が必要です。</p>
+<ol class="arabic simple">
+<li>デコードする情報</li>
+<li>デコード先のクラスの名前</li>
+<li>情報を配列に変換するのに使う encoder</li>
+</ol>
+</div>
+<div class="section" id="id14">
+<h2>アンダースコア付きの属性にキャメルケース式のメソッド名を使う<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span>New in version 2.3: </span><a href="#id15"><span class="problematic" id="id16">:method:`GetSetMethodNormalizer::setCamelizedAttributes&lt;Symfony\\Component\\Serializer\\Normalizer\\GetSetMethodNormalizer::setCamelizedAttributes&gt;`</span></a>　は Symfony 2.3 で追加されました。</p>
+</div>
+<p>シリアライズ後の形式に含まれる属性名にアンダースコアがついていることがあります。（たとえば、 <tt class="docutils literal"><span class="pre">first_name</span></tt> のように）
+もし <tt class="docutils literal"><span class="pre">getFirstName</span></tt> のようなメソッド名を使いたいとしても、通常はアンダースコア付きの属性には <tt class="docutils literal"><span class="pre">getFirst_name</span></tt> のようなメソッド名でゲッター・セッターが使われてしまいます。
+そのような場合には、 normalizer を定義する時に <a href="#id17"><span class="problematic" id="id18">:method:`Symfony\\Component\\Serializer\\Normalizer\\GetSetMethodNormalizer::setCamelizedAttributes`</span></a> メソッドを使います。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$encoder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JsonEncoder</span><span class="p">();</span>
+<span class="nv">$normalizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GetSetMethodNormalizer</span><span class="p">();</span>
+<span class="nv">$normalizer</span><span class="o">-&gt;</span><span class="na">setCamelizedAttributes</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">));</span>
+
+<span class="nv">$serializer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Serializer</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="nv">$normalizer</span><span class="p">),</span> <span class="k">array</span><span class="p">(</span><span class="nv">$encoder</span><span class="p">));</span>
+
+<span class="nv">$json</span> <span class="o">=</span> <span class="s">&lt;&lt;&lt;EOT</span>
+<span class="s">{</span>
+<span class="s">    &quot;name&quot;:       &quot;foo&quot;,</span>
+<span class="s">    &quot;age&quot;:        &quot;19&quot;,</span>
+<span class="s">    &quot;first_name&quot;: &quot;bar&quot;</span>
+<span class="s">}</span>
+<span class="s">EOT;</span>
+
+<span class="nv">$person</span> <span class="o">=</span> <span class="nv">$serializer</span><span class="o">-&gt;</span><span class="na">deserialize</span><span class="p">(</span><span class="nv">$json</span><span class="p">,</span> <span class="s1">&#39;Acme\Person&#39;</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>こうすると、デシリアライズ時に <tt class="docutils literal"><span class="pre">first_name</span></tt> は <tt class="docutils literal"><span class="pre">firstName</span></tt> であるかのように扱われ、メソッド名として <tt class="docutils literal"><span class="pre">getFirstName</span></tt> と <tt class="docutils literal"><span class="pre">setFirstName</span></tt>  が使われるようになります。</p>
+</div>
+<div class="section" id="jmsserializer">
+<h2>JMSSerializer<a class="headerlink" href="#jmsserializer" title="Permalink to this headline">¶</a></h2>
+<p>サードパーティのライブラリ <a class="reference external" href="https://github.com/schmittjoh/serializer">JMS serializer</a> は、もっと複雑な方式ではありますが、より洗練されています。
+このライブラリは、オブジェクトをどのようにシリアライズ・デシリアライズするべきかをアノテーション（YML,XML,PHPでも同様）により設定することができ、 Doctrine ORM や循環参照があるオブジェクトでも扱うことができます。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/components/serializer.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/serializer.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/serializer.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Serializerコンポーネント</a><ul>
+<li><a class="reference internal" href="#id1">インストール</a></li>
+<li><a class="reference internal" href="#id2">使い方</a></li>
+<li><a class="reference internal" href="#id3">オブジェクトをシリアライズする</a><ul>
+<li><a class="reference internal" href="#id6">シリアライズ時に属性を無視する</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11">オブジェクトをデシリアライズする</a></li>
+<li><a class="reference internal" href="#id14">アンダースコア付きの属性にキャメルケース式のメソッド名を使う</a></li>
+<li><a class="reference internal" href="#jmsserializer">JMSSerializer</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/components/serializer.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

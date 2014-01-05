@@ -1,0 +1,376 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>サービスコンテナで外部パラメータをセットする方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="クックブック" href="../index.html" />
+    <link rel="next" title="PHP をテンプレートエンジンとして使う" href="../templating/PHP.html" />
+    <link rel="prev" title="PdoSessionStorage を使用してデータベースにセッションを格納する方法" href="pdo_session_storage.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="index-0">
+<span id="id1"></span><h1>サービスコンテナで外部パラメータをセットする方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="environments.html"><em>新しい環境を作成して、使いこなす方法</em></a> の章では、アプリケーションのコンフィギュレーションの運営方法について学びました。なたのプロジェクトのコードの外部に証明書 (credentials) を格納することで恩恵があるときもあるでしょう。例えば、データベースに関する設定です。 Symfony のサービスコンテナは柔軟なので、そういったことも簡単にできます。</p>
+<div class="section" id="id2">
+<h2>環境変数<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Symfony は、 <tt class="docutils literal"><span class="pre">SYMFONY__</span></tt> の接頭辞の付いたあらゆる環境変数を読み取り、サービスコンテナのパラメータとしてセットすることができます。環境変数名では、ピリオドを使用することできないため、アンダースコア２つを使用しており、 Symfony 内で、ピリオドに置換されます。</p>
+<p>Apache を使用してるのであれば、次の <tt class="docutils literal"><span class="pre">VirtualHost</span></tt> の設定を使用して、環境変数をセットすることができます</p>
+<div class="highlight-apache"><div class="highlight"><pre><span class="nt">&lt;VirtualHost</span> <span class="s">*:80</span><span class="nt">&gt;</span>
+    <span class="nb">ServerName</span>      Symfony2
+    <span class="nb">DocumentRoot</span>    <span class="s2">&quot;/path/to/symfony_2_app/web&quot;</span>
+    <span class="nb">DirectoryIndex</span>  index.php index.html
+    <span class="nb">SetEnv</span>          SYMFONY__DATABASE__USER <span class="k">user</span>
+    <span class="nb">SetEnv</span>          SYMFONY__DATABASE__PASSWORD secret
+
+    <span class="nt">&lt;Directory</span> <span class="s">&quot;/path/to/my_symfony_2_app/web&quot;</span><span class="nt">&gt;</span>
+        <span class="nb">AllowOverride</span> <span class="k">All</span>
+        <span class="nb">Allow</span> from <span class="k">All</span>
+    <span class="nt">&lt;/Directory&gt;</span>
+<span class="nt">&lt;/VirtualHost&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>上記の例は、  <cite>SetEnv</cite> ディレクティブを使用して Apache の設定をしています。環境変数のセットを支援する全てのウェブサーバであれば、このように使用することができます。</p>
+<p>また、 Apache からではなく、コンソールから使用できるようにするために、シェル変数としてこれらの設定をエクスポートする必要があります。 Unix の場合であれば、次を実行してください。</p>
+<div class="last highlight-bash"><div class="highlight"><pre><span class="nb">export </span><span class="nv">SYMFONY__DATABASE__USER</span><span class="o">=</span>user
+<span class="nb">export </span><span class="nv">SYMFONY__DATABASE__PASSWORD</span><span class="o">=</span>secret
+</pre></div>
+</div>
+</div>
+<p>これで環境変数を宣言したので、環境変数は、 PHP のグローバル変数 <tt class="docutils literal"><span class="pre">$_SERVER</span></tt> に入ります。そして Symfony は、自動的に <tt class="docutils literal"><span class="pre">$_SERVER</span></tt> 変数を <tt class="docutils literal"><span class="pre">SYMFONY__</span></tt> の接頭辞を付けてサービスコンテナのパラメータとしてセットします。</p>
+<p>これで必要なときに、これらのパラメータを参照することができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><pre>doctrine:
+    dbal:
+        driver    pdo_mysql
+        dbname:   symfony2_project
+        user:     %database.user%
+        password: %database.password%</pre>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- xmlns:doctrine=&quot;http://symfony.com/schema/dic/doctrine&quot; --&gt;</span>
+<span class="c">&lt;!-- xsi:schemaLocation=&quot;http://symfony.com/schema/dic/doctrine http://symfony.com/schema/dic/doctrine/doctrine-1.0.xsd&quot;&gt; --&gt;</span>
+
+<span class="nt">&lt;doctrine:config&gt;</span>
+    <span class="nt">&lt;doctrine:dbal</span>
+        <span class="na">driver=</span><span class="s">&quot;pdo_mysql&quot;</span>
+        <span class="na">dbname=</span><span class="s">&quot;symfony2_projet&quot;</span>
+        <span class="na">user=</span><span class="s">&quot;%database.user%&quot;</span>
+        <span class="na">password=</span><span class="s">&quot;%database.password%&quot;</span>
+    <span class="nt">/&gt;</span>
+<span class="nt">&lt;/doctrine:config&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;doctrine&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;dbal&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;driver&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;pdo_mysql&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dbname&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;symfony2_project&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;user&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;%database.user%&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;password&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;%database.password%&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>定数<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>コンテナは、 PHP の定数もパラメータとしてセットできます。この機能のアドバンテージを享受するには、定数の名前をパラメータキーとしてマップし、 <tt class="docutils literal"><span class="pre">constant</span></tt> としてそのタイプを定義します。</p>
+<blockquote>
+<div><div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+<span class="nt">&gt;</span>
+
+    <span class="nt">&lt;parameters&gt;</span>
+        <span class="nt">&lt;parameter</span> <span class="na">key=</span><span class="s">&quot;global.constant.value&quot;</span> <span class="na">type=</span><span class="s">&quot;constant&quot;</span><span class="nt">&gt;</span>GLOBAL_CONSTANT<span class="nt">&lt;/parameter&gt;</span>
+        <span class="nt">&lt;parameter</span> <span class="na">key=</span><span class="s">&quot;my_class.constant.value&quot;</span> <span class="na">type=</span><span class="s">&quot;constant&quot;</span><span class="nt">&gt;</span>My_Class::CONSTANT_NAME<span class="nt">&lt;/parameter&gt;</span>
+    <span class="nt">&lt;/parameters&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>これは XML のコンフィギュレーションのみで動作します。 XML を使用して <em>いなければ</em> 、次のようにこの機能のアドバンテージを享受するための XML をインポートするだけです。</p>
+<div class="last highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">// app/config/config.yml</span>
+<span class="l-Scalar-Plain">imports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">resource</span><span class="p-Indicator">:</span> <span class="nv">parameters.xml</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>その他のコンフィギュレーション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">imports</span></tt> ディレクティブは、他の場所で格納されたパラメータを参照することができます。 PHP ファイルをインポートすることができるので、コンテナの中で必要になったもの全てを加えることができ、柔軟です。次の例では、 <tt class="docutils literal"><span class="pre">parameters.php</span></tt> という名前のファイルをインポートいています。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">imports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">resource</span><span class="p-Indicator">:</span> <span class="nv">parameters.php</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="nt">&lt;imports&gt;</span>
+    <span class="nt">&lt;import</span> <span class="na">resource=</span><span class="s">&quot;parameters.php&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/imports&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">import</span><span class="p">(</span><span class="s1">&#39;parameters.php&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">リソースファイルは、 PHP, XML, YAML, INI, そしてクロージャリソースなどたくさんの種類を使用することができ、全て <tt class="docutils literal"><span class="pre">imports</span></tt> ディレクティブでサポートしています。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">parameters.php</span></tt> では、サービスコンテナにセットしたいパラメータを指定します。非標準なフォーマットのコンフィギュレーションをインポートする際に便利です。下記の例では、 Drupal のデータベースの設定を Symfony のサービスコンテナにインクルードしています。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/parameters.php</span>
+
+<span class="k">include_once</span><span class="p">(</span><span class="s1">&#39;/path/to/drupal/sites/default/settings.php&#39;</span><span class="p">);</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="s1">&#39;drupal.database.url&#39;</span><span class="p">,</span> <span class="nv">$db_url</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="pdo_session_storage.html">< PdoSessionStorage を使用してデータベースにセッションを格納する方法</a>
+<a class="next" href="../templating/PHP.html">PHP をテンプレートエンジンとして使う ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/configuration/external_parameters.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/configuration/external_parameters.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/configuration/external_parameters.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">サービスコンテナで外部パラメータをセットする方法</a><ul>
+<li><a class="reference internal" href="#id2">環境変数</a></li>
+<li><a class="reference internal" href="#id3">定数</a></li>
+<li><a class="reference internal" href="#id4">その他のコンフィギュレーション</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="pdo_session_storage.html"
+                        title="previous chapter">PdoSessionStorage を使用してデータベースにセッションを格納する方法</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../templating/PHP.html"
+                        title="next chapter">PHP をテンプレートエンジンとして使う</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/configuration/external_parameters.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

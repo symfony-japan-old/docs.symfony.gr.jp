@@ -1,0 +1,289 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>用語集 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="static/jquery.js"></script>
+    <script type="text/javascript" src="static/underscore.js"></script>
+    <script type="text/javascript" src="static/doctools.js"></script>
+      <script type="text/javascript" src="static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="index.html">トップ（索引）</a></li>
+          <li><a href="quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="book/index.html">ガイドブック</a></li>
+          <li><a href="cookbook/index.html">クックブック</a></li>
+          <li><a href="components/index.html">コンポーネント</a></li>
+          <li><a href="reference/index.html">リファレンス</a></li>
+          <li><a href="contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>用語集<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<dl class="glossary docutils">
+<dt id="term-acme">Acme</dt>
+<dd><em>Acme</em> は、Symfonyのデモやドキュメントで使われるサンプルの企業名です。
+たとえば <tt class="docutils literal"><span class="pre">Acme\BlogBundle</span></tt> のように名前空間で企業名をいれるような場所で使われます。</dd>
+<dt id="term-http">HTTP 仕様</dt>
+<dd><em>HTTP 仕様</em>は、Hypertext Transfer Protocol - 古典的なクライアントサーバー型のリクエストとレスポンスの通信に関する一連のルールを記載したドキュメントです。
+仕様には、リクエストとレスポンスのフォーマットや、それぞれに付加されるHTTPヘッダーが定義されています。
+詳細は、<a class="reference external" href="http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol">WikipediaのHTTP</a>の記事か、<a class="reference external" href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">HTTP 1.1 RFC</a>を参照してください。</dd>
+<dt id="term-yaml">YAML</dt>
+<dd><em>YAML</em> は &#8220;YAML Ain&#8217;t a Markup Language&#8221; の頭文字をとった言葉です。
+軽量で人が読みやすいデータ記述言語で、Symfony2のコンフィギュレーションファイルで多く使われています。
+<a class="reference internal" href="components/yaml.html"><em>YAMLコンポーネント</em></a> の章を参照してください。</dd>
+<dt id="term-12">アクション</dt>
+<dd><em>アクション</em>はPHPの関数またはメソッドで、たとえば指定されたルートにマッチした場合に実行されます。
+アクションは <em>コントローラ</em> と同義語ですが、通常コントローラは複数のアクションを含む1つのPHPクラス全体を指します。
+<a class="reference internal" href="book/controller.html"><em>コントローラの章</em></a>も参照してください。</dd>
+<dt id="term-13">アセット</dt>
+<dd><em>アセット</em>とは、実行形式のファイルではない、Webアプリケーションの静的コンポーネントで、たとえばCSS、JavaScript、画像や動画などです。
+アセットはプロジェクトの <tt class="docutils literal"><span class="pre">web</span></tt> ディレクトリに直接配置するか、<tt class="docutils literal"><span class="pre">assets:install</span></tt> コンソールタスクを使って <a class="reference internal" href="#term-3"><em class="xref std std-term">バンドル</em></a> からWebディレクトリへパブリッシュします。</dd>
+<dt id="term-2">アプリケーション</dt>
+<dd><em>アプリケーション</em>は、指定されたバンドル一式に対する <em>コンフィギュレーション</em>
+の内容が格納されているディレクトリです。</dd>
+<dt id="term-14">カーネル</dt>
+<dd><em>カーネル</em>は、Symfony2のコアです。
+カーネルオブジェクトは、登録されたすべてのバンドルとライブラリを使ってHTTPリクエストを処理します。
+<em class="xref std std-ref">アーキテクチャ：アプリケーションディレクトリ</em>および<a class="reference internal" href="book/internals.html"><em>内部構造</em></a>の章を参照してください。</dd>
+<dt id="term-5">コントローラ</dt>
+<dd><em>コントローラ</em>は、特定のページを表現する <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返すのに必要なすべてのロジックが記述される PHP コードです。
+通常、ルートがコントローラにマップされ、コントローラ内で処理するためにリクエストから情報が取り出され、アクションが実行され、最終的に <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトが組み立てられ返されます。</dd>
+<dt id="term-6">サービス</dt>
+<dd><em>サービス</em>は一般用語で、特定のタスクを処理するPHPオブジェクトを指します。
+サービスは、通常 &#8220;グローバル&#8221; に使われます。たとえば、データベースオブジェクトやメールメッセージを配信するオブジェクトなどがそうです。
+Symfony2では、サービスコンテナを使ってサービスのコンフィギュレーションとサービスの取得が行われます。
+結合度の低い多くのサービスで構成されたアプリケーションは、<a class="reference external" href="http://wikipedia.org/wiki/Service-oriented_architecture">サービス指向アーキテクチャ</a>に従っていると言えます。</dd>
+<dt id="term-7">サービスコンテナ</dt>
+<dd><em>サービスコンテナ</em>は、<em>DIコンテナ</em>とも呼ばれ、アプリケーションの内部でサービスのインスタンス化を管理する特別なオブジェクトです。
+サービスを直接インスタンス化する代わりに、サービスのインスタンス化手順をサービスコンテナへ<em>教えます</em> (コンフィギュレーションを使います)。
+サービスコンテナによりサービスが必要になった時点でインスタンス化され、依存するサービスの注入が自動的に行われます。
+<a class="reference internal" href="book/service_container.html"><em>サービスコンテナ</em></a> を参照してください。</dd>
+<dt id="term-">ディストリビューション</dt>
+<dd><em>ディストリビューション</em>は、Symfony2コンポーネント、選りすぐりのバンドル、使いやすいディレクトリ構造とデフォルトのコンフィギュレーション、およびオプションのコンフィギュレーションシステムなどがまとめられたパッケージです。</dd>
+<dt id="term-3">バンドル</dt>
+<dd><em>バンドル</em>は、ひとつのフィーチャー(ブログ、フォーム、...)を<em>実装</em>する
+ために必要なファイル(PHPファイル、スタイルシート、JavaScript、画像、...)を
+1セットとして構造化したもので、他の開発者と容易に共有することもできます。</dd>
+<dt id="term-1">プロジェクト</dt>
+<dd><em>プロジェクト</em>は、アプリケーションやバンドル、ベンダーライブラリ、
+オートローダー、Webフロントコントローラーが格納されているディレクトリです。</dd>
+<dt id="term-15">ファイアウォール</dt>
+<dd>Symfony2では、<em>ファイアウォール</em>はネットワークとは関係ありません。
+その代わり、たとえばユーザーIDを識別する処理といった、アプリケーション全体またはその一部に対する認証機構を定義します。
+<a class="reference internal" href="book/security.html"><em>セキュリティ</em></a>の章を参照してください。</dd>
+<dt id="term-4">フロントコントローラ</dt>
+<dd><em>フロントコントローラ</em>とは、プロジェクトのWebディレクトリにある小さなPHPファイルです。
+通常、フロントコントローラはSymfonyアプリケーションの起動を行い、<em>すべての</em>リクエストは同一のフロントコントローラでハンドルされます。</dd>
+<dt id="term-10">ベンダー</dt>
+<dd><em>ベンダー</em>とは、Symfony2も含めたPHPのライブラリやバンドルの提供者のことです。
+言葉の本来の意味とは関係なく、Symfonyでは通常、vendorにフリーソフトウェアが含まれています。
+Symfony2プロジェクトにライブラリを追加する場合は、必ず <tt class="docutils literal"><span class="pre">vendor</span></tt> ディレクトリ配下へ格納してください。
+<a class="reference internal" href="quick_tour/the_architecture.html#using-vendors"><em>アーキテクチャ: vendorディレクトリの使い方</em></a>も参照してください。</dd>
+<dt id="term-9">環境</dt>
+<dd>環境とは、特定のコンフィギュレーションセットを指す文字列で、たとえば <tt class="docutils literal"><span class="pre">prod</span></tt> や <tt class="docutils literal"><span class="pre">dev</span></tt> などがあります。
+特定のコンピュータ上の1つのアプリケーションを複数のコンフィギュレーションで実行したい場合は、異なる環境を使ってアプリケーションを実行します。
+これにより、単一のアプリケーションでデバッグ用に <tt class="docutils literal"><span class="pre">dev</span></tt> 環境、プロダクション向けに最適化された <tt class="docutils literal"><span class="pre">prod</span></tt> と使い分けることができます。</dd>
+</dl>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/glossary.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/glossary.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/glossary.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/glossary.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="book/installation.html">インストール方法</a></li>
+              <li><a href="reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="index.html">トップ（索引）</a></li>
+          <li><a href="quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="book/index.html">ガイドブック</a></li>
+          <li><a href="cookbook/index.html">クックブック</a></li>
+          <li><a href="components/index.html">コンポーネント</a></li>
+          <li><a href="reference/index.html">リファレンス</a></li>
+          <li><a href="contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

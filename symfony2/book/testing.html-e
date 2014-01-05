@@ -1,0 +1,993 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>テスト | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="ガイドブック" href="index.html" />
+    <link rel="next" title="バリデーション" href="validation.html" />
+    <link rel="prev" title="データベースと Doctrine (“The Model”)" href="doctrine.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3</li>
+<li>翻訳更新日：2013/11/23</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h1>テスト<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>ソースコードに新しい行を1行追加するたびに、潜在的に新しいバグを追加しているかもしれません。
+より優れた、信頼性の高いアプリケーションを構築するには、ユニットテストとファンクショナルテストの両方でコードをテストするべきです。</p>
+<div class="section" id="phpunit">
+<h2>PHPUnit テスティングフレームワーク<a class="headerlink" href="#phpunit" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 ではテスティングフレームワークとして、独立したライブラリである PHPUnit を利用します。
+PHPUnit についてここでは詳しく解説しませんが、<a class="reference external" href="http://www.phpunit.de/manual/3.8/ja/">PHPUnitのドキュメント</a>を読んでおくことをおすすめします。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Symfony2 では PHPUnit 3.5.11 以降が必要です。
+Symfony のコアをテストする場合はバージョン 3.6.4 以降を利用して下さい。</p>
+</div>
+<p>ユニットテストかファンクショナルテストかに関わらず、テストは通常の PHP クラスとして実装します。
+標準で、テストはバンドルの <cite>Tests/</cite> ディレクトリ以下に置きます。
+この標準に従う限り、全てのテストを以下のコマンドで実行出来ます。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># コマンドラインオプションで設定ファイルのあるディレクトリを指定</span>
+<span class="nv">$ </span>phpunit -c app/
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">-c</span></tt> オプションで PHPUnit の設定ファイルのあるディレクトリを指定します。
+PHPUnit のオプションについては <tt class="docutils literal"><span class="pre">app/phpunit.xml.dist</span></tt> ファイルを参照して下さい。</p>
+</div>
+<div class="section" id="index-1">
+<span id="id2"></span><h2>ユニットテスト<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>通常、ユニットテストは単一の PHP クラスを対象として記述するテストです。
+クラスをまたいだアプリケーション全体の動作のテストについては、<a class="reference internal" href="#id3">ファンクショナルテスト</a>を参照して下さい。</p>
+<p>Symfony2 におけるユニットテストは、標準的な PHPUnit のテストと同様に記述できます。
+次のような <tt class="docutils literal"><span class="pre">Calculator</span></tt> クラスがバンドルの <tt class="docutils literal"><span class="pre">Utility/</span></tt> ディレクトリの中にあるとします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Utility/Calculator.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Utility</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Calculator</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">add</span><span class="p">(</span><span class="nv">$a</span><span class="p">,</span> <span class="nv">$b</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$a</span> <span class="o">+</span> <span class="nv">$b</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これをテストするには、<tt class="docutils literal"><span class="pre">CalculatorTest</span></tt> クラスをバンドルの <tt class="docutils literal"><span class="pre">Tests/Utility</span></tt> ディレクトリに作ります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Tests/Utility/CalculatorTest.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Tests\Utility</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Acme\DemoBundle\Utility\Calculator</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">CalculatorTest</span> <span class="k">extends</span> <span class="nx">\PHPUnit_Framework_TestCase</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testAdd</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$calc</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Calculator</span><span class="p">();</span>
+        <span class="nv">$result</span> <span class="o">=</span> <span class="nv">$calc</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">12</span><span class="p">);</span>
+
+        <span class="c1">// assert that your calculator added the numbers correctly!</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertEquals</span><span class="p">(</span><span class="mi">42</span><span class="p">,</span> <span class="nv">$result</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">規約として、<tt class="docutils literal"><span class="pre">Tests/</span></tt> 以下のサブディレクトリはバンドル内の他のディレクトリ構造と一致させます。
+したがって、<tt class="docutils literal"><span class="pre">Utility/</span></tt> ディレクトリ内にあるクラスのテストは <tt class="docutils literal"><span class="pre">Tests/Utility/</span></tt> ディレクトリ以下に配置します。</p>
+</div>
+<p>通常のアプリケーション同様、オートロードは <tt class="docutils literal"><span class="pre">app/bootstrap.php.cache</span></tt> ファイルによって自動的に有効になります（デフォルトで phpunit.xml.dist ファイルにて設定されています）。</p>
+<p>ファイルやディレクトリを指定してテストを実行するには、次のようにします。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Utility ディレクトリ内の全てのテストを実行</span>
+<span class="nv">$ </span>phpunit -c app src/Acme/DemoBundle/Tests/Utility/
+
+<span class="c"># Calculator クラスのテストを実行</span>
+<span class="nv">$ </span>phpunit -c app src/Acme/DemoBundle/Tests/Utility/CalculatorTest.php
+
+<span class="c"># バンドル全体のテストを実行</span>
+<span class="nv">$ </span>phpunit -c app src/Acme/DemoBundle/
+</pre></div>
+</div>
+</div>
+<div class="section" id="index-2">
+<span id="id3"></span><h2>ファンクショナルテスト<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<p>ファンクショナルテストでは、ルーティングからビューまでの、アプリケーションのさまざまなレイヤー間の結合テストを行います。
+PHPUnit でのテストの記述としては、ファンクショナルテストはユニットテストと違いはありませんが、ファンクショナルテストでは、次のような特殊なワークフローでテストを行います。</p>
+<ul class="simple">
+<li>リクエストの作成</li>
+<li>レスポンスのテスト</li>
+<li>リンクのクリック、またはフォームの送信</li>
+<li>レスポンスのテスト</li>
+<li>クリーンアップと繰り返し</li>
+</ul>
+<div class="section" id="id4">
+<h3>最初のファンクショナルテスト<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>ファンクショナルテストは通常の PHP ファイルで、バンドルの <tt class="docutils literal"><span class="pre">Tests/Controller</span></tt> ディレクトリ以下に配置します。
+例えば <tt class="docutils literal"><span class="pre">DemoController</span></tt> クラスによって生成されるページのテストを書くには、まず <tt class="docutils literal"><span class="pre">WebTestCase</span></tt> クラスを継承した <tt class="docutils literal"><span class="pre">DemoControllerTest.php</span></tt> クラスを作る所から始めます。</p>
+<p>Symfony2 Standard Edition に同梱されている <tt class="docutils literal"><span class="pre">DemoController</span></tt> 用のシンプルなファンクショナルテスト <a class="reference external" href="https://github.com/symfony/symfony-standard/blob/master/src/Acme/DemoBundle/Tests/Controller/DemoControllerTest.php">DemoControllerTest</a> を見てみましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Tests/Controller/DemoControllerTest.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Tests\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Test\WebTestCase</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">DemoControllerTest</span> <span class="k">extends</span> <span class="nx">WebTestCase</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">testIndex</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$client</span> <span class="o">=</span> <span class="k">static</span><span class="o">::</span><span class="na">createClient</span><span class="p">();</span>
+
+        <span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;/demo/hello/Fabien&#39;</span><span class="p">);</span>
+
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertGreaterThan</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;html:contains(&quot;Hello Fabien&quot;)&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">count</span><span class="p">()</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>ファンクショナルテスト実行時には、アプリケーションのカーネルを <tt class="docutils literal"><span class="pre">WebTestCase</span></tt> クラスが準備します。
+これは通常自動で行われますが、カーネルが標準のディレクトリにない場合は、<tt class="docutils literal"><span class="pre">phpunit.xml.dist</span></tt> を修正して <tt class="docutils literal"><span class="pre">KERNEL_DIR</span></tt> 環境変数にカーネルのディレクトリを設定して下さい。</p>
+<div class="last highlight-xml"><div class="highlight"><pre><span class="nt">&lt;phpunit&gt;</span>
+    <span class="c">&lt;!-- ... --&gt;</span>
+    <span class="nt">&lt;php&gt;</span>
+        <span class="nt">&lt;server</span> <span class="na">name=</span><span class="s">&quot;KERNEL_DIR&quot;</span> <span class="na">value=</span><span class="s">&quot;/path/to/your/app/&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/php&gt;</span>
+    <span class="c">&lt;!-- ... --&gt;</span>
+<span class="nt">&lt;/phpunit&gt;</span>
+</pre></div>
+</div>
+</div>
+<p><tt class="docutils literal"><span class="pre">createClient()</span></tt> 静的メソッドは、Web ブラウザのように動作するクライアントを返します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;hello/Fabien&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">request()</span></tt> メソッドは <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトを返します。
+このオブジェクトを使って、レスポンス内の要素を選択したり、リンクをクリックしたり、フォームを送信したりできます。
+（<tt class="docutils literal"><span class="pre">request()</span></tt> メソッドについて詳しくは<a class="reference internal" href="#book-testing-request-method-sidebar"><em>こちら</em></a>を参照して下さい）</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Crawler オブジェクトは、レスポンスの内容が XML ドキュメント、または HTML ドキュメントの場合にのみ取得出来ます。
+そうでない場合は <tt class="docutils literal"><span class="pre">$client-&gt;getResponse()-&gt;getContent()</span></tt> のようにしてレスポンスの内容を取得します。</p>
+</div>
+<p>リンクをクリックするには、最初にCrawlerオブジェクトで XPath 式や CSS セレクタを使ってリンクを選択し、Client オブジェクトを使ってクリックします。
+例えば、以下のコードは <tt class="docutils literal"><span class="pre">Greet</span></tt> という文字列を含む全てのリンクの中から 2 番目のものを選択し、クリックします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$link</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;a:contains(&quot;Greet&quot;)&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">eq</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
+
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">click</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>フォームの送信の仕方もほとんど同じです。フォームのボタンを選択し、フォームの値を設定して、送信を実行します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+
+<span class="c1">// フォームの値を設定</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Lucas&#39;</span><span class="p">;</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;form_name[subject]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Hey there!&#39;</span><span class="p">;</span>
+
+<span class="c1">// フォームを送信</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">フォームには、ファイルアップロード機能や、様々なフィールドを扱うためのメソッド（<tt class="docutils literal"><span class="pre">select()</span></tt> や <tt class="docutils literal"><span class="pre">tick()</span></tt> など）が用意されています。
+詳しくはこの下の<a class="reference internal" href="#id13">フォーム</a>セクションを参照して下さい。</p>
+</div>
+<p>これでアプリケーションの生成するページを自由に遷移できるようになったので、アサーションを使って意図したとおりに遷移していることを確認しましょう。
+Crawler オブジェクトを使って特定の DOM エレメントに対してアサーションを設定するには以下のようにします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// 指定した CSS セレクタにレスポンスがマッチすることを検証する</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertGreaterThan</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">count</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>単にある文字列がレスポンスのテキスト全体に含まれているかどうか検証する場合や、レスポンスの形式が XML や HTML ではないような場合は、
+次のようにレスポンスのテキスト全体に対して検証することも出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertRegExp</span><span class="p">(</span>
+    <span class="s1">&#39;/Hello Fabien/&#39;</span><span class="p">,</span>
+    <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">()</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<div class="sidebar" id="book-testing-request-method-sidebar">
+<p class="first sidebar-title"><tt class="docutils literal"><span class="pre">request()</span></tt> メソッドの詳細:</p>
+<p><tt class="docutils literal"><span class="pre">request()</span></tt> メソッドのシグネチャは以下のとおりです。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nx">request</span><span class="p">(</span>
+    <span class="nv">$method</span><span class="p">,</span>
+    <span class="nv">$uri</span><span class="p">,</span>
+    <span class="k">array</span> <span class="nv">$parameters</span> <span class="o">=</span> <span class="k">array</span><span class="p">(),</span>
+    <span class="k">array</span> <span class="nv">$files</span> <span class="o">=</span> <span class="k">array</span><span class="p">(),</span>
+    <span class="k">array</span> <span class="nv">$server</span> <span class="o">=</span> <span class="k">array</span><span class="p">(),</span>
+    <span class="nv">$content</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span>
+    <span class="nv">$changeHistory</span> <span class="o">=</span> <span class="k">true</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">server</span></tt> 配列は PHP の <a class="reference external" href="http://php.net/manual/ja/reserved.variables.server.php">$_SERVER</a> スーパーグローバル変数に相当します。
+例えばリクエストの HTTP ヘッダに <tt class="docutils literal"><span class="pre">Content-Type</span></tt>, <tt class="docutils literal"><span class="pre">Referer</span></tt>, <tt class="docutils literal"><span class="pre">X-Requested-With</span></tt>
+を渡すには以下のようにします（非標準のヘッダ名には <tt class="docutils literal"><span class="pre">HTTP_</span></tt> プレフィクスを付けることに注意して下さい）。</p>
+<div class="last highlight-php"><div class="highlight"><pre><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span>
+    <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;/demo/hello/Fabien&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(),</span>
+    <span class="k">array</span><span class="p">(),</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;CONTENT_TYPE&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;HTTP_REFERER&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;/foo/bar&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;HTTP_X-Requested-With&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;XMLHttpRequest&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="sidebar" id="index-3">
+<p class="first sidebar-title">便利なアサーションメソッド</p>
+<p>よく使われるアサーションメソッドの一覧です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="c1">// subtitle クラスを持つ h2 タグが1つ以上あることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertGreaterThan</span><span class="p">(</span>
+    <span class="mi">0</span><span class="p">,</span>
+    <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;h2.subtitle&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">count</span><span class="p">()</span>
+<span class="p">);</span>
+
+<span class="c1">// ページ内に h2 タグがちょうど4つあることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertCount</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;h2&#39;</span><span class="p">));</span>
+
+<span class="c1">// &quot;Content-Type&quot; ヘッダが &quot;application/json&quot; であることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertTrue</span><span class="p">(</span>
+    <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">contains</span><span class="p">(</span>
+        <span class="s1">&#39;Content-Type&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;application/json&#39;</span>
+    <span class="p">)</span>
+<span class="p">);</span>
+
+<span class="c1">// レスポンスの内容が正規表現にマッチすることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertRegExp</span><span class="p">(</span><span class="s1">&#39;/foo/&#39;</span><span class="p">,</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">());</span>
+
+<span class="c1">// レスポンスのステータスコードが 2xx であることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertTrue</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">isSuccessful</span><span class="p">());</span>
+<span class="c1">// レスポンスのステータスコードが 404 であることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertTrue</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">isNotFound</span><span class="p">());</span>
+<span class="c1">// レスポンスのステータスコードが 200 であることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertEquals</span><span class="p">(</span>
+    <span class="nx">Response</span><span class="o">::</span><span class="na">HTTP_OK</span><span class="p">,</span>
+    <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getStatusCode</span><span class="p">()</span>
+<span class="p">);</span>
+
+<span class="c1">// レスポンスが /demo/contact へのリダイレクトであることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertTrue</span><span class="p">(</span>
+    <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">isRedirect</span><span class="p">(</span><span class="s1">&#39;/demo/contact&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+<span class="c1">// レスポンスがどこかへのリダイレクトであることを検証</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertTrue</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">isRedirect</span><span class="p">());</span>
+</pre></div>
+</div>
+<div class="last versionadded">
+<p><span>New in version 2.4: </span>HTTP ステータスコードの検証は Symfony 2.4 で追加されました。</p>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="index-4">
+<span id="id5"></span><h2>テストクライアント<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
+<p>テスト用の Client オブジェクトは、Web ブラウザのような HTTP クライアントをシミュレートし、Symfony2 アプリケーションに対してリクエストを送信します。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Client オブジェクトは、<tt class="docutils literal"><span class="pre">BrowserKit</span></tt> コンポーネントと <tt class="docutils literal"><span class="pre">Crawler</span></tt> コンポーネントを利用しています。</p>
+</div>
+<div class="section" id="id6">
+<h3>リクエストの送信<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>クライアントから Symfony2 アプリケーションへリクエストを送信するには、次のようにします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;/hello/Fabien&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">request()</span></tt> メソッドは、引数としてHTTPメソッドとURLをとり、<tt class="docutils literal"><span class="pre">Crawler</span></tt> インスタンスを返します。</p>
+<p>レスポンスからDOM要素を探すには Crawler オブジェクトを使います。見つかった要素を使って、リンクのクリックやフォームの送信を行えます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$link</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Go elsewhere...&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">click</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+
+<span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;validate&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Fabien&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">click()</span></tt> メソッドや <tt class="docutils literal"><span class="pre">submit()</span></tt> メソッドは <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトを返します。
+これらのメソッドはアプリケーションをブラウズする最適な方法です。
+フォームの HTTP メソッドを調べたり、ファイルアップロードの API を利用できたりと、様々な機能を提供してくれます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><tt class="docutils literal"><span class="pre">Link</span></tt> オブジェクトと <tt class="docutils literal"><span class="pre">Form</span></tt> オブジェクトの詳細については、<a class="reference internal" href="#crawler">Crawlerオブジェクト</a>の節を参照してください。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">response()</span></tt> メソッドで、フォームの送信などのより複雑な操作をすることも出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// フォームの送信</span>
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;/submit&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Fabien&#39;</span><span class="p">));</span>
+
+<span class="c1">// ファイルアップロードのあるフォームの送信</span>
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span>
+    <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;/submit&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(),</span>
+    <span class="k">array</span><span class="p">(),</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;CONTENT_TYPE&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;application/json&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;{&quot;name&quot;:&quot;Fabien&quot;}&#39;</span>
+<span class="p">);</span>
+
+<span class="c1">// ファイルアップロード</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\File\UploadedFile</span><span class="p">;</span>
+
+<span class="nv">$photo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">UploadedFile</span><span class="p">(</span>
+    <span class="s1">&#39;/path/to/photo.jpg&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;photo.jpg&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;image/jpeg&#39;</span><span class="p">,</span>
+    <span class="mi">123</span>
+<span class="p">);</span>
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span>
+    <span class="s1">&#39;POST&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;/submit&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Fabien&#39;</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;photo&#39;</span> <span class="o">=&gt;</span> <span class="nv">$photo</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="c1">// HTTP ヘッダを指定して DELETE リクエストを送信</span>
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span>
+    <span class="s1">&#39;DELETE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;/post/12&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(),</span>
+    <span class="k">array</span><span class="p">(),</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;PHP_AUTH_USER&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;username&#39;</span><span class="p">,</span> <span class="s1">&#39;PHP_AUTH_PW&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;pa$$word&#39;</span><span class="p">)</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>また、各リクエストを独立した PHP プロセスで実行することで、同一のスクリプト内で複数のクライアントを実行した場合の副作用を回避できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">insulate</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>ブラウジング<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>Client オブジェクトは、実際の Web ブラウザで実行可能なさまざまな操作をサポートしています。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">back</span><span class="p">();</span>
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">forward</span><span class="p">();</span>
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">reload</span><span class="p">();</span>
+
+<span class="c1">// すべての Cookie と履歴を削除</span>
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">restart</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>内部オブジェクトへのアクセス<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span>New in version 2.3: </span><tt class="docutils literal"><span class="pre">getInternalRequest()</span></tt>, <tt class="docutils literal"><span class="pre">getInternalResponse()</span></tt> メソッドは Symfony 2.3 で追加されました。</p>
+</div>
+<p>Client オブジェクトを使ってアプリケーションのテストを記述する際に、Client の内部オブジェクトにアクセスしたい場合があるかもしれません。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$history</span>   <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getHistory</span><span class="p">();</span>
+<span class="nv">$cookieJar</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getCookieJar</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>直前のリクエストに関する、次のようなオブジェクトも取得できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// HttpKernel のリクエストインスタンスを取得</span>
+<span class="nv">$request</span>  <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">();</span>
+
+<span class="c1">// BrowserKit のリクエストインスタンスを取得</span>
+<span class="nv">$request</span>  <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getInternalRequest</span><span class="p">();</span>
+
+<span class="c1">// HttpKernel のレスポンスインスタンスを取得</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>
+
+<span class="c1">// BrowserKit のレスポンスインスタンスを取得</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getInternalResponse</span><span class="p">();</span>
+
+<span class="nv">$crawler</span>  <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getCrawler</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>リクエストを独立したプロセスで実行していない場合は、<tt class="docutils literal"><span class="pre">Container</span></tt> オブジェクトや <tt class="docutils literal"><span class="pre">Kernel</span></tt> オブジェクトにもアクセスできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getContainer</span><span class="p">();</span>
+<span class="nv">$kernel</span>    <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getKernel</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="container">
+<h3>Container オブジェクトへのアクセス<a class="headerlink" href="#container" title="Permalink to this headline">¶</a></h3>
+<p>ファンクショナルテストでは、レスポンスのみをテストすることが推奨されています。しかし、アサーションを記述するために内部オブジェクトにアクセスしたい状況もあるでしょう。このような場合は、次のようにサービスコンテナにアクセスします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getContainer</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>クライアントを独立した PHP プロセスで実行している場合や、HTTP レイヤーを使っている場合は、上のコードでサービスコンテナを取得することはできない点に注意してください。
+アプリケーションで利用可能なサービスの一覧は <tt class="docutils literal"><span class="pre">app/console</span> <span class="pre">container:debug</span></tt> で参照出来ます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">チェックしたい情報をプロファイラから取得できる場合は、サービスコンテナの代わりにプロファイラを使ってください。</p>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>プロファイリングデータの取得<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>リクエストのプロファイラを有効にすれば、リクエストの内部処理の情報を取得することが出来ます。
+プロファイラを利用すれば、あるページのリクエスト中に実行される DB リクエストが一定回数以下であるかどうかなどを確認出来ます。</p>
+<p>プロファイラは以下のようにして取得できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// 次に実行するリクエストのプロファイラを有効にする</span>
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">enableProfiler</span><span class="p">();</span>
+
+<span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;/profiler&#39;</span><span class="p">);</span>
+
+<span class="c1">// プロファイラを取得</span>
+<span class="nv">$profile</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getProfile</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>プロファイラの詳細については、クックブックの<a class="reference internal" href="../cookbook/testing/profiling.html"><em>ファンクショナルテストでプロファイラを使用する方法</em></a>を参照して下さい。</p>
+</div>
+<div class="section" id="id10">
+<h3>リダイレクト<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>リクエストの結果がリダイレクトだった場合でも、クライアントは自動ではリダイレクト先へ遷移しません。
+<tt class="docutils literal"><span class="pre">followRedirect()</span></tt> メソッドで明示的に遷移させる必要があります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">followRedirect</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>全てのリダイレクトに対して自動的に遷移させたい場合は <tt class="docutils literal"><span class="pre">followRedirects()</span></tt> メソッドを使用します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">followRedirects</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="crawler">
+<span id="index-5"></span><h2>Crawlerオブジェクト<a class="headerlink" href="#crawler" title="Permalink to this headline">¶</a></h2>
+<p>Client オブジェクトからリクエストを送信すると、Crawler インスタンスが返されます。
+この Crawler を使って、HTML ドキュメントを走査し、ノードを選択し、リンクやフォームを検索します。</p>
+<div class="section" id="dom">
+<h3>DOM の走査<a class="headerlink" href="#dom" title="Permalink to this headline">¶</a></h3>
+<p>Crawler には、jQuery に似た、HTML/XML ドキュメントの DOM を走査するメソッドがあります。
+例えば以下のようにすると、<tt class="docutils literal"><span class="pre">input[type=submit]</span></tt> にマッチするエレメントを検索し、そのうち最後の要素を選択し、さらにその直近の親エレメントを取得します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$newCrawler</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;input[type=submit]&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">last</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="na">parents</span><span class="p">()</span>
+    <span class="o">-&gt;</span><span class="na">first</span><span class="p">()</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+<p>他にもたくさんのメソッドがあります。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="32%" />
+<col width="68%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">メソッド</th>
+<th class="head">説明</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">filter('h1.title')</span></tt></td>
+<td>CSS セレクタにマッチするノード</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">filterXpath('h1')</span></tt></td>
+<td>XPath 式にマッチするノード</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">eq(1)</span></tt></td>
+<td>指定したインデックスのノード</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">first()</span></tt></td>
+<td>最初のノード</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">last()</span></tt></td>
+<td>最後のノード</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">siblings()</span></tt></td>
+<td>兄弟のノード</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">nextAll()</span></tt></td>
+<td>後の兄弟ノード</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">previousAll()</span></tt></td>
+<td>前の兄弟ノード</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">parents()</span></tt></td>
+<td>親ノード、先祖ノード</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">children()</span></tt></td>
+<td>子ノード</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">reduce($lambda)</span></tt></td>
+<td>callable が false を返さないノード</td>
+</tr>
+</tbody>
+</table>
+<p>各メソッドは条件にマッチした新しい Crawler オブジェクトを返すので、チェインさせていくことで、インタラクティブにノードを絞り込んでいくことができます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span>
+    <span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;h1&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">reduce</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$node</span><span class="p">,</span> <span class="nv">$i</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$node</span><span class="o">-&gt;</span><span class="na">getAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+    <span class="o">-&gt;</span><span class="na">first</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><tt class="docutils literal"><span class="pre">count()</span></tt> 関数を使って、現在のCrawlerオブジェクトが保持しているノードの数を取得できます:
+<tt class="docutils literal"><span class="pre">count($crawler)</span></tt></p>
+</div>
+</div>
+<div class="section" id="id11">
+<h3>情報の抽出<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>Crawler からノードの情報を抽出できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// 最初のノードの、指定した属性の値を返す</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">attr</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">);</span>
+
+<span class="c1">// 最初のノードの値を返す</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">();</span>
+
+<span class="c1">// すべてのノードから、配列で指定した属性の値を抽出する（_text はノードの値を返す）</span>
+<span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">extract</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;_text&#39;</span><span class="p">,</span> <span class="s1">&#39;href&#39;</span><span class="p">));</span>
+
+<span class="c1">// 各ノードに対してラムダを実行し、結果を配列として返す</span>
+<span class="nv">$data</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">each</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nv">$node</span><span class="p">,</span> <span class="nv">$i</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$node</span><span class="o">-&gt;</span><span class="na">getAttribute</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>リンク<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>リンクの選択は上述の走査メソッドでも可能ですが、<tt class="docutils literal"><span class="pre">selectLink()</span></tt> メソッドを使うとより簡単です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Click here&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>これで、指定された文字列を含むテキストリンク、または alt 属性に指定された文字列を含むリンク付き画像が選択出来ます。
+他の走査メソッド同様、これも <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトを返します。</p>
+<p>リンクの <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトからは <tt class="docutils literal"><span class="pre">Link</span></tt> オブジェクトを取得できます。
+<tt class="docutils literal"><span class="pre">Link</span></tt> オブジェクトを使って <tt class="docutils literal"><span class="pre">getMethod()</span></tt>、<tt class="docutils literal"><span class="pre">getUri()</span></tt> などの便利なメソッドを利用することが出来ます。
+リンクをクリックするには、クライアントの <tt class="docutils literal"><span class="pre">click()</span></tt> メソッドに取得した <tt class="docutils literal"><span class="pre">Link</span></tt> オブジェクトを渡します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$link</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Click here&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
+
+<span class="nv">$client</span><span class="o">-&gt;</span><span class="na">click</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><tt class="docutils literal"><span class="pre">links()</span></tt> メソッドは、すべてのノードの <tt class="docutils literal"><span class="pre">Link</span></tt>  オブジェクトの配列を返します。</p>
+</div>
+</div>
+<div class="section" id="id13">
+<h3>フォーム<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<p>リンクと同様、<tt class="docutils literal"><span class="pre">selectButton()</span></tt> メソッドを使ってフォームを選択できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$buttonCrawlerNode</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;submit&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この処理では、フォーム自体ではなく、フォームのボタンを選択していることに注意してください。フォームには複数のボタンが存在する可能性があります。走査APIを使う際に、単一のボタンを特定する必要があることを覚えておいてください。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">selectButton()</span></tt> メソッドで <tt class="docutils literal"><span class="pre">button</span></tt>  タグを選択し、 <tt class="docutils literal"><span class="pre">input</span></tt> タグの内容を送信します。
+ボタンを選択するために利用できる値がいくつかあります。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">value</span></tt> 属性の値</li>
+<li>画像の <tt class="docutils literal"><span class="pre">id</span></tt> または <tt class="docutils literal"><span class="pre">alt</span></tt> 属性の値</li>
+<li><tt class="docutils literal"><span class="pre">button</span></tt> タグの <tt class="docutils literal"><span class="pre">id</span></tt> または <tt class="docutils literal"><span class="pre">name</span></tt> 属性の値</li>
+</ul>
+<p>ボタンに対応するノードが見つかったら、<tt class="docutils literal"><span class="pre">form()</span></tt> メソッドでボタンノードを囲んでいる <tt class="docutils literal"><span class="pre">Form</span></tt> インスタンスを取得できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$buttonCrawlerNode</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">form()</span></tt> メソッドを呼び出す際に、フィールドの値を配列として渡すことで、フォームのデフォルト値を上書きできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$buttonCrawlerNode</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;name&#39;</span>              <span class="o">=&gt;</span> <span class="s1">&#39;Fabien&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;my_form[subject]&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;Symfony rocks!&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>また、フォームで特定の HTTP メソッドをシミュレートしたい場合は、2 つ目の引数に指定します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$buttonCrawlerNode</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">(</span><span class="k">array</span><span class="p">(),</span> <span class="s1">&#39;DELETE&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Client から <tt class="docutils literal"><span class="pre">Form</span></tt> インスタンスを送信します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>フィールドの値は <tt class="docutils literal"><span class="pre">submit()</span></tt> メソッドの2つ目の引数で渡すこともできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;name&#39;</span>              <span class="o">=&gt;</span> <span class="s1">&#39;Fabien&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;my_form[subject]&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;Symfony rocks!&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>さらに複雑な状況の場合は、<tt class="docutils literal"><span class="pre">Form</span></tt> インスタンスを配列のようにアクセスして、各フィールドの値を個別に設定できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// フィールドの値を変更</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Fabien&#39;</span><span class="p">;</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;my_form[subject]&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Symfony rocks!&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>フィールドのタイプごとに、値を操作する便利なAPIが用意されています。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// radioのオプションを選択</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">select</span><span class="p">(</span><span class="s1">&#39;France&#39;</span><span class="p">);</span>
+
+<span class="c1">// checkboxをチェック</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;like_symfony&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">tick</span><span class="p">();</span>
+
+<span class="c1">// ファイルをアプロード</span>
+<span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;photo&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">upload</span><span class="p">(</span><span class="s1">&#39;/path/to/lucas.jpg&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">フォームに送信される値は <tt class="docutils literal"><span class="pre">Form</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">getValues()</span></tt> メソッドで取得できます。
+アップロードされたファイルにアクセスするには、<tt class="docutils literal"><span class="pre">getFiles()</span></tt> メソッドの戻り値の配列を使います。
+<tt class="docutils literal"><span class="pre">getPhpValues()</span></tt> と <tt class="docutils literal"><span class="pre">getPhpFiles()</span></tt> は、送信された値をPHPフォーマットで返します（角括弧記法のキーをPHPの配列へ変換します）。</p>
+</div>
+</div>
+</div>
+<div class="section" id="index-6">
+<span id="id14"></span><h2>テストの設定<a class="headerlink" href="#index-6" title="Permalink to this headline">¶</a></h2>
+<p>ファンクショナルテストで紹介した <tt class="docutils literal"><span class="pre">Client</span></tt> オブジェクトは、テスト用の <tt class="docutils literal"><span class="pre">test</span></tt> 環境でカーネルを生成します。
+<tt class="docutils literal"><span class="pre">test</span></tt> 環境では Symfony は <tt class="docutils literal"><span class="pre">app/config/config_test.yml</span></tt> をロードするため、テスト専用の設定に調整することが出来ます。</p>
+<p>例えば、Swift Mailer はデフォルトで <tt class="docutils literal"><span class="pre">test</span></tt> 環境では実際にメールを送信しないように設定されています。
+これは <tt class="docutils literal"><span class="pre">swiftmailer</span></tt> 設定オプションで確認出来ます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config_test.yml</span>
+
+<span class="c1"># ...</span>
+<span class="l-Scalar-Plain">swiftmailer</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">disable_delivery</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config_test.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:swiftmailer=</span><span class="s">&quot;http://symfony.com/schema/dic/swiftmailer&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd</span>
+<span class="s">                        http://symfony.com/schema/dic/swiftmailer http://symfony.com/schema/dic/swiftmailer/swiftmailer-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="c">&lt;!-- ... --&gt;</span>
+    <span class="nt">&lt;swiftmailer:config</span> <span class="na">disable-delivery=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config_test.php</span>
+
+<span class="c1">// ...</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;swiftmailer&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;disable_delivery&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">createClient()</span></tt> メソッドにオプションを渡すことで、デフォルトの環境 (<tt class="docutils literal"><span class="pre">test</span></tt>) やデバッグモードの値 (<tt class="docutils literal"><span class="pre">true</span></tt>) を変更できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span> <span class="o">=</span> <span class="k">static</span><span class="o">::</span><span class="na">createClient</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;environment&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;my_test_env&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;debug&#39;</span>       <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>アプリケーションの動作がHTTPヘッダーに依存している場合、<tt class="docutils literal"><span class="pre">createClient()</span></tt> メソッドの第2引数として渡すことが出来ます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span> <span class="o">=</span> <span class="k">static</span><span class="o">::</span><span class="na">createClient</span><span class="p">(</span><span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;HTTP_HOST&#39;</span>       <span class="o">=&gt;</span> <span class="s1">&#39;en.example.com&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HTTP_USER_AGENT&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;MySuperBrowser/1.0&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>リクエストごとにHTTPヘッダーの値を変更することもできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;HTTP_HOST&#39;</span>       <span class="o">=&gt;</span> <span class="s1">&#39;en.example.com&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HTTP_USER_AGENT&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;MySuperBrowser/1.0&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="section" id="index-7">
+<span id="id15"></span><h3>PHPUnit の設定<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h3>
+<p>アプリケーションの PHPUnit の設定は <tt class="docutils literal"><span class="pre">phpunit.xml.dist</span></tt> に記述されています。
+このファイルを直接編集するか、<tt class="docutils literal"><span class="pre">phpunit.xml</span></tt> ファイルを作ってローカルマシン用に設定をカスタマイズ出来ます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">バージョン管理システムのリポジトリには <tt class="docutils literal"><span class="pre">phpunit.xml.dist</span></tt> ファイルのみ保存し、<tt class="docutils literal"><span class="pre">phpunit.xml</span></tt> ファイルは無視するよう設定してください。</p>
+</div>
+<p>デフォルトでは <tt class="docutils literal"><span class="pre">phpunit</span></tt> コマンドは、標準的なディレクトリ構成のバンドル内のテスト（<tt class="docutils literal"><span class="pre">src/*/Bundle/Tests/</span></tt> または <tt class="docutils literal"><span class="pre">src/*/Bundle/*Bundle/Tests/</span></tt> ディレクトリ以下のテスト）だけ実行します。
+テストのディレクトリを追加するのは簡単です。
+例えば次のように設定すると、サードパーティのバンドルにあるテストが追加されます。</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- hello/phpunit.xml.dist --&gt;</span>
+<span class="nt">&lt;testsuites&gt;</span>
+    <span class="nt">&lt;testsuite</span> <span class="na">name=</span><span class="s">&quot;Project Test Suite&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;directory&gt;</span>../src/*/*Bundle/Tests<span class="nt">&lt;/directory&gt;</span>
+        <span class="nt">&lt;directory&gt;</span>../src/Acme/Bundle/*Bundle/Tests<span class="nt">&lt;/directory&gt;</span>
+    <span class="nt">&lt;/testsuite&gt;</span>
+<span class="nt">&lt;/testsuites&gt;</span>
+</pre></div>
+</div>
+<p>コードカバレッジに別のディレクトリを追加するには、<tt class="docutils literal"><span class="pre">&lt;filter&gt;</span></tt>セクションも併せて編集してください。</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- ... --&gt;</span>
+<span class="nt">&lt;filter&gt;</span>
+    <span class="nt">&lt;whitelist&gt;</span>
+        <span class="nt">&lt;directory&gt;</span>../src<span class="nt">&lt;/directory&gt;</span>
+        <span class="nt">&lt;exclude&gt;</span>
+            <span class="nt">&lt;directory&gt;</span>../src/*/*Bundle/Resources<span class="nt">&lt;/directory&gt;</span>
+            <span class="nt">&lt;directory&gt;</span>../src/*/*Bundle/Tests<span class="nt">&lt;/directory&gt;</span>
+            <span class="nt">&lt;directory&gt;</span>../src/Acme/Bundle/*Bundle/Resources<span class="nt">&lt;/directory&gt;</span>
+            <span class="nt">&lt;directory&gt;</span>../src/Acme/Bundle/*Bundle/Tests<span class="nt">&lt;/directory&gt;</span>
+        <span class="nt">&lt;/exclude&gt;</span>
+    <span class="nt">&lt;/whitelist&gt;</span>
+<span class="nt">&lt;/filter&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="cookbook">
+<h2>Cookbook の参考記事<a class="headerlink" href="#cookbook" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../components/dom_crawler.html"><em>DomCrawlerコンポーネント</em></a></li>
+<li><a class="reference internal" href="../components/css_selector.html"><em>CssSelectorコンポーネント</em></a></li>
+<li><a class="reference internal" href="../cookbook/testing/http_authentication.html"><em>ファンクショナルテストで HTTP 認証をシミュレートする方法</em></a></li>
+<li><a class="reference internal" href="../cookbook/testing/insulating_clients.html"><em>複数のクライアントのインタラクションをテストする方法</em></a></li>
+<li><a class="reference internal" href="../cookbook/testing/profiling.html"><em>ファンクショナルテストでプロファイラを使用する方法</em></a></li>
+<li><a class="reference internal" href="../cookbook/testing/bootstrap.html"><em>テスト実行前のブートストラップ処理のカスタマイズ方法</em></a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="doctrine.html">< データベースと Doctrine (&#8220;The Model&#8221;)</a>
+<a class="next" href="validation.html">バリデーション ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/book/testing.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/testing.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/testing.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">テスト</a><ul>
+<li><a class="reference internal" href="#phpunit">PHPUnit テスティングフレームワーク</a></li>
+<li><a class="reference internal" href="#index-1">ユニットテスト</a></li>
+<li><a class="reference internal" href="#index-2">ファンクショナルテスト</a><ul>
+<li><a class="reference internal" href="#id4">最初のファンクショナルテスト</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-4">テストクライアント</a><ul>
+<li><a class="reference internal" href="#id6">リクエストの送信</a></li>
+<li><a class="reference internal" href="#id7">ブラウジング</a></li>
+<li><a class="reference internal" href="#id8">内部オブジェクトへのアクセス</a></li>
+<li><a class="reference internal" href="#container">Container オブジェクトへのアクセス</a></li>
+<li><a class="reference internal" href="#id9">プロファイリングデータの取得</a></li>
+<li><a class="reference internal" href="#id10">リダイレクト</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#crawler">Crawlerオブジェクト</a><ul>
+<li><a class="reference internal" href="#dom">DOM の走査</a></li>
+<li><a class="reference internal" href="#id11">情報の抽出</a></li>
+<li><a class="reference internal" href="#id12">リンク</a></li>
+<li><a class="reference internal" href="#id13">フォーム</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-6">テストの設定</a><ul>
+<li><a class="reference internal" href="#index-7">PHPUnit の設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cookbook">Cookbook の参考記事</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="doctrine.html"
+                        title="previous chapter">データベースと Doctrine (&#8220;The Model&#8221;)</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="validation.html"
+                        title="next chapter">バリデーション</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/book/testing.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,883 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>バリデーション | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="ガイドブック" href="index.html" />
+    <link rel="next" title="フォーム" href="forms.html" />
+    <link rel="prev" title="テスト" href="testing.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="index-0">
+<span id="id1"></span><h1>バリデーション<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>バリデーションは、WEB アプリケーションでとてもよく使われるタスクです。フォームに入力されたデータは、バリデートする必要があります。また、データベースに書かれる前や、WEB サービスに渡す前にもバリデーションが必要です。</p>
+<p>Symfony2 には <a class="reference external" href="https://github.com/symfony/Validator">Validator</a> コンポーネントが同梱されており、このタスクをとても簡単に、そして透過的にこなすことができます。このコンポーネントは、<a class="reference external" href="http://jcp.org/en/jsr/detail?id=303">JSR303 Bean Validation specification</a> が元になっています。え？PHP で Java の仕様だって？聞き間違いではありませんよ。別に言うほどおかしいことでもないんです。それでは、PHP でどうやってこれを使うのか見ていきましょう。</p>
+<div class="section" id="id2">
+<h2>バリデーションの基礎<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>バリデーションを理解するのに最も良い方法は、実際に動作しているのを見ていくことでしょう。まず、アプリケーションのどこかで使用する単純な PHP クラスを作ったとしましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\BlogBundle\Entity</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>今のところ、このクラスは至って普通のクラスで、アプリケーション内で何かするためのクラスでしょう。バリデーションの目的は、オブジェクトのデータが妥当であるかどうかを示す、ということです。このためには、オブジェクトが妥当であるために従うべきルールのリスト(<a class="reference internal" href="#validation-constraints"><em>制約</em></a> と呼ぶ)を設定しなければなりません。このルールは、様々なフォーマット(YAML、XML、アノテーション、PHP)で指定することができます。</p>
+<p>例えば、<tt class="docutils literal"><span class="pre">$name</span></tt> プロパティが空で無い事を保証するには、次のようにします。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/BlogBundle/Resources/config/validation.yml</span>
+<span class="l-Scalar-Plain">Acme\BlogBundle\Entity\Author</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;constraint-mapping</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/constraint-mapping&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;class</span> <span class="na">name=</span><span class="s">&quot;Acme\BlogBundle\Entity\Author&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;NotBlank&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/class&gt;</span>
+<span class="nt">&lt;/constraint-mapping&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$name</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">protected / private なプロパティでもバリデートすることが可能です。また、「ゲッター」メソッドに対してもバリデートが可能です(<a class="reference internal" href="#validator-constraint-targets"><em>制約の対象</em></a> 参照)。</p>
+</div>
+<div class="section" id="validator">
+<span id="index-1"></span><h3><tt class="docutils literal"><span class="pre">validator</span></tt> サービスを使用する<a class="headerlink" href="#validator" title="Permalink to this headline">¶</a></h3>
+<p>続いて <tt class="docutils literal"><span class="pre">Author</span></tt> オブジェクトを実際にバリデートしてみます。これは <tt class="docutils literal"><span class="pre">validator</span></tt> サービス(<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Validator\Validator</span></tt>)の <tt class="docutils literal"><span class="pre">validate</span></tt> メソッドを使用します。<tt class="docutils literal"><span class="pre">validator</span></tt> が行う仕事は簡単なものです。クラスの制約(ルール)を読み込んで、そのオブジェクトのデータがその制約を満たしているかどうか、を検証することです。バリデーションが失敗すれば、エラー配列が返ってきます。では、単純なコントローラの例を見てみましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Acme\BlogBundle\Entity\Author</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$author</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Author</span><span class="p">();</span>
+    <span class="c1">// ... do something to the $author object</span>
+
+    <span class="nv">$validator</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;validator&#39;</span><span class="p">);</span>
+    <span class="nv">$errors</span> <span class="o">=</span> <span class="nv">$validator</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$author</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nb">print_r</span><span class="p">(</span><span class="nv">$errors</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;The author is valid! Yes!&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">$name</span></tt> プロパティが空であれば、次のようなエラーを見てしまうことになるでしょう。</p>
+<div class="highlight-text"><div class="highlight"><pre>Acme\BlogBundle\Author.name:
+    This value should not be blank
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">name</span></tt> プロパティに値を入れると、成功メッセージが見えるはずです。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><tt class="docutils literal"><span class="pre">validator</span></tt> サービスと直接やり取りしてエラー出力の心配しなくてはならない、といった事態には、まずならないでしょう。大抵の場合は、フォームデータを扱うときに間接的にバリデーションを使用することになります。詳しくは、<a class="reference internal" href="#book-validation-forms"><em>バリデーションとフォーム</em></a> を見てください。</p>
+</div>
+<p>エラーコレクションをテンプレートに渡すこともできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nb">count</span><span class="p">(</span><span class="nv">$errors</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Author:validate.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;errors&#39;</span> <span class="o">=&gt;</span> <span class="nv">$errors</span><span class="p">,</span>
+    <span class="p">));</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>テンプレート内では、必要に応じてエラーリストを出力することができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/BlogBundle/Resources/views/Author/validate.html.twig #}</span>
+
+<span class="nt">&lt;h3&gt;</span>The author has the following errors<span class="nt">&lt;/h3&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">error</span> <span class="k">in</span> <span class="nv">errors</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">error.message</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/views/Author/validate.html.php --&gt;</span>
+
+<span class="nt">&lt;h3&gt;</span>The author has the following errors<span class="nt">&lt;/h3&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$errors</span> <span class="k">as</span> <span class="nv">$error</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;li&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$error</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/li&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">各バリデーションエラー(「制約違反」と呼ぶ) は、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Validator\ConstraintViolation</span></tt> オブジェクトで表現されています。</p>
+</div>
+</div>
+<div class="section" id="book-validation-forms">
+<span id="index-2"></span><span id="id3"></span><h3>バリデーションとフォーム<a class="headerlink" href="#book-validation-forms" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">validator</span></tt> サービスは、いつでも、どんなオブジェクトをバリデートする場合でも使用することができます。しかし、実際は、フォームと連携する場合に <tt class="docutils literal"><span class="pre">validator</span></tt> と間接的にやり取りすることが普通でしょう。Symfony のフォームライブラリは、フォームがサブミット・バインドされた後のオブジェクトの値をバリデートする際に、この <tt class="docutils literal"><span class="pre">validator</span></tt> サービスを内部的に使用しています。オブジェクトの制約違反は、 <tt class="docutils literal"><span class="pre">FieldError</span></tt> オブジェクトに変換され、フォームと共に簡単に表示できるようになります。典型的なフォームサブミットのワークフローは、次のようなコントローラになります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Acme\BlogBundle\Entity\Author</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Acme\BlogBundle\Form\AuthorType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">updateAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$author</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Acme\BlogBundle\Entity\Author</span><span class="p">();</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">AuthorType</span><span class="p">(),</span> <span class="nv">$author</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;POST&#39;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+            <span class="c1">// the validation passed, do something with the $author object</span>
+
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;BlogBundle:Author:form.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">(),</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この例では、<tt class="docutils literal"><span class="pre">AuthorType</span></tt> フォームクラスを使用しています。ここでは割愛しています。</p>
+</div>
+<p>詳細は <a class="reference internal" href="forms.html"><em>フォーム</em></a> 章を参照してください。</p>
+</div>
+</div>
+<div class="section" id="book-validation-configuration">
+<span id="index-3"></span><span id="id4"></span><h2>設定<a class="headerlink" href="#book-validation-configuration" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 のバリデータはデフォルトで有効になっていますが、アノテーション方式で制約を指定している場合は、明示的に有効にする必要があります。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">validation</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">enable_annotations</span><span class="p-Indicator">:</span> <span class="nv">true</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="nt">&lt;framework:config&gt;</span>
+    <span class="nt">&lt;framework:validation</span> <span class="na">enable_annotations=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/framework:config&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;validation&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;enable_annotations&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+<span class="p">)));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="validation-constraints">
+<span id="index-4"></span><span id="id5"></span><h2>制約<a class="headerlink" href="#validation-constraints" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">validator</span></tt> は、オブジェクトを <em>constraints(制約)</em>(ルール)に対してバリデートするように設計されています。オブジェクトをバリデートするときは、単に一つ以上の制約をクラスにマッピングし、それを <tt class="docutils literal"><span class="pre">validator</span></tt> サービスに渡します。</p>
+<p>この裏側ですが、制約自体は、アサーティブなステイトメントを作るシンプルな PHP オブジェクトとなっています。現実の世界では、制約は「ケーキは焦がしてはいけない」という風になるでしょう。Symfony2 でも同様で、条件が真になる、というアサーションです。制約は、与えられた値が制約ルールを守っているかどうかということを教えてくれます。</p>
+<div class="section" id="id6">
+<h3>サポートされている制約<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Symfony2 は一般的に必要となる制約を多数パッケージしています。すべての制約のリストは、<a class="reference internal" href="../reference/constraints.html"><em>constraints reference section</em></a> で参照可能です。</p>
+</div>
+<div class="section" id="book-validation-constraint-configuration">
+<span id="index-5"></span><span id="id7"></span><h3>制約の設定<a class="headerlink" href="#book-validation-constraint-configuration" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference internal" href="../reference/constraints/NotBlank.html"><em>NotBlank</em></a> のようなシンプルな制約もあれば、<a class="reference internal" href="../reference/constraints/Choice.html"><em>Choice</em></a> のように複数の設定オプションが存在する制約もあります。<tt class="docutils literal"><span class="pre">Auhtor</span></tt> クラスが、例えば <tt class="docutils literal"><span class="pre">gender</span></tt> という &#8220;male&#8221; もしくは &#8220;female&#8221; の値が設定されるプロパティを持っていたとしましょう。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/BlogBundle/Resources/config/validation.yml</span>
+<span class="l-Scalar-Plain">Acme\BlogBundle\Entity\Author</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">gender</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Choice</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">choices</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">male</span><span class="p-Indicator">,</span> <span class="nv">female</span><span class="p-Indicator">],</span> <span class="nv">message</span><span class="p-Indicator">:</span> <span class="nv">Choose a valid gender.</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;constraint-mapping</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/constraint-mapping&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;class</span> <span class="na">name=</span><span class="s">&quot;Acme\BlogBundle\Entity\Author&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;gender&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;Choice&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;option</span> <span class="na">name=</span><span class="s">&quot;choices&quot;</span><span class="nt">&gt;</span>
+                    <span class="nt">&lt;value&gt;</span>male<span class="nt">&lt;/value&gt;</span>
+                    <span class="nt">&lt;value&gt;</span>female<span class="nt">&lt;/value&gt;</span>
+                <span class="nt">&lt;/option&gt;</span>
+                <span class="nt">&lt;option</span> <span class="na">name=</span><span class="s">&quot;message&quot;</span><span class="nt">&gt;</span>Choose a valid gender.<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;/constraint&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/class&gt;</span>
+<span class="nt">&lt;/constraint-mapping&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\Choice(</span>
+<span class="sd">     *     choices = { &quot;male&quot;, &quot;female&quot; },</span>
+<span class="sd">     *     message = &quot;Choose a valid gender.&quot;</span>
+<span class="sd">     * )</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="nv">$gender</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="nv">$gender</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Choice</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Choose a valid gender.&#39;</span><span class="p">,</span>
+        <span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>制約のオプションは、常に配列で渡されますが、いくつかの制約では、その配列の場所に <em>default</em> オプションの値だけを渡すことも可能です。
+<tt class="docutils literal"><span class="pre">Choice</span></tt> 制約の場合であれば、<tt class="docutils literal"><span class="pre">choices</span></tt> オプションを次のように指定できます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/BlogBundle/Resources/config/validation.yml</span>
+<span class="l-Scalar-Plain">Acme\BlogBundle\Entity\Author</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">gender</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Choice</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">male</span><span class="p-Indicator">,</span> <span class="nv">female</span><span class="p-Indicator">]</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;constraint-mapping</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/constraint-mapping&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/constraint-mapping http://symfony.com/schema/dic/services/constraint-mapping-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;class</span> <span class="na">name=</span><span class="s">&quot;Acme\BlogBundle\Entity\Author&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;gender&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;Choice&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;value&gt;</span>male<span class="nt">&lt;/value&gt;</span>
+                <span class="nt">&lt;value&gt;</span>female<span class="nt">&lt;/value&gt;</span>
+            <span class="nt">&lt;/constraint&gt;</span>
+        <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;/class&gt;</span>
+<span class="nt">&lt;/constraint-mapping&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\Choice({&quot;male&quot;, &quot;female&quot;})</span>
+<span class="sd">     */</span>
+    <span class="k">protected</span> <span class="nv">$gender</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\Choice</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$gender</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Choice</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;male&#39;</span><span class="p">,</span> <span class="s1">&#39;female&#39;</span><span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>この方法は純粋に、制約の最も一般的なオプションの設定を、短くそして素早く書くことができるようにするという意図からです。</p>
+<p>オプションの指定の仕方がわからない場合は、制約の API ドキュメントを確認するか、オプション配列を常に渡せば安全です(上述した最初の方法)。</p>
+</div>
+</div>
+<div class="section" id="validator-constraint-targets">
+<span id="index-6"></span><span id="id8"></span><h2>制約の対象<a class="headerlink" href="#validator-constraint-targets" title="Permalink to this headline">¶</a></h2>
+<p>制約は、クラスのプロパティ(例えば <tt class="docutils literal"><span class="pre">name</span></tt>) や、public なゲッターメソッド(例えば <tt class="docutils literal"><span class="pre">getFullName</span></tt>) にも適用することができます。前者は最も一般的で簡単ですが、後者の場合は、より複雑なバリデーションルールを指定することができます。</p>
+<div class="section" id="index-7">
+<span id="id9"></span><h3>プロパティ<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h3>
+<p>クラスのプロパティをバリデートすること。これが最も基本的なバリデーションのテクニックです。Symfony2 では、private や protected、public なプロパティをバリデートすることができます。次の例では、<tt class="docutils literal"><span class="pre">Author</span></tt> クラスの <tt class="docutils literal"><span class="pre">$firstName</span></tt> プロパティが、3文字以上であること、という設定を示しています。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/BlogBundle/Resources/config/validation.yml</span>
+<span class="l-Scalar-Plain">Acme\BlogBundle\Entity\Author</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">firstName</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MinLength</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">3</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
+<span class="nt">&lt;class</span> <span class="na">name=</span><span class="s">&quot;Acme\BlogBundle\Entity\Author&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;firstName&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;NotBlank&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;MinLength&quot;</span><span class="nt">&gt;</span>3<span class="nt">&lt;/constraint&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/class&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\NotBlank()</span>
+<span class="sd">     * @Assert\MinLength(3)</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$firstName</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\MinLength</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$firstName</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">());</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;firstName&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">MinLength</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="index-8">
+<span id="id10"></span><h3>ゲッター<a class="headerlink" href="#index-8" title="Permalink to this headline">¶</a></h3>
+<p>制約は、メソッドの返り値に対しても適用することができます。Symfony2 では、&#8221;get&#8221; や &#8220;is&#8221; で始まる public なメソッドであれば、それに対して制約を追加することができます。このガイドでは、両メソッドを総称して「ゲッター」と呼ぶことにします。</p>
+<p>このやり方では、オブジェクトを動的にバリデートできるようになる、という恩恵を受けることができます。例えば、パスワードフィールドが、(セキュリティ的な理由で)そのユーザのファーストネームと一致してはいけない、という状況を考えてみましょう。これは、<tt class="docutils literal"><span class="pre">isPasswordLegal</span></tt> というメソッドを作成し、そのメソッドが <tt class="docutils literal"><span class="pre">true</span></tt> を返さなければならない、というアサーションを行うことで可能になります。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/BlogBundle/Resources/config/validation.yml</span>
+<span class="l-Scalar-Plain">Acme\BlogBundle\Entity\Author</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">getters</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">passwordLegal</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">True</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">message</span><span class="p-Indicator">:</span> <span class="s">&quot;The</span><span class="nv"> </span><span class="s">password</span><span class="nv"> </span><span class="s">cannot</span><span class="nv"> </span><span class="s">match</span><span class="nv"> </span><span class="s">your</span><span class="nv"> </span><span class="s">first</span><span class="nv"> </span><span class="s">name&quot;</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
+<span class="nt">&lt;class</span> <span class="na">name=</span><span class="s">&quot;Acme\BlogBundle\Entity\Author&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;getter</span> <span class="na">property=</span><span class="s">&quot;passwordLegal&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;True&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">name=</span><span class="s">&quot;message&quot;</span><span class="nt">&gt;</span>The password cannot match your first name<span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;/constraint&gt;</span>
+    <span class="nt">&lt;/getter&gt;</span>
+<span class="nt">&lt;/class&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @Assert\True(message = &quot;The password cannot match your first name&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">isPasswordLegal</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// return true or false</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\True</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Author</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addGetterConstraint</span><span class="p">(</span><span class="s1">&#39;passwordLegal&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="k">True</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;The password cannot match your first name&#39;</span><span class="p">,</span>
+        <span class="p">)));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>そして <tt class="docutils literal"><span class="pre">isPasswordLegal()</span></tt> メソッドを作成し、必要なロジックをそこに盛り込みます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">isPasswordLegal</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">firstName</span> <span class="o">!=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">password</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">鋭い目をお持ちのあなたでしたら、マッピング情報内でゲッターのプリフィックス(&#8220;get&#8221; や &#8220;is&#8221;)が省略されていることに気づくでしょう。こうしておくことで、後々同じ名前で、ロジックを変更すること無く制約をプロパティに移動させる(もしくはその逆も)ことができます。</p>
+</div>
+</div>
+</div>
+<div class="section" id="book-validation-validation-groups">
+<span id="id11"></span><h2>バリデーショングループ<a class="headerlink" href="#book-validation-validation-groups" title="Permalink to this headline">¶</a></h2>
+<p>ここまでで、クラスに対して制約を追加し、その定義した制約が通るかどうか問い合わせすることが可能になりました。とはいえ、そのクラスの<em>いくつかの</em>制約に対してだけバリデートしたいという場合も往々にしてあるでしょう。こう言った場合は、1つ以上の「バリデーショングループ」を作り、ある1つの制約グループに対してだけバリデーションを適用することができます。</p>
+<p>たとえば、<tt class="docutils literal"><span class="pre">User</span></tt> クラスを考えてみましょう。このクラスは、ユーザーの登録時と、それ以後にユーザが連絡先情報を更新する場合に使われるとします。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/BlogBundle/Resources/config/validation.yml</span>
+<span class="l-Scalar-Plain">Acme\BlogBundle\Entity\User</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">email</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Email</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">registration</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+        <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">registration</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MinLength</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">limit</span><span class="p-Indicator">:</span> <span class="nv">7</span><span class="p-Indicator">,</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">registration</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+        <span class="l-Scalar-Plain">city</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MinLength</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/config/validation.xml --&gt;</span>
+<span class="nt">&lt;class</span> <span class="na">name=</span><span class="s">&quot;Acme\BlogBundle\Entity\User&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;email&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;Email&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">name=</span><span class="s">&quot;groups&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;value&gt;</span>registration<span class="nt">&lt;/value&gt;</span>
+            <span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;/constraint&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;NotBlank&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">name=</span><span class="s">&quot;groups&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;value&gt;</span>registration<span class="nt">&lt;/value&gt;</span>
+            <span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;/constraint&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;MinLength&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">name=</span><span class="s">&quot;limit&quot;</span><span class="nt">&gt;</span>7<span class="nt">&lt;/option&gt;</span>
+            <span class="nt">&lt;option</span> <span class="na">name=</span><span class="s">&quot;groups&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;value&gt;</span>registration<span class="nt">&lt;/value&gt;</span>
+            <span class="nt">&lt;/option&gt;</span>
+        <span class="nt">&lt;/constraint&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+    <span class="nt">&lt;property</span> <span class="na">name=</span><span class="s">&quot;city&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;constraint</span> <span class="na">name=</span><span class="s">&quot;MinLength&quot;</span><span class="nt">&gt;</span>7<span class="nt">&lt;/constraint&gt;</span>
+    <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/class&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/User.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\BlogBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Security\Core\User\UserInterface</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints</span> <span class="k">as</span> <span class="nx">Assert</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">User</span> <span class="k">implements</span> <span class="nx">UserInterface</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">    * @Assert\Email(groups={&quot;registration&quot;})</span>
+<span class="sd">    */</span>
+    <span class="k">private</span> <span class="nv">$email</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">    * @Assert\NotBlank(groups={&quot;registration&quot;})</span>
+<span class="sd">    * @Assert\MinLength(limit=7, groups={&quot;registration&quot;})</span>
+<span class="sd">    */</span>
+    <span class="k">private</span> <span class="nv">$password</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">    * @Assert\MinLength(2)</span>
+<span class="sd">    */</span>
+    <span class="k">private</span> <span class="nv">$city</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/User.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\BlogBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Mapping\ClassMetadata</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\Email</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\NotBlank</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Validator\Constraints\MinLength</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">User</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">loadValidatorMetadata</span><span class="p">(</span><span class="nx">ClassMetadata</span> <span class="nv">$metadata</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Email</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
+        <span class="p">)));</span>
+
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">NotBlank</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
+        <span class="p">)));</span>
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">MinLength</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;limit&#39;</span>  <span class="o">=&gt;</span> <span class="mi">7</span><span class="p">,</span>
+            <span class="s1">&#39;groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
+        <span class="p">)));</span>
+
+        <span class="nv">$metadata</span><span class="o">-&gt;</span><span class="na">addPropertyConstraint</span><span class="p">(</span><span class="s1">&#39;city&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">MinLength</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>上記のように設定した場合は、2つのバリデーショングループが存在することになります。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">Default</span></tt> - どのグループにも属していない制約群</li>
+<li><tt class="docutils literal"><span class="pre">registration</span></tt> - <tt class="docutils literal"><span class="pre">email</span></tt> と <tt class="docutils literal"><span class="pre">password</span></tt> フィールドのみに対する制約群</li>
+</ul>
+<p>バリデータに特定のグループのみを使用するように命令するには、<tt class="docutils literal"><span class="pre">validate()</span></tt> メソッドの第二引数に1つ以上のグループ名を渡します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$errors</span> <span class="o">=</span> <span class="nv">$validator</span><span class="o">-&gt;</span><span class="na">validate</span><span class="p">(</span><span class="nv">$author</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>通常はフォームライブラリを通して間接的にバリデーションを扱います。フォーム内でのバリデーショングループの使用に関しては、<a class="reference internal" href="forms.html#book-forms-validation-groups"><em>バリデーショングループ</em></a> を参照してください。</p>
+</div>
+<div class="section" id="final-thoughts">
+<h2>Final Thoughts<a class="headerlink" href="#final-thoughts" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 の <tt class="docutils literal"><span class="pre">validator</span></tt> は、あらゆるオブジェクトのデータに対して「valid(妥当)」かどうかを保証するために活用できる、強力なツールです。バリデーションの動力は「constraints(制約)」にあり、制約はオブジェクトのプロパティやゲッターメソッドに対して適用することができます。ほとんどの場合は、フォームの使用を通して間接的にバリデーションフレームワークを使用することにはなりますが、あらゆるオブジェクトに対してあらゆる場所でこのバリデーションが使用できることは覚えておいてください。</p>
+</div>
+<div class="section" id="id12">
+<h2>クックブックでより深く<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../cookbook/validation/custom_constraint.html"><em>カスタムバリデーション制約の作成方法</em></a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="testing.html">< テスト</a>
+<a class="next" href="forms.html">フォーム ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/book/validation.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/validation.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/validation.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">バリデーション</a><ul>
+<li><a class="reference internal" href="#id2">バリデーションの基礎</a><ul>
+<li><a class="reference internal" href="#validator"><tt class="docutils literal"><span class="pre">validator</span></tt> サービスを使用する</a></li>
+<li><a class="reference internal" href="#book-validation-forms">バリデーションとフォーム</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#book-validation-configuration">設定</a></li>
+<li><a class="reference internal" href="#validation-constraints">制約</a><ul>
+<li><a class="reference internal" href="#id6">サポートされている制約</a></li>
+<li><a class="reference internal" href="#book-validation-constraint-configuration">制約の設定</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#validator-constraint-targets">制約の対象</a><ul>
+<li><a class="reference internal" href="#index-7">プロパティ</a></li>
+<li><a class="reference internal" href="#index-8">ゲッター</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#book-validation-validation-groups">バリデーショングループ</a></li>
+<li><a class="reference internal" href="#final-thoughts">Final Thoughts</a></li>
+<li><a class="reference internal" href="#id12">クックブックでより深く</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="testing.html"
+                        title="previous chapter">テスト</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="forms.html"
+                        title="next chapter">フォーム</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/book/validation.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

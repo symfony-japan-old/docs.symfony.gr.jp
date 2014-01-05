@@ -1,0 +1,1424 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>テンプレートの基本 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="ガイドブック" href="index.html" />
+    <link rel="next" title="データベースと Doctrine (“The Model”)" href="doctrine.html" />
+    <link rel="prev" title="ルーティング" href="routing.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.4 (2.1以降)</li>
+<li>翻訳更新日：2013/12/31</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h1>テンプレートの基本<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference internal" href="controller.html"><em>コントローラー</em></a> は、Symfony2 アプリケーションに入ってきたリクエストを扱う役割を果たします。ただし、実際は、すべてをコントローラーに記述するのではなく、コードのテストのしやすさや再利用性のために、重い処理を別の部分に任せていることもあります。HTML や CSS その他のコンテンツを生成する処理は、コントローラーからテンプレートエンジンに引き継がれます。本章では、ユーザーに提示するコンテンツやメール本文などに使うテンプレートの記述方法を解説します。テンプレートを継承したりコードを再利用する方法も説明しています。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">テンプレートをレンダリングする方法については、<a class="reference internal" href="controller.html#controller-rendering-templates"><em>コントローラー</em></a>の章でも解説しています。</p>
+</div>
+<div class="section" id="index-1">
+<span id="id2"></span><h2>テンプレート<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>テンプレートとは、任意のテキストベースのフォーマット(HTML、XML、CSV、LaTeX ...)を生成する元となる、シンプルなテキストファイルです。一番身近なのは PHP テンプレートでしょう。これは PHP によってパースされるテキストファイルで、テキストと PHP コードが混ざっています。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Symfony へようこそ!<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$page_title</span> <span class="cp">?&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+        <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$navigation</span> <span class="k">as</span> <span class="nv">$item</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+                <span class="nt">&lt;li&gt;</span>
+                    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">getHref</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+                        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$item</span><span class="o">-&gt;</span><span class="na">getCaption</span><span class="p">()</span> <span class="cp">?&gt;</span>
+                    <span class="nt">&lt;/a&gt;</span>
+                <span class="nt">&lt;/li&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p id="index-2">Symfony2 では、より強力なテンプレート言語である <a class="reference external" href="http://twig.sensiolabs.org">Twig</a> も利用可能です。Twig は、簡潔で可読性の高いテンプレートを記述でき、Web デザイナーにも使いやすいよう設計されています。PHP テンプレートより強力な点もあります。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>Symfony へようこそ!<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span><span class="cp">{{</span> <span class="nv">page_title</span> <span class="cp">}}</span><span class="nt">&lt;/h1&gt;</span>
+
+        <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;navigation&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">{%</span> <span class="k">for</span> <span class="nv">item</span> <span class="k">in</span> <span class="nv">navigation</span> <span class="cp">%}</span>
+                <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">item.href</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">item.caption</span> <span class="cp">}}</span><span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>Twig には 2 種類の構文があります。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">{{</span> <span class="pre">...</span> <span class="pre">}}</span></tt>: &#8220;出力する&#8221;: 変数や式の結果をテンプレートに表示する</li>
+<li><tt class="docutils literal"><span class="pre">{%</span> <span class="pre">...</span> <span class="pre">%}</span></tt>: &#8220;処理する&#8221;: テンプレートのロジックを制御する<strong>タグ</strong>で、for ループなどの命令の実行に使用する</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>もう一つ、次のようなコメント用の構文もあります。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# これはコメントです #}</span>
+</pre></div>
+</div>
+<p class="last">この構文では、PHP の <tt class="docutils literal"><span class="pre">/*</span> <span class="pre">comment</span> <span class="pre">*/</span></tt> と同じように複数行に渡るコメントも記述できます。</p>
+</div>
+<p>Twig には<strong>フィルター</strong>という機能もあります。フィルターを使うと、レンダリングされる前にコンテンツを修飾することができます。次の例では、フィルターを使って変数 <tt class="docutils literal"><span class="pre">title</span></tt> の内容をすべて大文字に変換して出力します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">title</span><span class="o">|</span><span class="nf">upper</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>デフォルトで利用可能な<a class="reference external" href="http://twig.sensiolabs.org/doc/tags/index.html">タグ</a>や<a class="reference external" href="http://twig.sensiolabs.org/doc/filters/index.html">フィルター</a>は数多くあります。また、必要であれば、自分で Twig の<a class="reference external" href="http://twig.sensiolabs.org/doc/advanced.html#creating-an-extension">エクステンションを追加する</a>ことも可能です。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">作成した Twig エクステンションを登録するには、
+サービスに <tt class="docutils literal"><span class="pre">twig.extension</span></tt> という<a class="reference internal" href="../reference/dic_tags.html#reference-dic-tags-twig-extension"><em>タグ</em></a>を設定します。</p>
+</div>
+<p>この後にも出てきますが、Twig は関数をサポートしています。また、独自の関数を追加することもできます。次の例では、デフォルトのタグ <tt class="docutils literal"><span class="pre">for</span></tt>  と関数 <tt class="docutils literal"><span class="pre">cycle</span></tt> を使って、10 個の div タグを出力しています。<tt class="docutils literal"><span class="pre">cycle</span></tt> 関数を使っているので、ループ内で出力される div タグの class 属性として <tt class="docutils literal"><span class="pre">odd</span></tt> と <tt class="docutils literal"><span class="pre">even</span></tt> が交互に適用されます。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">i</span> <span class="k">in</span> <span class="m">0.</span><span class="nv">.10</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">cycle</span><span class="o">([</span><span class="s1">&#39;odd&#39;</span><span class="o">,</span> <span class="s1">&#39;even&#39;</span><span class="o">],</span> <span class="nv">i</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+      <span class="c">&lt;!-- 何らかの HTML コード --&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>この章では、テンプレートの例は Twig と PHP の両方で示していきます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">プロジェクトで Twig を使用せず無効にしている場合、<tt class="docutils literal"><span class="pre">kernel.exception</span></tt> イベントを使って例外ハンドラーを自作する必要があります。</p>
+</div>
+<div class="sidebar">
+<p class="first sidebar-title">Twig のメリット</p>
+<p>Twig テンプレートはシンプルに記述することが目的で、テンプレート中で PHP タグを処理することはありません。Twig は見た目の表現手段であって、プログラムロジックの表現手段ではない、という設計思想が根底にあります。
+Twig を使い込んでいくと、この関心事の分離のための設計が効果を実感できるでしょう。</p>
+<p>また、PHP テンプレートにはない機能もあります。例えば、テンプレート継承 (Twig テンプレートは、継承関係のついた PHP クラスにコンパイルされる) 、空白文字の制御、サンドボックス、テンプレート内でのみ有効なカスタム関数やフィルターといった機能があります。他にも、テンプレートの記述を容易で簡潔にする仕組みがいくつかあります。次の例では、論理命令である <tt class="docutils literal"><span class="pre">if</span></tt> をループに一体化させています。</p>
+<div class="last highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">user</span> <span class="k">in</span> <span class="nv">users</span> <span class="k">if</span> <span class="nv">user.active</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">user.username</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;</span>ユーザーが見つかりません<span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="twig">
+<span id="index-3"></span><h3>Twig テンプレートのキャッシュ<a class="headerlink" href="#twig" title="Permalink to this headline">¶</a></h3>
+<p>Twig は高速です。各テンプレートはネイティブな PHP クラスにコンパイルされ、実行時にレンダリングされます。コンパイルされたクラスは、<tt class="docutils literal"><span class="pre">app/cache/{environment}/twig</span></tt> (<tt class="docutils literal"><span class="pre">{environment}</span></tt> は <tt class="docutils literal"><span class="pre">dev</span></tt> や <tt class="docutils literal"><span class="pre">prod</span></tt> のような環境を指す) に保存されます。
+デバッグ時にこのディレクトリを参照すると役立つ場合もあります。環境についての詳細は、<a class="reference internal" href="page_creation.html#environments-summary"><em>環境</em></a> を参照してください。</p>
+<p><tt class="docutils literal"><span class="pre">debug</span></tt> モードが有効になっている場合 (デフォルトの <tt class="docutils literal"><span class="pre">dev</span></tt> 環境)、Twig テンプレートは、変更されていれば自動的に再コンパイルされます。ですので、開発中は明示的にキャッシュクリアを行う必要はなく、テンプレートに加えた変更を即座に確認できます。</p>
+<p><tt class="docutils literal"><span class="pre">debug</span></tt> モードが無効の場合 (デフォルトの <tt class="docutils literal"><span class="pre">prod</span></tt> 環境)、Twig テンプレートを再コンパイルするには Twig のキャッシュをクリアする必要があります。アプリケーションをデプロイするときは、必ずキャッシュをクリアするということも覚えておきましょう。</p>
+</div>
+</div>
+<div class="section" id="index-4">
+<span id="id3"></span><h2>テンプレートの継承とレイアウト<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
+<p>開発するプロジェクトの各テンプレートには、共通した要素が存在することが多くあります。たとえば、ヘッダーやフッター、サイドバーなどです。このような共通要素をインクルードするのが従来からある手法ですが、
+Symfony2 では、少し異なるアプローチを提供しています。Symfony2 では、あるテンプレートを別のテンプレートによってデコレートできるようになっています。これをテンプレートの継承と呼んでおり、PHP におけるクラスの継承と同じだと考えてください。テンプレートの継承を使う場合、
+ベーステンプレートとなる &#8220;layout&#8221; テンプレートに、サイトで使う共通要素のすべてをそれぞれ <strong>ブロック（block）</strong> として定義しておきます。これは、ベースメソッドをもっている PHP のクラスだと思ってください。子のテンプレート側では、layout テンプレートを継承して block をオーバーライドすることができます。親クラスのメソッドをサブクラスでオーバーライドすると考えて良いでしょう。</p>
+<p>では、ベースとなる layout テンプレートを作ってみましょう。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# app/Resources/views/base.html.twig #}</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>テストアプリケーション<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;sidebar&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">{%</span> <span class="k">block</span> <span class="nv">sidebar</span> <span class="cp">%}</span>
+                <span class="nt">&lt;ul&gt;</span>
+                      <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>ホーム<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+                      <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/blog&quot;</span><span class="nt">&gt;</span>ブログ<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+                <span class="nt">&lt;/ul&gt;</span>
+            <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+        <span class="nt">&lt;/div&gt;</span>
+
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- app/Resources/views/base.html.php --&gt;</span>
+<span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title&gt;</span><span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;テストアプリケーション&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;sidebar&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;sidebar&#39;</span><span class="p">))</span><span class="o">:</span> <span class="cp">?&gt;</span>
+                <span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;sidebar&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">else</span><span class="o">:</span> <span class="cp">?&gt;</span>
+                <span class="nt">&lt;ul&gt;</span>
+                    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>ホーム<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+                    <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/blog&quot;</span><span class="nt">&gt;</span>ブログ<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+                <span class="nt">&lt;/ul&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">テンプレート継承に関しては、以降では Twig でのみ説明していくことにします。原理としては、Twig と PHP テンプレートで共通しています。</p>
+</div>
+<p>このテンプレートは、ベースとなるシンプルな2カラムの HTML スケルトンとなっています。3つの <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">%}</span></tt> (<tt class="docutils literal"><span class="pre">title</span></tt>, <tt class="docutils literal"><span class="pre">sidebar</span></tt>, <tt class="docutils literal"><span class="pre">body</span></tt>)が定義されており、各 block は、子テンプレートによってオーバーライドされるか、もしくは、デフォルトの実装のままとしておくことができます。このテンプレートは、そのままレンダリング可能です。その場合、3つの block の値は、単にこのテンプレートに記述されているデフォルト値のままとなります。</p>
+<p>子のテンプレート側は、次のように記述します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/BlogBundle/Resources/views/Blog/index.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;::base.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>ブログ記事の一覧<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">entry</span> <span class="k">in</span> <span class="nv">blog_entries</span> <span class="cp">%}</span>
+        <span class="nt">&lt;h2&gt;</span><span class="cp">{{</span> <span class="nv">entry.title</span> <span class="cp">}}</span><span class="nt">&lt;/h2&gt;</span>
+        <span class="nt">&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">entry.body</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/views/Blog/index.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">extend</span><span class="p">(</span><span class="s1">&#39;::base.html.php&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;ブログ記事の一覧&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$blog_entries</span> <span class="k">as</span> <span class="nv">$entry</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;h2&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="na">getTitle</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/h2&gt;</span>
+        <span class="nt">&lt;p&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="na">getBody</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">stop</span><span class="p">()</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">継承元の親テンプレートを指定するには、特別な構文を使います。
+<tt class="docutils literal"><span class="pre">::base.html.twig</span></tt> のようにバンドル名とコントローラー名を使わずに記述した場合は、<tt class="docutils literal"><span class="pre">app/Resources/views</span></tt> ディレクトリにあるテンプレートを指します。命名規約に関しては、<a class="reference internal" href="#template-naming-locations"><em>テンプレートの命名規約</em></a> を参照してください。</p>
+</div>
+<p>テンプレート継承は <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">extends</span> <span class="pre">%}</span></tt> タグで指定します。このタグで、レイアウトや block が記述されているベーステンプレートを先に評価するよう、テンプレートエンジンに指示します。その後、子のテンプレートがレンダリングされる際、親テンプレートで定義された <tt class="docutils literal"><span class="pre">title</span></tt> ブロックや <tt class="docutils literal"><span class="pre">body</span></tt> ブロックが、子テンプレートの定義により置き換えられます。<tt class="docutils literal"><span class="pre">blog_entries</span></tt> の中身にもよりますが、たとえば次のようなレンダリング結果になります。</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=utf-8&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;title&gt;</span>My cool blog posts<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;sidebar&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;ul&gt;</span>
+                <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>ホーム<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+                <span class="nt">&lt;li&gt;&lt;a</span> <span class="na">href=</span><span class="s">&quot;/blog&quot;</span><span class="nt">&gt;</span>ブログ<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>
+            <span class="nt">&lt;/ul&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;content&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;h2&gt;</span>最初の記事<span class="nt">&lt;/h2&gt;</span>
+            <span class="nt">&lt;p&gt;</span>最初の記事の本文です。<span class="nt">&lt;/p&gt;</span>
+
+            <span class="nt">&lt;h2&gt;</span>別の記事<span class="nt">&lt;/h2&gt;</span>
+            <span class="nt">&lt;p&gt;</span>2 つめの記事の本文です。<span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>子テンプレートでは <tt class="docutils literal"><span class="pre">sidebar</span></tt> ブロックを定義していないので、親テンプレートの定義が使われます。親テンプレートの <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">%}</span></tt> 内の値が、常にデフォルトとして使用されます。</p>
+<p>継承は好きなだけ行うことができます。次の章では、よくある 3 階層の継承を行うモデルを見ていきます。そこで、Symfony2 プロジェクト内で、どうやってテンプレートを構成していけば良いのか説明します。</p>
+<p>テンプレート継承を行う際の Tips を紹介します。</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">{%</span> <span class="pre">extends</span> <span class="pre">%}</span></tt> は、テンプレート中で一番最初のタグである必要があります。</p>
+</li>
+<li><p class="first">ベーステンプレート内では、<tt class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">%}</span></tt> を使えば使うほどベターです。親テンプレートにあるブロックに対して、対応する定義を子テンプレートにすべて記述する必要はありません。ベーステンプレートに好きなだけブロックを作り、適切なデフォルト値を指定しておきましょう。ベーステンプレートのブロックが多いほど、レイアウトが柔軟になるでしょう。</p>
+</li>
+<li><p class="first">テンプレート内に重複した内容がある場合、その内容を親テンプレートの <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">%}</span></tt> に移すのが良いでしょう。または、新しいテンプレートを作って <tt class="docutils literal"><span class="pre">include</span></tt> するほうがよい場合もあります(<a class="reference internal" href="#including-templates"><em>テンプレートをインクルードする</em></a>を参照)。</p>
+</li>
+<li><p class="first">親ブロックの block の内容を取得したい場合は、<tt class="docutils literal"><span class="pre">{{</span> <span class="pre">parent()</span> <span class="pre">}}</span></tt> 関数を使います。親ブロックの出力の内容を子で完全に置き換えるのではなく、親ブロックの内容に何か追加したい場合に便利です。</p>
+<blockquote>
+<div><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">block</span> <span class="nv">sidebar</span> <span class="cp">%}</span>
+    <span class="nt">&lt;h3&gt;</span>Table of Contents<span class="nt">&lt;/h3&gt;</span>
+
+    <span class="c">{# ... #}</span>
+
+    <span class="cp">{{</span> <span class="nv">parent</span><span class="o">()</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="template-naming-locations">
+<span id="index-5"></span><span id="id4"></span><h2>テンプレートの命名規約<a class="headerlink" href="#template-naming-locations" title="Permalink to this headline">¶</a></h2>
+<p>デフォルトでは、テンプレートは次の 2 つの場所に配置されます。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">app/Resources/views/</span></tt>: アプリケーションの <tt class="docutils literal"><span class="pre">views</span></tt> ディレクトリには、アプリケーション全体に関わるベーステンプレート(アプリケーションのレイアウト) や、バンドルのテンプレートをオーバーライドするテンプレート(<a class="reference internal" href="#overriding-bundle-templates"><em>バンドルテンプレートの継承</em></a>を参照)を置くことができます。</li>
+<li><tt class="docutils literal"><span class="pre">path/to/bundle/Resources/views/</span></tt>: バンドルごとのテンプレートは、バンドルの <tt class="docutils literal"><span class="pre">Resources/views</span></tt> ディレクトリ(及びそのサブディレクトリ)にあります。
+大半のテンプレートはバンドル内に配置されるでしょう。</li>
+</ul>
+<p>Symfony2 では、<strong>バンドル</strong>:<strong>コントローラー</strong>:<strong>テンプレート</strong> という構文でテンプレートを指定します。この構文では、同じディレクトリにある複数の種類のテンプレートを扱うことができます。</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">AcmeBlogBundle:Blog:index.html.twig</span></tt>: この構文は、あるページのテンプレートを指定する時に使います。コロン(<tt class="docutils literal"><span class="pre">:</span></tt>)によって区切られた 3 つの部分は、それぞれ次のような意味を持ちます。</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt>: (<em>バンドル</em>) テンプレートは <tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> (例えば <tt class="docutils literal"><span class="pre">src/Acme/BlogBundle</span></tt>)内にあるということ</li>
+<li><tt class="docutils literal"><span class="pre">Blog</span></tt>: (<em>コントローラー</em>) <tt class="docutils literal"><span class="pre">Resources/views</span></tt> ディレクトリ下の <tt class="docutils literal"><span class="pre">Blog</span></tt> ディレクトリにあるということ</li>
+<li><tt class="docutils literal"><span class="pre">index.html.twig</span></tt>: (<em>テンプレート</em>) ファイル名が <tt class="docutils literal"><span class="pre">index.html.twig</span></tt> であること</li>
+</ul>
+</div></blockquote>
+<p><tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> が <tt class="docutils literal"><span class="pre">src/Acme/BlogBundle</span></tt> にあるとすると、最終的なパスは、 <tt class="docutils literal"><span class="pre">src/Acme/BlogBundle/Resources/views/Blog/index.html.twig</span></tt> になります。</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">AcmeBlogBundle::layout.html.twig</span></tt>: この構文は、<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> バンドル固有のベーステンプレートを参照する時に使います。先ほどの例では <tt class="docutils literal"><span class="pre">Blog</span></tt> という単語があった、2 つ目の「コントローラー」に対応する部分が空になっています。ですので、この構文で参照しているテンプレートのパスは、<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> バンドル内の <tt class="docutils literal"><span class="pre">Resources/views/layout.html.twig</span></tt> になります。</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">::base.html.twig</span></tt>: この構文は、アプリケーション全体のベーステンプレート/レイアウトを参照する時に使います。2 つのコロン(<tt class="docutils literal"><span class="pre">:</span></tt>)から始まりますが、これは、<em>バンドル</em>も<em>コントローラー</em>も無いということを示します。テンプレートが特定のバンドルに入っているのではなく、ルートの <tt class="docutils literal"><span class="pre">app/Resources/views/</span></tt> ディレクトリにある、ということを意味します。</p>
+</li>
+</ul>
+<p><a class="reference internal" href="#overriding-bundle-templates"><em>バンドルテンプレートの継承</em></a>節では、例えば <tt class="docutils literal"><span class="pre">app/Resources/AcmeBlogBundle/views/</span></tt> ディレクトリに、<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> バンドルにあるものと同じ名前のファイルを置くことで、テンプレートをオーバーライドする方法を見ていきます。この方法を使うと、どんなベンダーバンドルのテンプレートでもオーバーライドできるようになります。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">テンプレートの命名規則にはなじみがあると思います。<a class="reference internal" href="routing.html#controller-string-syntax"><em>コントローラーの指定パターン</em></a> で言及したものと同じ命名規則です。</p>
+</div>
+<div class="section" id="id5">
+<h3>サフィックス<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p><strong>バンドル</strong>:<strong>コントローラー</strong>:<strong>テンプレート</strong> のフォーマットで、各ファイルが<em>どこに</em>置いてあるのか指定できました。テンプレート名には、2 つの拡張子が付いていますが、それらは、<em>フォーマット</em>と<em>エンジン</em>を示しています。</p>
+<ul class="simple">
+<li><strong>AcmeBlogBundle:Blog:index.html.twig</strong> - HTML フォーマット、Twig エンジン</li>
+<li><strong>AcmeBlogBundle:Blog:index.html.php</strong> - HTML フォーマット、PHP エンジン</li>
+<li><strong>AcmeBlogBundle:Blog:index.css.twig</strong> - CSS フォーマット、Twig エンジン</li>
+</ul>
+<p>デフォルトでは、Symfony2 テンプレートには、Twig と PHP のどちらも使えます。テンプレートファイルの後ろの拡張子(<tt class="docutils literal"><span class="pre">.twig</span></tt> や <tt class="docutils literal"><span class="pre">.php</span></tt>)で、どのテンプレートエンジンを使うかを指定しています。始めの拡張子(<tt class="docutils literal"><span class="pre">.html</span></tt>、<tt class="docutils literal"><span class="pre">.css</span></tt>、その他)は、最終的なフォーマットを示します。フォーマットは、同じリソースを HTML (<tt class="docutils literal"><span class="pre">index.html.twig</span></tt>) や XML (<tt class="docutils literal"><span class="pre">index.xml.twig</span></tt>)、その他複数のフォーマットでレンダリングする必要がある場合に、テンプレートを区別するのに使われます。詳しくは、<a class="reference internal" href="#template-formats"><em>テンプレートフォーマット</em></a>を参照してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">「エンジン」の有効/無効は設定可能ですし、新しいエンジンを追加することもできます。<a class="reference internal" href="#template-configuration"><em>templating サービスのコンフィギュレーション</em></a> を参照してください。</p>
+</div>
+</div>
+</div>
+<div class="section" id="index-6">
+<span id="id6"></span><h2>タグとヘルパー<a class="headerlink" href="#index-6" title="Permalink to this headline">¶</a></h2>
+<p>命名方法や継承など、テンプレートの基本は理解できたと思いますが、一番難しい部分はこれからです。この節では、テンプレートのインクルードや、リンク、画像のインクルードなど、よくあるタスクをこなしていく際に利用可能なツールについて解説します。</p>
+<p>Symfony2 には、テンプレートデザイナーの仕事を楽にするための Twig タグや関数がいくつか組み込まれています。PHP テンプレートは、拡張可能な<em>ヘルパー</em>システムを備えており、テンプレートコンテキストで便利な機能を提供しています。</p>
+<p>すでに、組み込みの Twig タグ(<tt class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">%}</span></tt>、<tt class="docutils literal"><span class="pre">{%</span> <span class="pre">extends</span> <span class="pre">%}</span></tt>)や、PHP ヘルパー(<tt class="docutils literal"><span class="pre">$view['slots']</span></tt>) をいくつか見てきました。もういくつかマスターしていきましょう。</p>
+<div class="section" id="including-templates">
+<span id="index-7"></span><span id="id7"></span><h3>テンプレートをインクルードする<a class="headerlink" href="#including-templates" title="Permalink to this headline">¶</a></h3>
+<p>同じテンプレートやコードを、別のページでインクルードしたいことはよくあります。たとえば、「ニュース記事」があるようなアプリケーションの場合、記事を表示するテンプレートコードは、記事詳細ページや、一番人気の記事を表示するページ、最新記事リストのページでも使用されると思います。</p>
+<p>PHP のコードを書いている場合、再利用したいコードブロックが出てくると、クラスや関数を作ってそこにコードを移動させるということはよくあります。テンプレートの場合も同様です。新しくテンプレートを作成して、再利用したいテンプレートコードをそこに移動させます。そうすることで、テンプレートは他のテンプレートからインクルード可能になります。まずは、再利用したい部分のテンプレートを作成します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/ArticleBundle/Resources/views/Article/articleDetails.html.twig #}</span>
+<span class="nt">&lt;h2&gt;</span><span class="cp">{{</span> <span class="nv">article.title</span> <span class="cp">}}</span><span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;h3</span> <span class="na">class=</span><span class="s">&quot;byline&quot;</span><span class="nt">&gt;</span>by <span class="cp">{{</span> <span class="nv">article.authorName</span> <span class="cp">}}</span><span class="nt">&lt;/h3&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+    <span class="cp">{{</span> <span class="nv">article.body</span> <span class="cp">}}</span>
+<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/ArticleBundle/Resources/views/Article/articleDetails.html.php --&gt;</span>
+<span class="nt">&lt;h2&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getTitle</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;h3</span> <span class="na">class=</span><span class="s">&quot;byline&quot;</span><span class="nt">&gt;</span>by <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getAuthorName</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/h3&gt;</span>
+
+<span class="nt">&lt;p&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getBody</span><span class="p">()</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>他のテンプレートからインクルードするのは簡単です。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/ArticleBundle/Resources/views/Article/list.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;AcmeArticleBundle::layout.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+    <span class="nt">&lt;h1&gt;</span>最新の記事<span class="nt">&lt;h1&gt;</span>
+
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">article</span> <span class="k">in</span> <span class="nv">articles</span> <span class="cp">%}</span>
+        <span class="cp">{{</span> <span class="nv">include</span><span class="o">(</span>
+            <span class="s1">&#39;AcmeArticleBundle:Article:articleDetails.html.twig&#39;</span><span class="o">,</span>
+            <span class="o">{</span> <span class="s1">&#39;article&#39;</span><span class="o">:</span> <span class="nv">article</span> <span class="o">}</span>
+        <span class="o">)</span> <span class="cp">}}</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/ArticleBundle/Resources/Article/list.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">extend</span><span class="p">(</span><span class="s1">&#39;AcmeArticleBundle::layout.html.php&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>最新の記事<span class="nt">&lt;/h1&gt;</span>
+
+    <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$articles</span> <span class="k">as</span> <span class="nv">$article</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span>
+            <span class="s1">&#39;AcmeArticleBundle:Article:articleDetails.html.php&#39;</span><span class="p">,</span>
+            <span class="k">array</span><span class="p">(</span><span class="s1">&#39;article&#39;</span> <span class="o">=&gt;</span> <span class="nv">$article</span><span class="p">)</span>
+        <span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">stop</span><span class="p">()</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>テンプレートをインクルードするには、<tt class="docutils literal"><span class="pre">{%</span> <span class="pre">include()</span> <span class="pre">%}</span></tt> 関数を使います。インクルードするテンプレートを指定する部分は、テンプレート名の共通規則に従っています。<tt class="docutils literal"><span class="pre">articleDetails.html.twig</span></tt> テンプレートでは、関数に渡した <tt class="docutils literal"><span class="pre">article</span></tt> 変数を使えます。しかし、このように毎回変数を渡す必要はなく、
+<tt class="docutils literal"><span class="pre">list.html.twig</span></tt> で使える変数は <tt class="docutils literal"><span class="pre">articleDetails.html.twig</span></tt> においても利用可能です
+(<a class="reference external" href="http://twig.sensiolabs.org/doc/functions/include.html">with_context</a> を <tt class="docutils literal"><span class="pre">false</span></tt> にしていない場合)。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">この <tt class="docutils literal"><span class="pre">{'article':</span> <span class="pre">article}</span></tt> という書き方は、Twig でハッシュ(名前付きキーの配列)を書くときの標準的な書き方です。複数の要素があるときは、<tt class="docutils literal"><span class="pre">{'foo':</span> <span class="pre">foo,</span> <span class="pre">'bar':</span> <span class="pre">bar}</span></tt> のように書きます。</p>
+</div>
+</div>
+<div class="section" id="templating-embedding-controller">
+<span id="index-8"></span><span id="id8"></span><h3>コントローラーを埋め込む<a class="headerlink" href="#templating-embedding-controller" title="Permalink to this headline">¶</a></h3>
+<p>単純にテンプレートをインクルードする以上のことをしたい場合もあります。たとえば、レイアウトのサイドバーに 3 件の新着記事を載せたい場合を考えてみましょう。記事の取得は、データベースへのクエリーや重いロジックといった処理が必要で、テンプレート内でできるものでありません。</p>
+<p>このような場合は、テンプレートにコントローラーの処理結果を埋め込めば良いのです。まずは、特定の数の最新記事をレンダリングするコントローラーを作成します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/ArticleBundle/Controller/ArticleController.php</span>
+
+<span class="k">class</span> <span class="nc">ArticleController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">recentArticlesAction</span><span class="p">(</span><span class="nv">$max</span> <span class="o">=</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// データベースへのクエリーや他の処理を実行して</span>
+        <span class="c1">// 最新の &quot;$max&quot; 個の記事を取得する</span>
+        <span class="nv">$articles</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span>
+            <span class="s1">&#39;AcmeArticleBundle:Article:recentList.html.twig&#39;</span><span class="p">,</span>
+            <span class="k">array</span><span class="p">(</span><span class="s1">&#39;articles&#39;</span> <span class="o">=&gt;</span> <span class="nv">$articles</span><span class="p">)</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">recentList</span></tt> のテンプレートは単純です。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/ArticleBundle/Resources/views/Article/recentList.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">article</span> <span class="k">in</span> <span class="nv">articles</span> <span class="cp">%}</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/article/</span><span class="cp">{{</span> <span class="nv">article.slug</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nv">article.title</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/ArticleBundle/Resources/views/Article/recentList.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$articles</span> <span class="nx">in</span> <span class="nv">$article</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/article/</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getSlug</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getTitle</span><span class="p">()</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">上記例では、楽をして URL をハードコードしています(<tt class="docutils literal"><span class="pre">/article/*slug*</span></tt>)。これは良くないプラクティスです。次節で、これをうまくやる方法を紹介します。</p>
+</div>
+<p>コントローラーをインクルードするには、<tt class="docutils literal"><span class="pre">render</span></tt> 関数にコントローラー用のシンタックス( **バンドル**:<strong>コントローラー</strong>:<strong>アクション</strong>)を使ってコントローラーの参照を指定します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# app/Resources/views/base.html.twig #}</span>
+
+<span class="c">{# ... #}</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;sidebar&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{{</span> <span class="nv">render</span><span class="o">(</span><span class="nv">controller</span><span class="o">(</span><span class="s1">&#39;AcmeArticleBundle:Article:recentArticles&#39;</span><span class="o">,</span> <span class="o">{</span>
+        <span class="s1">&#39;max&#39;</span><span class="o">:</span> <span class="m">3</span>
+    <span class="o">}))</span> <span class="cp">}}</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- app/Resources/views/base.html.php --&gt;</span>
+
+<span class="c">&lt;!-- ... --&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;sidebar&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">ControllerReference</span><span class="p">(</span>
+            <span class="s1">&#39;AcmeArticleBundle:Article:recentArticles&#39;</span><span class="p">,</span>
+            <span class="k">array</span><span class="p">(</span><span class="s1">&#39;max&#39;</span> <span class="o">=&gt;</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="p">)</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>変数が必要になる場合や、テンプレートからはアクセスできないような情報が必要になる場合は、コントローラーを埋め込むことを検討してみてください。コントローラーを使うと実行は速く、コードの構成は良いものに向かい、再利用性の向上にもつながります。
+このように埋め込みを行うコントローラーやテンプレートは、可能な限り薄く保つべきです。
+再利用可能な<a class="reference internal" href="service_container.html"><em>サービス</em></a>と同じです。</p>
+</div>
+<div class="section" id="hinclude-js">
+<h3>hinclude.js を使った非同期コンテンツ<a class="headerlink" href="#hinclude-js" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="http://mnot.github.com/hinclude/">hinclude.js</a> JavaScript ライブラリを使うと、コントローラーの出力を非同期に埋め込むことができます。
+他のページやコントローラーの出力の埋め込みに <tt class="docutils literal"><span class="pre">hinclude</span></tt> のタグを使うようにするには、次のように <tt class="docutils literal"><span class="pre">render</span></tt> または <tt class="docutils literal"><span class="pre">render_hinclude</span></tt> 関数を使います。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">render_hinclude</span><span class="o">(</span><span class="nv">controller</span><span class="o">(</span><span class="s1">&#39;...&#39;</span><span class="o">))</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">render_hinclude</span><span class="o">(</span><span class="nv">url</span><span class="o">(</span><span class="s1">&#39;...&#39;</span><span class="o">))</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">ControllerReference</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;renderer&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hinclude&#39;</span><span class="p">)</span>
+<span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span>
+    <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;router&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;renderer&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hinclude&#39;</span><span class="p">)</span>
+<span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ページで <a class="reference external" href="http://mnot.github.com/hinclude/">hinclude.js</a> をインクルードしておく必要があります。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>URL の代わりにコントローラーを使う場合は、次のように Symfony のコンフィギュレーションで <tt class="docutils literal"><span class="pre">fragments</span></tt> を有効化しておく必要があります。</p>
+<div class="last configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="c1"># ...</span>
+    <span class="l-Scalar-Plain">fragments</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">path</span><span class="p-Indicator">:</span> <span class="nv">/_fragment</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:framework=</span><span class="s">&quot;http://symfony.com/schema/dic/symfony&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd</span>
+<span class="s">                        http://symfony.com/schema/dic/symfony http://symfony.com/schema/dic/symfony/symfony-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;framework:config&gt;</span>
+        <span class="nt">&lt;framework:fragments</span> <span class="na">path=</span><span class="s">&quot;/_fragment&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/framework:config&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+    <span class="s1">&#39;fragments&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;path&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;/_fragment&#39;</span><span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<p>ロード中や JavaScript が無効にされていた場合に表示するデフォルトコンテンツを、アプリケーションコンフィギュレーションでグローバルに設定することができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="c1"># ...</span>
+    <span class="l-Scalar-Plain">templating</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">hinclude_default_template</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AcmeDemoBundle::hinclude.html.twig</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:framework=</span><span class="s">&quot;http://symfony.com/schema/dic/symfony&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd</span>
+<span class="s">                        http://symfony.com/schema/dic/symfony http://symfony.com/schema/dic/symfony/symfony-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;framework:config&gt;</span>
+        <span class="nt">&lt;framework:templating</span>
+            <span class="na">hinclude-default-template=</span><span class="s">&quot;AcmeDemoBundle::hinclude.html.twig&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/framework:config&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+    <span class="s1">&#39;templating&#39;</span>      <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;hinclude_default_template&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;AcmeDemoBundle::hinclude.html.twig&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>デフォルトコンテンツを <tt class="docutils literal"><span class="pre">render</span></tt> 関数ごとに指定することもできます。
+この場合、グローバルのデフォルトテンプレートが上書きされます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">render_hinclude</span><span class="o">(</span><span class="nv">controller</span><span class="o">(</span><span class="s1">&#39;...&#39;</span><span class="o">),</span>  <span class="o">{</span>
+    <span class="s1">&#39;default&#39;</span><span class="o">:</span> <span class="s1">&#39;AcmeDemoBundle:Default:content.html.twig&#39;</span>
+<span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">ControllerReference</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;renderer&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hinclude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;default&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;AcmeDemoBundle:Default:content.html.twig&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>任意の文字列をデフォルトコンテンツとして指定することもできます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">render_hinclude</span><span class="o">(</span><span class="nv">controller</span><span class="o">(</span><span class="s1">&#39;...&#39;</span><span class="o">),</span> <span class="o">{</span><span class="s1">&#39;default&#39;</span><span class="o">:</span> <span class="s1">&#39;Loading...&#39;</span><span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;actions&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span>
+    <span class="k">new</span> <span class="nx">ControllerReference</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">),</span>
+    <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;renderer&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;hinclude&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;default&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Loading...&#39;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="book-templating-pages">
+<span id="id9"></span><h3>ページ間をリンクする<a class="headerlink" href="#book-templating-pages" title="Permalink to this headline">¶</a></h3>
+<p>URL については、ハードコードするのではなく、Twig の <tt class="docutils literal"><span class="pre">path</span></tt> 関数 (PHP では <tt class="docutils literal"><span class="pre">router</span></tt> ヘルパー) を使用して、ルーティング設定に基づいた生成を行って下さい。後に URL を変更したくなったときに、ルーティング設定を変更するだけですむようになります。テンプレート側では、新しい URL が自動的に生成されるのです。</p>
+<p>では、&#8221;_welcome&#8221; というページにリンクしてみましょう。このページは、次のようなルーティング設定を通じてアクセスできるようになっています。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">_welcome</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span>     <span class="l-Scalar-Plain">/</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">AcmeDemoBundle</span><span class="p-Indicator">:</span><span class="nv">Welcome</span><span class="p-Indicator">:</span><span class="nv">index</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;routes</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/routing&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/routing</span>
+<span class="s">        http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;route</span> <span class="na">id=</span><span class="s">&quot;_welcome&quot;</span> <span class="na">path=</span><span class="s">&quot;/&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;default</span> <span class="na">key=</span><span class="s">&quot;_controller&quot;</span><span class="nt">&gt;</span>AcmeDemoBundle:Welcome:index<span class="nt">&lt;/default&gt;</span>
+    <span class="nt">&lt;/route&gt;</span>
+<span class="nt">&lt;/routes&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$collection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RouteCollection</span><span class="p">();</span>
+<span class="nv">$collection</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;_welcome&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;_controller&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;AcmeDemoBundle:Welcome:index&#39;</span><span class="p">,</span>
+<span class="p">)));</span>
+
+<span class="k">return</span> <span class="nv">$collection</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>Twig 関数である <tt class="docutils literal"><span class="pre">path</span></tt> を使用し、ルートを参照します。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;_welcome&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">a</span> <span class="nx">href</span><span class="o">=</span><span class="s2">&quot;&lt;?php echo </span><span class="si">$view[&#39;router&#39;]</span><span class="s2">-&gt;generate(&#39;_welcome&#39;) ?&gt;&quot;</span><span class="o">&gt;</span><span class="nx">Home</span><span class="o">&lt;/</span><span class="nx">a</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>ご想像通り、<tt class="docutils literal"><span class="pre">/</span></tt> という URL が生成されます。もっと複雑なルートではどうなるでしょうか。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">article_show</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span>     <span class="l-Scalar-Plain">/article/{slug}</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">AcmeArticleBundle</span><span class="p-Indicator">:</span><span class="nv">Article</span><span class="p-Indicator">:</span><span class="nv">show</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;routes</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/routing&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/routing</span>
+<span class="s">        http://symfony.com/schema/routing/routing-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;route</span> <span class="na">id=</span><span class="s">&quot;article_show&quot;</span> <span class="na">path=</span><span class="s">&quot;/article/{slug}&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;default</span> <span class="na">key=</span><span class="s">&quot;_controller&quot;</span><span class="nt">&gt;</span>AcmeArticleBundle:Article:show<span class="nt">&lt;/default&gt;</span>
+    <span class="nt">&lt;/route&gt;</span>
+<span class="nt">&lt;/routes&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$collection</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RouteCollection</span><span class="p">();</span>
+<span class="nv">$collection</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;article_show&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Route</span><span class="p">(</span><span class="s1">&#39;/article/{slug}&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;_controller&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;AcmeArticleBundle:Article:show&#39;</span><span class="p">,</span>
+<span class="p">)));</span>
+
+<span class="k">return</span> <span class="nv">$collection</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>この例では、ルート名 (<tt class="docutils literal"><span class="pre">article_show</span></tt>) と、パラメータ <tt class="docutils literal"><span class="pre">{slug}</span></tt> の値を指定する必要があります。前節で扱ったテンプレート <tt class="docutils literal"><span class="pre">recentList</span></tt> を再考して、記事へ正しくリンクしてみることにしましょう。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/ArticleBundle/Resources/views/Article/recentList.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">article</span> <span class="k">in</span> <span class="nv">articles</span> <span class="cp">%}</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;article_show&#39;</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;slug&#39;</span><span class="o">:</span> <span class="nv">article.slug</span><span class="o">})</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nv">article.title</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/ArticleBundle/Resources/views/Article/recentList.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$articles</span> <span class="nx">in</span> <span class="nv">$article</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;router&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;article_show&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;slug&#39;</span> <span class="o">=&gt;</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getSlug</span><span class="p">(),</span>
+    <span class="p">))</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getTitle</span><span class="p">()</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p>絶対 URL を生成することもできます。Twig 関数の <tt class="docutils literal"><span class="pre">url</span></tt> を使用します。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">url</span><span class="o">(</span><span class="s1">&#39;_welcome&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+<p>PHP テンプレートの場合は、<tt class="docutils literal"><span class="pre">generate()</span></tt> メソッドに 3 番目の引数を渡します。</p>
+<div class="last highlight-html+php"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;router&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span>
+    <span class="s1">&#39;_welcome&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(),</span>
+    <span class="k">true</span>
+<span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="book-templating-assets">
+<span id="index-9"></span><span id="id10"></span><h3>アセットへのリンク<a class="headerlink" href="#book-templating-assets" title="Permalink to this headline">¶</a></h3>
+<p>テンプレートでは、画像、JavaScript、スタイルシートやその他アセットを参照することもよくあります。もちろんハードコード(<tt class="docutils literal"><span class="pre">/images/logo.png</span></tt>)するのもありですが、Symfony2 では Twig の <tt class="docutils literal"><span class="pre">asset</span></tt> 関数でアセットのパスを生成できます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;images/logo.png&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">alt=</span><span class="s">&quot;Symfony!&quot;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;css/blog.css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;assets&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">getUrl</span><span class="p">(</span><span class="s1">&#39;images/logo.png&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span> <span class="na">alt=</span><span class="s">&quot;Symfony!&quot;</span> <span class="nt">/&gt;</span>
+
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;assets&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">getUrl</span><span class="p">(</span><span class="s1">&#39;css/blog.css&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="na">type=</span><span class="s">&quot;text/css&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">asset</span></tt> 関数を使う一番の目的は、アプリケーションをよりポータブルにすることです。アプリケーションが、ホストのルート(<a class="reference external" href="http://example.com">http://example.com</a>)に配置されていた場合、レンダリングされるパスは、<tt class="docutils literal"><span class="pre">/images/logo.png</span></tt> になっているべきです。では、ルートではなくサブディレクトリ(<a class="reference external" href="http://example.com/my_app">http://example.com/my_app</a>)に配置されている場合はどうでしょう。アセットパスは、サブディレクトリ付き(<tt class="docutils literal"><span class="pre">/my_app/images/logo.png</span></tt>)で出力されなければいけません。<tt class="docutils literal"><span class="pre">asset</span></tt> 関数は、アプリケーションがどのように使われているかをみて、この点をケアし、それに応じて適切なパスを生成します。</p>
+<p>また、<tt class="docutils literal"><span class="pre">asset</span></tt> 関数を使うと、アセットの URL に自動的にクエリーストリングを追加できるので、デプロイ時に静的なアセットのキャッシュが残らず強制的に更新されるようにできます。たとえば、<tt class="docutils literal"><span class="pre">/images/logo.png</span></tt> という URL の場合は <tt class="docutils literal"><span class="pre">/images/logo.png?v2</span></tt> となります。詳細は、<em class="xref std std-ref">ref-framework-assets-version</em> コンフィギュレーションオプションを参照してください。</p>
+</div>
+</div>
+<div class="section" id="twig-javascript">
+<span id="index-10"></span><h2>Twig でスタイルシートや JavaScript をインクルード<a class="headerlink" href="#twig-javascript" title="Permalink to this headline">¶</a></h2>
+<p>JavaScript や CSS をインクルードすること無く成り立っているサイトはないでしょう。Symfony では、これらアセットのインクルードを、Symfony テンプレート継承の利点を使って、エレガントに扱います。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">この節では、Symfony におけるスタイルシートや JavaScirpt のインクルードの背景にあるフィロソフィーを紹介します。Symfony には、アセットを便利に扱うための Assetic というライブラリが同梱されています。
+Assetic に関するより詳しい情報は、<a class="reference internal" href="../cookbook/assetic/asset_management.html"><em>Asset の管理にどうやって Assetic を使うか?</em></a>を参照してください。</p>
+</div>
+<p>アセットが含まれたベーステンプレートに、2 つの block を追加してみましょう。1 つは、<tt class="docutils literal"><span class="pre">stylesheets</span></tt> で <tt class="docutils literal"><span class="pre">head</span></tt> タグ内に追加します。もう 1 つは <tt class="docutils literal"><span class="pre">javascript</span></tt> で、<tt class="docutils literal"><span class="pre">body</span></tt> 閉じタグの直前に追加します。これらの block で、サイトを通じて必要なすべてのスタイルシートや JavaScript を収容することになります。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# app/Resources/views/base.html.twig #}</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="c">{# ... #}</span>
+
+        <span class="cp">{%</span> <span class="k">block</span> <span class="nv">stylesheets</span> <span class="cp">%}</span>
+            <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;/css/main.css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="nt">/&gt;</span>
+        <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="c">{# ... #}</span>
+
+        <span class="cp">{%</span> <span class="k">block</span> <span class="nv">javascripts</span> <span class="cp">%}</span>
+            <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;/js/main.js&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+        <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>とても簡単ですね！では、子テンプレートでスタイルシートや JavaScript を追加でインクルードしたいときはどうしましょうか。例えば、お問い合わせページがあって、<em>そのページでだけ</em>  <tt class="docutils literal"><span class="pre">contact.css</span></tt> を追加でインクルードしたいとしましょう。お問い合わせページでは次のようにします。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/DemoBundle/Resources/views/Contact/contact.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;::base.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">stylesheets</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">parent</span><span class="o">()</span> <span class="cp">}}</span>
+
+    <span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;/css/contact.css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="nt">/&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+
+<span class="c">{# ... #}</span>
+</pre></div>
+</div>
+<p>子テンプレートでは、単に <tt class="docutils literal"><span class="pre">stylesheets</span></tt> をオーバーライドし、新しいスタイルシートタグを置きます。とはいえ、親の block の内容に追加したい (そして、<em>置き換え</em>たいわけではない) ので、Twig 関数の <tt class="docutils literal"><span class="pre">parent()</span></tt> を使い、ベーステンプレートの <tt class="docutils literal"><span class="pre">stylesheets</span></tt> 内のすべてをインクルードします。</p>
+<p>また、バンドルの <tt class="docutils literal"><span class="pre">Resources/public</span></tt> フォルダに配置したアセットをインクルードすることもできます。
+この場合、<tt class="docutils literal"><span class="pre">php</span> <span class="pre">app/console</span> <span class="pre">assets:install</span> <span class="pre">target</span> <span class="pre">[--symlink]</span></tt>
+コマンドを実行して、アセットファイルを Web から参照できる正しい位置（デフォルトでは &#8220;web&#8221; ディレクトリ）へコピーまたはシンボリックリンクする必要があります。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;bundles/acmedemo/css/contact.css&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">rel=</span><span class="s">&quot;stylesheet&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>この結果、<tt class="docutils literal"><span class="pre">main.css</span></tt> と <tt class="docutils literal"><span class="pre">contact.css</span></tt> のスタイルシートの両方共をインクルードしたページとなります。</p>
+</div>
+<div class="section" id="id11">
+<h2>グローバルテンプレート変数<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 では、テンプレートエンジンに Twig と PHP のどちらを利用していても、<tt class="docutils literal"><span class="pre">app</span></tt> というグローバルなテンプレート変数がリクエストごとに登録されます。
+<tt class="docutils literal"><span class="pre">app</span></tt> 変数は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables</span></tt> クラスのインスタンスで、これを使うと次のようなアプリケーション変数へアクセスできます。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">app.security</span></tt> - セキュリティコンテキスト</li>
+<li><tt class="docutils literal"><span class="pre">app.user</span></tt> - 現在のユーザーオブジェクト</li>
+<li><tt class="docutils literal"><span class="pre">app.request</span></tt> - リクエストオブジェクト</li>
+<li><tt class="docutils literal"><span class="pre">app.session</span></tt> - セッションオブジェクト</li>
+<li><tt class="docutils literal"><span class="pre">app.environment</span></tt> - 現在の環境 (dev、prod など)</li>
+<li><tt class="docutils literal"><span class="pre">app.debug</span></tt> - デバッグモードであれば <tt class="docutils literal"><span class="pre">true</span></tt>、それ以外なら <tt class="docutils literal"><span class="pre">false</span></tt></li>
+</ul>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span>ユーザー名: <span class="cp">{{</span> <span class="nv">app.user.username</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">if</span> <span class="nv">app.debug</span> <span class="cp">%}</span>
+    <span class="nt">&lt;p&gt;</span>リクエストメソッド: <span class="cp">{{</span> <span class="nv">app.request.method</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>アプリケーション環境: <span class="cp">{{</span> <span class="nv">app.environment</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span>ユーザー名: <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$app</span><span class="o">-&gt;</span><span class="na">getUser</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getUsername</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">getDebug</span><span class="p">())</span><span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;p&gt;</span>リクエストメソッド: <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$app</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/p&gt;</span>
+    <span class="nt">&lt;p&gt;</span>アプリケーション環境: <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$app</span><span class="o">-&gt;</span><span class="na">getEnvironment</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/p&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endif</span><span class="p">;</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">独自のグローバルテンプレート変数を追加することもできます。
+クックブックの<a class="reference internal" href="../cookbook/templating/global_variables.html"><em>グローバル変数</em></a>を参照してください。</p>
+</div>
+</div>
+<div class="section" id="templating">
+<span id="index-11"></span><h2><tt class="docutils literal"><span class="pre">templating</span></tt> サービスの設定と使用<a class="headerlink" href="#templating" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 におけるテンプレートシステムの心臓部は、テンプレート <tt class="docutils literal"><span class="pre">Engine</span></tt> です。テンプレートをレンダリングして、その内容を返す、特別なオブジェクトです。たとえば、コントローラー内でテンプレートをレンダリングするときは、実際には、テンプレートエンジンサービスを使用しているのです。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeArticleBundle:Article:index.html.twig&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>上記は、次のものと同等です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="nv">$engine</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;templating&#39;</span><span class="p">);</span>
+<span class="nv">$content</span> <span class="o">=</span> <span class="nv">$engine</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeArticleBundle:Article:index.html.twig&#39;</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$content</span><span class="p">);</span>
+</pre></div>
+</div>
+<p id="template-configuration">テンプレートエンジン (もしくは「サービス」) は、Symfony2 内部であらかじめ自動的に設定済みです。もちろん、アプリケーションの設定ファイルで、さらなる設定が可能です。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="c1"># ...</span>
+    <span class="l-Scalar-Plain">templating</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">engines</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&#39;twig&#39;</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>
+<span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>
+    <span class="na">xmlns:xsi=</span><span class="s">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+    <span class="na">xmlns:framework=</span><span class="s">&quot;http://symfony.com/schema/dic/symfony&quot;</span>
+    <span class="na">xsi:schemaLocation=</span><span class="s">&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd</span>
+<span class="s">                        http://symfony.com/schema/dic/symfony http://symfony.com/schema/dic/symfony/symfony-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+
+    <span class="nt">&lt;framework:config&gt;</span>
+        <span class="nt">&lt;framework:templating&gt;</span>
+            <span class="nt">&lt;framework:engine</span> <span class="na">id=</span><span class="s">&quot;twig&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/framework:templating&gt;</span>
+    <span class="nt">&lt;/framework:config&gt;</span>
+<span class="nt">&lt;/container&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+
+    <span class="s1">&#39;templating&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;engines&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;twig&#39;</span><span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">templating</span></tt> サービスの設定オプションについては、<a class="reference internal" href="../reference/configuration/framework.html"><em>コンフィギュレーションのリファレンス</em></a>で説明しています。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">twig</span></tt> エンジンは、webprofiler (その他のサードパーティ製バンドルも) では必須となります。</p>
+</div>
+</div>
+<div class="section" id="overriding-bundle-templates">
+<span id="index-12"></span><span id="id12"></span><h2>バンドルテンプレートの継承<a class="headerlink" href="#overriding-bundle-templates" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 コミュニティでは、多数の機能豊富なバンドルが開発され公開されています (<a class="reference external" href="http://knpbundles.com">KnpBundles.com</a> 参照)。サードパーティ製のバンドルを使うときに、バンドルのテンプレートをオーバライドしたりカスタマイズする必要があるかもしれません。</p>
+<p>たとえば、<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> というオープンソースなバンドルを、自分のプロジェクト (<tt class="docutils literal"><span class="pre">src/Acme/BlogBundle</span></tt> にあるとします) にインクルードした場合を考えてみます。とても満足してはいるのだけれども、1 点だけ、ブログの「リスト」ページのマークアップを自分のプロジェクトに合うように変えたいとしましょう。<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> 内のコントローラー <tt class="docutils literal"><span class="pre">Blog</span></tt> をよく見てみると、次のようなコードが見つかりました。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// ブログ記事一覧を取得する何らかのロジック</span>
+    <span class="nv">$blogs</span> <span class="o">=</span> <span class="o">...</span><span class="p">;</span>
+
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span>
+        <span class="s1">&#39;AcmeBlogBundle:Blog:index.html.twig&#39;</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;blogs&#39;</span> <span class="o">=&gt;</span> <span class="nv">$blogs</span><span class="p">)</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">AcmeBlogBundle:Blog:index.html.twig</span></tt> がレンダリングされる際、Symfony2 は、次の 2 つの場所からテンプレートを探しています。</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">app/Resources/AcmeBlogBundle/views/Blog/index.html.twig</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">src/Acme/BlogBundle/Resources/views/Blog/index.html.twig</span></tt></li>
+</ol>
+<p>このバンドル内テンプレートをオーバーライドするには、<tt class="docutils literal"><span class="pre">index.html.twig</span></tt> を<tt class="docutils literal"><span class="pre">app/Resources/AcmeBlogBundle/views/Blog/index.html.twig</span></tt> にコピーします(<tt class="docutils literal"><span class="pre">app/Resources/AcmeBlogBundle</span></tt> ディレクトリが無い場合は、作成してください)。その後、コピーしたテンプレートを自由にカスタマイズすればよいのです。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">テンプレートを新しい場所に保存した場合は、デバッグモードの場合でもキャッシュクリア(<tt class="docutils literal"><span class="pre">php</span> <span class="pre">app/console</span> <span class="pre">cache:clear</span></tt>)が必要な場合があることに注意してください。</p>
+</div>
+<p>このロジックはバンドルのベーステンプレートにも当てはまります。<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> 内のテンプレートが、ベーステンプレート <tt class="docutils literal"><span class="pre">AcmeBlogBundle::layout.html.twig</span></tt> を継承している場合、先程の例と同様に、Symfony2 は次の 2 つの場所を探します。</p>
+<ol class="arabic simple">
+<li><tt class="docutils literal"><span class="pre">app/Resources/AcmeBlogBundle/views/layout.html.twig</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">src/Acme/BlogBundle/Resources/views/layout.html.twig</span></tt></li>
+</ol>
+<p>オーバライドするには、前と同じように、<tt class="docutils literal"><span class="pre">app/Resources/AcmeBlogBundle/views/layout.html.twig</span></tt> にコピーします。そして、見た目が合うようにこれをカスタマイズしていきます。</p>
+<p>俯瞰してみると、Symfony2 がテンプレートを探すときは、必ず最初に <tt class="docutils literal"><span class="pre">app/Resources/{BUNDLE_NAME}/views/</span></tt> から探しているのがわかります。そこに何もなければ、続いてバンドルの <tt class="docutils literal"><span class="pre">Resources/views</span></tt> をチェックします。ですので、<tt class="docutils literal"><span class="pre">app/Resources</span></tt> 下に正しい構造でテンプレートを置いてやれば、任意のバンドルテンプレートをオーバーライドできます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">バンドルの継承機能を使った継承先のバンドルにあるテンプレートも上書きできます。
+<a class="reference internal" href="../cookbook/bundles/inheritance.html"><em>バンドルの継承を使って既存のバンドルのパーツを上書きする方法</em></a> を参照してください。</p>
+</div>
+<span class="target" id="templating-overriding-core-templates"></span><div class="section" id="index-13">
+<span id="id13"></span><h3>コアテンプレートをオーバーライドする<a class="headerlink" href="#index-13" title="Permalink to this headline">¶</a></h3>
+<p>Symfony2 フレームワーク自体もバンドルですので、コアテンプレートも同様にオーバーライドできます。TwigBundle は、内部に &#8220;exception&#8221; や &#8220;error&#8221; 用のテンプレートを多数持っていますが、これらも、TwigBundle バンドルの <tt class="docutils literal"><span class="pre">Resources/views/Exception</span></tt> ディレクトリから <tt class="docutils literal"><span class="pre">app/Resources/TwigBundle/views/Exception</span></tt> ディレクトリへコピーしてカスタマイズできます。</p>
+</div>
+</div>
+<div class="section" id="index-14">
+<span id="id14"></span><h2>3 階層の継承<a class="headerlink" href="#index-14" title="Permalink to this headline">¶</a></h2>
+<p>継承を使う際によくあるのが、3 階層のアプローチです。このアプローチは、今まで見てきた次の 3 種のテンプレートからなります。</p>
+<ul>
+<li><p class="first"><tt class="docutils literal"><span class="pre">app/Resources/views/base.html.twig</span></tt> を作成します。これには、(先程の例のような) アプリケーションのメインレイアウトをいれます。内部的には、<tt class="docutils literal"><span class="pre">::base.html.twig</span></tt> となります。</p>
+</li>
+<li><p class="first">サイトの各「セクション」毎のテンプレートを作成します。<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> であれば、<tt class="docutils literal"><span class="pre">AcmeBlogBundle::layout.html.twig</span></tt> でしょう。そこに、ブログ用の要素だけをいれます。</p>
+<blockquote>
+<div><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/BlogBundle/Resources/views/layout.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;::base.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+    <span class="nt">&lt;h1&gt;</span>Blog Application<span class="nt">&lt;/h1&gt;</span>
+
+    <span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">各ページ専用のテンプレートを作成します。それぞれ、適切なセクションのテンプレートを継承してください。&#8221;index&#8221; ページであれば、<tt class="docutils literal"><span class="pre">AcmeBlogBundle:Blog:index.html.twig</span></tt> のようなファイルに、ブログエントリをリストすればよいでしょう。</p>
+<blockquote>
+<div><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/BlogBundle/Resources/views/Blog/index.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;AcmeBlogBundle::layout.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">entry</span> <span class="k">in</span> <span class="nv">blog_entries</span> <span class="cp">%}</span>
+        <span class="nt">&lt;h2&gt;</span><span class="cp">{{</span> <span class="nv">entry.title</span> <span class="cp">}}</span><span class="nt">&lt;/h2&gt;</span>
+        <span class="nt">&lt;p&gt;</span><span class="cp">{{</span> <span class="nv">entry.body</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<p>各ページのテンプレートはセクションテンプレート (<tt class="docutils literal"><span class="pre">AcmeBlogBundle::layout.html.twig</span></tt>) を継承し、セクションテンプレートはアプリケーションレイアウト (<tt class="docutils literal"><span class="pre">::base.html.twig</span></tt>) を継承しています。これが、3 階層継承というものです。</p>
+<p>アプリケーションを作るときは、たいてい、この 3 階層継承を使うか、もしくは、各ページテンプレートがアプリケーションテンプレートを直接継承する (たとえば <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">extends</span> <span class="pre">'::base.html.twig'</span> <span class="pre">%}</span></tt>) ことになるでしょう。3 階層モデルは、ベンダーバンドルにより使用されるベストプラクティスで、バンドルのベーステンプレートが、アプリケーションのベースレイアウトを適切に継承するように、簡単にオーバーライドできます。</p>
+</div>
+<div class="section" id="index-15">
+<span id="id15"></span><h2>アウトプットエスケープ<a class="headerlink" href="#index-15" title="Permalink to this headline">¶</a></h2>
+<p>テンプレートから HTML を生成する際に、常にリスクになるのが、意図しない HTML や、危険なクライアントサイドコードを出力してしまうテンプレート変数の存在です。結果的に、動的なコンテンツが HTML を壊したり、悪意あるユーザーによる <a class="reference external" href="http://en.wikipedia.org/wiki/Cross-site_scripting">クロスサイトスクリプティング</a> (XSS) 攻撃を許してしまいます。その典型例を見ていきましょう。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="x">Hello </span><span class="cp">{{</span> <span class="nv">name</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre>Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$name</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>もしユーザーが次のような名前を入力したとしたらどうでしょうか。:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;script&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;hello!&#39;</span><span class="p">)</span><span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</div>
+<p>アウトプットエスケープをしなければ、このテンプレートでは、JavaScript のアラートボックスがポップアップしてしまうでしょう。</p>
+<div class="highlight-html"><div class="highlight"><pre>Hello <span class="nt">&lt;script&gt;</span><span class="nx">alert</span><span class="p">(</span><span class="s1">&#39;hello!&#39;</span><span class="p">)</span><span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</div>
+<p>上のスクリプトでは問題がないように見えますが、ここまでできてしまうことを知ったユーザーに悪意があれば、何も知らない正当なユーザーのセキュアな場所で悪さをするJavaScriptを書けてしまいます。</p>
+<p>この問題への答えは、アウトプットエスケープです。これが有効になっていれば、テンプレートは害を及ぼさない形でレンダリングされ、<tt class="docutils literal"><span class="pre">script</span></tt> とそのまま文字通り画面に出力されます。</p>
+<div class="highlight-html"><div class="highlight"><pre>Hello <span class="ni">&amp;lt;</span>script<span class="ni">&amp;gt;</span>alert(<span class="ni">&amp;#39;</span>helloe<span class="ni">&amp;#39;</span>)<span class="ni">&amp;lt;</span>/script<span class="ni">&amp;gt;</span>
+</pre></div>
+</div>
+<p>Twig と PHP では、異なるアプローチをとっています。Twig の場合であれば、アウトプットエスケープは常に on になっているので、安全です。PHP の場合は自動とはいかず、必要な場合には常に手動でエスケープする必要があります。</p>
+<div class="section" id="id16">
+<h3>Twig の場合<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<p>Twig テンプレートを使っていれば、アウトプットエスケープはデフォルトで有効です。従って、ユーザーが送信したコードによる意図しない挙動を回避する、という意味ではデフォルトで安全です。デフォルトで、コンテンツの HTML 出力はエスケープされるべきとされているのです。</p>
+<p>アウトプットエスケープを無効にして、信用に足る変数のレンダリングや、マークアップが含まれていてエスケープすべきでない変数をレンダリングする場合もあるでしょう。管理者が HTML コードを含む記事を書く場合を考えてみましょう。Twig では、デフォルトで記事をエスケープしてしまいます。</p>
+<p>通常は <tt class="docutils literal"><span class="pre">raw</span></tt> フィルターを追加して、レンダーします。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">article.body</span><span class="o">|</span><span class="nf">raw</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">{%</span> <span class="pre">block</span> <span class="pre">%}</span></tt> 単位、もしくはテンプレート全体でアウトプットエスケープを無効にすることもできます。詳細は、Twig ドキュメントの <a class="reference external" href="http://twig.sensiolabs.org/doc/api.html#escaper-extension">アウトプットエスケープ</a> を参照してください。</p>
+</div>
+<div class="section" id="php">
+<h3>PHP の場合<a class="headerlink" href="#php" title="Permalink to this headline">¶</a></h3>
+<p>PHP テンプレートを使用している場合は、自動的なアウトプットエスケープは行われません。つまり、明示的に変数をエスケープしなければ、安全でなくなります。エスケープを行うには、view のメソッドである <tt class="docutils literal"><span class="pre">escape()</span></tt> を使用します。</p>
+<div class="highlight-html+php"><div class="highlight"><pre>Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">escape()</span></tt> メソッドは、デフォルトでは、変数は HTML コンテキストでレンダリングする想定になっています(したがって、HTML 的に安全になるように変数はエスケープされます)。2 つ目の引数でコンテキストを変更できます。例えば、JavaScript 内で何か出力したいときは、<tt class="docutils literal"><span class="pre">js</span></tt> コンテキストを使用します。</p>
+<div class="highlight-html+php"><div class="highlight"><pre>var myMsg = &#39;Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="s1">&#39;js&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>&#39;;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="index-16">
+<span id="id17"></span><h2>デバッグ<a class="headerlink" href="#index-16" title="Permalink to this headline">¶</a></h2>
+<p>PHP では <tt class="docutils literal"><span class="pre">var_dump()</span></tt> 関数を使って渡された変数の中身を手軽にチェックできます。
+コントローラー内では、この関数を使ってデバッグできます。
+Twig テンプレートでは、debug エクステンションの機能を使います。</p>
+<p><tt class="docutils literal"><span class="pre">dump</span></tt> 関数を使って、テンプレート変数をデバッグできます。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/ArticleBundle/Resources/views/Article/recentList.html.twig #}</span>
+<span class="cp">{{</span> <span class="nv">dump</span><span class="o">(</span><span class="nv">articles</span><span class="o">)</span> <span class="cp">}}</span>
+
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">article</span> <span class="k">in</span> <span class="nv">articles</span> <span class="cp">%}</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/article/</span><span class="cp">{{</span> <span class="nv">article.slug</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nv">article.title</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/a&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">config.yml</span></tt> において Twig の <tt class="docutils literal"><span class="pre">debug</span></tt> 設定が <tt class="docutils literal"><span class="pre">true</span></tt> の場合のみ、ダンプが出力されます。
+デフォルトでは、<tt class="docutils literal"><span class="pre">dev</span></tt> 環境においてのみダンプが有効で、<tt class="docutils literal"><span class="pre">prod</span></tt> 環境では無効になっています。</p>
+</div>
+<div class="section" id="id18">
+<h2>構文チェック<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<p>コンソールコマンドの <tt class="docutils literal"><span class="pre">twig:lint</span></tt> を使って、Twig テンプレートの構文エラーをチェックすることができます。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># ファイル名を指定してチェック:</span>
+<span class="nv">$ </span>php app/console twig:lint src/Acme/ArticleBundle/Resources/views/Article/recentList.html.twig
+
+<span class="c"># ディレクトリ単位でチェック:</span>
+<span class="nv">$ </span>php app/console twig:lint src/Acme/ArticleBundle/Resources/views
+
+<span class="c"># バンドル単位でチェック:</span>
+<span class="nv">$ </span>php app/console twig:lint @AcmeArticleBundle
+</pre></div>
+</div>
+</div>
+<div class="section" id="template-formats">
+<span id="id19"></span><h2>テンプレートフォーマット<a class="headerlink" href="#template-formats" title="Permalink to this headline">¶</a></h2>
+<p>テンプレートは、<em>あらゆる</em>フォーマットでコンテンツをレンダリングするための方法です。ほとんどは HTML コンテンツをレンダリングするのにテンプレートを使うことになるでしょうが、JavaScript や CSS、XML、その他考えうるフォーマットでも簡単に生成することもできます。</p>
+<p>たとえば、同一の「リソース」でも、複数のフォーマットでレンダリングされることはよくあります。index ページを XML でレンダリングしたいときは、レンダリングするテンプレートのフォーマット部分を変更します。</p>
+<ul class="simple">
+<li><em>XML テンプレート名</em>: <tt class="docutils literal"><span class="pre">AcmeArticleBundle:Article:index.xml.twig</span></tt></li>
+<li><em>XML テンプレートファイル名</em>: <tt class="docutils literal"><span class="pre">index.xml.twig</span></tt></li>
+</ul>
+<p>これは命名規則以外の何者でもなく、この段階ではフォーマットに基づいたテンプレートレンダリングがされるわけではありません。</p>
+<p>1 つのコントローラーで、「リクエストフォーマット」に応じて複数のフォーマットでレンダリングしたい場合も多くあると思います。次のようにするのが一般的でしょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$format</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getRequestFormat</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Blog:index.&#39;</span><span class="o">.</span><span class="nv">$format</span><span class="o">.</span><span class="s1">&#39;.twig&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">getRequestFormat()</span></tt> メソッドは、デフォルトでは <tt class="docutils literal"><span class="pre">html</span></tt> を返しますが、ユーザーによりリクエストされたフォーマットが異なれば、それが返されます。リクエストフォーマットは、ほとんどの場合、ルーティングによって扱われます。たとえば、<tt class="docutils literal"><span class="pre">/contact</span></tt> であれば <tt class="docutils literal"><span class="pre">html</span></tt>、<tt class="docutils literal"><span class="pre">contact.xml</span></tt>であれば <tt class="docutils literal"><span class="pre">xml</span></tt> のように設定できます。詳細は、<a class="reference internal" href="routing.html#advanced-routing-example"><em>ルーティング</em></a>を参照してください。</p>
+<p>フォーマットをリンクに入れたい場合は、パラメータに <tt class="docutils literal"><span class="pre">_format</span></tt> キーで指定してください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;article_show&#39;</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;id&#39;</span><span class="o">:</span> <span class="m">123</span><span class="o">,</span> <span class="s1">&#39;_format&#39;</span><span class="o">:</span> <span class="s1">&#39;pdf&#39;</span><span class="o">})</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+    PDF バージョン
+<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;router&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;article_show&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="mi">123</span><span class="p">,</span>
+    <span class="s1">&#39;_format&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;pdf&#39;</span><span class="p">,</span>
+<span class="p">))</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+    PDF バージョン
+<span class="nt">&lt;/a&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id20">
+<h2>まとめ<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<p>Symfony のテンプレートエンジンは強力なツールで、表層的なコンテンツを、HTML や、XMLその他フォーマットで生成したい場合に使うツールです。テンプレートは、コントローラー内でコンテンツを生成する一般的な方法ですが、必須というわけではありません。テンプレート使わなくても、次のように <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを作成してコントローラーから返すことはできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// レンダリングされたテンプレートをコンテンツとする Response オブジェクト</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeArticleBundle:Article:index.html.twig&#39;</span><span class="p">);</span>
+
+<span class="c1">// 単純なテキストをコンテンツとする Response オブジェクト</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;response content&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Symfony のテンプレートエンジンはとても柔軟で、デフォルトでは 2 種類のレンダラーが利用可能です。<em>PHP</em> テンプレートと、<em>Twig</em> です。両者とも、階層的なテンプレートをサポートしており、一般的なタスクのほとんどをこなすことのできるヘルパー関数が豊富にパッケージされています。</p>
+<p>全体として、テンプレートの主題は、自由に使える強力なツールであると考えられるべきです。テンプレートをレンダリングする必要のない場合もあるかもしれませんが、Symfony2 では、その場合でも問題ありません。</p>
+</div>
+<div class="section" id="cookbook">
+<h2>Cookbook でもっと学ぶ<a class="headerlink" href="#cookbook" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../cookbook/templating/PHP.html"><em>PHP をテンプレートエンジンとして使う</em></a></li>
+<li><a class="reference internal" href="../cookbook/controller/error_pages.html"><em>エラーページのカスタマイズ方法</em></a></li>
+<li><a class="reference internal" href="../cookbook/templating/twig_extension.html"><em>カスタムTwig拡張の書き方</em></a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="routing.html">< ルーティング</a>
+<a class="next" href="doctrine.html">データベースと Doctrine (&#8220;The Model&#8221;) ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/book/templating.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/templating.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/templating.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">テンプレートの基本</a><ul>
+<li><a class="reference internal" href="#index-1">テンプレート</a><ul>
+<li><a class="reference internal" href="#twig">Twig テンプレートのキャッシュ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-4">テンプレートの継承とレイアウト</a></li>
+<li><a class="reference internal" href="#template-naming-locations">テンプレートの命名規約</a><ul>
+<li><a class="reference internal" href="#id5">サフィックス</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-6">タグとヘルパー</a><ul>
+<li><a class="reference internal" href="#including-templates">テンプレートをインクルードする</a></li>
+<li><a class="reference internal" href="#templating-embedding-controller">コントローラーを埋め込む</a></li>
+<li><a class="reference internal" href="#hinclude-js">hinclude.js を使った非同期コンテンツ</a></li>
+<li><a class="reference internal" href="#book-templating-pages">ページ間をリンクする</a></li>
+<li><a class="reference internal" href="#book-templating-assets">アセットへのリンク</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#twig-javascript">Twig でスタイルシートや JavaScript をインクルード</a></li>
+<li><a class="reference internal" href="#id11">グローバルテンプレート変数</a></li>
+<li><a class="reference internal" href="#templating"><tt class="docutils literal"><span class="pre">templating</span></tt> サービスの設定と使用</a></li>
+<li><a class="reference internal" href="#overriding-bundle-templates">バンドルテンプレートの継承</a><ul>
+<li><a class="reference internal" href="#index-13">コアテンプレートをオーバーライドする</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-14">3 階層の継承</a></li>
+<li><a class="reference internal" href="#index-15">アウトプットエスケープ</a><ul>
+<li><a class="reference internal" href="#id16">Twig の場合</a></li>
+<li><a class="reference internal" href="#php">PHP の場合</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#index-16">デバッグ</a></li>
+<li><a class="reference internal" href="#id18">構文チェック</a></li>
+<li><a class="reference internal" href="#template-formats">テンプレートフォーマット</a></li>
+<li><a class="reference internal" href="#id20">まとめ</a></li>
+<li><a class="reference internal" href="#cookbook">Cookbook でもっと学ぶ</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="routing.html"
+                        title="previous chapter">ルーティング</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="doctrine.html"
+                        title="next chapter">データベースと Doctrine (&#8220;The Model&#8221;)</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/book/templating.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

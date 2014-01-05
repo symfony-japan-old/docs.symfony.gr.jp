@@ -1,0 +1,528 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>アーキテクチャ | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="クイックツアー" href="index.html" />
+    <link rel="next" title="ガイドブック" href="../book/index.html" />
+    <link rel="prev" title="コントローラー" href="the_controller.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3以降</li>
+<li>翻訳更新日：2013/11/23</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h1>アーキテクチャ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>最初の 3 つの章を読み終えてこの章へたどり着いたみなさん、お疲れ様でした。
+ここまでで学んだ内容は、すぐにあなたの役に立ちます。
+ただし、この 3 つの章では、フレームワークのアーキテクチャーについて深くは学びませんでした。
+Symfony2 のアーキテクチャーは、さまざまなフレームワークの中でも際立っています。
+この章では Symfony2 のアーキテクチャーについて学びます。</p>
+<div class="section" id="id2">
+<h2>ディレクトリ構造について<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 <a class="reference internal" href="../glossary.html#term-2"><em class="xref std std-term">アプリケーション</em></a>のディレクトリ構造に制限はほとんどなく柔軟ですが、<em>Standard Edition</em> ディストリビューションでは、アプリケーションで典型的に使用するディレクトリの推奨構成が採用されています。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">app/</span></tt>:    アプリケーションのコンフィギュレーション</li>
+<li><tt class="docutils literal"><span class="pre">src/</span></tt>:    プロジェクトの PHP コード</li>
+<li><tt class="docutils literal"><span class="pre">vendor/</span></tt>: サードパーティの依存ライブラリ</li>
+<li><tt class="docutils literal"><span class="pre">web/</span></tt>:    Web ルートディレクトリ</li>
+</ul>
+<div class="section" id="web">
+<h3><tt class="docutils literal"><span class="pre">web/</span></tt> ディレクトリ<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h3>
+<p>web ディレクトリは、画像や JavaScript、スタイルシートなどの Web に公開する静的ファイルの基点となるディレクトリです。
+また、各<a class="reference internal" href="../glossary.html#term-4"><em class="xref std std-term">フロントコントローラ</em></a>ファイルもこのディレクトリに配置されます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// web/app.php</span>
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../app/bootstrap.php.cache&#39;</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../app/AppKernel.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+
+<span class="nv">$kernel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AppKernel</span><span class="p">(</span><span class="s1">&#39;prod&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="nv">$kernel</span><span class="o">-&gt;</span><span class="na">loadClassCache</span><span class="p">();</span>
+<span class="nv">$kernel</span><span class="o">-&gt;</span><span class="na">handle</span><span class="p">(</span><span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>カーネルは最初に <tt class="docutils literal"><span class="pre">bootstrap.php.cache</span></tt> ファイルを読み込みます。
+このファイルでは、フレームワークの初期化処理とオートローダの登録処理が行われます。</p>
+<p>フロントコントローラのファイルである <tt class="docutils literal"><span class="pre">app.php</span></tt> は、カーネルクラスとして <tt class="docutils literal"><span class="pre">AppKernel</span></tt> を使い、アプリケーションを起動します。</p>
+</div>
+<div class="section" id="app">
+<h3><tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリ<a class="headerlink" href="#app" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">AppKernel</span></tt> クラスは、アプリケーションコンフィギュレーションの中心となるエントリポイントで、ファイルは <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリにあります。</p>
+<p>このクラスには、次の 2 つのメソッドを実装する必要があります。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">registerBundles()</span></tt> メソッドは、アプリケーションの実行に必要なすべてのバンドルの配列を返すようにします。</li>
+<li><tt class="docutils literal"><span class="pre">registerContainerConfiguration()</span></tt> メソッドは、アプリケーションコンフィギュレーションを読み込むようにします。</li>
+</ul>
+<p>オートロードは <a class="reference external" href="http://getcomposer.org">Composer</a> により処理されるので、特に何もしなくても任意の PHP クラスをアプリケーションのコードから利用できます。拡張が必要な場合は <tt class="docutils literal"><span class="pre">app/autoload.php</span></tt> スクリプトを修正します。すべての依存パッケージは <tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリ配下に格納されますが、ディレクトリは単なる規約です。サーバーのグローバルなディレクトリや、プロジェクトローカルのディレクトリ等に変更できます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Composer のオートローダーについての詳細は、<a class="reference external" href="http://getcomposer.org/doc/01-basic-usage.md#autoloading">Composer のオートローダーについて</a> のページを参照してください。
+Symfony にもオートロード用のコンポーネントがあります: &#8220;<tt class="xref doc docutils literal"><span class="pre">/components/class_loader/class_loader</span></tt>&#8220;</p>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>バンドルシステムについて<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>この節では、Symfony2 の強力な機能の 1 つである<a class="reference internal" href="../glossary.html#term-3"><em class="xref std std-term">バンドル</em></a>システムについて紹介します。</p>
+<p>バンドルは、他のソフトウェアでプラグインと呼ばれているものに似ています。
+なぜ<em>プラグイン</em>と呼ばず<em>バンドル</em>と呼ぶのでしょうか。
+それは、Symfony2 ではフレームワークのコア機能から、開発者が記述するアプリケーションコードまで、<em>すべて</em>がバンドルだからです。
+Symfony2 では、バンドルは第一級オブジェクトです。
+バンドルの柔軟性により、よく使う機能が実装されパッケージングされたサードパーティ製のバンドルを自分のアプリケーションで使ったり、自分のバンドルを配布したりできます。
+アプリケーションで有効にする機能を選択したり、好きな方法で最適化することも簡単です。
+最終的には、作成するアプリケーションコードはコアフレームワークと同じくらい重要になっていきます。</p>
+<div class="section" id="id4">
+<h3>バンドルを登録する<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>アプリケーションは、<tt class="docutils literal"><span class="pre">AppKernel</span></tt> クラスの <tt class="docutils literal"><span class="pre">registerBundles()</span></tt> メソッドで定義されたバンドルで構成されます。
+各バンドルはディレクトリになっており、バンドル自身を表す <tt class="docutils literal"><span class="pre">Bundle</span></tt> クラスが 1 つあります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/AppKernel.php</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">registerBundles</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$bundles</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\FrameworkBundle\FrameworkBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\SecurityBundle\SecurityBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\TwigBundle\TwigBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\MonologBundle\MonologBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\DoctrineBundle\DoctrineBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\AsseticBundle\AsseticBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</span><span class="p">(),</span>
+    <span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getEnvironment</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)))</span> <span class="p">{</span>
+        <span class="nv">$bundles</span><span class="p">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Acme\DemoBundle\AcmeDemoBundle</span><span class="p">();</span>
+        <span class="nv">$bundles</span><span class="p">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</span><span class="p">();</span>
+        <span class="nv">$bundles</span><span class="p">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</span><span class="p">();</span>
+        <span class="nv">$bundles</span><span class="p">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$bundles</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>チュートリアルで見てきた <tt class="docutils literal"><span class="pre">AcmeDemoBundle</span></tt> バンドル以外に、<tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt>、<tt class="docutils literal"><span class="pre">DoctrineBundle</span></tt>、<tt class="docutils literal"><span class="pre">SwiftmailerBundle</span></tt>、<tt class="docutils literal"><span class="pre">AsseticBundle</span></tt> といったバンドルがカーネルに登録されていることが分かります。
+これらはすべて、フレームワークのコア機能の一部です。</p>
+</div>
+<div class="section" id="id5">
+<h3>バンドルのコンフィギュレーション<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>各バンドルは、YAML、XML、PHP などの形式で記述されたコンフィギュレーションファイルでカスタマイズできます。
+デフォルトのコンフィギュレーションファイルの中身を見てみましょう。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">imports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">resource</span><span class="p-Indicator">:</span> <span class="nv">parameters.yml</span> <span class="p-Indicator">}</span>
+    <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">resource</span><span class="p-Indicator">:</span> <span class="nv">security.yml</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="c1">#esi:             ~</span>
+    <span class="c1">#translator:      { fallback: &quot;%locale%&quot; }</span>
+    <span class="l-Scalar-Plain">secret</span><span class="p-Indicator">:</span>          <span class="s">&quot;%secret%&quot;</span>
+    <span class="l-Scalar-Plain">router</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">resource</span><span class="p-Indicator">:</span> <span class="s">&quot;%kernel.root_dir%/config/routing.yml&quot;</span>
+        <span class="l-Scalar-Plain">strict_requirements</span><span class="p-Indicator">:</span> <span class="s">&quot;%kernel.debug%&quot;</span>
+    <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>            <span class="l-Scalar-Plain">true</span>
+    <span class="l-Scalar-Plain">csrf_protection</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+    <span class="l-Scalar-Plain">validation</span><span class="p-Indicator">:</span>      <span class="p-Indicator">{</span> <span class="nv">enable_annotations</span><span class="p-Indicator">:</span> <span class="nv">true</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">templating</span><span class="p-Indicator">:</span>      <span class="p-Indicator">{</span> <span class="nv">engines</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&#39;twig&#39;</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span> <span class="c1">#assets_version: SomeVersionScheme</span>
+    <span class="l-Scalar-Plain">default_locale</span><span class="p-Indicator">:</span>  <span class="s">&quot;%locale%&quot;</span>
+    <span class="l-Scalar-Plain">trusted_proxies</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+    <span class="l-Scalar-Plain">session</span><span class="p-Indicator">:</span>         <span class="l-Scalar-Plain">~</span>
+
+<span class="c1"># Twig Configuration</span>
+<span class="l-Scalar-Plain">twig</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">debug</span><span class="p-Indicator">:</span>            <span class="s">&quot;%kernel.debug%&quot;</span>
+    <span class="l-Scalar-Plain">strict_variables</span><span class="p-Indicator">:</span> <span class="s">&quot;%kernel.debug%&quot;</span>
+
+<span class="c1"># Assetic Configuration</span>
+<span class="l-Scalar-Plain">assetic</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">debug</span><span class="p-Indicator">:</span>          <span class="s">&quot;%kernel.debug%&quot;</span>
+    <span class="l-Scalar-Plain">use_controller</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">false</span>
+    <span class="l-Scalar-Plain">bundles</span><span class="p-Indicator">:</span>        <span class="p-Indicator">[</span> <span class="p-Indicator">]</span>
+    <span class="c1">#java: /usr/bin/java</span>
+    <span class="l-Scalar-Plain">filters</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">cssrewrite</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+        <span class="c1">#closure:</span>
+        <span class="c1">#    jar: &quot;%kernel.root_dir%/Resources/java/compiler.jar&quot;</span>
+        <span class="c1">#yui_css:</span>
+        <span class="c1">#    jar: &quot;%kernel.root_dir%/Resources/java/yuicompressor-2.4.7.jar&quot;</span>
+
+<span class="c1"># Doctrine Configuration</span>
+<span class="l-Scalar-Plain">doctrine</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">dbal</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">driver</span><span class="p-Indicator">:</span>   <span class="s">&quot;%database_driver%&quot;</span>
+        <span class="l-Scalar-Plain">host</span><span class="p-Indicator">:</span>     <span class="s">&quot;%database_host%&quot;</span>
+        <span class="l-Scalar-Plain">port</span><span class="p-Indicator">:</span>     <span class="s">&quot;%database_port%&quot;</span>
+        <span class="l-Scalar-Plain">dbname</span><span class="p-Indicator">:</span>   <span class="s">&quot;%database_name%&quot;</span>
+        <span class="l-Scalar-Plain">user</span><span class="p-Indicator">:</span>     <span class="s">&quot;%database_user%&quot;</span>
+        <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span> <span class="s">&quot;%database_password%&quot;</span>
+        <span class="l-Scalar-Plain">charset</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">UTF8</span>
+
+    <span class="l-Scalar-Plain">orm</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">auto_generate_proxy_classes</span><span class="p-Indicator">:</span> <span class="s">&quot;%kernel.debug%&quot;</span>
+        <span class="l-Scalar-Plain">auto_mapping</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+
+<span class="c1"># Swift Mailer Configuration</span>
+<span class="l-Scalar-Plain">swiftmailer</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">transport</span><span class="p-Indicator">:</span> <span class="s">&quot;%mailer_transport%&quot;</span>
+    <span class="l-Scalar-Plain">host</span><span class="p-Indicator">:</span>      <span class="s">&quot;%mailer_host%&quot;</span>
+    <span class="l-Scalar-Plain">username</span><span class="p-Indicator">:</span>  <span class="s">&quot;%mailer_user%&quot;</span>
+    <span class="l-Scalar-Plain">password</span><span class="p-Indicator">:</span>  <span class="s">&quot;%mailer_password%&quot;</span>
+    <span class="l-Scalar-Plain">spool</span><span class="p-Indicator">:</span>     <span class="p-Indicator">{</span> <span class="nv">type</span><span class="p-Indicator">:</span> <span class="nv">memory</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">framework</span></tt> などの各エントリは、特定のバンドルのコンフィギュレーションを定義しています。
+たとえば、<tt class="docutils literal"><span class="pre">framework</span></tt> エントリは <tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> のコンフィギュレーション、<tt class="docutils literal"><span class="pre">swiftmailer</span></tt> エントリは <tt class="docutils literal"><span class="pre">SwiftmailerBundle</span></tt> のコンフィギュレーションとなっています。</p>
+<p>各<a class="reference internal" href="../glossary.html#term-9"><em class="xref std std-term">環境</em></a> 向けのコンフィギュレーションファイルを用意することで、デフォルトのコンフィギュレーションを上書きできます。
+たとえば <tt class="docutils literal"><span class="pre">dev</span></tt> 環境では <tt class="docutils literal"><span class="pre">config_dev.yml</span></tt> ファイルが読み込まれます。
+このファイルではメインのコンフィギュレーションファイル（たとえば<tt class="docutils literal"><span class="pre">config.yml</span></tt>）を読み込み、その後デバッギングツール用の設定をいくつか追加します。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config_dev.yml</span>
+<span class="l-Scalar-Plain">imports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">resource</span><span class="p-Indicator">:</span> <span class="nv">config.yml</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">router</span><span class="p-Indicator">:</span>   <span class="p-Indicator">{</span> <span class="nv">resource</span><span class="p-Indicator">:</span> <span class="s">&quot;%kernel.root_dir%/config/routing_dev.yml&quot;</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">profiler</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">only_exceptions</span><span class="p-Indicator">:</span> <span class="nv">false</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">web_profiler</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">toolbar</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+    <span class="l-Scalar-Plain">intercept_redirects</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">false</span>
+
+<span class="l-Scalar-Plain">monolog</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">handlers</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">main</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">stream</span>
+            <span class="l-Scalar-Plain">path</span><span class="p-Indicator">:</span>  <span class="s">&quot;%kernel.logs_dir%/%kernel.environment%.log&quot;</span>
+            <span class="l-Scalar-Plain">level</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">debug</span>
+        <span class="l-Scalar-Plain">firephp</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">firephp</span>
+            <span class="l-Scalar-Plain">level</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">info</span>
+
+<span class="l-Scalar-Plain">assetic</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">use_controller</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>バンドルを拡張する<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>バンドルはコードの整理方法や設定方法を提供するだけでなく、他のバンドルを拡張することもできます。
+バンドルを継承すると、既存のバンドルの機能をオーバーライドしてコントローラやテンプレート、その他バンドルに含まれる任意のファイルをカスタマイズできます。
+このようにバンドルを継承する場合、リソースに論理名 (<tt class="docutils literal"><span class="pre">&#64;AcmeDemoBundle/Controller/SecuredController.php</span></tt> など) を使うと、リソースが実際に格納されている場所を抽象化して扱えるため便利です。</p>
+<div class="section" id="id7">
+<h4>論理ファイル名<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>バンドルにあるファイルを参照したい場合、<tt class="docutils literal"><span class="pre">&#64;BUNDLE_NAME/path/to/file</span></tt> という記法を使います。
+Symfony2 により、<tt class="docutils literal"><span class="pre">&#64;BUNDLE_NAME</span></tt> はバンドルの実際のパスに置き換えられます。
+たとえば、<tt class="docutils literal"><span class="pre">&#64;AcmeDemoBundle/Controller/DemoController.php</span></tt> という論理パスの場合、<tt class="docutils literal"><span class="pre">AcmeDemoBundle</span></tt> バンドルのパスは Symfony で管理されているため、<tt class="docutils literal"><span class="pre">src/Acme/DemoBundle/Controller/DemoController.php</span></tt> というパスに変換されます。</p>
+</div>
+<div class="section" id="id8">
+<h4>論理コントローラ名<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<p>コントローラを参照する場合、<tt class="docutils literal"><span class="pre">BUNDLE_NAME:CONTROLLER_NAME:ACTION_NAME</span></tt> という記法でアクションメソッドを指定します。
+たとえば、<tt class="docutils literal"><span class="pre">AcmeDemoBundle:Welcome:index</span></tt> の場合は<tt class="docutils literal"><span class="pre">Acme\DemoBundle\Controller\WelcomeController</span></tt> クラスの <tt class="docutils literal"><span class="pre">indexAction</span></tt> メソッドにマップされます。</p>
+</div>
+<div class="section" id="id9">
+<h4>論理テンプレート名<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p>テンプレートを参照する場合、<tt class="docutils literal"><span class="pre">AcmeDemoBundle:Welcome:index.html.twig</span></tt> という論理名は <tt class="docutils literal"><span class="pre">src/Acme/DemoBundle/Resources/views/Welcome/index.html.twig</span></tt> というファイルのパスに変換されます。
+テンプレートに関する面白い機能としては、必ずしもファイルシステムに保存されている必要はないというものがあります。たとえばデータベースのテーブルに保存するように簡単に変更できます。</p>
+</div>
+<div class="section" id="id10">
+<h4>バンドルを拡張する<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
+<p>これらの規約に従うことで、<a class="reference internal" href="../cookbook/bundles/inheritance.html"><em>バンドルの継承</em></a>の機能を使ってファイル、コントローラー、テンプレートを &#8220;上書き&#8221; できるようになります。
+たとえば、新しい <tt class="docutils literal"><span class="pre">AcmeNewBundle</span></tt> という名前のバンドルが <tt class="docutils literal"><span class="pre">AcmeDemoBundle</span></tt> を継承している場合、Symfony により、まず最初に <tt class="docutils literal"><span class="pre">AcmeNewBundle</span></tt> の中にある <tt class="docutils literal"><span class="pre">AcmeDemoBundle:Welcome:index</span></tt> コントローラが検索され、次に <tt class="docutils literal"><span class="pre">AcmeDemoBundle</span></tt> のコントローラが検索されます。</p>
+<p>Symfony2 の柔軟性が少しずつ分かってきたでしょうか。
+アプリケーション間でバンドルを共有したり、プロジェクトローカルやサーバー上のグローバルな位置に配置するといったことも自由にできます。</p>
+</div>
+</div>
+</div>
+<div class="section" id="vendor">
+<span id="using-vendors"></span><h2>vendor ディレクトリの使い方<a class="headerlink" href="#vendor" title="Permalink to this headline">¶</a></h2>
+<p>構築するアプリケーションがサードパーティのライブラリに依存している場合もあるでしょう。
+このようなライブラリは、<tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリへ配置することをおすすめします。
+このディレクトリには、SwiftMailer ライブラリ、Doctrine ORM、Twig テンプレートエンジン、および他のサードパーティライブラリやバンドルといった Symfony2 のライブラリがすでに配置されています。</p>
+</div>
+<div class="section" id="id11">
+<h2>キャッシュとログについて<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 はフルスタックのフレームワークの中で最も高速なものの 1 つでしょう。
+しかし、膨大な YAML や XML のファイルをリクエストの度にパースして解析していたら、このような速度は得られません。
+高速な応答にとって重要な要素の 1 つに、キャッシュシステムがあります。
+アプリケーションコンフィギュレーションは最初のリクエストの時にのみパースされ、プレーンな PHP コードにコンパイルされて <tt class="docutils literal"><span class="pre">app/cache/</span></tt> ディレクトリへ保存されます。
+開発環境の場合は、コンフィギュレーションの変更を Symfony2 が検知してキャッシュのクリアを行います。
+しかし運用環境では、コードやコンフィギュレーションを更新した後にキャッシュをクリアすることは開発者の責務となっています。</p>
+<p>Web アプリケーションを構築していると、何かがおかしくなってしまう場合があります。
+<tt class="docutils literal"><span class="pre">app/logs/</span></tt> ディレクトリにあるログファイルを見ると、リクエストに関するすべての情報を確認でき、問題の原因を素早く見つけるのに役立ちます。</p>
+</div>
+<div class="section" id="id12">
+<h2>コマンドラインインターフェイス<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 アプリケーションにはコマンドラインインターフェイス用のツール（<tt class="docutils literal"><span class="pre">app/console</span></tt>）が組み込まれており、アプリケーションのメンテナンスに役立ちます。
+また、何度も実行するようなタスクを自動化するコマンドを使うと、生産性が大きく向上します。</p>
+<p>引数を指定せずに実行すると、その時点で利用可能なコマンドの一覧が表示されます。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">--help</span></tt> オプションを指定して実行すると、コマンドの使用方法が表示されます。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console router:debug --help
+</pre></div>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>まとめ<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<p>この章の内容を読み終えたので、いろいろ構成を変更して自分の使いやすいように Symfony2 を設定することもできるでしょう。
+Symfony2 は、自分のやり方に合わせられるように設計されています。
+ですので、ディレクトリ名を変更したり移動させたりして、自分に合うようにしてみてください。</p>
+<p>これでクイックツアーはすべて完了です。
+Symfony2 マスターになるためには、テストの方法やメールの送信方法など、まだ多くのことを学ぶ必要があります。
+さらに学習したい方は、<a class="reference internal" href="../book/index.html"><em>ガイドブック</em></a> から気になるトピックへ進んでください。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="the_controller.html">< コントローラー</a>
+<a class="next" href="../book/index.html">ガイドブック ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/quick_tour/the_architecture.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/quick_tour/the_architecture.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/quick_tour/the_architecture.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">アーキテクチャ</a><ul>
+<li><a class="reference internal" href="#id2">ディレクトリ構造について</a><ul>
+<li><a class="reference internal" href="#web"><tt class="docutils literal"><span class="pre">web/</span></tt> ディレクトリ</a></li>
+<li><a class="reference internal" href="#app"><tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">バンドルシステムについて</a><ul>
+<li><a class="reference internal" href="#id4">バンドルを登録する</a></li>
+<li><a class="reference internal" href="#id5">バンドルのコンフィギュレーション</a></li>
+<li><a class="reference internal" href="#id6">バンドルを拡張する</a><ul>
+<li><a class="reference internal" href="#id7">論理ファイル名</a></li>
+<li><a class="reference internal" href="#id8">論理コントローラ名</a></li>
+<li><a class="reference internal" href="#id9">論理テンプレート名</a></li>
+<li><a class="reference internal" href="#id10">バンドルを拡張する</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#vendor">vendor ディレクトリの使い方</a></li>
+<li><a class="reference internal" href="#id11">キャッシュとログについて</a></li>
+<li><a class="reference internal" href="#id12">コマンドラインインターフェイス</a></li>
+<li><a class="reference internal" href="#id13">まとめ</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="the_controller.html"
+                        title="previous chapter">コントローラー</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../book/index.html"
+                        title="next chapter">ガイドブック</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/quick_tour/the_architecture.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

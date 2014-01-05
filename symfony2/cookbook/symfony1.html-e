@@ -1,0 +1,416 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>symfony1 ユーザーのための Symfony2 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="クックブック" href="index.html" />
+    <link rel="next" title="コンポーネント" href="../components/index.html" />
+    <link rel="prev" title="コンソール/コマンドラインツールとしてのコマンドの作成方法" href="console.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="symfony1-symfony2">
+<h1>symfony1 ユーザーのための Symfony2<a class="headerlink" href="#symfony1-symfony2" title="Permalink to this headline">¶</a></h1>
+<p>Symfony2 は、 symfony1 と比べると、 著しい進化が取り込まれています。
+幸い、 Symfony2 の中核は MVC アーキテクチャーで、 symfony1 のプロジェクトをマスターするために使用した技術は、 Symfony2 で開発するときにも十分意味があります。
+確かに、 <tt class="docutils literal"><span class="pre">app.yml</span></tt> は無くなりましたが、ルーティングやコントローラーやテンプレートは、全て残っています。</p>
+<p>このガイドでは、 symfony1 と Symfony2 の違いを概観していきましょう。
+見ていくとわかりますが、多くの機能は少々異なった方法で取り組まれています。
+このちょっとした違いによって、 Symfony2 アプリケーションのコードの、安定性、予測可能性、テスト可能性、独立性が増すことに感謝するようになるでしょう。</p>
+<p>さて、それでは &#8220;過去&#8221; から &#8220;今&#8221; への旅をしましょう。</p>
+<div class="section" id="id1">
+<h2>ディレクトリ構造<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 のプロジェクト (例えば <a href="#id6"><span class="problematic" id="id7">`Symfony2 Sandbox`_</span></a> ) を見ると、 symfony1 とは非常に異なったディレクトリ構造であることに気づくでしょう。しかし、この違いは表面的なものにすぎません。</p>
+<div class="section" id="app">
+<h3><tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリ<a class="headerlink" href="#app" title="Permalink to this headline">¶</a></h3>
+<p>symfony1 では、プロジェクトに一つあるいは複数のアプリケーションがあり、それぞれが <tt class="docutils literal"><span class="pre">apps/</span></tt> ディレクトリ以下にありました (例えば <tt class="docutils literal"><span class="pre">apps/frontend</span></tt>) 。 Symfony2 のデフォルトでは、 <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリに、一つだけアプリケーションを保持することになります。 symfony1 のように、 <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリにはアプリケーションに独自のコンフィギュレーションが置かれます。また、アプリケーション毎のキャッシュ、ログそしてテンプレートのディレクトリがあり、アプリケーションを表す基本オブジェクトである <tt class="docutils literal"><span class="pre">Kernel</span></tt> クラス (<tt class="docutils literal"><span class="pre">AppKernel</span></tt>) も存在します。</p>
+<p>symfony1 とは異なり、 <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリに PHP のコードは、ほとんどありません。このディレクトリは、モジュールやライブラリファイルを格納するためのものではないのです。そうではなく、このディレクトリは単にコンフィギュレーションと他のリソース (テンプレートや翻訳ファイル) の置き場所です。</p>
+</div>
+<div class="section" id="src">
+<h3><tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリ<a class="headerlink" href="#src" title="Permalink to this headline">¶</a></h3>
+<p>単純に言えば、実際のコードはこのディレクトリに入ります。
+Symfony2 では、すべての実際のアプリケーションのコードはバンドル (大雑把に言うと symfony1 のプラグインのようなもの) の中にあり、デフォルトでは、個々のバンドルは <tt class="docutils literal"><span class="pre">src</span></tt> ディレクトリの中にあります。このように、 <tt class="docutils literal"><span class="pre">src</span></tt> ディレクトリは symfony1 での <tt class="docutils literal"><span class="pre">plugins</span></tt> ディレクトリに似たものですが、しかし、それよりもかなりフレキシブルです。付け加えると、 <em>あなたの</em> バンドルは <tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリに有りますが、サードパーティのバンドルは、 <tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリにあるでしょう。</p>
+<p><tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリをより理解するために、 symfony1 のアプリケーションを思い浮かべてみましょう。まず、あなたのコードは一つあるいは複数のアプリケーションの中にあるでしょう。一般的には、これらのアプリケーションはモジュールを含んでいます。あなたがアプリケーションに加えた他の PHP クラスもあるかもしれません。 <tt class="docutils literal"><span class="pre">schema.yml</span></tt> ファイルをプロジェクトの <tt class="docutils literal"><span class="pre">config</span></tt> ディレクトリに作ったり、モデルファイルを作ったりするでしょう。また、よくある機能を実現するためにサードパーティのプラグインを使っているならば、それらは <tt class="docutils literal"><span class="pre">plugins/</span></tt> ディレクトリにあるでしょう。つまり、あなたのアプリケーションを機能させるためのコードは、多くの場所に分かれて置かれているということです。</p>
+<p>Symfony2 では、状況はもっと簡単になります。というのも、 <em>全ての</em> Symfony2 のコードは、バンドルの中にあるからです。いま思い浮かべていただいた symfony1 のプロジェクトでのコードのすべては、一つあるいは複数のプラグインに移すことが <em>できる</em> でしょう (そして、それは良い練習になるでしょう) 。全てのモジュール、 PHP クラス、スキーマ、ルーティング設定、その他諸々がプラグインに移動できたとすると、 symfony1 での <tt class="docutils literal"><span class="pre">plugins/</span></tt> ディレクトリは Symfony2 での <tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリと非常によく似たものになるでしょう。</p>
+<p>再び単純に言うならば、 <tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリが、あなたのコード、アセット、テンプレートおよびその他のプロジェクトに特有のものが置かれる場所なのです。</p>
+</div>
+<div class="section" id="vendor">
+<h3><tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリ<a class="headerlink" href="#vendor" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリは、基本的には symfony1 での <tt class="docutils literal"><span class="pre">lib/vendor/</span></tt> ディレクトリと同等のものです。すべてのベンダーライブラリーが置かれる場所となります。デフォルトでは、 Symfony2 のライブラリーファイルは、 Doctrine2 、 Twig や Swiftmailer 等の Symfony2 が使用するいくつかのライブラリーとともに、このディレクトリに置かれます。</p>
+</div>
+<div class="section" id="web">
+<h3><tt class="docutils literal"><span class="pre">web/</span></tt> ディレクトリ<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">web/</span></tt> ディレクトリにはあまり変更がありません。一番目立った違いは、 <tt class="docutils literal"><span class="pre">css/</span></tt> 、 <tt class="docutils literal"><span class="pre">js/</span></tt> および <tt class="docutils literal"><span class="pre">images/</span></tt> ディレクトリがないことでしょう。これは、意図的なものです。 PHP コード同様、すべてのアセットはバンドルの中にあります。コンソールコマンドを使って、個々のバンドルの <tt class="docutils literal"><span class="pre">Resources/public/</span></tt> ディレクトリの複製あるいはシンボリックリンクが <tt class="docutils literal"><span class="pre">web/bundles/</span></tt> ディレクトリに作られます。つまり、バンドル内にアセットを置いておいてあっても、パブリックでも利用可能にすることができます。すべてのバンドルのアセットを、利用可能にするには、次のコマンドを実行いてください。</p>
+<blockquote>
+<div>php app/console assets:install web</div></blockquote>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">このコマンドは symfony1 での <tt class="docutils literal"><span class="pre">plugin:publish-assets</span></tt> コマンドに相当します。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>オートローディング<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>現代的なフレームワークの利点の一つとして、必要とされるファイルについて気に病む必要がないことです。オートローダーを使うことによって、プロジェクト内の任意のクラスを参照でき、またそれが利用可能であるとが信頼できます。オートローディングは Symfony2 で、より普遍的に、より速く、そしてキャッシュのクリアーが必要ないように、変更されました。</p>
+<p>symfony1 では、プロジェクト全体の PHP クラスファイルを検索してその情報を一つの巨大な配列にキャッシュすることによって、オートロードを実現していました。この配列によって symfony1 は個々のクラスがどのファイルに含まれているのかを、正確に知ることができました。そのため、プロダクション環境においては、クラスを追加したり移動したりした場合にキャッシュをクリアする必要がありました。</p>
+<p>Symfony2 では、 <tt class="docutils literal"><span class="pre">UniversalClassLoader</span></tt> という新たなクラスがこの仕組みを担います。このオートローダーの考え方は単純です。クラスの名前 (ネームスペースを含む) は、そのクラスを含むファイルのパスに一致していなければならないというものです。一例として Symfony2 の Standard Edition から <tt class="docutils literal"><span class="pre">FrameworkExtraBundle</span></tt> を取り上げてみましょう:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Sensio\Bundle\FrameworkExtraBundle</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\Bundle\Bundle</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="k">class</span> <span class="nc">SensioFrameworkExtraBundle</span> <span class="k">extends</span> <span class="nx">Bundle</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>ファイルそのものは <tt class="docutils literal"><span class="pre">vendor/bundle/Sensio/Bundle/FrameworkExtraBundle/SensioFrameworkExtraBundle.php</span></tt> にあります。これからわかるように、ファイルの場所は、クラスのネームスペースに従います。具体的には、ネームスペース <tt class="docutils literal"><span class="pre">Sensio\Bundle\FrameworkExtraBundle</span></tt> がそのままファイルが存在するディレクトリとなります (<tt class="docutils literal"><span class="pre">vendor/bundle/Sensio/Bundle/FrameworkExtraBundle</span></tt>) 。これは次のように <tt class="docutils literal"><span class="pre">app/autoload.php</span></tt> ファイルに  <tt class="docutils literal"><span class="pre">vendor/bundle</span></tt> ディレクトリ内の <tt class="docutils literal"><span class="pre">Sensio</span></tt> ネームスペースを探すように設定しているからです。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/autoload.php</span>
+
+<span class="c1">// ...</span>
+<span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">registerNamespaces</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+    <span class="s1">&#39;Sensio&#39;</span>           <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../vendor/bundles&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>ファイルがこの場所になかった場合には、 <tt class="docutils literal"><span class="pre">Class</span> <span class="pre">&quot;Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle&quot;</span> <span class="pre">は存在しません。</span></tt> というエラーが発生するでしょう。 Symfony2 では、 &#8220;クラスが存在しない&#8221; というのは期待されたクラスのネームスペースと物理的な位置とが一致しないということを意味します。これは、 Symfony2 が目的のクラスの唯一正確な位置だけを見るのですが、その位置に目的のクラスが存在しなかった (または異なるクラスが含まれている) ということです。クラスをオートロードするために、 Symfony2 では <strong>キャッシュをクリアする必要はありません</strong> 。</p>
+<p>しかしながら、オートローダーが機能するために、例えば、 <tt class="docutils literal"><span class="pre">Sensio</span></tt> というネームスペースが <tt class="docutils literal"><span class="pre">vendor/bundles</span></tt> ディレクトリにあり、 <tt class="docutils literal"><span class="pre">Doctrine</span></tt> というネームスペースが <tt class="docutils literal"><span class="pre">vendor/doctrine/lib/</span></tt> ディレクトリにある、ということをオートローダーが知っている必要があります。このマッピングは、 <tt class="docutils literal"><span class="pre">app/autoload.php</span></tt> ファイルによって一元的に制御されます。</p>
+<p>Symfony2 Standard Edition の <tt class="docutils literal"><span class="pre">HelloController</span></tt> を見てみると、 そのコントローラが <tt class="docutils literal"><span class="pre">Acme\DemoBundle\Controller</span></tt> ネームスペースにあることがわかります。しかし、 <tt class="docutils literal"><span class="pre">Acme</span></tt> ネームスペースはまだ <tt class="docutils literal"><span class="pre">app/autoload.php</span></tt> には定義されていません。デフォルトでは、 <tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリ内にあるバンドルの場所は明示的に設定する必要はありません。 <tt class="docutils literal"><span class="pre">UniversalClassLoader</span></tt> が <tt class="docutils literal"><span class="pre">registerNamespacesFallbaacks</span></tt> メソッドを使い <tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリをフォールバックするように設定されています。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/autoload.php</span>
+
+<span class="c1">// ...</span>
+<span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">registerNamespaceFallbacks</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../src&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>コンソールを使う<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>symfony1 で、コンソールはプロジェクトのルートディレクトリにあり、 <tt class="docutils literal"><span class="pre">symfony</span></tt> という名前でした:</p>
+<div class="highlight-text"><div class="highlight"><pre>php symfony
+</pre></div>
+</div>
+<p>Symfony2 では、コンソールは app サブディレクトリにあり、 <tt class="docutils literal"><span class="pre">console</span></tt> という名前になっています:</p>
+<div class="highlight-text"><div class="highlight"><pre>php app/console
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>アプリケーション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>symfony1 のプロジェクトでは、通常、複数のアプリケーションがあります: 例えば、 frontend と backend などです。</p>
+<p>Symfony2 のプロジェクトでは、ただひとつのアプリケーションをつくるだけで済みます (ブログアプリケーションだったり、イントラネットアプリケーションだったり、 ...) 。通常、二つ目のアプリケーションを作りたいと思ったら、別のプロジェクトを作りそれらの間でバンドルを共有することになるでしょう。</p>
+<p>バンドルの frontend の機能と backend の機能を分ける必要があるならば、コントローラに関してはサブネームスペースを、テンプレートに関してはサブディレクトリを、それぞれに対応したコンフィギュレーション、別個のルーティング設定、などなどを作ることができます。</p>
+<p>もちろん、プロジェクトに複数のアプリケーションを持たせても何も悪くはありません。すべてはあなたの自由です。二つ目のアプリケーションは <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリと基本のコンフィギュレーションを同じくする新しいディレクトリ (例えば <tt class="docutils literal"><span class="pre">my_app/</span></tt>) となるでしょう。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">用語集の <a class="reference internal" href="../glossary.html#term-1"><em class="xref std std-term">プロジェクト</em></a> 、 <a class="reference internal" href="../glossary.html#term-2"><em class="xref std std-term">アプリケーション</em></a> 、 そして <a class="reference internal" href="../glossary.html#term-3"><em class="xref std std-term">バンドル</em></a> の定義を読んでください。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>バンドルとプラグイン<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>symfony1 のプロジェクトで、コンフィグレーション、モジュール、 PHP ライブラリー、アセットおよびその他プロジェクトに関係したアセットが、プラグインに含まれています。 Symfony2 では、プラグインの考え方は &#8220;バンドル&#8221; に取って代られました。バンドルはプラグインよりもずっと強力なので、 Symfony2 のコアフレームワークは、一連のバンドルによって実現されています。 Symfony2 では、バンドルがまず第一であり、バンドルは非常にフレキシブルであるので Symfony2 のコアコード自体もバンドルになっています。</p>
+<p>symfony1 では、プラグインは <tt class="docutils literal"><span class="pre">ProjectConfiguration</span></tt> で有効化されなければなりませんでした:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// config/ProjectConfiguration.class.php</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">enableAllPluginsExcept</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="cm">/* some plugins here */</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Symfony2 で、バンドルはアプリケーションカーネルの中でアクティベートされます:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/AppKernel.php</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">registerBundles</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$bundles</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\FrameworkBundle\FrameworkBundle</span><span class="p">(),</span>
+        <span class="k">new</span> <span class="nx">Symfony\Bundle\TwigBundle\TwigBundle</span><span class="p">(),</span>
+        <span class="c1">// ...</span>
+        <span class="k">new</span> <span class="nx">Acme\DemoBundle\AcmeDemoBundle</span><span class="p">(),</span>
+    <span class="p">);</span>
+
+    <span class="k">return</span> <span class="nv">$bundles</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="section" id="routing-yml-config-yml">
+<h3>ルーティング (<tt class="docutils literal"><span class="pre">routing.yml</span></tt>) とコンフィギュレーション (<tt class="docutils literal"><span class="pre">config.yml</span></tt>)<a class="headerlink" href="#routing-yml-config-yml" title="Permalink to this headline">¶</a></h3>
+<p>symfony1 では、 <tt class="docutils literal"><span class="pre">routing.yml</span></tt> と <tt class="docutils literal"><span class="pre">app.yml</span></tt> は、任意のプラグインで自動的にロードされます。 Symfony2 では、バンドルの中のルーティングおよびアプリケーションのコンフィギュレーションは、手動でインポートしなければなりません。例えば、 <tt class="docutils literal"><span class="pre">AcmeDemoBundle</span></tt> からルーティングの情報をインポートするには、以下のようにする必要があるでしょう:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1"># app/config/routing.yml</span>
+<span class="nx">_hello</span><span class="o">:</span>
+    <span class="nx">resource</span><span class="o">:</span> <span class="s2">&quot;@AcmeDemoBundle/Resources/config/routing.yml&quot;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">AcmeDemoBundle</span></tt> の <tt class="docutils literal"><span class="pre">Resources/config/routing.yml</span></tt> ファイルにあるルーティングの設定をロードします。 <tt class="docutils literal"><span class="pre">&#64;AcmeDemoBundle</span></tt> は特別なショートカットシンタックスで、内部で指定のバンドルへのフルパスに変換しています。</p>
+<p>全く同じようにコンフィギュレーションをバンドルからロードすることができます。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">imports</span><span class="p-Indicator">:</span>
+    <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">resource</span><span class="p-Indicator">:</span> <span class="s">&quot;@AcmeDemoBundle/Resources/config/config.yml&quot;</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<p>Symfony2 では、コンフィギュレーションは symfony1 の <tt class="docutils literal"><span class="pre">app.yml</span></tt> に少しだけ似ています。しかし、 <tt class="docutils literal"><span class="pre">app.yml</span></tt> では、どんなキーも作るとができたのに比べて、 Symfony2 のコンフィギュレーションの方がもっとシステマティックです。 <tt class="docutils literal"><span class="pre">app.yml</span></tt> では、エントリは特に意味があるわけではなく、開発者の意向でアプリケーションでどう使うかを決めてました。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># some app.yml file from symfony1</span>
+<span class="l-Scalar-Plain">all</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">email</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">from_address</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">foo.bar@example.com</span>
+</pre></div>
+</div>
+<p>Symfony2 では、コンフィギュレーションの <tt class="docutils literal"><span class="pre">parameters</span></tt> キーの下に symfony1 で定義していた <tt class="docutils literal"><span class="pre">app.yml</span></tt> のような自由なエントリを作ることができます。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">parameters</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">email.from_address</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">foo.bar@example.com</span>
+</pre></div>
+</div>
+<p>これで以下のようにコントローラからアクセスできるようになりました。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">helloAction</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$fromAddress</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">getParameter</span><span class="p">(</span><span class="s1">&#39;email.from_address&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>実際には、 Symfony2 のコンフィギュレーションはより強力で、主に使用するオブジェクトを設定するために使われます。詳細は、&#8221;<a class="reference internal" href="../book/service_container.html"><em>サービスコンテナ</em></a>&#8221; の章を参照してください。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="console.html">< コンソール/コマンドラインツールとしてのコマンドの作成方法</a>
+<a class="next" href="../components/index.html">コンポーネント ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/symfony1.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/symfony1.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/symfony1.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">symfony1 ユーザーのための Symfony2</a><ul>
+<li><a class="reference internal" href="#id1">ディレクトリ構造</a><ul>
+<li><a class="reference internal" href="#app"><tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリ</a></li>
+<li><a class="reference internal" href="#src"><tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリ</a></li>
+<li><a class="reference internal" href="#vendor"><tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリ</a></li>
+<li><a class="reference internal" href="#web"><tt class="docutils literal"><span class="pre">web/</span></tt> ディレクトリ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">オートローディング</a></li>
+<li><a class="reference internal" href="#id3">コンソールを使う</a></li>
+<li><a class="reference internal" href="#id4">アプリケーション</a></li>
+<li><a class="reference internal" href="#id5">バンドルとプラグイン</a><ul>
+<li><a class="reference internal" href="#routing-yml-config-yml">ルーティング (<tt class="docutils literal"><span class="pre">routing.yml</span></tt>) とコンフィギュレーション (<tt class="docutils literal"><span class="pre">config.yml</span></tt>)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="console.html"
+                        title="previous chapter">コンソール/コマンドラインツールとしてのコマンドの作成方法</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../components/index.html"
+                        title="next chapter">コンポーネント</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/cookbook/symfony1.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

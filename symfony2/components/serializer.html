@@ -7,9 +7,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>Serializerコンポーネント | Symfony2日本語ドキュメント</title>
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/configurationblock.css" type="text/css" />
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -19,11 +19,11 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/js/jquery.corner.js"></script>
-      <script type="text/javascript" src="../_static/configurationblock.js"></script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
       <script type="text/javascript">
       $(function(){
           $('.section h1').corner();
@@ -87,7 +87,7 @@
 <blockquote>
 <div>Serializer コンポーネントは、オブジェクトを別のフォーマット（XML、JSON、 Yamlなど）に変更するのに使われます。</div></blockquote>
 <p>そのために、 Serializer コンポーネントは下図のようなシンプルな仕組みに従っています。</p>
-<span id="component-serializer-encoders"></span><img alt="../_images/serializer_workflow.png" id="component-serializer-normalizers" src="../_images/serializer_workflow.png" />
+<span id="component-serializer-encoders"></span><img alt="../images/serializer_workflow.png" id="component-serializer-normalizers" src="../_images/serializer_workflow.png" />
 <p>上の図を見るとわかるように、配列（Array）が仲介として使われています。
 つまり、 Encoder は <strong>フォーマット</strong> を <strong>配列</strong> に変換したり元に戻したりするのを担当し、 Normalizer は <strong>オブジェクト</strong> を <strong>配列</strong> に変換したり戻したりするのを担当しています。</p>
 <p>シリアライズは複雑な課題であり、Serializer コンポーネントはすべてのケースに使えるわけではありませんが、開発者がシリアライズしたいオブジェクトをシリアライズする道具を作るのに役立つでしょう。</p>
@@ -298,7 +298,7 @@ encoder は、この例では <tt class="xref php php-class docutils literal"><s
 
   <h3>ソース</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/components/serializer.txt"
+    <li><a href="../sources/components/serializer.txt"
            rel="nofollow">ページのソースを表示</a></li>
   </ul>
 <div id="searchbox" style="display: none">

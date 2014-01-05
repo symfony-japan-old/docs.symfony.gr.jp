@@ -1,0 +1,789 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Symfony2 vs フラットなPHP | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
+    <link rel="up" title="ガイドブック" href="index.html" />
+    <link rel="next" title="Symfony のインストールと設定" href="installation.html" />
+    <link rel="prev" title="Symfony2 と HTTP の基礎" href="http_fundamentals.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="symfony2-vs-php">
+<h1>Symfony2 vs フラットなPHP<a class="headerlink" href="#symfony2-vs-php" title="Permalink to this headline">¶</a></h1>
+<p><strong>なぜ Symfony2 は単にファイルを開いてフラットな PHP を書くよりも良いのでしょうか？</strong></p>
+<p>この章は、まだ PHP のフレームワークを使ったことがない方や、MVC の哲学に慣れていない方、Symfony2 の特長が何なのかをすばやく知りたい方向けの解説です。Symfony2 を使うことで、フラットな PHP を使うよりも素早く、よりよいソフトウェアを開発できるということを、ご自身で１ステップずつ考えながら読み進めてください。</p>
+<p>この章では、最初にフラットな PHP でシンプルなアプリケーションを記述します。</p>
+<p>そのコードを出発点として、順に体系的なコードへリファクタリングしていきます。タイムトラベルをしながら、Web 開発が現在の姿に発展する過程や背景を見ていきましょう。</p>
+<p>この章を読み終えると、Symfony2 を使うことで Web アプリケーション開発のどの部分が便利になっているのかを理解できるでしょう。そしてあなたのコードの支配権を、あなたの手に取り戻すことができるようになります。</p>
+<div class="section" id="php">
+<h2>フラットな PHP による単純なブログ<a class="headerlink" href="#php" title="Permalink to this headline">¶</a></h2>
+<p>この章では、フラットな PHP だけを使った外形だけのブログアプリケーションを作ります。初めに、データベースに永続化されたブログのエントリを表示する一つのページを作ってください。フラットな PHP を書くのは素早いけれど乱暴です。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="c1">// index.php</span>
+<span class="nv">$link</span> <span class="o">=</span> <span class="nb">mysql_connect</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="s1">&#39;mypassword&#39;</span><span class="p">);</span>
+<span class="nb">mysql_select_db</span><span class="p">(</span><span class="s1">&#39;blog_db&#39;</span><span class="p">,</span> <span class="nv">$link</span><span class="p">);</span>
+
+<span class="nv">$result</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="s1">&#39;SELECT id, title FROM post&#39;</span><span class="p">,</span> <span class="nv">$link</span><span class="p">);</span>
+
+<span class="cp">?&gt;</span>
+
+<span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>投稿の一覧<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>投稿の一覧<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">while</span> <span class="p">(</span><span class="nv">$row</span> <span class="o">=</span> <span class="nb">mysql_fetch_assoc</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span><span class="o">:</span> <span class="cp">?&gt;</span>
+            <span class="nt">&lt;li&gt;</span>
+                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/show.php?id=</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+                    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span>
+                <span class="nt">&lt;/a&gt;</span>
+            <span class="nt">&lt;/li&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">endwhile</span><span class="p">;</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+
+<span class="cp">&lt;?php</span>
+<span class="nb">mysql_close</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p>素早く書けて高速に実行できますが、アプリケーションが大きくなるにつれてメンテナンスが手に負えなくなります。解決すべきいくつかの問題があります。</p>
+<ul class="simple">
+<li><strong>エラーチェックがありません</strong> データベースへの接続が失敗した場合はどうなるのでしょう？</li>
+<li><strong>体系化されていません</strong> アプリケーションが複雑になっていくと、この1つのファイルはどんどんメンテナンスできなくなっていきます。フォームの送信を扱うコードはどこに入れたらよいでしょうか？Eメールを送信するコードはどうしたらいいでしょうか？</li>
+<li><strong>コードの再利用が難しいです</strong> 全てが1つのファイルにまとまっているので、アプリケーションの他の「ページ」のために一部を再利用する方法がありません。</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ここで述べられていない他の問題として、データベースが MySQL に固定されてしまうということがあります。ここではこの話に触れませんが、Symfony2 は <a class="reference external" href="http://www.doctrine-project.org">Doctrine</a> というデータベースの抽象化とマッピングを行うライブラリと完全に統合されています。</p>
+</div>
+<p>さあ、これらの問題を解決していきましょう。</p>
+<div class="section" id="id1">
+<h3>表示部分の分離<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>このコードは、HTML 表現を準備するコードからアプリケーションの「ロジック」を分離することで、すぐに改善できます。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="c1">// index.php</span>
+<span class="nv">$link</span> <span class="o">=</span> <span class="nb">mysql_connect</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="s1">&#39;mypassword&#39;</span><span class="p">);</span>
+<span class="nb">mysql_select_db</span><span class="p">(</span><span class="s1">&#39;blog_db&#39;</span><span class="p">,</span> <span class="nv">$link</span><span class="p">);</span>
+
+<span class="nv">$result</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="s1">&#39;SELECT id, title FROM post&#39;</span><span class="p">,</span> <span class="nv">$link</span><span class="p">);</span>
+
+<span class="nv">$posts</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="k">while</span> <span class="p">(</span><span class="nv">$row</span> <span class="o">=</span> <span class="nb">mysql_fetch_assoc</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$posts</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$row</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nb">mysql_close</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+
+<span class="c1">// include the HTML presentation code</span>
+<span class="k">require</span> <span class="s1">&#39;templates/list.php&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>HTML コードは別のファイル (<tt class="docutils literal"><span class="pre">templates/list.php</span></tt>) に保存されるようになりました。これは本来、テンプレート風の PHP 文法を使う HTML ファイルです。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>投稿のリスト<span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;h1&gt;</span>投稿のリスト<span class="nt">&lt;/h1&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$posts</span> <span class="k">as</span> <span class="nv">$post</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+            <span class="nt">&lt;li&gt;</span>
+                <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/read?id=</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$post</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+                    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$post</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span>
+                <span class="nt">&lt;/a&gt;</span>
+            <span class="nt">&lt;/li&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>慣例によって、全てのアプリケーションのロジックを含むファイル「<tt class="docutils literal"><span class="pre">index.php</span></tt>」は「コントローラ」と呼ばれます。<a class="reference internal" href="../glossary.html#term-5"><em class="xref std std-term">コントローラ</em></a>という用語は、あなたの使用する言語やフレームワークに関係なく、よく聞くことでしょう。コントローラは、<em>あなたの</em>コードにおける、ユーザからの入力を処理し、レスポンスを返す部分のことを指しています。</p>
+<p>この場合、コントローラはデータベースからのデータを準備し、それからそのデータを提供するテンプレートをインクルードします。テンプレートとコントローラを分離させることによって、何か他のフォーマット (例えば JSON フォーマットの <tt class="docutils literal"><span class="pre">list.json.php</span></tt>) でブログのエントリをレンダリングする必要があった場合に、テンプレートファイル<em>だけ</em>を簡単に変更することができます。</p>
+</div>
+<div class="section" id="id2">
+<h3>アプリケーション (ドメイン) ロジックの分離<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>今のところアプリケーションは1つのページしか含んでいませんが、2番目のページが同じデータベース接続、あるいは同じ投稿の配列を使用する必要がある場合はどうでしょうか？アプリケーションのコアの動作とデータアクセスの機能が <tt class="docutils literal"><span class="pre">mode.php</span></tt> という新しいファイルに分離されるよう、コードをリファクタリングしてみましょう。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="c1">// model.php</span>
+<span class="k">function</span> <span class="nf">open_database_connection</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$link</span> <span class="o">=</span> <span class="nb">mysql_connect</span><span class="p">(</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="s1">&#39;myuser&#39;</span><span class="p">,</span> <span class="s1">&#39;mypassword&#39;</span><span class="p">);</span>
+    <span class="nb">mysql_select_db</span><span class="p">(</span><span class="s1">&#39;blog_db&#39;</span><span class="p">,</span> <span class="nv">$link</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nv">$link</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">close_database_connection</span><span class="p">(</span><span class="nv">$link</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nb">mysql_close</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">get_all_posts</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$link</span> <span class="o">=</span> <span class="nx">open_database_connection</span><span class="p">();</span>
+
+    <span class="nv">$result</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="s1">&#39;SELECT id, title FROM post&#39;</span><span class="p">,</span> <span class="nv">$link</span><span class="p">);</span>
+    <span class="nv">$posts</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+    <span class="k">while</span> <span class="p">(</span><span class="nv">$row</span> <span class="o">=</span> <span class="nb">mysql_fetch_assoc</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$posts</span><span class="p">[]</span> <span class="o">=</span> <span class="nv">$row</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nx">close_database_connection</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nv">$posts</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><tt class="docutils literal"><span class="pre">model.php</span></tt> というファイル名が使われているのは、アプリケーションのロジックとデータアクセスが伝統的に「モデル」というレイヤーだからです。うまく体系付けられたアプリケーションでは、「ビジネスロジック」を表すコードの大部分は、モデル内に存在するべきです (コントローラに存在するのとは対照的に) 。そしてこの例とは違って、モデルの一部分のみが実際にデータベースへのアクセスに関わることになります。</p>
+</div>
+<p>コントローラ(<tt class="docutils literal"><span class="pre">index.php</span></tt>)はとてもシンプルになります。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="k">require_once</span> <span class="s1">&#39;model.php&#39;</span><span class="p">;</span>
+
+<span class="nv">$posts</span> <span class="o">=</span> <span class="nx">get_all_posts</span><span class="p">();</span>
+
+<span class="k">require</span> <span class="s1">&#39;templates/list.php&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>この時点で、コントローラの唯一のタスクは、アプリケーションのモデルレイヤー(モデル)からデータを取り出し、そのデータをレンダリングするためにテンプレートを呼び出すことです。これは、モデル-ビュー-コントローラパターンのとても単純な例です。</p>
+</div>
+<div class="section" id="id3">
+<h3>レイアウトの分離<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>この時点でアプリケーションは、いくつかの有利な点を持つ3つの明確な部品にリファクタリングされ、別のページでほとんど全てを再利用できる機会を得ます。</p>
+<p>コードの中で再利用<em>できない</em>唯一の部分は、ページレイアウトです。<tt class="docutils literal"><span class="pre">layout.php</span></tt> ファイルを新しく作成して、これを修正しましょう。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- templates/layout.php --&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$title</span> <span class="cp">?&gt;</span><span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$content</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>レイアウトを「拡張」するようテンプレート(<tt class="docutils literal"><span class="pre">templates/list.php</span></tt>)を単純化できました。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="nv">$title</span> <span class="o">=</span> <span class="s1">&#39;投稿のリスト&#39;</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nb">ob_start</span><span class="p">()</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;h1&gt;</span>投稿のリスト<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$posts</span> <span class="k">as</span> <span class="nv">$post</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;li&gt;</span>
+            <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;/read?id=</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$post</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+                <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$post</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span>
+            <span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;/li&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$content</span> <span class="o">=</span> <span class="nb">ob_get_clean</span><span class="p">()</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="k">include</span> <span class="s1">&#39;layout.php&#39;</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p>ここで、レイアウトの再利用を可能にする方法を披露します。残念なことに、これを可能にするために、いくつかの格好悪い PHP の関数 (<tt class="docutils literal"><span class="pre">ob_start()</span></tt> と <tt class="docutils literal"><span class="pre">ob_end_clean()</span></tt>)をテンプレート内で使わなければならないことにお気づきだと思います。Symfony2 はクリーンで簡単にこれを実現できる <tt class="docutils literal"><span class="pre">Templating</span></tt> コンポーネントを使います。これはもうすぐ実践の中で見ていくことになります。</p>
+</div>
+</div>
+<div class="section" id="show">
+<h2>ブログの「show (単独表示) 」ページを追加<a class="headerlink" href="#show" title="Permalink to this headline">¶</a></h2>
+<p>ブログの「list (一覧表示)」ページは、より体系付けられて再利用可能なコードになるようリファクタリングされました。これを証明するために、<tt class="docutils literal"><span class="pre">id</span></tt> をクエリーパラメータとしてそれぞれのブログの投稿を表示する「show (単独表示)」ページを追加しましょう。</p>
+<p>まず初めに、与えられた ID を元にそれぞれのブログの結果を取得する関数を <tt class="docutils literal"><span class="pre">model.php</span></tt> ファイルに追加する必要があります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// model.php</span>
+<span class="k">function</span> <span class="nf">get_post_by_id</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$link</span> <span class="o">=</span> <span class="nx">open_database_connection</span><span class="p">();</span>
+
+    <span class="nv">$id</span> <span class="o">=</span> <span class="nb">intval</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+    <span class="nv">$query</span> <span class="o">=</span> <span class="s1">&#39;SELECT date, title, body FROM post WHERE id = &#39;</span><span class="o">.</span><span class="nv">$id</span><span class="p">;</span>
+    <span class="nv">$result</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="nv">$query</span><span class="p">);</span>
+    <span class="nv">$row</span> <span class="o">=</span> <span class="nb">mysql_fetch_assoc</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+
+    <span class="nx">close_database_connection</span><span class="p">(</span><span class="nv">$link</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nv">$row</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>次に、この新しいページのためのコントローラである <tt class="docutils literal"><span class="pre">show.php</span></tt> という新しいファイルを作ってください。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="k">require_once</span> <span class="s1">&#39;model.php&#39;</span><span class="p">;</span>
+
+<span class="nv">$post</span> <span class="o">=</span> <span class="nx">get_post_by_id</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]);</span>
+
+<span class="k">require</span> <span class="s1">&#39;templates/show.php&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>最後に、それぞれの投稿を表示するための <tt class="docutils literal"><span class="pre">templates/show.php</span></tt> という新しいテンプレートファイルを作ってください。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="nv">$title</span> <span class="o">=</span> <span class="nv">$post</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nb">ob_start</span><span class="p">()</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;h1&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$post</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="nt">&lt;/h1&gt;</span>
+
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;date&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$post</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="nt">&lt;/div&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;body&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$post</span><span class="p">[</span><span class="s1">&#39;body&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$content</span> <span class="o">=</span> <span class="nb">ob_get_clean</span><span class="p">()</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="k">include</span> <span class="s1">&#39;layout.php&#39;</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p>2番目のページを作るのは、とても簡単で、重複したコードもありません。まだこのページには、フレームワークが解決できるさらにやっかいな問題があります。例えば、「id」クエリーパラメータが存在しなかったり不正な場合、ページがクラッシュする原因になります。このような問題では 404 ページを表示する方がよいですが、まだこれは簡単には実現できません。さらに問題なことに、<tt class="docutils literal"><span class="pre">intval()</span></tt> 関数を経由して <tt class="docutils literal"><span class="pre">id</span></tt> パラメータをクリーンにし忘れると、データベース全体が SQL インジェクション攻撃のリスクにさらされることになります。</p>
+<p>それ以外の大きな問題として、それぞれのコントローラのファイルが <tt class="docutils literal"><span class="pre">model.php</span></tt> ファイルを含まなくてはならないということです。それぞれのコントローラファイルが、突然追加のファイルを読み込む必要に迫られたり、その他のグローバルなタスク(例えばセキュリティの向上など)を実行する必要が出た場合、どうなるでしょう。現状では、それを実現するためのコードは全てのコントローラのファイルに追加する必要があります。もし何かをあるファイルに含むのを忘れてしまった時、それがセキュリティに関係ないといいのですが…。</p>
+</div>
+<div class="section" id="id4">
+<h2>「フロントコントローラ」の出番<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>解決策は、フロントコントローラを使うことです。これは、<em>全ての</em>リクエストが処理される際に通過する一つの PHP ファイルです。フロントコントローラによって、アプリケーションの URI は少し変更されますが、より柔軟になり始めます。</p>
+<div class="highlight-text"><div class="highlight"><pre>フロントコントローラなしの場合
+/index.php          =&gt; ブログ一覧表示ページ (index.php が実行されます)
+/show.php           =&gt; ブログ単独表示ページ (show.php が実行されます)
+
+index.php をフロントコントローラとして使用した場合
+/index.php          =&gt; ブログ一覧表示ページ (index.php が実行されます)
+/index.php/show     =&gt; ブログ単独表示ページ (index.php が実行されます)
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">URI の <tt class="docutils literal"><span class="pre">index.php</span></tt> という一部分は、Apache のリライトルール(あるいはそれと同等の仕組み)を使っている場合は、省略することができます。この場合、ブログの単独表示ページの URI は、単純に <tt class="docutils literal"><span class="pre">/show</span></tt> になります。</p>
+</div>
+<p>フロントコントローラを使用する時は、一つの PHP ファイル(今回は <tt class="docutils literal"><span class="pre">index.php</span></tt>)が<em>全ての</em>リクエストをレンダリングします。ブログの単一表示ページでは、<tt class="docutils literal"><span class="pre">/index.php/show</span></tt> という URI で実際には、完全な URI に基づいてルーティングのリクエストに内部的に応える <tt class="docutils literal"><span class="pre">index.php</span></tt> ファイルが実行されます。ここで見たように、フロントコントローラはとてもパワフルなツールなのです。</p>
+<div class="section" id="id5">
+<h3>フロントコントローラの作成<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>我々のアプリケーションに関して、<strong>大きな</strong>一歩を踏み出そうとしています。全てのリクエストを扱う一つのファイルによって、セキュリティの扱いや、設定の読み込み、ルーティングといったことを集中的に扱えるようになります。我々のアプリケーションでは <tt class="docutils literal"><span class="pre">index.php</span></tt> が、リクエストされた URI に基づいて、ブログの一覧表示ページ<em>あるいは</em>単一表示ページをレンダリングするのに十分なぐらい洗練されている必要があります。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+
+<span class="c1">// index.php</span>
+
+<span class="c1">// グローバルライブラリの読み込みと初期化</span>
+<span class="k">require_once</span> <span class="s1">&#39;model.php&#39;</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="s1">&#39;controllers.php&#39;</span><span class="p">;</span>
+
+<span class="c1">// リクエストを内部的にルーティング</span>
+<span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$_REQUEST</span><span class="p">[</span><span class="s1">&#39;REQUEST_URI&#39;</span><span class="p">];</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$uri</span> <span class="o">==</span> <span class="s1">&#39;/index.php&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">list_action</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$uri</span> <span class="o">==</span> <span class="s1">&#39;/index.php/show&#39;</span> <span class="o">&amp;&amp;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="nx">show_action</span><span class="p">(</span><span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]);</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nx">header</span><span class="p">(</span><span class="s1">&#39;Status: 404 Not Found&#39;</span><span class="p">);</span>
+    <span class="k">echo</span> <span class="s1">&#39;&lt;html&gt;&lt;body&gt;&lt;h1&gt;ページが見つかりません&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>コードの体系化のために、2つのコントローラ(以前の index.php と show.php)は、PHP の関数になり、それぞれは別のファイル controllers.php に移動されました。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">function</span> <span class="nf">list_action</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$posts</span> <span class="o">=</span> <span class="nx">get_all_posts</span><span class="p">();</span>
+    <span class="k">require</span> <span class="s1">&#39;templates/list.php&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">show_action</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$post</span> <span class="o">=</span> <span class="nx">get_post_by_id</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+    <span class="k">require</span> <span class="s1">&#39;templates/show.php&#39;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>フロントコントローラとして、<tt class="docutils literal"><span class="pre">index.php</span></tt> は全く新しい役割を引き受けることになりました。それは、コアライブラリを読み込み、2つのコントローラ(<tt class="docutils literal"><span class="pre">list_action()</span></tt> と <tt class="docutils literal"><span class="pre">show_action()</span></tt> 関数)のうちの1つを呼び出せるようにアプリケーションをルーティングすることです。実際にこのフロントコントローラは、リクエストを取り扱いルーティングする Symfony2 のメカニズムによく似た見た目と動作をし始めています。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">フロントコントローラのもう一つの利点が、柔軟性のある URL です。コードのたった1箇所だけを変更すれば、ブログ単一表示ページの URL を <tt class="docutils literal"><span class="pre">/show</span></tt> から <tt class="docutils literal"><span class="pre">/read</span></tt> に変更できることに注目してください。以前は、ファイル全体の名前を変更する必要がありましたね。Symfony2 では、URL の取り扱いはもっとずっと柔軟性があります。</p>
+</div>
+<p>ここまで、アプリケーションを単一の PHP ファイルから、体系化されてコードの再利用ができる構造へと発展させてきました。これでハッピーになるべきですが、満足からは程遠いでしょう。例えば、「ルーティング」システムは気まぐれで、一覧表示ページ(/index.php)が / (Apacheのリライトルールが追加されている場合)からでもアクセス可能であるべきだということを認識できません。また、ブログを開発する代わりに、コードの「アーキテクチャ」(例えばルーティングや呼び出すコントローラ、テンプレートなど)にたくさんの時間を費やしています。より多くの時間を、フォームの送信の扱い、入力のバリデーション、ロギングやセキュリティといったことに費やす必要があるでしょう。なぜこれら全てのありふれた問題への解決策を再発明しなければならないのでしょうか？</p>
+</div>
+<div class="section" id="symfony2">
+<h3>ちょっと Symfony2 の考えを加える<a class="headerlink" href="#symfony2" title="Permalink to this headline">¶</a></h3>
+<p>Symfony2 の出番です。実際に Symfony2 を使う前に、Symfony2 のクラスをどのように見つけるのかを PHP が知っているようにする必要があります。これは、 Symfony2 が提供するオートローダーを通じて実現されます。オートローダーは、クラスを含むファイルを明確に含まなくても、 PHP のクラスを使い始められるようにするツールです。</p>
+<p>まず最初に、<a class="reference external" href="http://symfony.com/download">Symfony をダウンロード</a>し、<tt class="docutils literal"><span class="pre">vendor/symfony/symfony</span></tt> ディレクトリに配置してください。次に、<tt class="docutils literal"><span class="pre">app/bootstrap.php</span></tt> ファイルを作ってください。アプリケーション内の2つのファイルを<tt class="docutils literal"><span class="pre">要求</span></tt>し、オートローダーを設定するためにこのファイルを使います。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// bootstrap.php</span>
+<span class="k">require_once</span> <span class="s1">&#39;model.php&#39;</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="s1">&#39;controllers.php&#39;</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="s1">&#39;vendor/symfony/symfony/src/Symfony/Component/ClassLoader/UniversalClassLoader.php&#39;</span><span class="p">;</span>
+
+<span class="nv">$loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Symfony\Component\ClassLoader\UniversalClassLoader</span><span class="p">();</span>
+<span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">registerNamespaces</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;Symfony&#39;</span> <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../vendor/symfony/symfony/src&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+
+<span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>このファイルは、オートローダーに <tt class="docutils literal"><span class="pre">Symfony</span></tt> クラスがどこにあるかを知らせます。これにより、Symfony クラスを含むファイルで <tt class="docutils literal"><span class="pre">require</span></tt> ステートメントを使わずに、Symfony クラスを使い始めることができます。</p>
+<p>Symfony の哲学の核は、アプリケーションの主なジョブはそれぞれのリクエストを解釈し、レスポンスを返すことであるという考え方です。この目的のために、Symfony2 は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response</span></tt> という2つのクラスを提供しています。これらのクラスは、処理されるべき生の HTTP リクエストと、返される HTTP レスポンスのオブジェクト指向での実装になっています。ブログを改善するために、これらを使いましょう。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// index.php</span>
+<span class="k">require_once</span> <span class="s1">&#39;app/bootstrap.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+
+<span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nv">$uri</span> <span class="o">==</span> <span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="nx">list_action</span><span class="p">();</span>
+<span class="p">}</span> <span class="k">elseif</span> <span class="p">(</span><span class="nv">$uri</span> <span class="o">==</span> <span class="s1">&#39;/show&#39;</span> <span class="o">&amp;&amp;</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">query</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="nx">show_action</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">query</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">));</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nv">$html</span> <span class="o">=</span> <span class="s1">&#39;&lt;html&gt;&lt;body&gt;&lt;h1&gt;Page Not Found&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&#39;</span><span class="p">;</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$html</span><span class="p">,</span> <span class="mi">404</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ヘッダーを返し、レスポンスを送る</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>コントローラは、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返す責任を持つようになりました。これを簡単にするために、新しく <tt class="docutils literal"><span class="pre">render_template()</span></tt> 関数を追加できます。ちなみに、この関数は Symfony2 のテンプレートエンジンとちょっと似た動きをします。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// controllers.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="nf">list_action</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$posts</span> <span class="o">=</span> <span class="nx">get_all_posts</span><span class="p">();</span>
+    <span class="nv">$html</span> <span class="o">=</span> <span class="nx">render_template</span><span class="p">(</span><span class="s1">&#39;templates/list.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span> <span class="o">=&gt;</span> <span class="nv">$posts</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">show_action</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$post</span> <span class="o">=</span> <span class="nx">get_post_by_id</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+    <span class="nv">$html</span> <span class="o">=</span> <span class="nx">render_template</span><span class="p">(</span><span class="s1">&#39;templates/show.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;post&#39;</span> <span class="o">=&gt;</span> <span class="nv">$post</span><span class="p">));</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$html</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// テンプレートをレンダリングするためのヘルパー関数</span>
+<span class="k">function</span> <span class="nf">render_template</span><span class="p">(</span><span class="nv">$path</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$args</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nb">extract</span><span class="p">(</span><span class="nv">$args</span><span class="p">);</span>
+    <span class="nb">ob_start</span><span class="p">();</span>
+    <span class="k">require</span> <span class="nv">$path</span><span class="p">;</span>
+    <span class="nv">$html</span> <span class="o">=</span> <span class="nb">ob_get_clean</span><span class="p">();</span>
+
+    <span class="k">return</span> <span class="nv">$html</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Symfony2 の一部分を使うことによって、アプリケーションはより柔軟で信頼できるものになりました。<tt class="docutils literal"><span class="pre">Request</span></tt> は HTTP リクエストに関する情報にアクセスするための信頼できる仕組みを提供します。具体的にいうと、<tt class="docutils literal"><span class="pre">getPathInfo()</span></tt> メソッドは整理された URI(常に <tt class="docutils literal"><span class="pre">/show</span></tt> で、<tt class="docutils literal"><span class="pre">/index.php/show</span></tt> ではない)を返します。そのため、もしユーザが <tt class="docutils literal"><span class="pre">/index.php/show</span></tt> にアクセスしたとしても、アプリケーションは <tt class="docutils literal"><span class="pre">show_action()</span></tt> によってリクエストをルーティングするインテリジェントさを持っています。</p>
+<p><tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトは、HTTP ヘッダーとコンテンツをオブジェクト指向のインタフェースを介して追加できるようにすることで、HTTP レスポンスを構成する際に柔軟性を提供しています。そして、アプリケーションのレスポンスがシンプルなために、この柔軟性はアプリケーションが成長するのに大きな利点があるのです。</p>
+</div>
+<div class="section" id="id6">
+<h3>Symfony2でのサンプルアプリケーション<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>ブログは<em>大きな</em>成長をしてきました。しかし、まだこの程度の小さなアプリケーションなのにたくさんのコードを含んでいます。ここに至るまで、単純なルーティングシステムや、テンプレートをレンダリングするため <tt class="docutils literal"><span class="pre">ob_start()</span></tt> と <tt class="docutils literal"><span class="pre">ob_get_clean()</span></tt> を使ったメソッドを開発してきました。もし、何らかの理由でこの「フレームワーク」を作り続ける必要があるのなら、これらの問題を既に解決している Symfony のスタンドアローンの <a class="reference external" href="https://github.com/symfony/Routing">Routing</a> と <a class="reference external" href="https://github.com/symfony/Templating">Templating</a> コンポーネントを使うこともできるでしょう。</p>
+<p>一般的な問題を改めて解決する代わりに、Symfony2 にそれらの面倒を見させることができます。以下が Symfony2 を使った同じサンプルアプリケーションです。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// src/Acme/BlogBundle/Controller/BlogController.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\BlogBundle\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Controller\Controller</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">BlogController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">listAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$posts</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;doctrine&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getManager</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">createQuery</span><span class="p">(</span><span class="s1">&#39;SELECT p FROM AcmeBlogBundle:Post p&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">execute</span><span class="p">();</span>
+
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Blog:list.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;posts&#39;</span> <span class="o">=&gt;</span> <span class="nv">$posts</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">showAction</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$post</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;doctrine&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">getManager</span><span class="p">()</span>
+            <span class="o">-&gt;</span><span class="na">getRepository</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Post&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// cause the 404 page not found to be displayed</span>
+            <span class="k">throw</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createNotFoundException</span><span class="p">();</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;AcmeBlogBundle:Blog:show.html.php&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;post&#39;</span> <span class="o">=&gt;</span> <span class="nv">$post</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>2つのコントローラはまだ軽量です。それぞれ、データベースからオブジェクトを取り出すために Doctrine ORM ライブラリを使用し、テンプレートをレンダリングして <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返すために <tt class="docutils literal"><span class="pre">Templating</span></tt> コンポーネントを使用しています。一覧表示のテンプレートは少しシンプルになりました。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/BlogBundle/Resources/views/Blog/list.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">extend</span><span class="p">(</span><span class="s1">&#39;::layout.html.php&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;投稿のリスト&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+
+<span class="nt">&lt;h1&gt;</span>投稿のリスト<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;ul&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$posts</span> <span class="k">as</span> <span class="nv">$post</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;router&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;blog_show&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;id&#39;</span> <span class="o">=&gt;</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="na">getId</span><span class="p">()))</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$post</span><span class="o">-&gt;</span><span class="na">getTitle</span><span class="p">()</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;/a&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p>レイアウトはほとんど全く同じです。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- app/Resources/views/layout.html.php --&gt;</span>
+<span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;デフォルトのタイトル&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;slots&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">output</span><span class="p">(</span><span class="s1">&#39;_content&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">単一表示のテンプレートはエクササイズとして残しておきます。一覧表示のテンプレートを元にして作成するのは簡単なはずです。</p>
+</div>
+<p>Symfony2 のエンジン(<tt class="docutils literal"><span class="pre">カーネル</span></tt> と呼ばれます)が起動する時には、リクエスト情報を元にどのコントローラが実行されるかを知るためのマップを必要とします。ルーティング設定のマップは、読みやすいフォーマットでこの情報を提供します。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/routing.yml</span>
+<span class="l-Scalar-Plain">blog_list</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/blog</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">AcmeBlogBundle</span><span class="p-Indicator">:</span><span class="nv">Blog</span><span class="p-Indicator">:</span><span class="nv">list</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">blog_show</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/blog/show/{id}</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">AcmeBlogBundle</span><span class="p-Indicator">:</span><span class="nv">Blog</span><span class="p-Indicator">:</span><span class="nv">show</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<p>Symfony2 は全てのタスクを扱うようになり、フロントコントローラは完全にシンプルになりました。フロントコントローラが行うことはとても少ないので、一度作ったら最後、2度と触る必要はありません(Symfony2 ディストリビューションを使う時には、わざわざ作る必要すらありません！) 。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
+<span class="c1">// web/app.php</span>
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../app/bootstrap.php&#39;</span><span class="p">;</span>
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../app/AppKernel.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+
+<span class="nv">$kernel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">AppKernel</span><span class="p">(</span><span class="s1">&#39;prod&#39;</span><span class="p">,</span> <span class="k">false</span><span class="p">);</span>
+<span class="nv">$kernel</span><span class="o">-&gt;</span><span class="na">handle</span><span class="p">(</span><span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>フロントコントローラの唯一の仕事は、Symfony2 のエンジン(<tt class="docutils literal"><span class="pre">カーネル</span></tt>)を初期化し、<tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトが取り扱えるよう渡すことです。Symfony2 のコアはそれからどのコントローラを呼び出すか決めるためルーティングマップを使います。以前と同じように、コントローラのメソッドは最終的な <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返すことに責任を持っています。
+それ以外には特にありません。</p>
+<p>Symfony2 がそれぞれのリクエストをどのように取り扱うかのビジュアルな説明は、<a class="reference internal" href="http_fundamentals.html#request-flow-figure"><em>request flow diagram</em></a> を参照してください。</p>
+</div>
+<div class="section" id="id7">
+<h3>Symfony2 が提供するもの<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>次の章では、 Symfony のそれぞれの部分がどのように動くのかや、プロジェクトで推奨される体系化の方法について学んでいきます。さしあたり、ブログをフラットな PHP から Symfony2 に移行することがどのように生活の質を向上させるかを見ましょう。</p>
+<ul class="simple">
+<li>アプリケーションは<strong>明確で一貫性のある体系付けられたコード</strong>になりました(Symfony を通じてそう強要したわけではありません)。これは<strong>再利用性</strong>を高め、新しい開発者がプロジェクト内ですばやく生産的になれるようにします。</li>
+<li>コードの100%全てが<strong>あなたの</strong>アプリケーションのものです。<a class="reference internal" href="page_creation.html#autoloading-introduction-sidebar"><em>オートロード</em></a>や<a class="reference internal" href="routing.html"><em>ルーティング</em></a>、<a class="reference internal" href="controller.html"><em>コントローラ</em></a>のレンダリングといった<strong>低レベルなユーティリティを開発したりメンテナンスする必要はありません</strong>。</li>
+<li>Symfony2 は、Doctrine や テンプレート、セキュリティ、フォーム、バリデーション、翻訳のコンポーネントといった<strong>オープンソースのツールへのアクセス</strong>を提供します。</li>
+<li>アプリケーションは、<tt class="docutils literal"><span class="pre">Routing</span></tt> コンポーネントのおかげで、<em>完全に柔軟な URL</em> を実現しています。</li>
+<li>Symfony2 の HTTP 中心のアーキテクチャは、<strong>Symfony2 の内部 HTTP キャッシュ</strong>を使って動作する <strong>HTTP キャッシング</strong>や、さらにパワフルな <a class="reference external" href="http://www.varnish-cache.org">Varnish</a> のようなツールへのアクセスを提供します。これは後で、<a class="reference internal" href="http_cache.html"><em>キャッシング</em></a>の全てで扱われます。</li>
+</ul>
+<p>そして何よりも素晴らしいのは、Symfony2 を使うことで<strong>Symfony2 コミュニティによって開発された高品質なオープンソースツール</strong>の集合全体へアクセスすることができるのです！さらに詳しい情報は、<a href="#id10"><span class="problematic" id="id11">`Symfony2Bundles.org`_</span></a> を参照してください。</p>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>よりよいテンプレート<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 を使うことに決めたら、Symfony2 は 標準的に <a class="reference external" href="http://twig.sensiolabs.org">Twig</a> と呼ばれる、テンプレートの書き込みを早く、読み出しを簡単にするテンプレートエンジンが同梱されてきます。これは、サンプルアプリケーションがさらに少ないコードで動くことを意味しています！例として、Twig で書かれた一覧表示のテンプレートを挙げます。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/BlogBundle/Resources/views/Blog/list.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;::layout.html.twig&quot;</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>投稿のリスト<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}</span>
+    <span class="nt">&lt;h1&gt;</span>投稿のリスト<span class="nt">&lt;/h1&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="cp">{%</span> <span class="k">for</span> <span class="nv">post</span> <span class="k">in</span> <span class="nv">posts</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;</span>
+            <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;blog_show&#39;</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;id&#39;</span><span class="o">:</span> <span class="nv">post.id</span><span class="o">})</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+                <span class="cp">{{</span> <span class="nv">post.title</span> <span class="cp">}}</span>
+            <span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;/li&gt;</span>
+        <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>対応する <tt class="docutils literal"><span class="pre">layout.html.twig</span></tt> テンプレートも同じく簡単に書くことができます。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# app/Resources/views/layout.html.twig #}</span>
+
+<span class="cp">&lt;!doctype html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>デフォルトのタイトル<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>Twig は Symfony2 でうまくサポートされています。そして、PHP テンプレートが常に Symfony2 でサポートされる一方で、Twig の多くの長所についても議論を続けていくつもりです。詳しい情報は、<a class="reference internal" href="templating.html"><em>テンプレートの章</em></a>を参照してください。</p>
+</div>
+<div class="section" id="id9">
+<h2>クックブックからのより詳しい情報<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="../cookbook/templating/PHP.html"><em>PHP をテンプレートエンジンとして使う</em></a></li>
+<li><a class="reference internal" href="../cookbook/controller/service.html"><em>コントローラをサービスとして定義する方法</em></a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="http_fundamentals.html">< Symfony2 と HTTP の基礎</a>
+<a class="next" href="installation.html">Symfony のインストールと設定 ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/book/from_flat_php_to_symfony2.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/from_flat_php_to_symfony2.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/from_flat_php_to_symfony2.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Symfony2 vs フラットなPHP</a><ul>
+<li><a class="reference internal" href="#php">フラットな PHP による単純なブログ</a><ul>
+<li><a class="reference internal" href="#id1">表示部分の分離</a></li>
+<li><a class="reference internal" href="#id2">アプリケーション (ドメイン) ロジックの分離</a></li>
+<li><a class="reference internal" href="#id3">レイアウトの分離</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#show">ブログの「show (単独表示) 」ページを追加</a></li>
+<li><a class="reference internal" href="#id4">「フロントコントローラ」の出番</a><ul>
+<li><a class="reference internal" href="#id5">フロントコントローラの作成</a></li>
+<li><a class="reference internal" href="#symfony2">ちょっと Symfony2 の考えを加える</a></li>
+<li><a class="reference internal" href="#id6">Symfony2でのサンプルアプリケーション</a></li>
+<li><a class="reference internal" href="#id7">Symfony2 が提供するもの</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">よりよいテンプレート</a></li>
+<li><a class="reference internal" href="#id9">クックブックからのより詳しい情報</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="http_fundamentals.html"
+                        title="previous chapter">Symfony2 と HTTP の基礎</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="installation.html"
+                        title="next chapter">Symfony のインストールと設定</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/book/from_flat_php_to_symfony2.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

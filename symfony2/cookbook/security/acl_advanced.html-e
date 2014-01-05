@@ -1,0 +1,381 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>高度な ACL のコンセプト | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="acl">
+<span id="index-0"></span><h1>高度な ACL のコンセプト<a class="headerlink" href="#acl" title="Permalink to this headline">¶</a></h1>
+<p>この章の目的は、 ACL システムの詳細と、その背景となる設計決定について説明することです。</p>
+<div class="section" id="id1">
+<h2>設計コンセプト<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2 のオブジェクトインスタンスのセキュリティは、アクセス制御リストのコンセプトに基づいています。全てのドメインオブジェクトの <strong>インスタンス</strong> は、独自の ACL を持ってます。 ACL インスタンスは、実際のアクセス可否の決定をするアクセス制御エンティティ(ACEs)の詳細なリストを持っています。 Symfony2 の ACL システムには、次の２つの目的があります。</p>
+<ul class="simple">
+<li>効率的にドメインオブジェクトに対するたくさんの ACLs/ACEs を取り出し、変更する方法を提供すること</li>
+<li>あるユーザがドメインオブジェクトに対して動作を行うことができるか、簡単に決定をする方法を提供すること</li>
+</ul>
+<p>まず最初のポイントとして、 Symfony2 の ACL システムの主な性能は ACLs/ACEs の取り出しのパフォーマンスが良いことです。このハイパフォーマンス性能は ACL がたくさんの ACEs を持っていたり、ツリー構造から継承していた際などに特に重要になります。そのため、データベース接続にどの ORM も使用しません。しかし、デフォルトの実装は Doctrine DBAL を直接使用して接続を行います。</p>
+<div class="section" id="object-identities">
+<h3>オブジェクトアイデンティティ(Object Identities)<a class="headerlink" href="#object-identities" title="Permalink to this headline">¶</a></h3>
+<p>ACL システムはドメインオブジェクトと完全に切り離されています。同じデータベースに格納する必要もありませんし、同じサーバである必要もありません。この切り離しのために、 ACL システムではオブジェクトはオブジェクトアイデンティティ(Object Identity)オブジェクトを介して表されます。毎回、ドメインオブジェクトの ACL を取り出す際に、次の処理のために、このオブジェクトアイデンティティを ACL のプロバイダに渡します。</p>
+</div>
+<div class="section" id="security-identities">
+<h3>セキュリティアイデンティティ(Security Identities)<a class="headerlink" href="#security-identities" title="Permalink to this headline">¶</a></h3>
+<p>セキュリティアイデンティティは、オブジェクトアイデンティティと類似していますが、ユーザやアプリケーションの権限を表してます。それぞれの権限やユーザは独自のセキュリティアイデンティティを持っています。</p>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>データベースのテーブル構造<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>デフォルトの実装は、以下にあるように５つのデータベースのテーブルを使用します。テーブルは、典型的なアプリケーションで列の大きさの小さい順で並べてあります。</p>
+<ul class="simple">
+<li><em>acl_security_identities</em>: このテーブルは、全ての ACE を持つセキュリティアイデンティティ(SID)を記録します。デフォルトの実装では、 <tt class="docutils literal"><span class="pre">RoleSecurityIdentity</span></tt> と <tt class="docutils literal"><span class="pre">UserSecurityIdentity</span></tt> の２つのアイデンティティがあります。</li>
+<li><em>acl_classes</em>: このテーブルは、他のテーブルから参照できるようにクラス名をユニークな id でマップします。</li>
+<li><em>acl_object_identities</em>: このテーブルの各列は、単独のドメインオブジェクトインスタンスを表します。</li>
+<li><em>acl_object_identity_ancestors</em>: このテーブルは、とても効率的な方法で ACL の祖先を全て決定できるようにします。</li>
+<li><em>acl_entries</em>: このテーブルは、全ての ACE を含みます。ほとんどの場合、このテーブルが最も列が大きくなります。パフォーマンスに影響を与えることなく数千万件含むことができます。</li>
+</ul>
+</div>
+<div class="section" id="ace">
+<h2>アクセス制御エンティティ(ACE)のスコープ<a class="headerlink" href="#ace" title="Permalink to this headline">¶</a></h2>
+<p>アクセス制御エンティティは、異なるスコープを持つことができます。 Symfony2 では、基本的に２つのスコープを持つことなります。</p>
+<ul class="simple">
+<li>Class-Scope: エンティティを、全てのオブジェクトを同じクラスに適用します</li>
+<li>Object-Scope: エンティティを、単体で使うスコープで、特定のオブジェクトのみにに適用します</li>
+</ul>
+<p>オブジェクトの特定のフィールドのみに ACE を適用する必要があるときもあります。例えば ID のみを管理者に見えるようにして、他の人には見せないようにするとしましょう。この問題を解決するに、サブスコープをさらに２つ追加しました。</p>
+<ul class="simple">
+<li>Class-Field-Scope: エンティティは、全てのオブジェクトを同じクラスに適用しますが、オブジェクトの特定のフィールドのみです</li>
+<li>Object-Field-Scope: エンティティは、特定のオブジェクトに適用しますが、そのオブジェクトの特定のフィールドのみです</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>認証前の決定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>メソッドやセキュアなアクションが実行される前の決定である認証前決定では、実績があり権限に基づいた認証決定に使用される AccessDecisionManager サービスを使用します。権限と同じように、 ACL システムは異なるパーミッションを調べるための新しい属性を追加します。</p>
+<div class="section" id="id4">
+<h3>ビルトインされているパーミッションマップ<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="37%" />
+<col width="39%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">属性</th>
+<th class="head">目的</th>
+<th class="head">整数値のビットマスク</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>VIEW</td>
+<td>ドメインオブジェクトを参照
+できるか否か</td>
+<td>VIEW, EDIT, OPERATOR
+MASTER, or OWNER</td>
+</tr>
+<tr class="row-odd"><td>EDIT</td>
+<td>ドメインオブジェクトを変更
+することができるか否か</td>
+<td>EDIT, OPERATOR, MASTER,
+or OWNER</td>
+</tr>
+<tr class="row-even"><td>CREATE</td>
+<td>ドメインオブジェクトを作成
+できるか否か</td>
+<td>CREATE, OPERATOR, MASTER,
+or OWNER</td>
+</tr>
+<tr class="row-odd"><td>DELETE</td>
+<td>ドメインオブジェクトを削除
+できるか否か</td>
+<td>DELETE, OPERATOR, MASTER,
+or OWNER</td>
+</tr>
+<tr class="row-even"><td>UNDELETE</td>
+<td>削除されたドメインオブジェ
+クトを元に戻すことができる
+か否か</td>
+<td>UNDELETE, OPERATOR, MASTER,
+or OWNER</td>
+</tr>
+<tr class="row-odd"><td>OPERATOR</td>
+<td>ユーザが上記のアクションを
+全て行うことができるか否か</td>
+<td>OPERATOR, MASTER, or OWNER</td>
+</tr>
+<tr class="row-even"><td>MASTER</td>
+<td>ユーザが上記のアクションを
+全て行うことができるか否か
+、また、他ユーザに上記のア
+クションを与えることができ
+るか否か</td>
+<td>MASTER, or OWNER</td>
+</tr>
+<tr class="row-odd"><td>OWNER</td>
+<td>ドメインオブジェクトのオー
+ナーか否か。オーナーは、全
+てのアクションを行うことが
+でき、 <em>かつ</em> マスター権限
+とオーナー権限を与えること
+ができる</td>
+<td>OWNER</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="vs">
+<h3>パーミッション属性 vs. パーミッションビットマスク<a class="headerlink" href="#vs" title="Permalink to this headline">¶</a></h3>
+<p>AccessDecisionManager の属性のように、権限が使用をします。実際にこれらの属性は整数値のビットマスクの集合なります。整数値のビットマスクは、内部的に ACL システムで使用され、効率的にユーザのパーミッションをデータベースに保存します。そしてとても効率の良いビットマスクオペレーションによってアクセス権限をチェックします。</p>
+</div>
+<div class="section" id="id5">
+<h3>拡張性<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>上記のパーミッションマップは、決して静的なものではなく、理論的には完全に置き換えが可能です。しかし、そうすることで問題が起きやすく、また他のバンドルとの兼ね合いもあるため、このまま使用することを推奨します。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>認証後決定<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>認証後決定は、セキュアメソッドが実行された後に行われ、そのメソッドによって返ってきたドメインオブジェクトを含むことになります。起動プロバイダは、ドメインオブジェクトを返す前に変更、フィルターすることができます。</p>
+<p>現時点の PHP 言語の制約のため、コアセキュリティのコンポーネントに組み込まれた認証後の機能はありません。しかし、 <a class="reference external" href="https://github.com/schmittjoh/JMSSecurityExtraBundle">JMSSecurityExtraBundle</a> には認証後の機能があります。そのやり方の詳細は JMSSecurityExtraBundle のドキュメントを参照してください。</p>
+</div>
+<div class="section" id="id7">
+<h2>認証決定へのプロセス<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>ACL クラスはセキュリティアイデンティティが必要なビットマスクを持っているかを決定する２つのメソッドを提供します。 <tt class="docutils literal"><span class="pre">isGranted</span></tt> と <tt class="docutils literal"><span class="pre">isFieldGranted</span></tt> です。 ACL がこれらのメソッドで認証リクエストを受け取ると、 PermissionGrantingStrategy の実装にリクエストを移譲します。 PermissionGrantingStrategy を使うと、ACL クラス自体を変更しなくても、アクセス可否の決定をすることができます。</p>
+<p>PermissionGrantingStrategy は、まずあなたのオブジェクトスコープの ACE を全て調べ、何も適用できなければ。クラススコープお ACE を調べます。それでも適用がなければ、このプロセスが親の ACL の ACE にとして繰り返されます。親の ACL にも無い際には例外が投げられます。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/security/acl_advanced.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/security/acl_advanced.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/security/acl_advanced.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">高度な ACL のコンセプト</a><ul>
+<li><a class="reference internal" href="#id1">設計コンセプト</a><ul>
+<li><a class="reference internal" href="#object-identities">オブジェクトアイデンティティ(Object Identities)</a></li>
+<li><a class="reference internal" href="#security-identities">セキュリティアイデンティティ(Security Identities)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">データベースのテーブル構造</a></li>
+<li><a class="reference internal" href="#ace">アクセス制御エンティティ(ACE)のスコープ</a></li>
+<li><a class="reference internal" href="#id3">認証前の決定</a><ul>
+<li><a class="reference internal" href="#id4">ビルトインされているパーミッションマップ</a></li>
+<li><a class="reference internal" href="#vs">パーミッション属性 vs. パーミッションビットマスク</a></li>
+<li><a class="reference internal" href="#id5">拡張性</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">認証後決定</a></li>
+<li><a class="reference internal" href="#id7">認証決定へのプロセス</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/security/acl_advanced.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

@@ -7,9 +7,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
     <title>データベースと Doctrine (“The Model”) | Symfony2日本語ドキュメント</title>
-    <link rel="stylesheet" href="../_static/basic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/configurationblock.css" type="text/css" />
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
@@ -19,11 +19,11 @@
         HAS_SOURCE:  true
       };
     </script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/js/jquery.corner.js"></script>
-      <script type="text/javascript" src="../_static/configurationblock.js"></script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
       <script type="text/javascript">
       $(function(){
           $('.section h1').corner();
@@ -153,7 +153,7 @@ parameters
 <div class="section" id="book-doctrine-adding-mapping">
 <span id="index-1"></span><span id="id4"></span><h3>マッピング情報の付加<a class="headerlink" href="#book-doctrine-adding-mapping" title="Permalink to this headline">¶</a></h3>
 <p>Doctrine では、単にカラムベースのテーブルを配列にしてフェッチするといったやり方よりも興味深いやり方で、データベースと連携することができます。オブジェクトそのものをデータベースに永続化して、データベースからオブジェクトそのものをフェッチしてくるのです。これは、PHP クラスをデータベーステーブルにマップし、クラスのプロパティをテーブルのカラムにマップすることで可能になります。</p>
-<img alt="../_images/doctrine_image_1.png" class="align-center" src="../_images/doctrine_image_1.png" />
+<img alt="../images/doctrine_image_1.png" class="align-center" src="../_images/doctrine_image_1.png" />
 <p>Doctrine がこの作業をできるようにするには、&#8221;metadata（メタデータ）&#8221; を作成するか、<tt class="docutils literal"><span class="pre">Product</span></tt> クラスとそのプロパティがデータベースにどの様にマップされるのか、という設定を作成するだけです。metadata は、色々なフォーマットで記述することが可能で、YAML や XML ファイルに記述するか、アノテーションとして <tt class="docutils literal"><span class="pre">Product</span></tt> クラスに直接記述することもできます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -417,7 +417,7 @@ php app/console doctrine:generate:entities Acme
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p>ページがレンダリングされるときは、何本のクエリが走ったのか、web debug toolbar の右下で確認することができます。</p>
-<a class="reference internal image-reference" href="../_images/doctrine_web_debug_toolbar.png"><img alt="../_images/doctrine_web_debug_toolbar.png" class="align-center" src="../_images/doctrine_web_debug_toolbar.png" style="width: 175.0px;" /></a>
+<a class="reference internal image-reference" href="../images/doctrine_web_debug_toolbar.png"><img alt="../_images/doctrine_web_debug_toolbar.png" class="align-center" src="../_images/doctrine_web_debug_toolbar.png" style="width: 175.0px;" /></a>
 <p class="last">アイコンをクリックすると、profiler が開き、どんなクエリが発行されたのかが表示されます。</p>
 </div>
 </div>
@@ -712,7 +712,7 @@ php app/console doctrine:generate:entities Acme
 </div>
 <p>Doctrine の metadata のことは、一瞬忘れてみてください。現在、二つのクラス <tt class="docutils literal"><span class="pre">Category</span></tt> と <tt class="docutils literal"><span class="pre">Product</span></tt> が、普通の one-to-many リレーションを持っています。<tt class="docutils literal"><span class="pre">Category</span></tt> クラスが、<tt class="docutils literal"><span class="pre">Product</span></tt> オブジェクトの配列を持ち、<tt class="docutils literal"><span class="pre">Product</span></tt> が1つの <tt class="docutils literal"><span class="pre">Category</span></tt> オブジェクトを保持することができます。言いたいのは、これは、自分の要件にうまく合うようにクラスを作成した、ということです。データベースに永続化する、ということは、常に二番手にくる話です。</p>
 <p>では、<tt class="docutils literal"><span class="pre">Product</span></tt> クラスの <tt class="docutils literal"><span class="pre">$category</span></tt> プロパティの metadata を見てみましょう。ここで Doctrine に伝えている情報というのは、関連付けられるクラスは <tt class="docutils literal"><span class="pre">Category</span></tt> で、そのレコードの <tt class="docutils literal"><span class="pre">id</span></tt> を <tt class="docutils literal"><span class="pre">product</span></tt> テーブル上の <tt class="docutils literal"><span class="pre">category_id</span></tt> レコードにストアしろ、ということです。つまり、関連付けられる <tt class="docutils literal"><span class="pre">Cateogry</span></tt> オブジェクトそのものは <tt class="docutils literal"><span class="pre">$category</span></tt> プロパティにストアされるのですが、その裏では、Doctrine がこのリレーションを、<tt class="docutils literal"><span class="pre">product</span></tt> テーブルの <tt class="docutils literal"><span class="pre">category_id</span></tt> カラム上に、カテゴリのIDをストアすることで永続化していると言えます。</p>
-<img alt="../_images/doctrine_image_2.png" class="align-center" src="../_images/doctrine_image_2.png" />
+<img alt="../images/doctrine_image_2.png" class="align-center" src="../_images/doctrine_image_2.png" />
 <p><tt class="docutils literal"><span class="pre">Category</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">$products</span></tt> プロパティの metadata はこれよりは重要ではなく、リレーションがどのようにマップされているのかを解決するためには、<tt class="docutils literal"><span class="pre">Product.category</span></tt> プロパティを見ろ、と言っているだけです。</p>
 <p>続きを見ていく前に、Doctrine に <tt class="docutils literal"><span class="pre">category</span></tt> テーブル、<tt class="docutils literal"><span class="pre">product.category_id</span></tt> カラム、そして外部キーを追加させるのを忘れないで下さい。</p>
 <div class="highlight-bash"><div class="highlight"><pre>php app/console doctrine:schema:update --force
@@ -775,7 +775,7 @@ php app/console doctrine:generate:entities Acme
 </pre></div>
 </div>
 <p>この例では、商品の <tt class="docutils literal"><span class="pre">id</span></tt> に基づいた <tt class="docutils literal"><span class="pre">Product</span></tt> オブジェクトへのクエリが一つ目のクエリです。ここでは、商品データ<em>のみ</em>へのクエリと、結果データを用いての <tt class="docutils literal"><span class="pre">$product</span></tt> オブジェクトへのハイドレートが行われます。その後、<tt class="docutils literal"><span class="pre">$product-&gt;getCategory()-&gt;getName()</span></tt> 呼び出しが行われると、Doctrine が無言で二つ目のクエリを発行します。現在の <tt class="docutils literal"><span class="pre">Product</span></tt> に関連付けられた <tt class="docutils literal"><span class="pre">Category</span></tt> の取得です。そして<tt class="docutils literal"><span class="pre">$category</span></tt> オブジェクトを用意し、返します。</p>
-<img alt="../_images/doctrine_image_3.png" class="align-center" src="../_images/doctrine_image_3.png" />
+<img alt="../images/doctrine_image_3.png" class="align-center" src="../_images/doctrine_image_3.png" />
 <p>重要なのは、商品に関連したカテゴリに簡単にアクセスできたということと、そのカテゴリのデータは、これを問い合わせた時まで取得されない(「遅延読み込み」) ということです。</p>
 <p>逆方向からのクエリも可能です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">showProductAction</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
@@ -1140,7 +1140,7 @@ php app/console doctrine:generate:entities Acme
                         title="next chapter">テスト</a></p>
   <h3>ソース</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/book/doctrine.txt"
+    <li><a href="../sources/book/doctrine.txt"
            rel="nofollow">ページのソースを表示</a></li>
   </ul>
 <div id="searchbox" style="display: none">

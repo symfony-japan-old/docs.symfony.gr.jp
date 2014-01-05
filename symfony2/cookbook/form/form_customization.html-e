@@ -1,0 +1,1021 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>フォームのレンダリングのカスタマイズ方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>翻訳更新日：2013/04/08</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h1>フォームのレンダリングのカスタマイズ方法<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Symfony は、フォームのレンダリングをカスタマイズする方法をいくつか用意しています。この記事では、テンプレートエンジンに Twig, PHP のどちらを使用しても、最小の努力で全てのフォームのパーツをカスタマイズする方法を学びます。</p>
+<div class="section" id="id2">
+<h2>フォームレンダリングの基本<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>次のように <tt class="docutils literal"><span class="pre">form_row</span></tt> を使用することで、フォームフィールドのラベル、エラー、 HTML ウィジェットを簡単に表示することができるのを覚えてますでしょうか？</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.age</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>また個々のフィールドを３つのパーツにしてそれぞれ表示することもできます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="x">&lt;div&gt;</span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.age</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form.age</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.age</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>
+    <span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">    </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>両方のケースで、 Symfony Standard Edition に付いてくるマークアップを使用して、フォームラベル、エラー、 HTML ウィジェットを表示します。例えば、上記の双方ともが以下のように表示されることになります。</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;div&gt;</span>
+    <span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;form_age&quot;</span><span class="nt">&gt;</span>Age<span class="nt">&lt;/label&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="nt">&lt;li&gt;</span>This field is required<span class="nt">&lt;/li&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span> <span class="na">id=</span><span class="s">&quot;form_age&quot;</span> <span class="na">name=</span><span class="s">&quot;form[age]&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>素早くプロトタイプして、フォームをテストするには、全てのフォームを一行で表示することができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>このレシピの残りでは、フォームのマークアップの全てのパーツを、いろんな異なるレベルでどうやって変更するかについて説明します。一般的なフォームレンダリングに関しての詳細は、 <em class="xref std std-ref">form-rendering-templates</em> を参照してください。</p>
+</div>
+<div class="section" id="cookbook-form-customization-form-themes">
+<span id="id3"></span><h2>フォームテーマとは何か？<a class="headerlink" href="#cookbook-form-customization-form-themes" title="Permalink to this headline">¶</a></h2>
+<p>Symfony はフォームのフラグメントを使用します。フォームのフラグメントとは、フィールドのラベルやエラーや <tt class="docutils literal"><span class="pre">input</span></tt> 入力テキストフィールド、 <tt class="docutils literal"><span class="pre">select</span></tt> 選択リストタグなどのフォームの各部を構成するパーツ１つのみの小さなテンプレートです。</p>
+<p>フラグメントは Twig では、ブロックとして、 PHP ではテンプレートファイルとして定義されます。</p>
+<p><em>theme</em> はフォームを表示する際に使用するフラグメントのセットに他なりません。つまり、フォームの表示の一部をカスタマイズするには、適切なフォームフラグメントのカスタマイズを含んだ <em>theme</em> をインポートすることになります。</p>
+<p>Symfony は、デフォルトのテーマ (Twig の際は <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig">form_div_layout.html.twig</a> 、 PHP の際は <tt class="docutils literal"><span class="pre">FrameworkBundle:Form</span></tt> ) が付いてきます。このデフォルトのテーマは、フォームの全てのパーツとして表示されるべき全てのフラグメントを定義します。</p>
+<p>次のセクションでは、このフラグメントの一部、もしくは全部をどうやってオーバーライドしてテーマをカスタマイズするかを学びます。</p>
+<p>例えば、 <tt class="docutils literal"><span class="pre">integer</span></tt> タイプフィールドのウィジェットが表示されると、 <tt class="docutils literal"><span class="pre">input</span></tt> <tt class="docutils literal"><span class="pre">number</span></tt> フィールドが生成されます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.age</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>は次のように表示されます。</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;number&quot;</span> <span class="na">id=</span><span class="s">&quot;form_age&quot;</span> <span class="na">name=</span><span class="s">&quot;form[age]&quot;</span> <span class="na">required=</span><span class="s">&quot;required&quot;</span> <span class="na">value=</span><span class="s">&quot;33&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>内部的に、 Symfony はフィールドを表示するために <tt class="docutils literal"><span class="pre">integer_widget</span></tt> フラグメントを使用します。それは、フィールドタイプが <tt class="docutils literal"><span class="pre">integer</span></tt> で、 <tt class="docutils literal"><span class="pre">label</span></tt> や <tt class="docutils literal"><span class="pre">errors</span></tt> ではなく、この <tt class="docutils literal"><span class="pre">widget</span></tt> を表示しているからです。</p>
+<p>Twig では、 <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig">form_div_layout.html.twig</a> テンプレートの <tt class="docutils literal"><span class="pre">integer_widget</span></tt> ブロックをデフォルトとして使用します。</p>
+<p>PHP では、 <tt class="docutils literal"><span class="pre">FrameworkBundle/Resources/views/Form</span></tt> フォルダの <tt class="docutils literal"><span class="pre">integer_widget.html.php</span></tt> ファイルを使用します。</p>
+<p><tt class="docutils literal"><span class="pre">integer_widget</span></tt> フラグメントのデフォルトの実装は以下のようになっています。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">block</span> <span class="nv">integer_widget</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">set</span> <span class="nv">type</span> <span class="o">=</span> <span class="nv">type</span><span class="o">|</span><span class="nf">default</span><span class="o">(</span><span class="s1">&#39;number&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;form_widget_simple&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">integer_widget</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- integer_widget.html.php --&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">block</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="s1">&#39;form_widget_simple&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">?</span> <span class="nv">$type</span> <span class="o">:</span> <span class="s2">&quot;number&quot;</span><span class="p">))</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>上記を見ればわかるように、このフラグメント自体は、他のフラグメント <tt class="docutils literal"><span class="pre">form_widget_simple</span></tt> を表示しています。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# form_div_layout.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">form_widget_simple</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">set</span> <span class="nv">type</span> <span class="o">=</span> <span class="nv">type</span><span class="o">|</span><span class="nf">default</span><span class="o">(</span><span class="s1">&#39;text&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">type</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;widget_attributes&#39;</span><span class="o">)</span> <span class="cp">}}</span> <span class="cp">{%</span> <span class="k">if</span> <span class="nv">value</span> <span class="k">is</span> <span class="k">not</span> <span class="nf">empty</span> <span class="cp">%}</span><span class="na">value=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">value</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="nt">/&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">form_widget_simple</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- FrameworkBundle/Resources/views/Form/form_widget_simple.html.php --&gt;</span>
+<span class="nt">&lt;input</span>
+    <span class="na">type=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">?</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">:</span> <span class="s1">&#39;text&#39;</span> <span class="cp">?&gt;</span><span class="s">&quot;</span>
+    <span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$value</span><span class="p">))</span><span class="o">:</span> <span class="cp">?&gt;</span><span class="na">value=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">endif</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">block</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="s1">&#39;widget_attributes&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+<span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>ポイントは、フラグメントがフォームのそれぞれの部分の HTML 出力を担っていることです。フォームの出力をカスタマイズするには、正しいフラグメントを確認して、オーバーライドするだけです。フォームフラグメントのセットのカスタマイズは、フォーム &#8220;theme&#8221; となります。フォームを表示する際に、適用したいテーマを選択することができます。</p>
+<p>Twig では、テーマは、１つのテンプレートファイルになり、フラグメントは、そのファイルで定義されたブロックになります。</p>
+<p>PHP では、テーマは、１つのフォルダになり、フラグメントは、そのフォルダ内の個々のテンプレートファイルになります。</p>
+<div class="sidebar" id="cookbook-form-customization-sidebar">
+<p class="first sidebar-title">どのブロックをカスタマイズするか知る</p>
+<p>この例では、カスタマイズされたフラグメントの名前は、全ての <tt class="docutils literal"><span class="pre">integer</span></tt> フィールドタイプの HTML <tt class="docutils literal"><span class="pre">widget</span></tt> をオーバーライドすることになったので <tt class="docutils literal"><span class="pre">integer_widget</span></tt> になります。もしテキストエリアフィールドをカスタマイズすることになれば、 <tt class="docutils literal"><span class="pre">textarea_widget</span></tt> をカスタマイズすることになります。</p>
+<p>このようにフラグメントの名前は、フィールドタイプと <tt class="docutils literal"><span class="pre">widget</span></tt>, <tt class="docutils literal"><span class="pre">label</span></tt>, <tt class="docutils literal"><span class="pre">errors</span></tt>, <tt class="docutils literal"><span class="pre">rows</span></tt> のように表示するフィールドのパーツを結合したものです。そのため、入力 <tt class="docutils literal"><span class="pre">text</span></tt> フィールドのエラーの表示をカスタマイズするには、 <tt class="docutils literal"><span class="pre">text_errors</span></tt> フラグメントをカスタマイズする必要があります。</p>
+<p>しかし、より一般的には、 <em>全て</em> のフィールドに渡ったエラーの表示方法をカスタマイズするときもあります。その際には、 <tt class="docutils literal"><span class="pre">form_errors</span></tt> フラグメントをカスタマイズしてください。これでフィールドタイプの継承ができます。 <tt class="docutils literal"><span class="pre">text</span></tt> タイプは <tt class="docutils literal"><span class="pre">field</span></tt> タイプから継承していますので、フォームコンポーネントは、 <tt class="docutils literal"><span class="pre">form_errors</span></tt> のような親フラグメントの名前を探す前に、 <tt class="docutils literal"><span class="pre">text_errors</span></tt> のような特定のタイプのフラグメントを探します。</p>
+<p class="last">このトピックに関する詳細は、 <a class="reference internal" href="../../book/forms.html#form-template-blocks"><em>Form Template Blocks</em></a> を参照してください。</p>
+</div>
+</div>
+<div class="section" id="cookbook-form-theming-methods">
+<span id="id4"></span><h2>フォームをテーマ化する<a class="headerlink" href="#cookbook-form-theming-methods" title="Permalink to this headline">¶</a></h2>
+<p>フォームのテーマ化のパワーを見るために、全ての入力 <tt class="docutils literal"><span class="pre">number</span></tt> フィールドを <tt class="docutils literal"><span class="pre">div</span></tt> タグでラップする例を見てみましょう。このためのポイントは、 <tt class="docutils literal"><span class="pre">integer_widget</span></tt> フラグメントのカスタマイズです。</p>
+</div>
+<div class="section" id="twig">
+<h2>Twig でフォームをテーマ化する<a class="headerlink" href="#twig" title="Permalink to this headline">¶</a></h2>
+<p>Twig でフォームフィールドのブロックをカスタマイズする際に、カスタマイズしたフォームブロックを置く <em>場所</em> に関して２つのオプションがあります。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="33%" />
+<col width="30%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">方法</th>
+<th class="head">メリット</th>
+<th class="head">デメリット</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>フォームと同じテンプレートの中</td>
+<td>速く簡単に可能</td>
+<td>他のテンプレートで再利用できない</td>
+</tr>
+<tr class="row-odd"><td>別のテンプレートの中</td>
+<td>多くのテンプレートで再利用可能</td>
+<td>専用のテンプレートを作成しなければならない</td>
+</tr>
+</tbody>
+</table>
+<p>両方の方法で、同じことが可能ですが、シチュエーションによってどちらが適切か異なります。</p>
+<div class="section" id="cookbook-form-twig-theming-self">
+<span id="id5"></span><h3>方法 1: フォームと同じテンプレートの中<a class="headerlink" href="#cookbook-form-twig-theming-self" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">integer_widget</span></tt> ブロックをカスタマイズする最も簡単な方法は、実際にフォームを表示するテンプレートを直接カスタマイズすることです。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;::base.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">form_theme</span> <span class="nv">form</span> <span class="p">_</span><span class="nv">self</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">integer_widget</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;integer_widget&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{%</span> <span class="k">set</span> <span class="nv">type</span> <span class="o">=</span> <span class="nv">type</span><span class="o">|</span><span class="nf">default</span><span class="o">(</span><span class="s1">&#39;number&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+        <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;form_widget_simple&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+    <span class="c">{# render the form #}</span>
+
+    <span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.age</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>特別なタグの <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">form_theme</span> <span class="pre">form</span> <span class="pre">_self</span> <span class="pre">%}</span></tt> を使えば、 Twig は同テンプレート中のオーバライドされたフォームブロックを探します。 <tt class="docutils literal"><span class="pre">form.age</span></tt> フィールドは <tt class="docutils literal"><span class="pre">integer</span></tt> タイプフィールドであると仮定すると、ウィジェットが表示される際に <tt class="docutils literal"><span class="pre">integer_widget</span></tt> ブロックが使用されます。</p>
+<p>この方法のディスアドバンテージは、カスタマイズされたフォームブロックを他のテンプレートから再利用できないことです。つまり、この方法はアプリケーションで特別で単一なフォームのカスタマイズに便利になるのです。アプリケーションの他のフォームを横断してフォームのカスタマイズを再利用したい際には、次のセクションを読んでください。</p>
+</div>
+<div class="section" id="cookbook-form-twig-separate-template">
+<span id="id6"></span><h3>方法 2: 別のテンプレートの中<a class="headerlink" href="#cookbook-form-twig-separate-template" title="Permalink to this headline">¶</a></h3>
+<p>全く別のテンプレートの中にカスタマイズした <tt class="docutils literal"><span class="pre">integer_widget</span></tt> フォームブロックを入れることを選択することもできます。コードと最終的な結果は同じになりますが、これで多くのテンプレートを横断してフォームのカスタマイズが再利用できるようになります。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/DemoBundle/Resources/views/Form/fields.html.twig #}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">integer_widget</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;integer_widget&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{%</span> <span class="k">set</span> <span class="nv">type</span> <span class="o">=</span> <span class="nv">type</span><span class="o">|</span><span class="nf">default</span><span class="o">(</span><span class="s1">&#39;number&#39;</span><span class="o">)</span> <span class="cp">%}</span>
+        <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;form_widget_simple&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>カスタマイズしたフォームブロックを作成したので、 Symfony からそれを呼ぶようにしなければなりません。実際にフォームを表示するテンプレートの中で、 <tt class="docutils literal"><span class="pre">form_theme</span></tt> タグを通してこのテンプレートを呼び出します。</p>
+<div class="highlight-html+jinja" id="cookbook-form-twig-theme-import-template"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">form_theme</span> <span class="nv">form</span> <span class="s1">&#39;AcmeDemoBundle:Form:fields.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.age</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">form.age</span></tt> ウィジェットが表示されるときに、 Symfony は、新しいテンプレートで <tt class="docutils literal"><span class="pre">integer_widget</span></tt> ブロックを使用します。そして、 <tt class="docutils literal"><span class="pre">input</span></tt> タグは、カスタマイズしたブロックで指定した <tt class="docutils literal"><span class="pre">div</span></tt> 要素で囲まれます。</p>
+</div>
+</div>
+<div class="section" id="php">
+<span id="cookbook-form-php-theming"></span><h2>PHP でフォームをテーマ化する<a class="headerlink" href="#php" title="Permalink to this headline">¶</a></h2>
+<p>テンプレートエンジンとして、 PHP を使用する際に、フラグメントをカスタマイズする唯一の方法は、 Twig の２つ目の方法と同じように、新しくテンプレートファイルを作成することです。</p>
+<p>テンプレートファイルは、フラグメントにちなんで名付ける必要があります。例えば、 <tt class="docutils literal"><span class="pre">integer_widget</span></tt> フラグメントをカスタマイズするには、 <tt class="docutils literal"><span class="pre">inter_widget.html.php</span></tt> を作成しなければなりません。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/DemoBundle/Resources/views/Form/integer_widget.html.php --&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;integer_widget&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">block</span><span class="p">(</span><span class="s1">&#39;field_widget&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">?</span> <span class="nv">$type</span> <span class="o">:</span> <span class="s2">&quot;number&quot;</span><span class="p">))</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+<p>これでカスタマイズされたフォームテンプレートを作成できましたので、 Symfony から使ってみましょう。実際にフォームを表示するテンプレートの中で、 <tt class="docutils literal"><span class="pre">setTheme</span></tt> ヘルパーメソッドを通してテーマを使用するようにします。</p>
+<div class="highlight-php" id="cookbook-form-php-theme-import-template"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">setTheme</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;AcmeDemoBundle:Form&#39;</span><span class="p">))</span> <span class="p">;</span><span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">form.age</span></tt> ウィジェットが表示されるときに、 Symfony はカスタマイズされた <tt class="docutils literal"><span class="pre">integer_widget.html.php</span></tt> テンプレートを使用し、 <tt class="docutils literal"><span class="pre">input</span></tt> タグは <tt class="docutils literal"><span class="pre">div</span></tt> 要素でラップされます。</p>
+</div>
+<div class="section" id="cookbook-form-twig-import-base-blocks">
+<span id="id7"></span><h2>ベースフォームブロックの参照(Twig のみ)<a class="headerlink" href="#cookbook-form-twig-import-base-blocks" title="Permalink to this headline">¶</a></h2>
+<p>これまで、特定のフォームブロックをオーバーライドするのにベストな方法は、 <a href="#id17"><span class="problematic" id="id18">`form_dev_layout.html.twig`_</span></a> のデフォルトブロックをコピーして、カスタマイズして異なるテンプレートにペーストすることでした。多くのケースでは、カスタマイズするときにベースブロックを参照してこれを避けることができます。</p>
+<p>これは簡単にすることができますが、フォームブロックのカスタマイズがフォームと同じテンプレートにあるか、または別のテンプレートにあるかによって多少異なります。</p>
+<div class="section" id="id8">
+<h3>フォームと同じテンプレートの中からブロックを参照する<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>フォームを表示しているテンプレートの中で <tt class="docutils literal"><span class="pre">use</span></tt> タグを追加してブロックをインポートします。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">use</span> <span class="s1">&#39;form_div_layout.html.twig&#39;</span> <span class="k">with</span> <span class="nv">integer_widget</span> <span class="k">as</span> <span class="nv">base_integer_widget</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>これで <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig">form_div_layout.html.twig</a> のブロックがインポートされたら、 <tt class="docutils literal"><span class="pre">integer_widget</span></tt> ブロックを <tt class="docutils literal"><span class="pre">base_integer_widget</span></tt> として呼びます。これは、 <tt class="docutils literal"><span class="pre">integer_widget</span></tt> ブロックを再定義することになり、 <tt class="docutils literal"><span class="pre">base_integer_widget</span></tt> を通してデフォルトのマークアップを参照できます。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">block</span> <span class="nv">integer_widget</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;integer_widget&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;base_integer_widget&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>外部のテンプレートからベースブロックを参照する<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>外部テンプレートにカスタマイズしたフォームを作成していれば、Twig の  <tt class="docutils literal"><span class="pre">parent()</span></tt> 関数を使用してベースブロックを参照することができます。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/DemoBundle/Resources/views/Form/fields.html.twig #}</span>
+
+<span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;form_div_layout.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">integer_widget</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;integer_widget&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nv">parent</span><span class="o">()</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">テンプレートエンジンとして PHP を使用している際には、ベースブロックを参照することはできません。その際には、ベースブロックから手動でコピーして、新しいテンプレートファイルにペーストする必要があります。</p>
+</div>
+</div>
+</div>
+<div class="section" id="cookbook-form-global-theming">
+<span id="id10"></span><h2>アプリケーション全体のカスタマイズ<a class="headerlink" href="#cookbook-form-global-theming" title="Permalink to this headline">¶</a></h2>
+<p>アプリケーション全体でグローバルにフォームをカスタマイズしたいときは、外部テンプレートとしてフォームカスタマイズを作成し、アプリケーションのコンフィギュレーション内でインポートすることによって、実現できます。</p>
+<div class="section" id="id11">
+<h3>Twig<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>次のコンフィギュレーションを使用すれば、 <tt class="docutils literal"><span class="pre">AcmeDemoBundle:Form:fields.html.twig</span></tt> テンプレート内の全てのカスタマイズされたフォームブロックを、フォームが表示されるときにグローバルに使用することができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+
+<span class="l-Scalar-Plain">twig</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="s">&#39;AcmeDemoBundle:Form:fields.html.twig&#39;</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+
+&lt;twig:config ...&gt;
+        &lt;twig:form&gt;
+            &lt;resource&gt;AcmeDemoBundle:Form:fields.html.twig&lt;/resource&gt;
+        &lt;/twig:form&gt;
+        &lt;!-- ... --&gt;
+&lt;/twig:config&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;AcmeDemoBundle:Form:fields.html.twig&#39;</span><span class="p">,</span>
+     <span class="p">))</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>デフォルトでは、 Twig はフォーム表示に <em>div</em> レイアウトを使用します。しかし、人によっては、 <em>table</em> レイアウトでのフォーム表示を好むかもしれません。そのときは、レイアウトに <tt class="docutils literal"><span class="pre">form_table_layout.html.twig</span></tt> リソースを使用してください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+
+<span class="l-Scalar-Plain">twig</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="s">&#39;form_table_layout.html.twig&#39;</span><span class="p-Indicator">]</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+
+&lt;twig:config ...&gt;
+        &lt;twig:form&gt;
+            &lt;resource&gt;form_table_layout.html.twig&lt;/resource&gt;
+        &lt;/twig:form&gt;
+        &lt;!-- ... --&gt;
+&lt;/twig:config&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;form_table_layout.html.twig&#39;</span><span class="p">,</span>
+     <span class="p">))</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>テンプレートを１つだけ変更したい際には、リソースとしてテンプレートを追加するのではなく、次の行をテンプレートに追加してください。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">form_theme</span> <span class="nv">form</span> <span class="s1">&#39;form_table_layout.html.twig&#39;</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>上記のコードの <tt class="docutils literal"><span class="pre">form</span></tt> 変数は、テンプレートに渡すフォームビューの変数であること覚えておいてください。</p>
+</div>
+<div class="section" id="id12">
+<h3>PHP<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>次のコンフィギュレーションを使用すれば、フォームが表示されるときに <tt class="docutils literal"><span class="pre">src/Acme/DemoBundle/Resources/views/Form</span></tt> フォルダの内部のカスタマイズされたフォームフラグメントがグローバルに使用されます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">templating</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="s">&#39;AcmeDemoBundle:Form&#39;</span>
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+
+&lt;framework:config ...&gt;
+    &lt;framework:templating&gt;
+        &lt;framework:form&gt;
+            &lt;resource&gt;AcmeDemoBundle:Form&lt;/resource&gt;
+        &lt;/framework:form&gt;
+    &lt;/framework:templating&gt;
+    &lt;!-- ... --&gt;
+&lt;/framework:config&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+
+<span class="c1">// PHP</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;templating&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;AcmeDemoBundle:Form&#39;</span><span class="p">,</span>
+     <span class="p">)))</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>デフォルトでは、 PHP エンジンは、フォーム表示に <em>div</em> レイアウトを使用します。しかし、人によっては、 <em>table</em> レイアウトでのフォーム表示を好むかもしれません。そのときは、レイアウトに <tt class="docutils literal"><span class="pre">FrameworkBundle:FormTable</span></tt> リソースを使用してください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">templating</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>
+            <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span>
+                <span class="p-Indicator">-</span> <span class="s">&#39;FrameworkBundle:FormTable&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+
+&lt;framework:config ...&gt;
+    &lt;framework:templating&gt;
+        &lt;framework:form&gt;
+            &lt;resource&gt;FrameworkBundle:FormTable&lt;/resource&gt;
+        &lt;/framework:form&gt;
+    &lt;/framework:templating&gt;
+    &lt;!-- ... --&gt;
+&lt;/framework:config&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;templating&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;FrameworkBundle:FormTable&#39;</span><span class="p">,</span>
+     <span class="p">)))</span>
+    <span class="c1">// ...</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>テンプレートを１つだけ変更したい際には、リソースとしてテンプレートを追加するのではなく、次の行をテンプレートに追加してください。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">setTheme</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;FrameworkBundle:FormTable&#39;</span><span class="p">));</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p>上記のコードの <tt class="docutils literal"><span class="pre">$form</span></tt> 変数は、テンプレートに渡すフォームビューの変数であること覚えておいてください。</p>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>個々のフィールドのカスタマイズ<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<p>これまで、全てのテキストフィールドタイプのウィジェットの出力の異なるカスタマイズ方法を見ていました。個々のフィールドもカスタマイズすることができます。例えば、 <tt class="docutils literal"><span class="pre">first_name</span></tt> と <tt class="docutils literal"><span class="pre">last_name</span></tt> のように <tt class="docutils literal"><span class="pre">text</span></tt> フィールドが２つあるが、どちらかしかカスタマイズをしたくないときを想定します。これは、フィールドの id 属性とカスタマイズされるフィールドの部分を結合した名前のフラグメントをカスタマイズすることによってできます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">form_theme</span> <span class="nv">form</span> <span class="p">_</span><span class="nv">self</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="p">_</span><span class="nv">product_name_widget</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;text_widget&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;form_widget_simple&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+
+<span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- Main template --&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">setTheme</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;AcmeDemoBundle:Form&#39;</span><span class="p">));</span> <span class="cp">?&gt;</span>
+
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]);</span> <span class="cp">?&gt;</span>
+
+<span class="c">&lt;!-- src/Acme/DemoBundle/Resources/views/Form/_product_name_widget.html.php --&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;text_widget&quot;</span><span class="nt">&gt;</span>
+      echo $view[&#39;form&#39;]-&gt;renderBlock(&#39;form_widget_simple&#39;) ?&gt;
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>ここで、 <tt class="docutils literal"><span class="pre">_product_name_widget</span></tt> フラグメントが <em>id</em> が <tt class="docutils literal"><span class="pre">product_name</span></tt> であるテンプレートを定義します(そして、 name 属性は <tt class="docutils literal"><span class="pre">product[name]</span></tt> になります)。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">フィールドの <tt class="docutils literal"><span class="pre">product</span></tt> の部分は、フォームの名前になります。これは、フォームタイプ名に基づいて、手動で設定、もしくは自動生成によって付けられます( <tt class="docutils literal"><span class="pre">ProductType</span></tt> は <tt class="docutils literal"><span class="pre">product</span></tt> になるように)。フォームの名前がわからなければ、生成されたフォームのソースを参照してください。</p>
+</div>
+<p>同じメソッドを使用してフィールド列全体のマークアップをオーバーライドすることもできます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">form_theme</span> <span class="nv">form</span> <span class="p">_</span><span class="nv">self</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="p">_</span><span class="nv">product_name_row</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;name_row&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- _product_name_row.html.php --&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;name_row&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id14">
+<h2>他の一般的なカスタマイズに関して<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<p>これまでのレシピで、フォームを表示する一部をカスタマイズするいくつかの異なる方法を見てきました。ポイントは、制御したいフォームの部分に対応するフラグメントをカスタマイズすることでした(<a class="reference internal" href="#cookbook-form-customization-sidebar"><em>naming form blocks</em></a> を参照してください)。</p>
+<p>次のセクションでは、いくつかの共通のフォームのカスタマイズについて見ていきます。これらのカスタマイズを適用するには、 <a class="reference internal" href="#cookbook-form-theming-methods"><em>フォームをテーマ化する</em></a> セクションに記述されたメソッドを使用してください。</p>
+<div class="section" id="id15">
+<h3>エラー出力をカスタマイズする<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームのコンポーネントは、 <em>どうやって</em> バリデーションエラーを表示するかのみを扱い、実際のバリデーションエラーメッセージに関しては決定権はありません。エラーメッセージは、オブジェクトに適用したバリデーション制約によって、決められます。詳細は、 <a class="reference internal" href="../../book/validation.html"><em>validation</em></a> を参照してください。</p>
+</div>
+<p>フォームがエラーを検知した際に、多くの異なる方法でエラーの表示をカスタマイズできます。フィールドのエラーメッセージは、 <tt class="docutils literal"><span class="pre">form_errors</span></tt> ヘルパーを使用することで、表示されます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form.age</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;age&#39;</span><span class="p">]);</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>デフォルトでは、エラーは、順序の関係の無いリストで表示されます。</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;ul&gt;</span>
+    <span class="nt">&lt;li&gt;</span>必須項目です。<span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+<p><em>全て</em> のフィールドでエラーの表示をオーバーライドするには、単に <tt class="docutils literal"><span class="pre">form_errors</span></tt> フラグメントをコピーアンドペーストして、カスタマイズします。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# form_errors.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">form_errors</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">spaceless</span> <span class="cp">%}</span>
+        <span class="cp">{%</span> <span class="k">if</span> <span class="nv">errors</span><span class="o">|</span><span class="nf">length</span> <span class="o">&gt;</span> <span class="m">0</span> <span class="cp">%}</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="cp">{%</span> <span class="k">for</span> <span class="nv">error</span> <span class="k">in</span> <span class="nv">errors</span> <span class="cp">%}</span>
+                <span class="nt">&lt;li&gt;</span><span class="cp">{{</span> <span class="nv">error.message</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+            <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+        <span class="nt">&lt;/ul&gt;</span>
+        <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">endspaceless</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">form_errors</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- form_errors.html.php --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$errors</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;ul&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$errors</span> <span class="k">as</span> <span class="nv">$error</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+            <span class="nt">&lt;li&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$error</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">()</span> <span class="cp">?&gt;</span><span class="nt">&lt;/li&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endif</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">このカスタマイズの適用方法の詳細は、 <a class="reference internal" href="#cookbook-form-theming-methods"><em>フォームをテーマ化する</em></a> を参照してください。</p>
+</div>
+<p>特定のフィールドタイプのみのエラー出力をカスタマイズすることもできます。例えば、フォームのよりグローバルな特定のエラーは、デフォルトでは、フォームの一番上に表示されますが、別々に表示させることができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="nv">$form</span><span class="p">);</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>これらのエラーのマークアップ <em>のみ</em> をカスタマイズするには、上記のように同じ方法に従ってください。しかし、 Twig の際は <tt class="docutils literal"><span class="pre">form_errors</span></tt> ブロックを呼んで、 PHP の際は <tt class="docutils literal"><span class="pre">form_errors.html.php</span></tt> ファイルを呼ぶことになります。これで、 <tt class="docutils literal"><span class="pre">form</span></tt> タイプのエラーが表示されれば、カスタマイズされたフラグメントがデフォルトの <tt class="docutils literal"><span class="pre">form_errors</span></tt> の代わりに使用されます。</p>
+</div>
+<div class="section" id="form-row">
+<h3>&#8220;Form Row&#8221; をカスタマイズする<a class="headerlink" href="#form-row" title="Permalink to this headline">¶</a></h3>
+<p>可能であれば、フォームフィールドの表示の最も簡単な方法は、 <tt class="docutils literal"><span class="pre">form_row</span></tt> 関数を使用することです。 <tt class="docutils literal"><span class="pre">form_row</span></tt> 関数は、フィールドのラベル、エラー、 HTML ウィジェットを表示します。 <em>全て</em> のフォームフィールドの並びの表示のマークアップをカスタマイズするために、 <tt class="docutils literal"><span class="pre">form_row</span></tt> フラグメントをオーバーライドします。例えばそれぞれの並びを <tt class="docutils literal"><span class="pre">div</span></tt> 要素で囲みたいとします。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# form_row.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">form_row</span> <span class="cp">%}</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form_row&quot;</span><span class="nt">&gt;</span>
+        <span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">form_row</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- form_row.html.php --&gt;</span>
+
+<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;form_row&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">)</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">このカスタマイズの適用方法の詳細は、 <a class="reference internal" href="#cookbook-form-theming-methods"><em>フォームをテーマ化する</em></a> を参照してください。</p>
+</div>
+</div>
+<div class="section" id="required">
+<h3>&#8220;Required&#8221; のアスタリスクをフィールドラベルに追加する<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h3>
+<p>全ての入力必須なフィールドにアスタリスク(<tt class="docutils literal"><span class="pre">*</span></tt>)の印を付けるには、 <tt class="docutils literal"><span class="pre">form_label</span></tt> フラグメントをカスタマイズします。</p>
+<p>Twig を使用した際に、フォームと同じテンプレート内でフォームのカスタマイズをするには、 <tt class="docutils literal"><span class="pre">use</span></tt> タグを変更して、次のように加えてください。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">use</span> <span class="s1">&#39;form_div_layout.html.twig&#39;</span> <span class="k">with</span> <span class="nv">form_label</span> <span class="k">as</span> <span class="nv">base_form_label</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">field_label</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;base_form_label&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+
+    <span class="cp">{%</span> <span class="k">if</span> <span class="nv">required</span> <span class="cp">%}</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;required&quot;</span> <span class="na">title=</span><span class="s">&quot;必須項目です&quot;</span><span class="nt">&gt;</span>*<span class="nt">&lt;/span&gt;</span>
+    <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Twig を使用した際に、別のテンプレート内でフォームのカスタマイズをする際には、次のようにしてください。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;form_div_layout.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">form_label</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">parent</span><span class="o">()</span> <span class="cp">}}</span>
+
+    <span class="cp">{%</span> <span class="k">if</span> <span class="nv">required</span> <span class="cp">%}</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;required&quot;</span> <span class="na">title=</span><span class="s">&quot;必須項目です&quot;</span><span class="nt">&gt;</span>*<span class="nt">&lt;/span&gt;</span>
+    <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>テンプレートエンジンに PHP を使用している際は、オリジナルのテンプレートから内容をコピーしてこなければなりません。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- form_label.html.php --&gt;</span>
+
+<span class="c">&lt;!-- original content --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$required</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$label_attr</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">trim</span><span class="p">((</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$label_attr</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">])</span> <span class="o">?</span> <span class="nv">$label_attr</span><span class="p">[</span><span class="s1">&#39;class&#39;</span><span class="p">]</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39; required&#39;</span><span class="p">);</span> <span class="p">}</span> <span class="cp">?&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$compound</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$label_attr</span><span class="p">[</span><span class="s1">&#39;for&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$id</span><span class="p">;</span> <span class="p">}</span> <span class="cp">?&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$label</span><span class="p">)</span> <span class="p">{</span> <span class="nv">$label</span> <span class="o">=</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">humanize</span><span class="p">(</span><span class="nv">$name</span><span class="p">);</span> <span class="p">}</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;label</span> <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$label_attr</span> <span class="k">as</span> <span class="nv">$k</span> <span class="o">=&gt;</span> <span class="nv">$v</span><span class="p">)</span> <span class="p">{</span> <span class="nb">printf</span><span class="p">(</span><span class="s1">&#39;%s=&quot;%s&quot; &#39;</span><span class="p">,</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$k</span><span class="p">),</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$v</span><span class="p">));</span> <span class="p">}</span> <span class="cp">?&gt;</span><span class="nt">&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;translator&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">trans</span><span class="p">(</span><span class="nv">$label</span><span class="p">,</span> <span class="k">array</span><span class="p">(),</span> <span class="nv">$translation_domain</span><span class="p">))</span> <span class="cp">?&gt;</span><span class="nt">&lt;/label&gt;</span>
+
+<span class="c">&lt;!-- customization --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$required</span><span class="p">)</span> <span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;required&quot;</span> <span class="na">title=</span><span class="s">&quot;必須項目です&quot;</span><span class="nt">&gt;</span>*<span class="nt">&lt;/span&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endif</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">このカスタマイズの適用方法の詳細は、 <a class="reference internal" href="#cookbook-form-theming-methods"><em>フォームをテーマ化する</em></a> を参照してください。</p>
+</div>
+</div>
+<div class="section" id="help">
+<h3>&#8220;help&#8221; メッセージを追加する<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h3>
+<p>フォームウィジェットのオプションの &#8220;help&#8221; メッセージもカスタマイズすることができます。</p>
+<p>Twig を使用した際に、フォームと同じテンプレート内でフォームのカスタマイズをするには、 <tt class="docutils literal"><span class="pre">use</span></tt> タグを変更して、次のように加えてください。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">use</span> <span class="s1">&#39;form_div_layout.html.twig&#39;</span> <span class="k">with</span> <span class="nv">form_widget_simple</span> <span class="k">as</span> <span class="nv">base_form_widget_simple</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">form_widget_simple</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;base_form_widget_simple&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+
+    <span class="cp">{%</span> <span class="k">if</span> <span class="nv">help</span> <span class="k">is</span> <span class="nf">defined</span> <span class="cp">%}</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;help&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">help</span> <span class="cp">}}</span><span class="nt">&lt;/span&gt;</span>
+    <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>Twig を使用した際に、別のテンプレート内でフォームのカスタマイズをする際には、次のようにしてください。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s1">&#39;form_div_layout.html.twig&#39;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">form_widget_simple</span> <span class="cp">%}</span>
+    <span class="cp">{{</span> <span class="nv">parent</span><span class="o">()</span> <span class="cp">}}</span>
+
+    <span class="cp">{%</span> <span class="k">if</span> <span class="nv">help</span> <span class="k">is</span> <span class="nf">defined</span> <span class="cp">%}</span>
+        <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;help&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">help</span> <span class="cp">}}</span><span class="nt">&lt;/span&gt;</span>
+    <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>テンプレートエンジンに PHP を使用した際は、オリジナルのテンプレートから内容をコピーしなければなりません。</p>
+<div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- form_widget_simple.html.php --&gt;</span>
+
+<span class="c">&lt;!-- Original content --&gt;</span>
+<span class="nt">&lt;input</span>
+    <span class="na">type=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nb">isset</span><span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">?</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$type</span><span class="p">)</span> <span class="o">:</span> <span class="s1">&#39;text&#39;</span> <span class="cp">?&gt;</span><span class="s">&quot;</span>
+    <span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$value</span><span class="p">))</span><span class="o">:</span> <span class="cp">?&gt;</span><span class="na">value=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">endif</span> <span class="cp">?&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">block</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="s1">&#39;widget_attributes&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+<span class="nt">/&gt;</span>
+
+<span class="c">&lt;!-- Customization --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$help</span><span class="p">))</span> <span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;span</span> <span class="na">class=</span><span class="s">&quot;help&quot;</span><span class="nt">&gt;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="o">-&gt;</span><span class="na">escape</span><span class="p">(</span><span class="nv">$help</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="nt">&lt;/span&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endif</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+<p>フィールドの下にヘルプメッセージを表示するには、 <tt class="docutils literal"><span class="pre">help</span></tt> 変数を渡してください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.title</span><span class="o">,</span> <span class="o">{</span> <span class="s1">&#39;help&#39;</span><span class="o">:</span> <span class="s1">&#39;foobar&#39;</span> <span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">],</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;help&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;foobar&#39;</span><span class="p">))</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">このカスタマイズの適用方法の詳細は、 <a class="reference internal" href="#cookbook-form-theming-methods"><em>フォームをテーマ化する</em></a> を参照してください。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id16">
+<h2>フォーム変数を使う<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
+<p>フォームの各部品(ウィジェット、ラベル)を表示するほとんどの関数では、直接カスタマイズができるようになっています。下記の例を見てください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# ウィジェットを表示する際にfooクラスを追加する #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="o">{</span> <span class="s1">&#39;attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;foo&#39;</span><span class="o">}</span> <span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;!--</span> <span class="err">ウィジェットを表示する際に</span><span class="nx">foo</span><span class="err">クラスを追加する</span> <span class="o">--&gt;</span>
+<span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;foo&#39;</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">))</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>第二引数として渡す配列はフォームの「変数」を含んでいます。Twigにおけるこの機能についてもっと詳しく知りたい場合は <em class="xref std std-ref">twig-reference-form-variables</em> を参照してください。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/form/form_customization.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/form/form_customization.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/form/form_customization.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">フォームのレンダリングのカスタマイズ方法</a><ul>
+<li><a class="reference internal" href="#id2">フォームレンダリングの基本</a></li>
+<li><a class="reference internal" href="#cookbook-form-customization-form-themes">フォームテーマとは何か？</a></li>
+<li><a class="reference internal" href="#cookbook-form-theming-methods">フォームをテーマ化する</a></li>
+<li><a class="reference internal" href="#twig">Twig でフォームをテーマ化する</a><ul>
+<li><a class="reference internal" href="#cookbook-form-twig-theming-self">方法 1: フォームと同じテンプレートの中</a></li>
+<li><a class="reference internal" href="#cookbook-form-twig-separate-template">方法 2: 別のテンプレートの中</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#php">PHP でフォームをテーマ化する</a></li>
+<li><a class="reference internal" href="#cookbook-form-twig-import-base-blocks">ベースフォームブロックの参照(Twig のみ)</a><ul>
+<li><a class="reference internal" href="#id8">フォームと同じテンプレートの中からブロックを参照する</a></li>
+<li><a class="reference internal" href="#id9">外部のテンプレートからベースブロックを参照する</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cookbook-form-global-theming">アプリケーション全体のカスタマイズ</a><ul>
+<li><a class="reference internal" href="#id11">Twig</a></li>
+<li><a class="reference internal" href="#id12">PHP</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id13">個々のフィールドのカスタマイズ</a></li>
+<li><a class="reference internal" href="#id14">他の一般的なカスタマイズに関して</a><ul>
+<li><a class="reference internal" href="#id15">エラー出力をカスタマイズする</a></li>
+<li><a class="reference internal" href="#form-row">&#8220;Form Row&#8221; をカスタマイズする</a></li>
+<li><a class="reference internal" href="#required">&#8220;Required&#8221; のアスタリスクをフィールドラベルに追加する</a></li>
+<li><a class="reference internal" href="#help">&#8220;help&#8221; メッセージを追加する</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id16">フォーム変数を使う</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/form/form_customization.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,299 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Varnish を使ってウェブサイトを高速化する方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="クックブック" href="../index.html" />
+    <link rel="next" title="テスト" href="../testing/index.html" />
+    <link rel="prev" title="ファイルの探し方" href="../tools/finder.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="varnish">
+<span id="index-0"></span><h1>Varnish を使ってウェブサイトを高速化する方法<a class="headerlink" href="#varnish" title="Permalink to this headline">¶</a></h1>
+<p>Symfony2 のキャッシュは標準的な HTTP キャッシュヘッダを使用しているので、 <a class="reference internal" href="../../book/http_cache.html#symfony-gateway-cache"><em>Symfony2 リバースプロキシ</em></a> は簡単に他のリバースプロクシに変更することができます。 Varnish は強力なオープンソースの HTTP アクセラレータで キャッシュの利用を速くすることができ、また、 <a class="reference internal" href="../../book/http_cache.html#edge-side-includes"><em>Edge Side Includes</em></a> のサポートもしています。</p>
+<div class="section" id="index-1">
+<span id="id1"></span><h2>コンフィギュレーション<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p>前に見たように、 Symfony2 はとてもスマートで、リバースプロクシが ESI を理解できるか検知することができます。 Symfony2 のリバースプロクシを使用している際には、そのままで動作します。しかし、 Varnish を使用する際には、特別なコンフィギュレーションが必要になります。 Symfony2 は <cite>Edge Architecture</cite> と呼ばれる Akamai によって作られた標準に従っていますので、たとえ Symfony2 を使っていなくても、この章のコンフィギュレーションのティップスは便利です。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Varnish は ESI タグ(<tt class="docutils literal"><span class="pre">onerror</span></tt> や <tt class="docutils literal"><span class="pre">alt</span></tt> 属性は無視されます)の <tt class="docutils literal"><span class="pre">src</span></tt> 属性のみをサポートします。</p>
+</div>
+<p>まず、 Varnish を設定します。バックエンドのアプリケーションにフォワードされたリクエストに <tt class="docutils literal"><span class="pre">Surrogate-Capability</span></tt> ヘッダ追加して ESI サポートを通知してください。</p>
+<div class="highlight-text"><div class="highlight"><pre>sub vcl_recv {
+    set req.http.Surrogate-Capability = &quot;abc=ESI/1.0&quot;;
+}
+</pre></div>
+</div>
+<p>そして、Symfony2 が自動的に付与する <tt class="docutils literal"><span class="pre">Surrogate-Control</span></tt> ヘッダをチェックして ESI タグがあるときのみレスポンスの内容をパースするように Varnish を最適化します。:</p>
+<div class="highlight-text"><div class="highlight"><pre>sub vcl_fetch {
+    if (beresp.http.Surrogate-Control ~ &quot;ESI/1.0&quot;) {
+        unset beresp.http.Surrogate-Control;
+
+        // for Varnish &gt;= 3.0
+        set beresp.do_esi = true;
+        // for Varnish &lt; 3.0
+        // esi;
+    }
+}
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">ESI での圧縮は Varnish のバージョンが 3.0 より下であるとサポートされていません( <a class="reference external" href="https://www.varnish-cache.org/docs/3.0/phk/gzip.html">GZIP and Varnish</a> を参照してください)。使用している Varnish のバージョンが 3.0 より下の際には、圧縮を使用するために Varnish の前にウェブサーバを用意してください。</p>
+</div>
+</div>
+<div class="section" id="index-2">
+<span id="id2"></span><h2>キャッシュの無効化<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
+<p>キャッシュデータは、 HTTP キャッシュモデルでネイティブに使用しているので、無効化する必要は全くありません。詳細は <a class="reference internal" href="../../book/http_cache.html#http-cache-invalidation"><em>Cache Invalidation</em></a> を参照してください。</p>
+<p>指定したキャッシュを無効化する Varnish の特別な HTTP <tt class="docutils literal"><span class="pre">PURGE</span></tt> メソッドを受け取ることができるような設定も可能です。</p>
+<div class="highlight-text"><div class="highlight"><pre>sub vcl_hit {
+    if (req.request == &quot;PURGE&quot;) {
+        set obj.ttl = 0s;
+        error 200 &quot;Purged&quot;;
+    }
+}
+
+sub vcl_miss {
+    if (req.request == &quot;PURGE&quot;) {
+        error 404 &quot;Not purged&quot;;
+    }
+}
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">誰かがランダムにキャッシュデータをパージしないように <tt class="docutils literal"><span class="pre">PURGE</span></tt> HTTP メソッドは保護してください。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="../tools/finder.html">< ファイルの探し方</a>
+<a class="next" href="../testing/index.html">テスト ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/cache/varnish.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/cache/varnish.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/cache/varnish.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Varnish を使ってウェブサイトを高速化する方法</a><ul>
+<li><a class="reference internal" href="#index-1">コンフィギュレーション</a></li>
+<li><a class="reference internal" href="#index-2">キャッシュの無効化</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="../tools/finder.html"
+                        title="previous chapter">ファイルの探し方</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../testing/index.html"
+                        title="next chapter">テスト</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/cache/varnish.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

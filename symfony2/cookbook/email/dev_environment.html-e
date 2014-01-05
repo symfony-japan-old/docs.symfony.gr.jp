@@ -1,0 +1,360 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>開発中におけるメール送信の扱い方 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>開発中におけるメール送信の扱い方<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>メールを送信するアプリケーションを開発している際に、開発中では、実際に受信者にメールを送信したくないときもあると思います。 Symfony2 の <tt class="docutils literal"><span class="pre">SwiftmailerBundle</span></tt> を使用すれば、コードの変更をすることなしに、コンフィギュレーションの設定を変更するだけで、この問題を簡単に解決することができます。開発中では、メール送信の処理に関して、主に２つの選択をすることができます。: (a) メール送信を無効にする (b) 特定のメールアドレスにメールを送信する</p>
+<div class="section" id="id2">
+<h2>メール送信を無効にする<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">disable_delivery</span></tt> オプションを <tt class="docutils literal"><span class="pre">true</span></tt> に設定すればメール送信を無効にすることができます。 Symfony の Standard Distribution の <tt class="docutils literal"><span class="pre">test</span></tt> 環境では、デフォルトでメール送信を無効にしており、この設定になっています。 <tt class="docutils literal"><span class="pre">test</span></tt> 環境でこのようによう指定しているため、テストを実行する際にメールは送信されません。しかし、 <tt class="docutils literal"><span class="pre">prod</span></tt> や <tt class="docutils literal"><span class="pre">dev</span></tt> 環境では、送信されます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config_test.yml</span>
+<span class="l-Scalar-Plain">swiftmailer</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">disable_delivery</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config_test.xml --&gt;</span>
+
+<span class="c">&lt;!--</span>
+<span class="c">xmlns:swiftmailer=&quot;http://symfony.com/schema/dic/swiftmailer&quot;</span>
+<span class="c">http://symfony.com/schema/dic/swiftmailer http://symfony.com/schema/dic/swiftmailer/swiftmailer-1.0.xsd</span>
+<span class="c">--&gt;</span>
+
+<span class="nt">&lt;swiftmailer:config</span>
+    <span class="na">disable-delivery=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config_test.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;swiftmailer&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;disable_delivery&#39;</span>  <span class="o">=&gt;</span> <span class="s2">&quot;true&quot;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p><tt class="docutils literal"><span class="pre">dev</span></tt> 環境でも送信を無効にしたい際には、 <tt class="docutils literal"><span class="pre">config_dev.yml</span></tt> ファイルに同じ設定を追加するだけです。</p>
+</div>
+<div class="section" id="id3">
+<h2>特定のメールアドレスに送信する<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>また、メッセージを送信する際に、実際に指定したメールアドレスではなく、全てのメールの送信先を特定のアドレスにすることもできます。 <tt class="docutils literal"><span class="pre">delivery_address</span></tt> オプションを使用してこの設定ができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config_dev.yml</span>
+<span class="l-Scalar-Plain">swiftmailer</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">delivery_address</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">dev@example.com</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config_dev.xml --&gt;</span>
+
+<span class="c">&lt;!--</span>
+<span class="c">xmlns:swiftmailer=&quot;http://symfony.com/schema/dic/swiftmailer&quot;</span>
+<span class="c">http://symfony.com/schema/dic/swiftmailer http://symfony.com/schema/dic/swiftmailer/swiftmailer-1.0.xsd</span>
+<span class="c">--&gt;</span>
+
+<span class="nt">&lt;swiftmailer:config</span>
+    <span class="na">delivery-address=</span><span class="s">&quot;dev@example.com&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config_dev.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;swiftmailer&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;delivery_address&#39;</span>  <span class="o">=&gt;</span> <span class="s2">&quot;dev@example.com&quot;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>そして、次のように <tt class="docutils literal"><span class="pre">recipient&#64;example.com</span></tt> にメールを送信しようとしてみます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$message</span> <span class="o">=</span> <span class="nx">\Swift_Message</span><span class="o">::</span><span class="na">newInstance</span><span class="p">()</span>
+        <span class="o">-&gt;</span><span class="na">setSubject</span><span class="p">(</span><span class="s1">&#39;Hello Email&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">setFrom</span><span class="p">(</span><span class="s1">&#39;send@example.com&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">setTo</span><span class="p">(</span><span class="s1">&#39;recipient@example.com&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">setBody</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">renderView</span><span class="p">(</span><span class="s1">&#39;HelloBundle:Hello:email.txt.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">)))</span>
+    <span class="p">;</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;mailer&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span><span class="nv">$message</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="o">...</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">dev</span></tt> 環境では、メールは、 <tt class="docutils literal"><span class="pre">recipient&#64;example.com</span></tt> には送信されずに <tt class="docutils literal"><span class="pre">dev&#64;example.com</span></tt> に送信されます。 Swiftmailer は、置き換えられたアドレスを <tt class="docutils literal"><span class="pre">X-Swfit-To</span></tt> に指定して、メールのヘッダーに追加します。そうすることによって、実際に送信したかったアドレスを参照することができます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">to</span></tt> に指定したアドレスのみならず、 <tt class="docutils literal"><span class="pre">CC</span></tt> や <tt class="docutils literal"><span class="pre">BCC</span></tt> に指定したアドレスにも送信されることはありません。 Swiftmailer はこれらのアドレスを上書きして、 <tt class="docutils literal"><span class="pre">CC</span></tt> であれば、 <tt class="docutils literal"><span class="pre">X-Swift-Cc</span></tt> に、 <tt class="docutils literal"><span class="pre">BCC</span></tt> であれば、 <tt class="docutils literal"><span class="pre">X-Swift-BCC</span></tt> としてメールヘッダに追加します。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>ウェブデバッグツールバーで参照する<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">dev</span></tt> 環境を使用していれば、そのページで送信されたメールは、ウェブデバッグツールバーを使って参照することができます。ツールバーのメールアイコンは送信したメールの数を表しています。そのアイコンをクリックすると、メールの詳細のレポートを見ることができます。</p>
+<p>メール送信処理の直後に他のページへリダイレクトする際にはウェブデバッグツールバーは、メールアイコンもレポートもそのリダイレクト後のページに表示されません。</p>
+<p>そこで、 <tt class="docutils literal"><span class="pre">config_dev.yml</span></tt> ファイルの <tt class="docutils literal"><span class="pre">intercept_redirects</span></tt> オプションを <tt class="docutils literal"><span class="pre">true</span></tt> にして、リダイレクトを止め、送信メールの詳細のレポートを開くことができるようにすることができます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">また、他の方法として、リダイレクト後のプロファイラを開き、前のリクエスト ( <tt class="docutils literal"><span class="pre">/contact/handle</span></tt> など)のサブミット URL を探すこともできます。プロファイラの検索機能を使えば、過去のリクエストを全てプロファイルした情報をロードすることができます。</p>
+</div>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config_dev.yml</span>
+<span class="l-Scalar-Plain">web_profiler</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">intercept_redirects</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config_dev.xml --&gt;</span>
+
+<span class="c">&lt;!-- xmlns:webprofiler=&quot;http://symfony.com/schema/dic/webprofiler&quot; --&gt;</span>
+<span class="c">&lt;!-- xsi:schemaLocation=&quot;http://symfony.com/schema/dic/webprofiler http://symfony.com/schema/dic/webprofiler/webprofiler-1.0.xsd&quot;&gt; --&gt;</span>
+
+<span class="nt">&lt;webprofiler:config</span>
+    <span class="na">intercept-redirects=</span><span class="s">&quot;true&quot;</span>
+<span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config_dev.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;web_profiler&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;intercept_redirects&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;true&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/email/dev_environment.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/email/dev_environment.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/email/dev_environment.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">開発中におけるメール送信の扱い方</a><ul>
+<li><a class="reference internal" href="#id2">メール送信を無効にする</a></li>
+<li><a class="reference internal" href="#id3">特定のメールアドレスに送信する</a></li>
+<li><a class="reference internal" href="#id4">ウェブデバッグツールバーで参照する</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/email/dev_environment.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

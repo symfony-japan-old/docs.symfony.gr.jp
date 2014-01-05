@@ -1,0 +1,504 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>カスタムフォームフィールドタイプの作成方法 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="クックブック" href="../index.html" />
+    <link rel="next" title="ログメッセージを複数ファイルへ出力させるには" href="../logging/channels_handlers.html" />
+    <link rel="prev" title="カスタムバリデーション制約の作成方法" href="../validation/custom_constraint.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="index-0">
+<span id="id1"></span><h1>カスタムフォームフィールドタイプの作成方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>Symfony には、フォーム作成に関するたくさんのコアフィールドタイプが付いてきます。しかし、特定の目的のためにカスタムフィールドタイプを作成したいときもあります。このレシピでは、既にある選択フィールドをベースとした性別の選択を行うフィールドを作成する必要がある、ということを想定します。このセクションでは、フィールドの定義方法、フィールドのレイアウトのカスタマイズ方法、フィールドのアプリケーションへの登録方法を説明します。</p>
+<div class="section" id="id2">
+<h2>フィールドタイプの定義<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>カスタムフィールドタイプを作成するには、まずそのフィールドを表すクラスを作成する必要があります。今回は、そのフィールドタイプを保持するクラスを <tt class="docutils literal"><span class="pre">GenderType</span></tt> とします。そして、そのファイルはフォームフィールドのデフォルトの位置である <tt class="docutils literal"><span class="pre">&lt;BundleName&gt;\Form\Type</span></tt> に格納されるとします。フィールドに <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\AbstractType</span></tt> を拡張させるのを忘れないでください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1"># src/Acme/DemoBundle/Form/Type/GenderType.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\OptionsResolver\OptionsResolverInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">GenderType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;m&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Male&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;f&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Female&#39;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getParent</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;choice&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;gender&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">このファイルの配置場所は、重要ではありません。 <tt class="docutils literal"><span class="pre">Form\Type</span></tt> ディレクトリは習慣です。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">getParent</span></tt> メソッドの返す値は <tt class="docutils literal"><span class="pre">choice</span></tt> を拡張していることを示しています。
+つまり、デフォルトではchoiceフィールドタイプのロジックとレンダリングを継承するという意味です。ロジックを見るには <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php">ChoiceType</a> クラスを見てみてください。特に重要なのは次の3つのメソッドです。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">buildForm()</span></tt> - 全てのフィールドタイプに <tt class="docutils literal"><span class="pre">buildForm</span></tt> メソッドがありますが、ここでフィールドを設定したり構築したりすることができます。自作のフォームを作るときと同じメソッドで、同じように動作します。</li>
+<li><tt class="docutils literal"><span class="pre">buildView()</span></tt> - このメソッドはフィールドをテンプレートにレンダリングする際に、追加の変数をセットするのに使います。例えば、 <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Extension/Core/Type/ChoiceType.php">ChoiceType</a> では <tt class="docutils literal"><span class="pre">multiple</span></tt> という変数がテンプレートで <tt class="docutils literal"><span class="pre">select</span></tt> 要素に <tt class="docutils literal"><span class="pre">multiple</span></tt> 属性を追加するかどうかを判断するのに使います。詳しくは <a href="#id6"><span class="problematic" id="id7">`Creating a Template for the Field`_</span></a> を見てください。</li>
+<li><tt class="docutils literal"><span class="pre">getDefaultOptions()</span></tt> - このメソッドは、フィールドタイプの <tt class="docutils literal"><span class="pre">buildForm()</span></tt> や <tt class="docutils literal"><span class="pre">buildView()</span></tt> で使うことができるオプションを定義します。全てのフィールドタイプに共通のオプションもたくさんありますが( <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Extension/Core/Type/FieldType.php">FieldType</a> を見てください)、必要なら新しいオプションをここで追加することができます。</li>
+</ul>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">たくさんのフィールドを使ったフィールドを作ろうとしている場合は、&#8221;親&#8221;のタイプを <tt class="docutils literal"><span class="pre">form</span></tt> 又は <tt class="docutils literal"><span class="pre">form</span></tt> を拡張した何かにしてください。
+また、親のフィールドタイプから子のフィールドタイプのビューを制御したい場合は、 <tt class="docutils literal"><span class="pre">finishView()</span></tt> メソッドを使ってください。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">getName()</span></tt> メソッドは、アプリケーションの中で一意な識別子を返します。この識別子はフィールドタイプのレンダリングをカスタマイズする場合など、多くの場所で使います。</p>
+<p>いま作っているフィールドのゴールは、性別の選択ができるようにchoiceフィールドタイプを拡張することです。
+<tt class="docutils literal"><span class="pre">choices</span></tt> を選択可能な性別のリストに固定することで実現できます。</p>
+</div>
+<div class="section" id="id3">
+<h2>フィールドのテンプレートの作成<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>全てのフィールドタイプは、テンプレートフラグメントを使ってレンダリングされ、 <tt class="docutils literal"><span class="pre">getName()</span></tt> を使って識別されます。
+詳しくは <a class="reference internal" href="form_customization.html#cookbook-form-customization-form-themes"><em>フォームテーマとは何か？</em></a> を読んでください。</p>
+<p>今回は、親フィールドが <tt class="docutils literal"><span class="pre">choice</span></tt> なので、カスタムフィールドタイプは自動的に <tt class="docutils literal"><span class="pre">choice</span></tt> と同じようにレンダリングされ、カスタマイズする必要はありません。
+しかし、例として使うために、フィールドが&#8221;expanded&#8221;の場合(selectでなくradioやcheckboxを使う場合)に、 <tt class="docutils literal"><span class="pre">ul`</span> <span class="pre">要素を使ってレンダリングしたいと考えてみましょう。</span>
+<span class="pre">フォームテーマのテンプレート(詳細は上のリンクを見てください)に、</span> <span class="pre">``gender_widget</span></tt> ブロックを作ってください。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="c">{# src/Acme/DemoBundle/Resources/views/Form/fields.html.twig #}</span>
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">gender_widget</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">spaceless</span> <span class="cp">%}</span>
+        <span class="cp">{%</span> <span class="k">if</span> <span class="nv">expanded</span> <span class="cp">%}</span>
+            <span class="nt">&lt;ul</span> <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;widget_container_attributes&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+            <span class="cp">{%</span> <span class="k">for</span> <span class="nv">child</span> <span class="k">in</span> <span class="nv">form</span> <span class="cp">%}</span>
+                <span class="nt">&lt;li&gt;</span>
+                    <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">child</span><span class="o">)</span> <span class="cp">}}</span>
+                    <span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">child</span><span class="o">)</span> <span class="cp">}}</span>
+                <span class="nt">&lt;/li&gt;</span>
+            <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+            <span class="nt">&lt;/ul&gt;</span>
+        <span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+            <span class="c">{# choice widgetにそのままselectタグを出力させる #}</span>
+            <span class="cp">{{</span> <span class="nb">block</span><span class="o">(</span><span class="s1">&#39;choice_widget&#39;</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">endspaceless</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/DemoBundle/Resources/views/Form/gender_widget.html.twig --&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">if</span> <span class="p">(</span><span class="nv">$expanded</span><span class="p">)</span> <span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;ul</span> <span class="cp">&lt;?php</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">block</span><span class="p">(</span><span class="nv">$form</span><span class="p">,</span> <span class="s1">&#39;widget_container_attributes&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$form</span> <span class="k">as</span> <span class="nv">$child</span><span class="p">)</span> <span class="o">:</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;li&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$child</span><span class="p">)</span> <span class="cp">?&gt;</span>
+            <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$child</span><span class="p">)</span> <span class="cp">?&gt;</span>
+        <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">endforeach</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/ul&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">else</span> <span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="c">&lt;!-- choice widgetにそのままselectタグを出力させる --&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">renderBlock</span><span class="p">(</span><span class="s1">&#39;choice_widget&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endif</span> <span class="cp">?&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>正しいウィジェット接頭辞が使われていることを確認してください。今回の例では、名前は、 <tt class="docutils literal"><span class="pre">getName</span></tt> が返す値によれば、 <tt class="docutils literal"><span class="pre">gender_widget</span></tt> であるべきです。さらに、メインのコンフィギュレーションファイルにおいてカスタムフォームテンプレートを設定して、全てのフォームで使用できるようにしておかなければなりません。</p>
+<div class="last configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">twig</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">form</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">resources</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="s">&#39;AcmeDemoBundle:Form:fields.html.twig&#39;</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="nt">&lt;twig:config&gt;</span>
+    <span class="nt">&lt;twig:form&gt;</span>
+        <span class="nt">&lt;twig:resource&gt;</span>AcmeDemoBundle:Form:fields.html.twig<span class="nt">&lt;/twig:resource&gt;</span>
+    <span class="nt">&lt;/twig:form&gt;</span>
+<span class="nt">&lt;/twig:config&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;resources&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;AcmeDemoBundle:Form:fields.html.twig&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>フィールドタイプの使用<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>ここまでで、フォーム内でカスタムフィールドタイプのインスタンスを作成すれば、すぐにカスタムフィールドタイプを使用できるようになりました。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Form/Type/AuthorType.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilderInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AuthorType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilderInterface</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;gender_code&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">GenderType</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;性別を選んでください&#39;</span><span class="p">,</span>
+        <span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">GenderType()</span></tt> はとてもシンプルなのでこれで動作します。しかし、 gender コードが設定ファイルやデータベースに格納されていたらどうでしょうか？次のセクションでは、複雑なフィールドタイプでどうやってこの問題を解決するのか説明します。</p>
+</div>
+<div class="section" id="form-cookbook-form-field-service">
+<span id="id5"></span><h2>フィールドタイプをサービスとして作成<a class="headerlink" href="#form-cookbook-form-field-service" title="Permalink to this headline">¶</a></h2>
+<p>ここまでこの記事では、カスタムフィールドタイプがとてもシンプルであることを想定していました。しかし、コンフィギュレーション、データベース接続、他のサービスなどにアクセスが必要になったときは、
+タイプをサービスとして登録するのが良いでしょう。例として、 gender パラメータをコンフィギュレーションに格納するとしましょう。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/DemoBundle/Resources/config/services.yml</span>
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">acme_demo.form.type.gender</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">Acme\DemoBundle\Form\Type\GenderType</span>
+        <span class="l-Scalar-Plain">arguments</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="s">&quot;%genders%&quot;</span>
+        <span class="l-Scalar-Plain">tags</span><span class="p-Indicator">:</span>
+            <span class="p-Indicator">-</span> <span class="p-Indicator">{</span> <span class="nv">name</span><span class="p-Indicator">:</span> <span class="nv">form.type</span><span class="p-Indicator">,</span> <span class="nv">alias</span><span class="p-Indicator">:</span> <span class="nv">gender</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/DemoBundle/Resources/config/services.xml --&gt;</span>
+<span class="nt">&lt;service</span> <span class="na">id=</span><span class="s">&quot;acme_demo.form.type.gender&quot;</span> <span class="na">class=</span><span class="s">&quot;Acme\DemoBundle\Form\Type\GenderType&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;argument&gt;</span>%genders%<span class="nt">&lt;/argument&gt;</span>
+    <span class="nt">&lt;tag</span> <span class="na">name=</span><span class="s">&quot;form.type&quot;</span> <span class="na">alias=</span><span class="s">&quot;gender&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Resources/config/services.php</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\DependencyInjection\Definition</span><span class="p">;</span>
+
+<span class="nv">$container</span>
+    <span class="o">-&gt;</span><span class="na">setDefinition</span><span class="p">(</span><span class="s1">&#39;acme_demo.form.type.gender&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Definition</span><span class="p">(</span>
+        <span class="s1">&#39;Acme\DemoBundle\Form\Type\GenderType&#39;</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;%genders%&#39;</span><span class="p">)</span>
+    <span class="p">))</span>
+    <span class="o">-&gt;</span><span class="na">addTag</span><span class="p">(</span><span class="s1">&#39;form.type&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;alias&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span>
+    <span class="p">))</span>
+<span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">サービス設定ファイルがインポートされるのを確認してください。詳細は、 <a class="reference internal" href="../../book/service_container.html#service-container-imports-directive"><em>imports を使ってコンフィギュレーションをインポートする</em></a> を参照してください。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">alias</span></tt> タグが、以前定義した <tt class="docutils literal"><span class="pre">getName</span></tt> メソッドの返り値と一致しているのを確認してください。カスタムフィールドタイプを使用する際に、このことが重要であるということがわかります。まず最初に、gender の設定を引数として受け取ることになる <tt class="docutils literal"><span class="pre">__construct</span></tt> を``GenderType`` に追加してください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Form/Type/GenderType.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\OptionsResolver\OptionsResolverInterface</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="c1">// ...</span>
+<span class="k">class</span> <span class="nc">GenderType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$genderChoices</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="k">array</span> <span class="nv">$genderChoices</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">genderChoices</span> <span class="o">=</span> <span class="nv">$genderChoices</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">genderChoices</span><span class="p">,</span>
+        <span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>できました！これで <tt class="docutils literal"><span class="pre">GenderType</span></tt> はコンフィギュレーションパラメータによって動くようになり、サービスとして登録されました。更に、コンフィギュレーションで <tt class="docutils literal"><span class="pre">form.type</span></tt> エイリアスを使用したのでフィールドを使うのがより簡単になりました。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Form/Type/AuthorType.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilderInterface</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="k">class</span> <span class="nc">AuthorType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilderInterface</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;gender_code&#39;</span><span class="p">,</span> <span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Choose a gender&#39;</span><span class="p">,</span>
+        <span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>このように、新しいインスタンスを初期化するのではなく、サービスコンフィギュレーションの <tt class="docutils literal"><span class="pre">gender</span></tt> 内で使われているエイリアスで参照できるようになりました。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="../validation/custom_constraint.html">< カスタムバリデーション制約の作成方法</a>
+<a class="next" href="../logging/channels_handlers.html">ログメッセージを複数ファイルへ出力させるには ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/form/create_custom_field_type.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/form/create_custom_field_type.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/form/create_custom_field_type.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">カスタムフォームフィールドタイプの作成方法</a><ul>
+<li><a class="reference internal" href="#id2">フィールドタイプの定義</a></li>
+<li><a class="reference internal" href="#id3">フィールドのテンプレートの作成</a></li>
+<li><a class="reference internal" href="#id4">フィールドタイプの使用</a></li>
+<li><a class="reference internal" href="#form-cookbook-form-field-service">フィールドタイプをサービスとして作成</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="../validation/custom_constraint.html"
+                        title="previous chapter">カスタムバリデーション制約の作成方法</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../logging/channels_handlers.html"
+                        title="next chapter">ログメッセージを複数ファイルへ出力させるには</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/form/create_custom_field_type.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

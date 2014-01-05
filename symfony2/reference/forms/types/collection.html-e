@@ -1,0 +1,613 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>collection フィールドタイプ | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../../index.html" />
+    <link rel="up" title="Form Type リファレンス" href="../types.html" />
+    <link rel="next" title="country Field Type" href="country.html" />
+    <link rel="prev" title="choice フィールドタイプ" href="choice.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../../index.html">トップ（索引）</a></li>
+          <li><a href="../../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../index.html">リファレンス</a></li>
+          <li><a href="../../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン : 2.3</li>
+<li>翻訳更新日 : 2013/12/01</li>
+</ul>
+</div>
+<div class="section" id="collection">
+<h1>collection フィールドタイプ<a class="headerlink" href="#collection" title="Permalink to this headline">¶</a></h1>
+<p>このフィールドタイプは複数のフィールドやフォームの&#8221;コレクション&#8221;の表示に使われます。
+最も簡単なところでは、複数のメールアドレス用フィールドを表示するために、テキストフィールドの配列をマップできます。
+より複雑な例では、フォーム全体をコレクションの要素として扱うこともできます。
+たとえば、製品情報と製品に関連する多くの写真を、1つの製品情報フォームにまとめて管理したい場合に便利です。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>対応するタグ</td>
+<td><a class="reference internal" href="#type">type</a> オプションに依存</td>
+</tr>
+<tr class="row-even"><td>オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#type">type</a></li>
+<li><a class="reference internal" href="#options">options</a></li>
+<li><a class="reference internal" href="#allow-add">allow_add</a></li>
+<li><a class="reference internal" href="#allow-delete">allow_delete</a></li>
+<li><a class="reference internal" href="#prototype">prototype</a></li>
+<li><a class="reference internal" href="#prototype-name">prototype_name</a></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>継承された
+オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+<li><a href="#id5"><span class="problematic" id="id6">`by_reference`_</span></a></li>
+<li><a href="#id7"><span class="problematic" id="id8">`empty_data`_</span></a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>親タイプ</td>
+<td><a class="reference internal" href="form.html"><em>form</em></a></td>
+</tr>
+<tr class="row-odd"><td>クラス</td>
+<td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\CollectionType</span></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">もしDoctrineのエンティティとあわせて使っている場合、 <a class="reference internal" href="#allow-add">allow_add</a> 、 <a class="reference internal" href="#allow-delete">allow_delete</a> 、 <a href="#id9"><span class="problematic" id="id10">`by_reference`_</span></a> オプションには特に注意を払ってください。
+クックブックの記事「 <a class="reference internal" href="../../../cookbook/form/form_collections.html"><em>フォームのコレクションを埋め込む方法</em></a> 」に完全な例があります。</p>
+</div>
+<div class="section" id="id1">
+<h2>基本的な使い方<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>このタイプは、ひとつのフォーム中にある類似アイテムのコレクションを管理したいときに使われます。
+たとえば、メールアドレス配列に対応する <tt class="docutils literal"><span class="pre">emails</span></tt> フィールドがあるとします。フォーム中では1つのメールアドレスにつきテキストボックスを1つずつ出力したいです:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;emails&#39;</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="c1">//配列の中のどのアイテムも &quot;email&quot; フィールドとされます</span>
+    <span class="s1">&#39;type&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span>
+    <span class="c1">// これらのオプションはすべて &quot;email&quot; タイプに渡されます</span>
+    <span class="s1">&#39;options&#39;</span>  <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;required&#39;</span>  <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+        <span class="s1">&#39;attr&#39;</span>      <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;email-box&#39;</span><span class="p">)</span>
+    <span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>一番簡単に表示する方法はすべてを一度で行うことです:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.emails</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>より柔軟な方法は以下のようになります:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.emails</span><span class="o">)</span> <span class="cp">}}</span>
+<span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form.emails</span><span class="o">)</span> <span class="cp">}}</span>
+
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">{%</span> <span class="k">for</span> <span class="nv">emailField</span> <span class="k">in</span> <span class="nv">form.emails</span> <span class="cp">%}</span>
+    <span class="nt">&lt;li&gt;</span>
+        <span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">emailField</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">emailField</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;/li&gt;</span>
+<span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span>
+
+<span class="nt">&lt;ul&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">foreach</span> <span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">]</span> <span class="k">as</span> <span class="nv">$emailField</span><span class="p">)</span><span class="o">:</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;li&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">errors</span><span class="p">(</span><span class="nv">$emailField</span><span class="p">)</span> <span class="cp">?&gt;</span>
+        <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">widget</span><span class="p">(</span><span class="nv">$emailField</span><span class="p">)</span> <span class="cp">?&gt;</span>
+    <span class="nt">&lt;/li&gt;</span>
+<span class="cp">&lt;?php</span> <span class="k">endforeach</span><span class="p">;</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>どちらの場合も <tt class="docutils literal"><span class="pre">emails</span></tt> データ配列が空の場合は入力フィールドは表示されません。</p>
+<p>この簡単な例では、まだ新しいアドレスを追加することや既存のアドレスを削除することはできません。
+新しくアドレスを追加するには <a class="reference internal" href="#allow-add">allow_add</a> オプション（および <a class="reference internal" href="#prototype">prototype</a> オプション）を有効にしてください。
+(続く例を見てください)。メールアドレスを <tt class="docutils literal"><span class="pre">emails</span></tt> 配列から削除するには <a class="reference internal" href="#allow-delete">allow_delete</a> オプションを有効にしてください。</p>
+<div class="section" id="id2">
+<h3>アイテムの追加と削除<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>もし <cite>allow_add</cite> が <tt class="docutils literal"><span class="pre">true</span></tt> にセットされていれば、認識されていないアイテムが送信されたとき、
+それらはシームレスにアイテム配列に追加されるでしょう。これは理論上はすばらしいですが、
+実際上、クライアントサイドJavaScriptを正しくするにはもう少し手間がかかります。</p>
+<p>上述の例に沿って続く例では、 <tt class="docutils literal"><span class="pre">emails</span></tt> データ配列に二つのメールアドレスがある状態で始めるとします。
+その場合には、2つの入力のフィールドは（フォームの名前に応じて）次のようにレンダリングされます:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;email&quot;</span> <span class="na">id=</span><span class="s">&quot;form_emails_0&quot;</span> <span class="na">name=</span><span class="s">&quot;form[emails][0]&quot;</span> <span class="na">value=</span><span class="s">&quot;foo@foo.com&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;email&quot;</span> <span class="na">id=</span><span class="s">&quot;form_emails_1&quot;</span> <span class="na">name=</span><span class="s">&quot;form[emails][1]&quot;</span> <span class="na">value=</span><span class="s">&quot;bar@bar.com&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p>ユーザーが別のメールを追加できるようにするために、まず <a class="reference internal" href="#allow-add">allow_add</a> を <tt class="docutils literal"><span class="pre">true</span></tt> に設定します。そして、
+- JavaScript で - <tt class="docutils literal"><span class="pre">form[emails][2]</span></tt> という名前で追加のフィールド（必要であればさらに追加のフィールド）を動的にレンダリングします。</p>
+<p>これを容易にするため、 <a class="reference internal" href="#prototype">prototype</a> オプションを <tt class="docutils literal"><span class="pre">true</span></tt> にすることで&#8221;テンプレート&#8221; フィールドの表示を許可します。
+それは JavaScript を利用して動的に新しいフィールドを作成するために利用できます。
+表示されたプロトタイプフィールドは次のようになります:</p>
+<div class="highlight-html"><div class="highlight"><pre><span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;email&quot;</span> <span class="na">id=</span><span class="s">&quot;form_emails___name__&quot;</span> <span class="na">name=</span><span class="s">&quot;form[emails][__name__]&quot;</span> <span class="na">value=</span><span class="s">&quot;&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">__name__</span></tt> をいくつかの固有の値で置き換えることで （例えば <tt class="docutils literal"><span class="pre">2</span></tt> ）、
+フォームに新しいHTMLフィールドを構築、挿入することができます。</p>
+<dl class="docutils">
+<dt>jQueryを使用した簡単な例は次のようになります。フィールドのコレクションを一度にすべて表示するなら（例えば <tt class="docutils literal"><span class="pre">form_row(form.emails)</span></tt> ）、</dt>
+<dd><tt class="docutils literal"><span class="pre">data-prototype</span></tt> 属性は自動的に表示されるためより簡単です（多少の違いについては続きのnoteを参照のこと）。</dd>
+</dl>
+<p>これまで説明したことをすべて記述した JavaScript コードは、次のようになります:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_start</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="c">{# ... #}</span>
+
+    <span class="c">{# data-prototype 属性にプロトタイプを保存してください #}</span>
+    <span class="nt">&lt;ul</span> <span class="na">id=</span><span class="s">&quot;email-fields-list&quot;</span> <span class="na">data-prototype=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.emails.vars.prototype</span><span class="o">)</span> <span class="o">|</span> <span class="nf">e</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">{%</span> <span class="k">for</span> <span class="nv">emailField</span> <span class="k">in</span> <span class="nv">form.emails</span> <span class="cp">%}</span>
+        <span class="nt">&lt;li&gt;</span>
+            <span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">emailField</span><span class="o">)</span> <span class="cp">}}</span>
+            <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">emailField</span><span class="o">)</span> <span class="cp">}}</span>
+        <span class="nt">&lt;/li&gt;</span>
+    <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/ul&gt;</span>
+
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;#&quot;</span> <span class="na">id=</span><span class="s">&quot;add-another-email&quot;</span><span class="nt">&gt;</span>Add another email<span class="nt">&lt;/a&gt;</span>
+
+    <span class="c">{# ... #}</span>
+<span class="cp">{{</span> <span class="nv">form_end</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+    <span class="c1">// どれだけのメールフィールドが表示したかを追跡しつづけてください。</span>
+    <span class="kd">var</span> <span class="nx">emailCount</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="cp">{{</span> <span class="nv">form.emails</span> <span class="o">|</span> <span class="nf">length</span> <span class="cp">}}</span><span class="s1">&#39;</span><span class="p">;</span>
+
+    <span class="nx">jQuery</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">jQuery</span><span class="p">(</span><span class="s1">&#39;#add-another-email&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">emailList</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">(</span><span class="s1">&#39;#email-fields-list&#39;</span><span class="p">);</span>
+
+            <span class="c1">// prototype template を取得してください</span>
+            <span class="kd">var</span> <span class="nx">newWidget</span> <span class="o">=</span> <span class="nx">emailList</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s1">&#39;data-prototype&#39;</span><span class="p">);</span>
+            <span class="c1">// id と プロトタイプの名前で使われる &quot;__name__&quot; をメールアドレスに対して固有の数字で置き換えてください。</span>
+            <span class="c1">// 最後の name 属性は name=&quot;contact[emails][2]&quot; のようになります</span>
+            <span class="nx">newWidget</span> <span class="o">=</span> <span class="nx">newWidget</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/__name__/g</span><span class="p">,</span> <span class="nx">emailCount</span><span class="p">);</span>
+            <span class="nx">emailCount</span><span class="o">++</span><span class="p">;</span>
+
+            <span class="c1">// 新規リスト要素を作成し、リストに追加してください。</span>
+            <span class="kd">var</span> <span class="nx">newLi</span> <span class="o">=</span> <span class="nx">jQuery</span><span class="p">(</span><span class="s1">&#39;&lt;li&gt;&lt;/li&gt;&#39;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">newWidget</span><span class="p">);</span>
+            <span class="nx">newLi</span><span class="p">.</span><span class="nx">appendTo</span><span class="p">(</span><span class="nx">jQuery</span><span class="p">(</span><span class="s1">&#39;#email-fields-list&#39;</span><span class="p">));</span>
+
+            <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+        <span class="p">});</span>
+    <span class="p">})</span>
+<span class="nt">&lt;/script&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">一度にコレクション全体を表示している場合、コレクションを囲んでいる要素（例えば <tt class="docutils literal"><span class="pre">div</span></tt> または <tt class="docutils literal"><span class="pre">table</span></tt>）の <tt class="docutils literal"><span class="pre">data-prototype</span></tt> 属性にあるプロトタイプは自動的に利用可能です。
+唯一の違いは、 &#8220;form row&#8221; 全体はあなたのために表示します。それは上記でなされたように任意のコンテナ要素でラップする必要が無いことを意味します。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>フィールドオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="type">
+<h3>type<a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> または <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\FormTypeInterface</span></tt> <strong>必須</strong></p>
+<p>これはこのコレクションの中のそれぞれのアイテムのフィールドタイプです（たとえば <tt class="docutils literal"><span class="pre">text</span></tt>, <tt class="docutils literal"><span class="pre">choice</span></tt> など）。
+たとえば、メールアドレスの配列を持っていた場合、あなたは <a class="reference internal" href="email.html"><em>email</em></a>  タイプを使うでしょう。
+もし、その他のフォームのコレクションを組み込みたいとき、新しいフォームタイプのインスタンスを生成し、このオプションに渡してください。</p>
+</div>
+<div class="section" id="options">
+<h3>options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p>これは、 <a class="reference internal" href="#type">type</a> オプションで特定されたフォームタイプに渡された配列です。
+たとえば、 <a class="reference internal" href="choice.html"><em>choice</em></a> オプションを <a class="reference internal" href="#type">type</a> オプションとして
+使用した場合（たとえば、ドロップダウンメニューなど）、少なくても選択肢の基になる <tt class="docutils literal"><span class="pre">choices</span></tt> オプションを
+指定する必要があります:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;favorite_cities&#39;</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;type&#39;</span>   <span class="o">=&gt;</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;options&#39;</span>  <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;choices&#39;</span>  <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;nashville&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Nashville&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;paris&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;Paris&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;berlin&#39;</span>    <span class="o">=&gt;</span> <span class="s1">&#39;Berlin&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;london&#39;</span>    <span class="o">=&gt;</span> <span class="s1">&#39;London&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="allow-add">
+<h3>allow_add<a class="headerlink" href="#allow-add" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>もし <tt class="docutils literal"><span class="pre">true</span></tt> にセットした場合、認識していないアイテムがコレクションに送信された場合、新しいアイテムとして追加されます。
+送信されたデータの中で、配列の末尾には新しく生成されたアイテムと同じように既存のアイテムを含みます。
+より詳細については上述の例を参照してください。</p>
+<p><a class="reference internal" href="#prototype">prototype</a> オプションはプロトタイプアイテムを表示するのに使うことができます。
+それらは - JavaScriptと一緒に - 新しいフォームアイテムをクライアントサイドで動的に生成するのに使うことができます。
+詳細は上述の例とあわせて <a class="reference internal" href="../../../cookbook/form/form_collections.html#cookbook-form-collections-new-prototype"><em>&#8220;prototype&#8221; として tag を&#8221;new&#8221; させる</em></a> を参照してください。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">もし他のフォーム全体をデータベースの1対多の関連を反映して埋め込もうとする場合、
+新しいオブジェクトの外部キーが正しくセットされたか手動で確認する必要があるでしょう。
+Doctrineを使っている場合、これは自動的にはされません。詳細は上述のリンクを参照してください。</p>
+</div>
+</div>
+<div class="section" id="allow-delete">
+<h3>allow_delete<a class="headerlink" href="#allow-delete" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>もし <tt class="docutils literal"><span class="pre">true</span></tt> にセットした場合で既存のアイテムが送信データに含まれていない場合、それはアイテム配列の最後から正しく欠落します。
+これは、JavaScript 経由でフォーム要素を DOM から単純に取り除く &#8220;delete&#8221; ボタンを継承することができることを意味します。
+ユーザーがフォームを送信したとき、その送信されたデータからの欠落は、それが最後の配列から削除されたことを意味します。</p>
+<p>詳細は <a class="reference internal" href="../../../cookbook/form/form_collections.html#cookbook-form-collections-remove"><em>tag を削除させる</em></a> を参照してください。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">オブジェクトのコレクションを埋め込んでいるとき、このオプションを使うときは気をつけてください。
+この場合、いくつかの組み込まれたフォームが削除されれば、それらはオブジェクト配列の末尾から正しく消える <em>でしょう</em> 。
+しかし、あなたのアプリケーションのロジックしだいでは、オブジェクトが削除されたとき、そのオブジェクトまたは外部キー参照先のメインオブジェクトを削除したいと思うでしょう。。
+これは自動的には取り扱われません。詳細は「 <a class="reference internal" href="../../../cookbook/form/form_collections.html#cookbook-form-collections-remove"><em>tag を削除させる</em></a> 」を参照してください。</p>
+</div>
+</div>
+<div class="section" id="prototype">
+<h3>prototype<a class="headerlink" href="#prototype" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+<p>このオプションは <a class="reference internal" href="#allow-add">allow_add</a> オプションを使うときに便利です。もし <tt class="docutils literal"><span class="pre">true</span></tt> (且つ <tt class="docutils literal"><span class="pre">allow_add</span></tt> も <tt class="docutils literal"><span class="pre">true</span></tt> )の場合、
+特別な &#8220;prototype&#8221; 属性が利用可能になります。それは、新しい要素としてページに見えるべき&#8221;テンプレート&#8221;の例を表示できます。
+この要素に与えられた <tt class="docutils literal"><span class="pre">name</span></tt> 属性は <tt class="docutils literal"><span class="pre">__name__</span></tt> です。これはJavaScript 経由でプロトタイプを読み込み、 <tt class="docutils literal"><span class="pre">__name__</span></tt> を固有の名前又は数字に置き換え、フォーム中に表示する &#8220;add another&#8221; ボタンを追加することを許可します。
+送信されたときに <a class="reference internal" href="#allow-add">allow_add</a> オプションの基となる配列にそれは追加されます。</p>
+<p>プロトタイプフィールドはコレクションフィールドの中の <tt class="docutils literal"><span class="pre">prototype</span></tt> 変数を経て表示されることができます:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.emails.vars.prototype</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;emails&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">vars</span><span class="p">[</span><span class="s1">&#39;prototype&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>ここで留意すべきは、あなたが本当に必要なのは &#8220;widget&#8221; ですが、どのようにフォームを表示するか次第では、全体を持っている &#8220;form row&#8221; の方がより簡単かもしれないことです。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">コレクションフィールド全体を一度で表示する場合、プロトタイプの form row はコレクションを囲む（ <tt class="docutils literal"><span class="pre">div</span></tt> または <tt class="docutils literal"><span class="pre">table</span></tt> ）要素の中の
+<tt class="docutils literal"><span class="pre">data-prototype</span></tt> 属性で自動的に利用可能です。</p>
+</div>
+<p>このオプションを実際にどのように利用するかより詳しくは上述の例だけではなく「 <a class="reference internal" href="../../../cookbook/form/form_collections.html#cookbook-form-collections-new-prototype"><em>&#8220;prototype&#8221; として tag を&#8221;new&#8221; させる</em></a> 」をご覧ください。</p>
+</div>
+<div class="section" id="prototype-name">
+<h3>prototype_name<a class="headerlink" href="#prototype-name" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">String</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">__name__</span></tt></p>
+<p>いくつかのコレクションをフォームの中で持つ場合、またはひどくネストしたコレクションを持つ場合、
+関係のないプレースホルダは同じ値に置き換えられないためプレースホルダを変えたいと思うかもしれません。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>継承したオプション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています。
+すべてのオプションはここにリストしてはおらず、このタイプにもっとも当てはまるもののみです:</p>
+<div class="section" id="label">
+<h3>label<a class="headerlink" href="#label" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: フィールド名から推測されたものです。</p>
+<p>フィールドがレンダリングされる際にラベルが設定されます。<tt class="docutils literal"><span class="pre">false</span></tt> が設定されるとラベルは表示されません。
+ラベルはテンプレート内部で設定することもできます。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">render_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;Your name&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="mapped">
+<h3>mapped<a class="headerlink" href="#mapped" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>オブジェクトを読み込んでいるまたは書き込んでいる間、フィールドが無視されるようにしたい場合は、
+<tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にしてください。</p>
+</div>
+<div class="section" id="error-mapping">
+<h3>error_mapping<a class="headerlink" href="#error-mapping" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">empty</span></tt></p>
+<p>このオプションはバリデーションエラーの対象を編集することができます。</p>
+<p><tt class="docutils literal"><span class="pre">matchingCityAndZipCode</span></tt> という名前のメソッドを持っているとして、それが <tt class="docutils literal"><span class="pre">city</span></tt> および <tt class="docutils literal"><span class="pre">zip</span> <span class="pre">code</span></tt> が一致するかの検証をするとします。しかし残念なことに、 &#8220;matchingCityAndZipCode&#8221; フィールドがフォームに無いため、 Symfony ができるのはフォームの上部にエラーを表示することです。</p>
+<p>カスタマイズされたエラーマッピングを使うと、<tt class="docutils literal"><span class="pre">city</span></tt> フィールドの上にエラーを表示するように、より上手にエラーをマップできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;error_mapping&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;matchingCityAndZipCode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>こちらが左側、右側のマッピングするルールです:</p>
+<ul class="simple">
+<li>左側はプロパティパスを有します。</li>
+<li>クラスのプロパティまたはメソッドで違反が生成された場合、そのパスは単に &#8220;propertyName&#8221; です。</li>
+<li><tt class="docutils literal"><span class="pre">array</span></tt> または <tt class="docutils literal"><span class="pre">ArrayAccess</span></tt> オブジェクトで違反が生成された場合、プロパティパスは <tt class="docutils literal"><span class="pre">[indexName]</span></tt> です。</li>
+<li>ドットでプロパティを分離し、それらを連結して、ネストされたプロパティパスを作成することができます。たとえば <tt class="docutils literal"><span class="pre">addresses[work].matchingCityAndZipCode</span></tt> のように。</li>
+<li>左側のエラーマッピングは単一のドット <tt class="docutils literal"><span class="pre">.</span></tt> も認められます。それはフィールド自体をさしています。フィールドに追加されたエラーはネストされたフィールドの代わりに付与されたことを意味します。</li>
+<li>右側は単にフォームのフィールド名を有します。</li>
+</ul>
+</div>
+<div class="section" id="error-bubbling">
+<h3>error_bubbling<a class="headerlink" href="#error-bubbling" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">true</span></tt> の場合、このフィールドのエラーは親フィールドまたはフォームに渡されます。
+たとえば、通常のフィールドを <tt class="docutils literal"><span class="pre">true</span></tt> に設定した場合、フィールドに対するエラーは
+特定のフィールドではなくメインのフォームに付加されます。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+<a class="prev" href="choice.html">< choice フィールドタイプ</a>
+<a class="next" href="country.html">country Field Type ></a>
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/reference/forms/types/collection.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types/collection.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types/collection.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">collection フィールドタイプ</a><ul>
+<li><a class="reference internal" href="#id1">基本的な使い方</a><ul>
+<li><a class="reference internal" href="#id2">アイテムの追加と削除</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">フィールドオプション</a><ul>
+<li><a class="reference internal" href="#type">type</a></li>
+<li><a class="reference internal" href="#options">options</a></li>
+<li><a class="reference internal" href="#allow-add">allow_add</a></li>
+<li><a class="reference internal" href="#allow-delete">allow_delete</a></li>
+<li><a class="reference internal" href="#prototype">prototype</a></li>
+<li><a class="reference internal" href="#prototype-name">prototype_name</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">継承したオプション</a><ul>
+<li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="choice.html"
+                        title="previous chapter">choice フィールドタイプ</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="country.html"
+                        title="next chapter">country Field Type</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/reference/forms/types/collection.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../../book/installation.html">インストール方法</a></li>
+              <li><a href="../types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../../index.html">トップ（索引）</a></li>
+          <li><a href="../../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../index.html">リファレンス</a></li>
+          <li><a href="../../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

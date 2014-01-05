@@ -1,0 +1,463 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>バンドルの構造とベストプラクティス | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="index-0">
+<span id="id1"></span><h1>バンドルの構造とベストプラクティス<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>バンドルは、洗練された構造をしており、クラスファイルからコントローラやウェブのリソースまで何でも格納できるディレクトリです。バンドルはとてもフレキシブルですが、バンドルを配布する際にはベストプラクティスに沿う必要があります。</p>
+<div class="section" id="bundles-naming-conventions">
+<span id="index-1"></span><span id="id2"></span><h2>バンドル名<a class="headerlink" href="#bundles-naming-conventions" title="Permalink to this headline">¶</a></h2>
+<p>１つバンドルは同時に１つの PHP のネームスペースでもあります。ネームスペースは、 PHP5.3 のネームスペースとクラス名の技術的な相互運用の <cite>standards_</cite> に沿う必要があります。つまり、ベンダーの区分から始まり、カテゴリの区分(無い場合もあるし、複数ある場合もあります)が続き、必ず <tt class="docutils literal"><span class="pre">Bundle</span></tt> という接尾辞で終わる短いネームスペースになります。</p>
+<p>バンドルクラスを追加すると同時にネームスペースはバンドルになります。バンドルのクラス名は次のルールに沿う必要があります。</p>
+<ul class="simple">
+<li>半角英数字、アンダースコアのみ使用すること</li>
+<li>ネーミングには、キャメルケースを使用すること</li>
+<li>意味のある短い名前を使うこと(短い方が望ましく、多くとも二語とする)</li>
+<li>ベンダーに連続する名前を前に置くこと(カテゴリのネームスペースがある際には、それに連続すること)</li>
+<li><tt class="docutils literal"><span class="pre">Bundle</span></tt> 接尾辞を付けること</li>
+</ul>
+<p>以下に有効なネームスペースとクラス名の例を示します。:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="57%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ネームスペース</th>
+<th class="head">バンドルのクラス名</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Acme\Bundle\BlogBundle</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt></td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Acme\Bundle\Social\BlogBundle</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">AcmeSocialBlogBundle</span></tt></td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Acme\BlogBundle</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt></td>
+</tr>
+</tbody>
+</table>
+<p>慣例により、バンドルクラスの <tt class="docutils literal"><span class="pre">getName()</span></tt> メソッドはクラス名を返す必要があります。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">バンドルをパブリックに共有する際には、バンドルのクラス名をリポジトリの名前として使用するようにしなければなりません。例えば <tt class="docutils literal"><span class="pre">BlogBundle</span></tt> ではなく、<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> としてください。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Symfony2 のコアのバンドルは、バンドルのクラス名に <tt class="docutils literal"><span class="pre">Symfony</span></tt> という名前を前に置いておらず、常にサブネームスペースである <tt class="docutils literal"><span class="pre">Bundle</span></tt> を追加しています。例えば、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\FrameworkBundle</span></tt> のようにです。</p>
+</div>
+<p>それぞれのバンドルの名前には、小文字とアンダースコアを使用して短くしたエイリアスがあります。例えば、<tt class="docutils literal"><span class="pre">AcmeHelloBundle</span></tt> は <tt class="docutils literal"><span class="pre">acme_hello</span></tt> になり、<tt class="docutils literal"><span class="pre">Acme\Social\BlogBundle</span></tt> は <tt class="docutils literal"><span class="pre">acme_social_blog</span></tt> になります。エイリアスは、同バンドル内で一意である必要があります。以下のセクションで使用方法の例を示します。</p>
+</div>
+<div class="section" id="id3">
+<h2>ディレクトリ構造<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">HelloBundle</span></tt> バンドルのベーシックなディレクトリ構造は以下の通りです。:</p>
+<div class="highlight-text"><div class="highlight"><pre>XXX/...
+    HelloBundle/
+        HelloBundle.php
+        Controller/
+        Resources/
+            meta/
+                LICENSE
+            config/
+            doc/
+                index.rst
+            translations/
+            views/
+            public/
+        Tests/
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">XXX</span></tt> ディレクトリは、バンドルのネームスペースの構造を示しています。</p>
+<p>以下のファイルは必ず必要です。:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">HelloBundle.php</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">Resources/meta/LICENSE</span></tt>: バンドル内のコードの完全なライセンス</li>
+<li><tt class="docutils literal"><span class="pre">Resources/doc/index.rst</span></tt>: バンドルのドキュメントのためのルートファイル</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">これらの慣習は、デフォルトの構造に依存している自動化ツールが、ちゃんと動作するためのものです。</p>
+</div>
+<p>使用頻度の高いクラスファイル等を保管するサブディレクトリの深さは、最小に抑えるべきです。最大でも二階層にしてください。あまり重要でなかったり、使用頻度の低いファイルは、階層を深いところに置いてもいいでしょう。</p>
+<p>バンドルディレクトリの権限は、リードオンリーにします。もし、一時ファイルを書き込む必要があるなら、アプリケーションの <tt class="docutils literal"><span class="pre">cache/</span></tt> や <tt class="docutils literal"><span class="pre">log/</span></tt> ディレクトリに保管してください。自動化ツールは、バンドルのディレクトリ構造内にファイルを生成することができますが、それは、生成されたファイルがリポジトリの一部となるときのみです。</p>
+<p>以下のクラスとファイルは、特定の位置に配置されます。:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="56%" />
+<col width="44%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Type</th>
+<th class="head">Directory</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>コマンド</td>
+<td><tt class="docutils literal"><span class="pre">Command/</span></tt></td>
+</tr>
+<tr class="row-odd"><td>コントローラー</td>
+<td><tt class="docutils literal"><span class="pre">Controller/</span></tt></td>
+</tr>
+<tr class="row-even"><td>サービスコンテナエクステンション</td>
+<td><tt class="docutils literal"><span class="pre">DependencyInjection/</span></tt></td>
+</tr>
+<tr class="row-odd"><td>イベントリスナー</td>
+<td><tt class="docutils literal"><span class="pre">EventListener/</span></tt></td>
+</tr>
+<tr class="row-even"><td>コンフィギュレーション</td>
+<td><tt class="docutils literal"><span class="pre">Resources/config/</span></tt></td>
+</tr>
+<tr class="row-odd"><td>Web リソース</td>
+<td><tt class="docutils literal"><span class="pre">Resources/public/</span></tt></td>
+</tr>
+<tr class="row-even"><td>翻訳ファイル</td>
+<td><tt class="docutils literal"><span class="pre">Resources/translations/</span></tt></td>
+</tr>
+<tr class="row-odd"><td>テンプレート</td>
+<td><tt class="docutils literal"><span class="pre">Resources/views/</span></tt></td>
+</tr>
+<tr class="row-even"><td>Unit テスト、ファンクショナルテスト</td>
+<td><tt class="docutils literal"><span class="pre">Tests/</span></tt></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id4">
+<h2>クラス<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>バンドルディレクトリの構造は、ネームスペースの階層として使用されます。例えば <tt class="docutils literal"><span class="pre">HelloController</span></tt> コントローラは、<tt class="docutils literal"><span class="pre">Bundle/HelloBundle/Controller/HelloController.php</span></tt> に保管されますし、完全なクラス名は、<tt class="docutils literal"><span class="pre">Bundle\HelloBundle\Controller\HelloController</span></tt> になります。</p>
+<p>全てのクラスとファイルは、 Symfony2 の基準に沿う必要があります。<a class="reference internal" href="../../contributing/code/standards.html"><em>コーディング規約</em></a></p>
+<p>クラスのいくつかは、わかりやすくするために、可能な限り短くあるべきです。例えば、Commands、Helpers、Listeners、Controllers などです。</p>
+<p>イベントディスパッチャーに接続するクラスは、<tt class="docutils literal"><span class="pre">Listener</span></tt> の接尾辞をつけるべきです。</p>
+<p>例外クラスは、<tt class="docutils literal"><span class="pre">Exception</span></tt> のサブネームスペース内に保管するべきです。</p>
+</div>
+<div class="section" id="id5">
+<h2>ベンダー<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>バンドルは、サードパーティの PHP ライブラリを含んではいけません。その代わりに、標準的な Symfony2 のオートローディングを使いましょう。</p>
+<p>バンドルは、サードパーティの JavaScript や CSS などのライブラリを含んではいけません。</p>
+</div>
+<div class="section" id="id6">
+<h2>テスト<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>バンドルは、<tt class="docutils literal"><span class="pre">Tests/</span></tt> ディレクトリ以下に PHPUnit で書かれたテストスイートを用意すべきです。テストは以下の原則に沿ってください。</p>
+<ul class="simple">
+<li>テストスイートは、サンプルアプリケーションから <tt class="docutils literal"><span class="pre">phpunit</span></tt> コマンドのみを走らせるだけで実行できなければなりません。</li>
+<li>機能テストは、レスポンスの出力とプロファイル情報のみをテストすべきです。</li>
+<li>コードカバレッジは、コードベースの少なくとも 95% 以上にすべきです。</li>
+</ul>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">テストスイートに <tt class="docutils literal"><span class="pre">AllTests.php</span></tt> スクリプトを含んまないでください。代わりに <tt class="docutils literal"><span class="pre">phpunit.xml.dist</span></tt> ファイルを使用してください。</p>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>ドキュメント<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>全てのクラスと関数は PHPDoc が必要です。</p>
+<p>詳細なドキュメントを用意する際は、<tt class="docutils literal"><span class="pre">Resources/doc/</span></tt> ディレクトリ以下に、<a class="reference internal" href="../../contributing/documentation/format.html"><em>reStructuredText</em></a> フォーマットで用意してください。<tt class="docutils literal"><span class="pre">Resources/doc/index.rst</span></tt> ファイルは唯一必要なファイルで、詳細なドキュメントへのエントリポイントとしてください。</p>
+</div>
+<div class="section" id="id8">
+<h2>コントローラ<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>ベストプラクティスとして、他人に配布することを考慮する必要があるので、バンドル内のコントローラは、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt> のベースクラスを拡張してはなりません。代わりに、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DependencyInjection\ContainerAwareInterface</span></tt> インタフェースを実装するか、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DependencyInjection\ContainerAware</span></tt> クラスを拡張してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt> クラスのメソッドは、単に学習を簡単にさせるショートカットの集合です。</p>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>ルーティング<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<p>バンドルでルーティングを提供するには、ルート名にバンドルエイリアスの接頭辞を付ける必要があります。例えば、<tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> であれば、全てのルート名は、 <tt class="docutils literal"><span class="pre">acme_blog_</span></tt> の接頭辞を必ず付けてください。</p>
+</div>
+<div class="section" id="id10">
+<h2>テンプレート<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
+<p>バンドルがテンプレートを提供する際には、 Twig を必ず使ってください。バンドルは、単体で動くアプリケーションでなければ、メインとなるレイアウトを用意するべきではありません。</p>
+</div>
+<div class="section" id="id11">
+<h2>翻訳ファイル<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<p>バンドルが翻訳ファイルを提供する際には、 XLIFF フォーマットで定義する必要があります。そして、XLIFF のメッセージドメインは、バンドル名(例えば <tt class="docutils literal"><span class="pre">bundle.hello</span></tt>)の後に名前を付けてください。</p>
+<p>バンドルは、他のバンドルで使われているメッセージを上書きしてはなりません。</p>
+</div>
+<div class="section" id="id12">
+<h2>コンフィギュレーション<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<p>さらにフレキシブルにするために、 Symfony2 のビルトインメカニズムを使用すれば、バンドルはコンフィギュレーションの設定も提供することができます。</p>
+<p>簡単なコンフィギュレーションの設定は、Symfony2 のコンフィギュレーションのデフォルトの <tt class="docutils literal"><span class="pre">parameters</span></tt> のエントリに依存しています。Symfony2 のパラメータは、簡単なキーとバリューのペアになります。バリューは、 PHP で有効な値になります。それぞれのパラメータ名は、バンドルエイリアスの接頭辞を付ける必要があります。ただし、これは単にベストプラクティスとしての提案です。パラメータ名の残りは、異なる部分のセパレータとして、ピリオド (<tt class="docutils literal"><span class="pre">.</span></tt>)を使うことになります。例えば、 <tt class="docutils literal"><span class="pre">acme_hello.email.from</span></tt> のようになります。</p>
+<p>以下のように、エンドユーザはどんなコンフィギュレーションファイル内の値も規定することができます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">parameters</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">acme_hello.email.from</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">fabien@example.com</span>
+</pre></div>
+</div>
+</li>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>
+<span class="nt">&lt;parameters&gt;</span>
+    <span class="nt">&lt;parameter</span> <span class="na">key=</span><span class="s">&quot;acme_hello.email.from&quot;</span><span class="nt">&gt;</span>fabien@example.com<span class="nt">&lt;/parameter&gt;</span>
+<span class="nt">&lt;/parameters&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
+<span class="nv">$container</span><span class="o">-&gt;</span><span class="na">setParameter</span><span class="p">(</span><span class="s1">&#39;acme_hello.email.from&#39;</span><span class="p">,</span> <span class="s1">&#39;fabien@example.com&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</li>
+<li><em>INI</em><div class="highlight-ini"><div class="highlight"><pre><span class="k">[parameters]</span>
+<span class="na">acme_hello.email.from</span> <span class="o">=</span> <span class="s">fabien@example.com</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>コードでは、コンテナから設定パラメータを取得します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">getParameter</span><span class="p">(</span><span class="s1">&#39;acme_hello.email.from&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>このメカニズムはとてもシンプルですが、他のクックブックの記事(<a class="reference internal" href="extension.html"><em>セマンティックコンフィギュレーションを通してバンドルを設定する方法</em></a>) にあるように意味的なコンフィギュレーションを使用した方が良いえしょう。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">サービスを定義する際は、バンドルエイリアスの接頭辞を付ける必要があります。</p>
+</div>
+</div>
+<div class="section" id="id13">
+<h2>さらなる詳細は、クックブックの他の記事も参考としましょう。<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference internal" href="extension.html"><em>セマンティックコンフィギュレーションを通してバンドルを設定する方法</em></a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/master/cookbook/bundles/best_practices.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/bundles/best_practices.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/bundles/best_practices.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">バンドルの構造とベストプラクティス</a><ul>
+<li><a class="reference internal" href="#bundles-naming-conventions">バンドル名</a></li>
+<li><a class="reference internal" href="#id3">ディレクトリ構造</a></li>
+<li><a class="reference internal" href="#id4">クラス</a></li>
+<li><a class="reference internal" href="#id5">ベンダー</a></li>
+<li><a class="reference internal" href="#id6">テスト</a></li>
+<li><a class="reference internal" href="#id7">ドキュメント</a></li>
+<li><a class="reference internal" href="#id8">コントローラ</a></li>
+<li><a class="reference internal" href="#id9">ルーティング</a></li>
+<li><a class="reference internal" href="#id10">テンプレート</a></li>
+<li><a class="reference internal" href="#id11">翻訳ファイル</a></li>
+<li><a class="reference internal" href="#id12">コンフィギュレーション</a></li>
+<li><a class="reference internal" href="#id13">さらなる詳細は、クックブックの他の記事も参考としましょう。</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../_sources/cookbook/bundles/best_practices.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

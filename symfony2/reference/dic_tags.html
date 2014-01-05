@@ -67,11 +67,112 @@
           <li><a href="../components/index.html">コンポーネント</a></li>
           <li><a href="index.html">リファレンス</a></li>
           <li><a href="../contributing/index.html">貢献</a></li>
-          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
         </ul>
       </div>
       <!-- end #navbar -->
       <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Dependency Injectionタグ</a><ul>
+<li><a class="reference internal" href="#assetic-asset">assetic.asset</a></li>
+<li><a class="reference internal" href="#assetic-factory-worker">assetic.factory_worker</a></li>
+<li><a class="reference internal" href="#assetic-filter">assetic.filter</a></li>
+<li><a class="reference internal" href="#assetic-formula-loader">assetic.formula_loader</a></li>
+<li><a class="reference internal" href="#assetic-formula-resource">assetic.formula_resource</a></li>
+<li><a class="reference internal" href="#assetic-templating-php">assetic.templating.php</a></li>
+<li><a class="reference internal" href="#assetic-templating-twig">assetic.templating.twig</a></li>
+<li><a class="reference internal" href="#console-command">console.command</a></li>
+<li><a class="reference internal" href="#data-collector">data_collector</a></li>
+<li><a class="reference internal" href="#doctrine-event-listener">doctrine.event_listener</a></li>
+<li><a class="reference internal" href="#doctrine-event-subscriber">doctrine.event_subscriber</a></li>
+<li><a class="reference internal" href="#form-type">form.type</a></li>
+<li><a class="reference internal" href="#form-type-extension">form.type_extension</a></li>
+<li><a class="reference internal" href="#form-type-guesser">form.type_guesser</a></li>
+<li><a class="reference internal" href="#kernel-cache-clearer">kernel.cache_clearer</a></li>
+<li><a class="reference internal" href="#kernel-cache-warmer">kernel.cache_warmer</a></li>
+<li><a class="reference internal" href="#kernel-event-listener">kernel.event_listener</a><ul>
+<li><a class="reference internal" href="#event-listener">コアEvent Listenerリファレンス</a><ul>
+<li><a class="reference internal" href="#kernel-request">kernel.request</a></li>
+<li><a class="reference internal" href="#kernel-controller">kernel.controller</a></li>
+<li><a class="reference internal" href="#kernel-response">kernel.response</a></li>
+<li><a class="reference internal" href="#kernel-exception">kernel.exception</a></li>
+<li><a class="reference internal" href="#kernel-terminate">kernel.terminate</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#kernel-event-subscriber">kernel.event_subscriber</a></li>
+<li><a class="reference internal" href="#kernel-fragment-renderer">kernel.fragment_renderer</a></li>
+<li><a class="reference internal" href="#monolog-logger">monolog.logger</a></li>
+<li><a class="reference internal" href="#monolog-processor">monolog.processor</a></li>
+<li><a class="reference internal" href="#routing-loader">routing.loader</a></li>
+<li><a class="reference internal" href="#security-remember-me-aware">security.remember_me_aware</a></li>
+<li><a class="reference internal" href="#security-voter">security.voter</a></li>
+<li><a class="reference internal" href="#serializer-encoder">serializer.encoder</a></li>
+<li><a class="reference internal" href="#serializer-normalizer">serializer.normalizer</a></li>
+<li><a class="reference internal" href="#swiftmailer-plugin">swiftmailer.plugin</a></li>
+<li><a class="reference internal" href="#templating-helper">templating.helper</a></li>
+<li><a class="reference internal" href="#translation-loader">translation.loader</a></li>
+<li><a class="reference internal" href="#translation-extractor">translation.extractor</a></li>
+<li><a class="reference internal" href="#translation-dumper">translation.dumper</a></li>
+<li><a class="reference internal" href="#twig-extension">twig.extension</a></li>
+<li><a class="reference internal" href="#twig-loader">twig.loader</a></li>
+<li><a class="reference internal" href="#validator-constraint-validator">validator.constraint_validator</a></li>
+<li><a class="reference internal" href="#validator-initializer">validator.initializer</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="constraints/Valid.html"
+                        title="previous chapter">Valid</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="YAML.html"
+                        title="next chapter">このページの翻訳はまだ行われていません。</a></p>
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/reference/dic_tags.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -1230,114 +1331,12 @@ initializerがなければ、 Doctrine のエンティティに含まれるデ�
 <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 <a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
 
-
-
-          </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
 <div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
-  <h3>このページのコンテンツ</h3>
-  <ul>
-<li><a class="reference internal" href="#">Dependency Injectionタグ</a><ul>
-<li><a class="reference internal" href="#assetic-asset">assetic.asset</a></li>
-<li><a class="reference internal" href="#assetic-factory-worker">assetic.factory_worker</a></li>
-<li><a class="reference internal" href="#assetic-filter">assetic.filter</a></li>
-<li><a class="reference internal" href="#assetic-formula-loader">assetic.formula_loader</a></li>
-<li><a class="reference internal" href="#assetic-formula-resource">assetic.formula_resource</a></li>
-<li><a class="reference internal" href="#assetic-templating-php">assetic.templating.php</a></li>
-<li><a class="reference internal" href="#assetic-templating-twig">assetic.templating.twig</a></li>
-<li><a class="reference internal" href="#console-command">console.command</a></li>
-<li><a class="reference internal" href="#data-collector">data_collector</a></li>
-<li><a class="reference internal" href="#doctrine-event-listener">doctrine.event_listener</a></li>
-<li><a class="reference internal" href="#doctrine-event-subscriber">doctrine.event_subscriber</a></li>
-<li><a class="reference internal" href="#form-type">form.type</a></li>
-<li><a class="reference internal" href="#form-type-extension">form.type_extension</a></li>
-<li><a class="reference internal" href="#form-type-guesser">form.type_guesser</a></li>
-<li><a class="reference internal" href="#kernel-cache-clearer">kernel.cache_clearer</a></li>
-<li><a class="reference internal" href="#kernel-cache-warmer">kernel.cache_warmer</a></li>
-<li><a class="reference internal" href="#kernel-event-listener">kernel.event_listener</a><ul>
-<li><a class="reference internal" href="#event-listener">コアEvent Listenerリファレンス</a><ul>
-<li><a class="reference internal" href="#kernel-request">kernel.request</a></li>
-<li><a class="reference internal" href="#kernel-controller">kernel.controller</a></li>
-<li><a class="reference internal" href="#kernel-response">kernel.response</a></li>
-<li><a class="reference internal" href="#kernel-exception">kernel.exception</a></li>
-<li><a class="reference internal" href="#kernel-terminate">kernel.terminate</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#kernel-event-subscriber">kernel.event_subscriber</a></li>
-<li><a class="reference internal" href="#kernel-fragment-renderer">kernel.fragment_renderer</a></li>
-<li><a class="reference internal" href="#monolog-logger">monolog.logger</a></li>
-<li><a class="reference internal" href="#monolog-processor">monolog.processor</a></li>
-<li><a class="reference internal" href="#routing-loader">routing.loader</a></li>
-<li><a class="reference internal" href="#security-remember-me-aware">security.remember_me_aware</a></li>
-<li><a class="reference internal" href="#security-voter">security.voter</a></li>
-<li><a class="reference internal" href="#serializer-encoder">serializer.encoder</a></li>
-<li><a class="reference internal" href="#serializer-normalizer">serializer.normalizer</a></li>
-<li><a class="reference internal" href="#swiftmailer-plugin">swiftmailer.plugin</a></li>
-<li><a class="reference internal" href="#templating-helper">templating.helper</a></li>
-<li><a class="reference internal" href="#translation-loader">translation.loader</a></li>
-<li><a class="reference internal" href="#translation-extractor">translation.extractor</a></li>
-<li><a class="reference internal" href="#translation-dumper">translation.dumper</a></li>
-<li><a class="reference internal" href="#twig-extension">twig.extension</a></li>
-<li><a class="reference internal" href="#twig-loader">twig.loader</a></li>
-<li><a class="reference internal" href="#validator-constraint-validator">validator.constraint_validator</a></li>
-<li><a class="reference internal" href="#validator-initializer">validator.initializer</a></li>
-</ul>
-</li>
-</ul>
 
-  <h4>前のドキュメント</h4>
-  <p class="topless"><a href="constraints/Valid.html"
-                        title="previous chapter">Valid</a></p>
-  <h4>次のドキュメント</h4>
-  <p class="topless"><a href="YAML.html"
-                        title="next chapter">このページの翻訳はまだ行われていません。</a></p>
-  <h3>ソース</h3>
-  <ul class="this-page-menu">
-    <li><a href="../sources/reference/dic_tags.txt"
-           rel="nofollow">ページのソースを表示</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>クイック検索</h3>
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" size="18" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-          <br />
-          <br />
-          <div id="other">
-            <h3>クイックリンク</h3>
-            <ul>
-              <li><a href="../book/installation.html">インストール方法</a></li>
-              <li><a href="forms/types.html">FormTypeリファレンス</a></li>
-              <li><a href="constraints.html">バリデータリファレンス</a></li>
-              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
-              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
-            </ul>
-
-            <h3>コメントリスト</h3>
-
-<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
-
-
-            <br />
-            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
-
-            <br />
-            <p>現在、翻訳が古くなっている箇所が多くあります。1箇所、1行などほんの少量でもかまいませんので、ドキュメント翻訳にご協力いただける方を募集しています。<a href="http://groups.google.com/group/symfony-users-ja">日本 Symfony ユーザー会メーリングリスト</a>までご連絡ください。</p>
           </div>
         </div>
       </div>
+
       <div class="clearer"></div>
     </div>
 
@@ -1365,13 +1364,13 @@ initializerがなければ、 Doctrine のエンティティに含まれるデ�
           <li><a href="../components/index.html">コンポーネント</a></li>
           <li><a href="index.html">リファレンス</a></li>
           <li><a href="../contributing/index.html">貢献</a></li>
-          <li><a href="http://www.symfony.gr.jp/">日本Symfonyユーザー会</a></li>
         </ul>
       </div>
       <!-- end #navbar -->
         <div>
           <p id="copyright">
-            Copyright &copy; 2011-2013 Symfony Japan. All rights reserved.
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
             &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
             &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
           </p>

@@ -611,7 +611,7 @@ textarea:focus{
 
 #all {
 	width: 100%;
-	background: url(images/all_bg.png) repeat-x left top;
+	background: url(images/all_bg.png) repeat-x left -162px;
 }
 
 #content {
@@ -621,16 +621,16 @@ textarea:focus{
 }
 
 #content_wrapper {
-	background: url(images/all_bg_l.png) no-repeat -30px top;
+	background: url(images/all_bg_l.png) no-repeat -30px -162px;
 }
 
 
 /*top_menu
 ---------------------------------------------- */
 #top_menu {
-	height: 50px;
+	height: 0px;
 	text-align: right;
-	background: url(images/header_bg_top.png) no-repeat left top;
+/*	background: url(images/header_bg_top.png) no-repeat left top; */
 }
 
 #top_menu_wrapper {
@@ -650,18 +650,12 @@ textarea:focus{
 /*header
 ---------------------------------------------- */
 #header_top {
-	height: 212px;
-	background: url(images/sf2_header_bg_bottom.png) no-repeat left top;
+	height: 100px;
+	background: url(images/header_bg_bottom.png) no-repeat left -32px;
 	position: relative;
 }
 
 #header_top_left {
-	position: absolute;
-	left: -95px;
-	top: -50px;
-	width: 95px;
-	height: 310px;
-	background: url(images/all_bg_l.png) no-repeat;
 }
 
 .header_info {
@@ -679,7 +673,7 @@ textarea:focus{
 #logo_top a {
 	width: 560px;
 	height: 90px;
-	background: url(images/logo_top.png) no-repeat left top;
+/*	background: url(images/logo_top.png) no-repeat left top; */
 	position: absolute;
 	left: 22px;
 	top: 40px;

@@ -1,0 +1,1638 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1   PHPフレームワークSymfony2 開発チュートリアル | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">1&nbsp;&nbsp;&nbsp;PHPフレームワークSymfony2 開発チュートリアル</a><ul>
+<li><a class="reference internal" href="#id2">1.1&nbsp;&nbsp;&nbsp;はじめに</a></li>
+<li><a class="reference internal" href="#id3">1.2&nbsp;&nbsp;&nbsp;飲料注文アプリケーション</a></li>
+<li><a class="reference internal" href="#id4">1.3&nbsp;&nbsp;&nbsp;バンドルの作成</a></li>
+<li><a class="reference internal" href="#id5">1.4&nbsp;&nbsp;&nbsp;ページフローの実装</a><ul>
+<li><a class="reference internal" href="#id6">1.4.1&nbsp;&nbsp;&nbsp;最初のページ - 商品選択ページ</a><ul>
+<li><a class="reference internal" href="#id7">1.4.1.1&nbsp;&nbsp;&nbsp;商品選択フォームの作成</a></li>
+<li><a class="reference internal" href="#id9">1.4.1.2&nbsp;&nbsp;&nbsp;エンティティの作成</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10">1.4.2&nbsp;&nbsp;&nbsp;2つ目のページ - 配送先情報入力ページ</a><ul>
+<li><a class="reference internal" href="#id11">1.4.2.1&nbsp;&nbsp;&nbsp;ルートの定義</a></li>
+<li><a class="reference internal" href="#id12">1.4.2.2&nbsp;&nbsp;&nbsp;配送先情報入力フォームの作成</a></li>
+<li><a class="reference internal" href="#id13">1.4.2.3&nbsp;&nbsp;&nbsp;エンティティの更新</a></li>
+<li><a class="reference internal" href="#id14">1.4.2.4&nbsp;&nbsp;&nbsp;ページ遷移の実装</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id15">1.4.3&nbsp;&nbsp;&nbsp;3つ目のページ - 注文内容確認ページ</a></li>
+<li><a class="reference internal" href="#id16">1.4.4&nbsp;&nbsp;&nbsp;最後のページ - 注文完了ページ</a></li>
+<li><a class="reference internal" href="#id17">1.4.5&nbsp;&nbsp;&nbsp;レイアウトテンプレートの導入</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id18">1.5&nbsp;&nbsp;&nbsp;セッションの導入</a><ul>
+<li><a class="reference internal" href="#id19">1.5.1&nbsp;&nbsp;&nbsp;オブジェクトの登録</a></li>
+<li><a class="reference internal" href="#id20">1.5.2&nbsp;&nbsp;&nbsp;入力内容の修正</a></li>
+<li><a class="reference internal" href="#id21">1.5.3&nbsp;&nbsp;&nbsp;注文完了時の初期化</a></li>
+<li><a class="reference internal" href="#id22">1.5.4&nbsp;&nbsp;&nbsp;フォームの組み立てコードの外部化</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id23">1.6&nbsp;&nbsp;&nbsp;バリデーションの実装</a><ul>
+<li><a class="reference internal" href="#id24">1.6.1&nbsp;&nbsp;&nbsp;最初のフォーム - 商品選択フォーム</a></li>
+<li><a class="reference internal" href="#id25">1.6.2&nbsp;&nbsp;&nbsp;2つ目のフォーム - 配送先情報入力フォーム</a></li>
+<li><a class="reference internal" href="#id27">1.6.3&nbsp;&nbsp;&nbsp;最後のフォーム - 注文内容確認フォーム</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id28">1.7&nbsp;&nbsp;&nbsp;データベースへのオブジェクトの保存</a><ul>
+<li><a class="reference internal" href="#id29">1.7.1&nbsp;&nbsp;&nbsp;テーブルの作成</a></li>
+<li><a class="reference internal" href="#id30">1.7.2&nbsp;&nbsp;&nbsp;オブジェクトの保存</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#csrf">1.8&nbsp;&nbsp;&nbsp;ページフローの制御とCSRF対策</a><ul>
+<li><a class="reference internal" href="#id31">1.8.1&nbsp;&nbsp;&nbsp;ページフローの制御</a></li>
+<li><a class="reference internal" href="#id32">1.8.2&nbsp;&nbsp;&nbsp;CSRF対策</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id33">1.9&nbsp;&nbsp;&nbsp;まとめ</a></li>
+<li><a class="reference internal" href="#id34">1.10&nbsp;&nbsp;&nbsp;参考</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/osc2011-nagoya-symfony2-tutorial/symfony2-php-framework-development-tutorial.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="phpsymfony2">
+<h1><a class="toc-backref" href="#id38">1&nbsp;&nbsp;&nbsp;PHPフレームワークSymfony2 開発チュートリアル</a><a class="headerlink" href="#phpsymfony2" title="Permalink to this headline">¶</a></h1>
+<p>Copyright (c) 2011 KUBO Atsuhiro &lt;<a class="reference external" href="mailto:kubo&#37;&#52;&#48;iteman&#46;jp">kubo<span>&#64;</span>iteman<span>&#46;</span>jp</a>&gt;, All rights reserved.</p>
+<p>This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. To view a copy of this license, visit <a class="reference external" href="http://creativecommons.org/licenses/by-sa/3.0/">http://creativecommons.org/licenses/by-sa/3.0/</a> or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.</p>
+<div class="contents topic" id="id1">
+<p class="topic-title first">目次</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#phpsymfony2" id="id38">1&nbsp;&nbsp;&nbsp;PHPフレームワークSymfony2 開発チュートリアル</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id2" id="id39">1.1&nbsp;&nbsp;&nbsp;はじめに</a></li>
+<li><a class="reference internal" href="#id3" id="id40">1.2&nbsp;&nbsp;&nbsp;飲料注文アプリケーション</a></li>
+<li><a class="reference internal" href="#id4" id="id41">1.3&nbsp;&nbsp;&nbsp;バンドルの作成</a></li>
+<li><a class="reference internal" href="#id5" id="id42">1.4&nbsp;&nbsp;&nbsp;ページフローの実装</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id6" id="id43">1.4.1&nbsp;&nbsp;&nbsp;最初のページ - 商品選択ページ</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id7" id="id44">1.4.1.1&nbsp;&nbsp;&nbsp;商品選択フォームの作成</a></li>
+<li><a class="reference internal" href="#id9" id="id45">1.4.1.2&nbsp;&nbsp;&nbsp;エンティティの作成</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10" id="id46">1.4.2&nbsp;&nbsp;&nbsp;2つ目のページ - 配送先情報入力ページ</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id11" id="id47">1.4.2.1&nbsp;&nbsp;&nbsp;ルートの定義</a></li>
+<li><a class="reference internal" href="#id12" id="id48">1.4.2.2&nbsp;&nbsp;&nbsp;配送先情報入力フォームの作成</a></li>
+<li><a class="reference internal" href="#id13" id="id49">1.4.2.3&nbsp;&nbsp;&nbsp;エンティティの更新</a></li>
+<li><a class="reference internal" href="#id14" id="id50">1.4.2.4&nbsp;&nbsp;&nbsp;ページ遷移の実装</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id15" id="id51">1.4.3&nbsp;&nbsp;&nbsp;3つ目のページ - 注文内容確認ページ</a></li>
+<li><a class="reference internal" href="#id16" id="id52">1.4.4&nbsp;&nbsp;&nbsp;最後のページ - 注文完了ページ</a></li>
+<li><a class="reference internal" href="#id17" id="id53">1.4.5&nbsp;&nbsp;&nbsp;レイアウトテンプレートの導入</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id18" id="id54">1.5&nbsp;&nbsp;&nbsp;セッションの導入</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id19" id="id55">1.5.1&nbsp;&nbsp;&nbsp;オブジェクトの登録</a></li>
+<li><a class="reference internal" href="#id20" id="id56">1.5.2&nbsp;&nbsp;&nbsp;入力内容の修正</a></li>
+<li><a class="reference internal" href="#id21" id="id57">1.5.3&nbsp;&nbsp;&nbsp;注文完了時の初期化</a></li>
+<li><a class="reference internal" href="#id22" id="id58">1.5.4&nbsp;&nbsp;&nbsp;フォームの組み立てコードの外部化</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id23" id="id59">1.6&nbsp;&nbsp;&nbsp;バリデーションの実装</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id24" id="id60">1.6.1&nbsp;&nbsp;&nbsp;最初のフォーム - 商品選択フォーム</a></li>
+<li><a class="reference internal" href="#id25" id="id61">1.6.2&nbsp;&nbsp;&nbsp;2つ目のフォーム - 配送先情報入力フォーム</a></li>
+<li><a class="reference internal" href="#id27" id="id62">1.6.3&nbsp;&nbsp;&nbsp;最後のフォーム - 注文内容確認フォーム</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id28" id="id63">1.7&nbsp;&nbsp;&nbsp;データベースへのオブジェクトの保存</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id29" id="id64">1.7.1&nbsp;&nbsp;&nbsp;テーブルの作成</a></li>
+<li><a class="reference internal" href="#id30" id="id65">1.7.2&nbsp;&nbsp;&nbsp;オブジェクトの保存</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#csrf" id="id66">1.8&nbsp;&nbsp;&nbsp;ページフローの制御とCSRF対策</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id31" id="id67">1.8.1&nbsp;&nbsp;&nbsp;ページフローの制御</a></li>
+<li><a class="reference internal" href="#id32" id="id68">1.8.2&nbsp;&nbsp;&nbsp;CSRF対策</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id33" id="id69">1.9&nbsp;&nbsp;&nbsp;まとめ</a></li>
+<li><a class="reference internal" href="#id34" id="id70">1.10&nbsp;&nbsp;&nbsp;参考</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2><a class="toc-backref" href="#id39">1.1&nbsp;&nbsp;&nbsp;はじめに</a><a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>このチュートリアルではSymfonyのWebアプリケーションフレームワーク部分にフォーカスを当て、Symfonyを使って少し複雑なページフローを持つアプリケーションをどのように実装するのかについて説明します。</p>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id40">1.2&nbsp;&nbsp;&nbsp;飲料注文アプリケーション</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>今回作るのはオンラインで飲料を注文するためのアプリケーションです。このアプリケーションは以下のようなページフローを持ちます。</p>
+<ol class="arabic simple">
+<li>最初のページではページ上から商品と個数を選択します。</li>
+<li>2番目のページでは配送先情報を入力します。</li>
+<li>3番目のページでは注文内容を確認し、問題なければ注文を確定します。内容を変更したい場合は最初のページか2番目のページに戻って再度情報を入力します。</li>
+<li>注文が確定するとお礼が書かれた最後のページを表示されます。</li>
+</ol>
+<p>それぞれのページの入力内容は次のページを表示する前に検証を行います。注文を確定する際にはその内容をデータベースに保存する必要があります。これらを踏まえたページフローの全体像は以下のようになります。</p>
+<img alt="../images/page-flow.png" src="../_images/page-flow.png" />
+<p>では早速アプリケーションの作成に取り掛かります。</p>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id41">1.3&nbsp;&nbsp;&nbsp;バンドルの作成</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>Symfonyではフレームワークが提供する機能だけではなくユーザのアプリケーションもバンドルとして作成する必要があります。ここでは飲料注文アプリケーションを単一のバンドル(以下 <strong>アプリケーションバンドル</strong> )として作成することにします。</p>
+<p>新たにバンドルを作成する方法としては以下のものがあります。</p>
+<ol class="arabic simple">
+<li>Standard Editionに含まれるAcmeDemoBundleを使用する。</li>
+<li>Standard Editionに含まれるAcmeDemoBundleをコピーしたものを使用する。</li>
+<li>コマンドラインの対話式ジェネレータで雛形を生成する。</li>
+</ol>
+<p>今回はコマンドラインの対話式ジェネレータを使うことにします。ではターミナルから <strong>app/console generate:bundle</strong> コマンドを実行してみましょう。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> app/console generate:bundle
+
+
+<span class="go">  Welcome to the Symfony2 bundle generator</span>
+
+
+
+<span class="go">Your application code must be written in bundles. This command helps</span>
+<span class="go">you generate them easily.</span>
+
+<span class="go">Each bundle is hosted under a namespace (like Acme/Bundle/BlogBundle).</span>
+<span class="go">The namespace should begin with a &quot;vendor&quot; name like your company name, your</span>
+<span class="go">project name, or your client name, followed by one or more optional category</span>
+<span class="go">sub-namespaces, and it should end with the bundle name itself</span>
+<span class="go">(which must have Bundle as a suffix).</span>
+
+<span class="go">Use / instead of \ for the namespace delimiter to avoid any problem.</span>
+
+<span class="go">Bundle namespace: Osc/Bundle/DrinkOrderBundle &lt;--- 飲料注文アプリケーションの名前空間を入力する。</span>
+<span class="go">In your code, a bundle is often referenced by its name. It can be the</span>
+<span class="go">concatenation of all namespace parts but it&#39;s really up to you to come</span>
+<span class="go">up with a unique name (a good practice is to start with the vendor name).</span>
+<span class="go">Based on the namespace, we suggest OscDrinkOrderBundle.</span>
+
+<span class="go">Bundle name [OscDrinkOrderBundle]: &lt;--- そのままEnterキーを押す。</span>
+<span class="go">The bundle can be generated anywhere. The suggested default directory uses</span>
+<span class="go">the standard conventions.</span>
+
+<span class="go">Target directory [/path/to/symfony2-osc/src]: &lt;--- そのままEnterキーを押す。</span>
+<span class="go">Determine the format to use for the generated configuration.</span>
+
+<span class="go">Configuration format (yml, xml, php, or annotation) [annotation]: yml &lt;--- 設定のフォーマットをYAMLにする。</span>
+<span class="go">To help you getting started faster, the command can generate some</span>
+<span class="go">code snippets for you.</span>
+
+<span class="go">Do you want to generate the whole directory structure [no]? yes &lt;--- yesにするとpublic/css, public/images, public/jsディレクトリ他が作成される。</span>
+
+<span class="go">  Summary before generation</span>
+
+
+<span class="go">You are going to generate a &quot;Osc\Bundle\DrinkOrderBundle\OscDrinkOrderBundle&quot; bundle</span>
+<span class="go">in &quot;/path/to/symfony2-osc/src/&quot; using the &quot;yml&quot; format.</span>
+
+<span class="go">Do you confirm generation [yes]? &lt;--- そのままEnterキーを押す。</span>
+
+<span class="go">  Bundle generation</span>
+
+
+<span class="go">Generating the bundle code: OK</span>
+<span class="go">Checking that the bundle is autoloaded: OK</span>
+<span class="go">Confirm automatic update of your Kernel [yes]? &lt;--- そのままEnterキーを押す。</span>
+<span class="go">Enabling the bundle inside the Kernel: OK</span>
+<span class="go">Confirm automatic update of the Routing [yes]? &lt;--- そのままEnterキーを押す。</span>
+<span class="go">Importing the bundle routing resource: OK</span>
+
+
+<span class="go">  You can now start using the generated code!</span>
+</pre></div>
+</div>
+<p>このコマンドによって以下のファイルおよびディレクトリが作成されました。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> tree /path/to/symfony2-osc/src/Osc/
+<span class="go">src/Osc/</span>
+<span class="go">└── Bundle</span>
+<span class="go">    └── DrinkOrderBundle</span>
+<span class="go">        ├── Controller</span>
+<span class="go">        │   └── DefaultController.php</span>
+<span class="go">        ├── DependencyInjection</span>
+<span class="go">        │   ├── Configuration.php</span>
+<span class="go">        │   └── OscDrinkOrderExtension.php</span>
+<span class="go">        ├── OscDrinkOrderBundle.php</span>
+<span class="go">        ├── Resources</span>
+<span class="go">        │   ├── config</span>
+<span class="go">        │   │   ├── routing.yml</span>
+<span class="go">        │   │   └── services.yml</span>
+<span class="go">        │   ├── doc</span>
+<span class="go">        │   │   └── index.rst</span>
+<span class="go">        │   ├── public</span>
+<span class="go">        │   │   ├── css</span>
+<span class="go">        │   │   ├── images</span>
+<span class="go">        │   │   └── js</span>
+<span class="go">        │   ├── translations</span>
+<span class="go">        │   │   └── messages.fr.xliff</span>
+<span class="go">        │   └── views</span>
+<span class="go">        │       └── Default</span>
+<span class="go">        │           └── index.html.twig</span>
+<span class="go">        └── Tests</span>
+<span class="go">            └── Controller</span>
+<span class="go">                └── DefaultControllerTest.php</span>
+
+<span class="go">16 directories, 10 files</span>
+</pre></div>
+</div>
+<p>加えて app/AppKernel.php および app/config/routing.yml が以下のように変更されました。</p>
+<div class="highlight-diff"><div class="highlight"><pre><span class="gh">diff --git a/app/AppKernel.php b/app/AppKernel.php</span>
+<span class="gh">index 5bd97b7..e7c508f 100644</span>
+<span class="gd">--- a/app/AppKernel.php</span>
+<span class="gi">+++ b/app/AppKernel.php</span>
+<span class="gu">@@ -17,6 +17,7 @@ class AppKernel extends Kernel</span>
+             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
+             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
+<span class="gi">+            new Osc\Bundle\DrinkOrderBundle\OscDrinkOrderBundle(),</span>
+         );
+
+         if (in_array($this-&gt;getEnvironment(), array(&#39;dev&#39;, &#39;test&#39;))) {
+<span class="gh">diff --git a/app/config/routing.yml b/app/config/routing.yml</span>
+<span class="gh">index 8b4740a..6468ab5 100644</span>
+<span class="gd">--- a/app/config/routing.yml</span>
+<span class="gi">+++ b/app/config/routing.yml</span>
+<span class="gu">@@ -1,3 +1,7 @@</span>
+<span class="gi">+OscDrinkOrderBundle:</span>
+<span class="gi">+    resource: &quot;@OscDrinkOrderBundle/Resources/config/routing.yml&quot;</span>
+<span class="gi">+    prefix:   /</span>
+<span class="gi">+</span>
+ # Internal routing configuration to handle ESI
+ #_internal:
+ #   resource: &quot;@FrameworkBundle/Resources/config/routing/internal.xml&quot;
+</pre></div>
+</div>
+<p>コマンドの実行が終わったら <strong>http://symfony2-osc/app_dev.php/hello/xxx</strong> (xxx部分は任意の文字) にアクセスして動作を確認してみましょう。</p>
+<img alt="../images/hello.png" src="../_images/hello.png" />
+<p>問題なくページが表示されればバンドルの作成は完了です。以降は主にバンドル用のディレクトリ <strong>src/Osc/Bundle/DrinkOrderBundle</strong> 以下のファイルやディレクトリに対して変更を加えていくことになります。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>ドキュメントで使用されるパス</p>
+<p class="last">ドキュメントで使用されるパスは <strong>/path/to/symfony2-osc</strong> ディレクトリを起点としています。本ドキュメントではこのディレクトリを <strong>プロジェクトルート</strong> と呼ぶことにします。また、DrinkOrderBundleのルートディレクトリ <strong>src/Osc/Bundle/DrinkOrderBundle</strong> を DrinkOrderBundle の <strong>バンドルルート</strong> と呼ぶことにします。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2><a class="toc-backref" href="#id42">1.4&nbsp;&nbsp;&nbsp;ページフローの実装</a><a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>では早速アプリケーションの実装を始めます。今回は最初にページフローを実装し、Web上で一通りのページ遷移が確認できるようにします。</p>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id43">1.4.1&nbsp;&nbsp;&nbsp;最初のページ - 商品選択ページ</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>まず本アプリケーションの最初のページである <strong>商品選択ページ</strong> を実装します。このページの <strong>URL</strong> は <strong>/order</strong> とします。</p>
+<p><strong>リクエストメソッド</strong> が <strong>GET</strong> の場合は商品選択フォームを出力します。 <strong>POST</strong> の場合は送信されたデータを検証してから次のページに遷移します。</p>
+<p>最初にやることは、自動生成されたコントローラ <strong>DefaultController</strong> とビューテンプレート <strong>Default</strong> の名称の変更です。 <strong>Default</strong> では何をするものなのか意図がわからないので <strong>DrinkOrder</strong> に変更します。さらにコントローラのアクション名を <strong>index</strong> から <strong>product</strong> に変更します。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="31%" />
+<col width="32%" />
+<col width="36%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>コントローラのファイル名</strong></td>
+<td>Controller/DefaultController.php</td>
+<td>Controller/DrinkOrderController.php</td>
+</tr>
+<tr class="row-even"><td><strong>コントローラのクラス名</strong></td>
+<td>DefaultController</td>
+<td>DrinkOrderController</td>
+</tr>
+<tr class="row-odd"><td><strong>コントローラのアクション名</strong></td>
+<td>indexAction</td>
+<td>productAction</td>
+</tr>
+<tr class="row-even"><td><strong>ビューテンプレートのファイル名</strong></td>
+<td>Resources/views/Default/index.html.twig</td>
+<td>Resources/views/DrinkOrder/product.html.twig</td>
+</tr>
+</tbody>
+</table>
+<p>加えて、ルート名、URLパターン、ビューテンプレートの内容を以下のように変更します。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="34%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>ルート名</strong></td>
+<td>OscDrinkOrderBundle_homepage</td>
+<td>OscDrinkOrderBundle_product</td>
+</tr>
+<tr class="row-even"><td><strong>URLパターン</strong></td>
+<td>/hello/{name}</td>
+<td>/order</td>
+</tr>
+<tr class="row-odd"><td><strong>ビューテンプレートの内容</strong></td>
+<td>Hello {{ name }}!</td>
+<td>Hello!</td>
+</tr>
+</tbody>
+</table>
+<p>最終的にファイル名以外の変更は以下のようになりました。</p>
+<div class="highlight-diff"><div class="highlight"><pre><span class="gh">diff --git a/src/Osc/Bundle/DrinkOrderBundle/Controller/DrinkOrderController.php b/src/Osc/Bundle/DrinkOrderBundle/Controller/DrinkOrderController.php</span>
+<span class="gh">index 01b92e8..483657c 100644</span>
+<span class="gd">--- a/src/Osc/Bundle/DrinkOrderBundle/Controller/DrinkOrderController.php</span>
+<span class="gi">+++ b/src/Osc/Bundle/DrinkOrderBundle/Controller/DrinkOrderController.php</span>
+<span class="gu">@@ -5,11 +5,11 @@ namespace Osc\Bundle\DrinkOrderBundle\Controller;</span>
+ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+
+<span class="gd">-class DefaultController extends Controller</span>
+<span class="gi">+class DrinkOrderController extends Controller</span>
+ {
+
+<span class="gd">-    public function indexAction($name)</span>
+<span class="gi">+    public function productAction()</span>
+     {
+<span class="gd">-        return $this-&gt;render(&#39;OscDrinkOrderBundle:Default:index.html.twig&#39;, array(&#39;name&#39; =&gt; $name));</span>
+<span class="gi">+        return $this-&gt;render(&#39;OscDrinkOrderBundle:DrinkOrder:product.html.twig&#39;);</span>
+     }
+ }
+<span class="gh">diff --git a/src/Osc/Bundle/DrinkOrderBundle/Resources/config/routing.yml b/src/Osc/Bundle/DrinkOrderBundle/Resources/config/routing.yml</span>
+<span class="gh">index 7cb0283..9a92e9d 100644</span>
+<span class="gd">--- a/src/Osc/Bundle/DrinkOrderBundle/Resources/config/routing.yml</span>
+<span class="gi">+++ b/src/Osc/Bundle/DrinkOrderBundle/Resources/config/routing.yml</span>
+<span class="gu">@@ -1,3 +1,3 @@</span>
+<span class="gd">-OscDrinkOrderBundle_homepage:</span>
+<span class="gd">-    pattern:  /hello/{name}</span>
+<span class="gd">-    defaults: { _controller: OscDrinkOrderBundle:Default:index }</span>
+<span class="gi">+OscDrinkOrderBundle_product:</span>
+<span class="gi">+    pattern:  /order</span>
+<span class="gi">+    defaults: { _controller: OscDrinkOrderBundle:DrinkOrder:product }</span>
+<span class="gh">diff --git a/src/Osc/Bundle/DrinkOrderBundle/Resources/views/DrinkOrder/product.html.twig b/src/Osc/Bundle/DrinkOrderBundle/Resources/views/DrinkOrder/product.html.twig</span>
+<span class="gh">index 4ce626e..10ddd6d 100644</span>
+<span class="gd">--- a/src/Osc/Bundle/DrinkOrderBundle/Resources/views/DrinkOrder/product.html.twig</span>
+<span class="gi">+++ b/src/Osc/Bundle/DrinkOrderBundle/Resources/views/DrinkOrder/product.html.twig</span>
+<span class="gu">@@ -1 +1 @@</span>
+<span class="gd">-Hello {{ name }}!</span>
+<span class="gi">+Hello!</span>
+</pre></div>
+</div>
+<p>変更が終わったら <strong>http://symfony2-osc/app_dev.php/order</strong> にアクセスします。 <strong>Hello!</strong> と表示されれば変更は無事完了です。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>キャッシュのクリア</p>
+<p class="last">Symfonyのキャッシュが原因でアプリケーションが期待通りに動作しない場合があります。疑わしい場合は <strong>app/console cache:clear</strong> コマンドを使ってキャッシュをクリアするようにしましょう。</p>
+</div>
+<div class="section" id="id7">
+<h4><a class="toc-backref" href="#id44">1.4.1.1&nbsp;&nbsp;&nbsp;商品選択フォームの作成</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h4>
+<p>前準備が整ったところで、商品選択ページを作っていきます。商品選択フォームの作成にはSymfonyが提供する <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/book/forms.html">フォーム</a> 機能を使います。フォームの中心にあるのは <strong>Form</strong> オブジェクトです。今回は <strong>Controller::createFormBuilder()</strong> メソッドを使ってFormオブジェクトを作ることにします。コントローラを以下のように変更してみましょう。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">Osc\Bundle\DrinkOrderBundle\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Controller\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Osc\Bundle\DrinkOrderBundle\Entity\DrinkOrder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">DrinkOrderController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">productAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="k">new</span> <span class="nx">DrinkOrder</span><span class="p">())</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span> <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;1&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;BlueBull 128個入ケース&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;GreenBull 128個入ケース&#39;</span><span class="p">)))</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:product.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">()));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Controller::createFormBuilder()メソッドの返り値を使って直接フォームの要素を定義しています。1つ目のフィールドproduct_idは商品選択のためのフィールドです。実際には商品はデータベースから取得される場合がほとんどでしょう。ここではアプリケーションを簡単にするために直接定義します。2つ目のフィールドquantityは個数を入力するためのフィールドです。今回は商品に価格も定義されていないため、注文いただいた個数をどーんと無料で差し上げることにしましょう。</p>
+<p>Controller::render()メソッドの引数にはFormオブジェクトから作成したFormViewオブジェクトを渡しています。FormViewオブジェクトはテンプレートのヘルパー関数から参照するために使われます。</p>
+<p>次はテンプレートの変更です。</p>
+<p><strong>Resources/views/DrinkOrder/product.html.twig</strong> :</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+  <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+<p>コントローラで定義したフォームフィールドを、ヘルパー関数form_widget()を使って描画するようにしています。ヘルパー関数path()はSymfonyのルート名からURLを作成してくれる便利な関数です。これでフォーム定義は完了といきたいところですが、まだやらないといけないことが残っています…</p>
+</div>
+<div class="section" id="id9">
+<h4><a class="toc-backref" href="#id45">1.4.1.2&nbsp;&nbsp;&nbsp;エンティティの作成</a><a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
+<p>ここでController::createFormBuilder()メソッドに渡された <strong>DrinkOrder</strong> オブジェクトに注目してください。Controller::createFormBuilder()メソッドは連想配列またはオブジェクトを受け取りますが、唐突に現れたこのオブジェクトは一体何者でしょうか？このオブジェクトは飲料注文という問題領域の概念モデルである <strong>ドメインモデル</strong> を表現するオブジェクトのひとつであり <strong>ドメインオブジェクト</strong> と呼ばれるものです。さらにDrinkOrderオブジェクトは <strong>エンティティ</strong> でもあります。エンティティとは <strong>主として同一性によって定義されるオブジェクト(『エリック・エヴァンスのドメイン駆動設計』より)</strong> です。エンティティはHTTPリクエスト、ページフロー、業務フローなどを超えた連続性を維持する必要があるため、たいていの場合データベースなどに永続化されることになります。 <strong>Symfonyは我々開発者がドメインモデルを中心としたアプリケーション開発を行いやすいように注意深く設計されたフレームワークである</strong> と筆者は考えています。</p>
+<p>さて、ここで現段階で存在していないDrinkOrderオブジェクトを新たに作る必要があります。これには <strong>app/console doctrine:generate:entity</strong> コマンドを使うことができます。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> app/console doctrine:generate:entity
+
+
+<span class="go">  Welcome to the Doctrine2 entity generator</span>
+
+
+
+<span class="go">This command helps you generate Doctrine2 entities.</span>
+
+<span class="go">First, you need to give the entity name you want to generate.</span>
+<span class="go">You must use the shortcut notation like AcmeBlogBundle:Post.</span>
+
+<span class="go">The Entity shortcut name: OscDrinkOrderBundle:DrinkOrder &lt;-- ショートカット記法でエンティティの名称を入力する。</span>
+
+<span class="go">Determine the format to use for the mapping information.</span>
+
+<span class="go">Configuration format (yml, xml, php, or annotation) [annotation]: yml &lt;-- 今回はYAMLを使う。</span>
+
+<span class="go">Instead of starting with a blank entity, you can add some fields now.</span>
+<span class="go">Note that the primary key will be added automatically (named id).</span>
+
+<span class="go">Available types: array, object, boolean, integer, smallint,</span>
+<span class="go">bigint, string, text, datetime, datetimetz, date, time, decimal, float.</span>
+
+<span class="go">New field name (press &lt;return&gt; to stop adding fields): product_id &lt;-- エンティティのフィールド名を入力する。</span>
+<span class="go">Field type [integer]: &lt;-- エンティティフィールドの型を入力する。</span>
+
+<span class="go">New field name (press &lt;return&gt; to stop adding fields): quantity</span>
+<span class="go">Field type [string]: integer</span>
+
+<span class="go">New field name (press &lt;return&gt; to stop adding fields):</span>
+
+<span class="go">Do you want to generate an empty repository class [no]? no &lt;-- 空のリポジトリクラスを作成するかどうか？</span>
+
+
+<span class="go">  Summary before generation</span>
+
+
+<span class="go">You are going to generate a &quot;OscDrinkOrderBundle:DrinkOrder&quot; Doctrine2 entity</span>
+<span class="go">using the &quot;yml&quot; format.</span>
+
+<span class="go">Do you confirm generation [yes]? &lt;--- そのままEnterキーを押す。</span>
+
+
+<span class="go">  Entity generation</span>
+
+
+<span class="go">Generating the entity code: OK</span>
+
+
+<span class="go">  You can now start using the generated code!</span>
+</pre></div>
+</div>
+<p>ここでは前述のフォームに定義したproduct_idおよびquantityフィールドをエンティティに定義しています。このコマンドによって作成されたファイルは2つ、1つはエンティティであるEntity/DrinkOrder.php, もう1つはエンティティとデータベースレコードをマッピングするための定義ファイルResources/config/doctrine/DrinkOrder.orm.ymlです。それぞれの内容を確認してみましょう。</p>
+<p><strong>Entity/DrinkOrder.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="k">namespace</span> <span class="nx">Osc\Bundle\DrinkOrderBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Doctrine\ORM\Mapping</span> <span class="k">as</span> <span class="nx">ORM</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * Osc\Bundle\DrinkOrderBundle\Entity\DrinkOrder</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">DrinkOrder</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @var integer $id</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$id</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @var integer $product_id</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$product_id</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @var integer $quantity</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$quantity</span><span class="p">;</span>
+
+
+    <span class="sd">/**</span>
+<span class="sd">     * Get id</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return integer</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getId</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">id</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Set product_id</span>
+<span class="sd">     *</span>
+<span class="sd">     * @param integer $productId</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setProductId</span><span class="p">(</span><span class="nv">$productId</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">product_id</span> <span class="o">=</span> <span class="nv">$productId</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Get product_id</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return integer</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getProductId</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">product_id</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Set quantity</span>
+<span class="sd">     *</span>
+<span class="sd">     * @param integer $quantity</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setQuantity</span><span class="p">(</span><span class="nv">$quantity</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">quantity</span> <span class="o">=</span> <span class="nv">$quantity</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Get quantity</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return integer</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getQuantity</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">quantity</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>コマンドで明示的に定義したproduct_idおよびquantityフィールドがprivateフィールドとして宣言され、それぞれのセッタ・ゲッタメソッドも宣言されています。加えてエンティティの同一性を表現するためのidフィールドとゲッタメソッドが宣言されています。DoctrineORMMappingのuseステートメントはマッピング定義にアノテーションを使う場合に必要なものなので、今回は削除しておきましょう。</p>
+<p><strong>Resources/config/doctrine/DrinkOrder.orm.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">Osc\Bundle\DrinkOrderBundle\Entity\DrinkOrder</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">entity</span>
+  <span class="l-Scalar-Plain">table</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">null</span>
+  <span class="l-Scalar-Plain">fields</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">integer</span>
+      <span class="l-Scalar-Plain">id</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">true</span>
+      <span class="l-Scalar-Plain">generator</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">strategy</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AUTO</span>
+    <span class="l-Scalar-Plain">product_id</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">integer</span>
+    <span class="l-Scalar-Plain">quantity</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">integer</span>
+  <span class="l-Scalar-Plain">lifecycleCallbacks</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span>  <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<p>エンティティと同様にコマンドで定義したproduct_idおよびquantityフィールド、そしてidフィールドが宣言されています。table要素がnullの場合、この後のコマンドによるテーブル作成時にエンティティの名称であるDrinkOrderがそのままテーブル名として使われることになります。今回のテーブル名は小文字のdrink_orderにしたいのでtable要素をdrink_orderに書き換えておきます。</p>
+<p>ここまでの変更が終わったら <strong>http://symfony2-osc/app_dev.php/order</strong> にアクセスします。無事フォームが表示されたでしょうか？</p>
+<img alt="../images/order-product.png" src="../_images/order-product.png" />
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>ドメインオブジェクトの配置場所</p>
+<p class="last">ジェネレータによって生成されるエンティティはデフォルトでバンドル配下のEntityディレクトリに配置されます。しかし、エンティティを始めとするドメインオブジェクトは我々のドメインのものであり、Symfony独自のシステムであるバンドルからは本質的に独立したものです。例えば、Symfony以外のフレームワークを使った別のアプリケーションで同じエンティティを共有するケースを考えてみてください。適切な配置先はどこでしょうか？バンドルと同じソースツリーに配置するのであれば <strong>src/ApplicationNamespace/Domain</strong> ディレクトリを使うことは良い選択です。複数のプロジェクトから共有される場合は、ドメインオブジェクトのみを別のプロジェクトとすることができます。ただし、この選択は実際の要求があるまで遅らせることができます。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id46">1.4.2&nbsp;&nbsp;&nbsp;2つ目のページ - 配送先情報入力ページ</a><a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>次に2つ目のページである <strong>配送先情報入力ページ</strong> を実装します。このページの <strong>URL</strong> は <strong>/order/address</strong> とします。</p>
+<p><strong>リクエストメソッド</strong> が <strong>GET</strong> の場合は配送先情報入力フォームを出力します。 <strong>POST</strong> の場合は送信されたデータを検証してから次のページに遷移します。</p>
+<div class="section" id="id11">
+<h4><a class="toc-backref" href="#id47">1.4.2.1&nbsp;&nbsp;&nbsp;ルートの定義</a><a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<p>前述の商品選択ページの場合ジェネレータによって生成されたルートを変更しましたが、このページには対応するルートがありませんので最初にルートを定義しましょう。defaults配列の_controller要素の値は、このルートのアクションがDrinkOrderController::addressAction()メソッドであることを示しています。</p>
+<p><strong>Resources/config/routing.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">...</span>
+<span class="l-Scalar-Plain">OscDrinkOrderBundle_address</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/order/address</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">OscDrinkOrderBundle</span><span class="p-Indicator">:</span><span class="nv">DrinkOrder</span><span class="p-Indicator">:</span><span class="nv">address</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id12">
+<h4><a class="toc-backref" href="#id48">1.4.2.2&nbsp;&nbsp;&nbsp;配送先情報入力フォームの作成</a><a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<p>次にコントローラで配送先情報入力フォームを定義します。このフォームではname, address, phoneの3つのフィールドを入力できるようにします。nameはお名前、addressは住所、phoneは電話番号となっています。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">class</span> <span class="nc">DrinkOrderController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+<span class="o">...</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">addressAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="k">new</span> <span class="nx">DrinkOrder</span><span class="p">())</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:address.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">()));</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+<p>続いてaddressAction()メソッドから描画されるテンプレートを作成します。内容としては前述のproduct.html.twigとほぼ同じとなっておりform要素のaction属性の値が異なるだけです。</p>
+<p><strong>Resources/views/DrinkOrder/address.html.twig</strong> :</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;OscDrinkOrderBundle_address&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+  <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+<p>この段階ではまだフォームを表示することはできません。フォームに定義したフィールドname, address, phoneのアクセサメソッドが存在しないためです。</p>
+</div>
+<div class="section" id="id13">
+<h4><a class="toc-backref" href="#id49">1.4.2.3&nbsp;&nbsp;&nbsp;エンティティの更新</a><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
+<p>エンティティの作成に使った <strong>app/console doctrine:generate:entity</strong> コマンドは更新には対応していません。エンティティの更新を手作業で行うこともできますが、今回はデータベースと対応するフィールドの追加になるため、フィールドとセッタ・ゲッタメソッドすべての宣言を追加しなければならないので少々面倒です。さらにエンティティのみを更新すると、後でマッピング定義との同期を行うことになり、これも面倒です。幸いSymfonyのDoctrineインテグレーションはマッピング定義からのエンティティの自動更新をサポートしていますので、この方法で対応するのが良さそうです。</p>
+<p>最初に以下のようにマッピング定義にname, address, phoneフィールドを追加しましょう。</p>
+<p><strong>Resources/config/doctrine/DrinkOrder.orm.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">...</span>
+    <span class="l-Scalar-Plain">quantity</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">integer</span>
+    <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+      <span class="l-Scalar-Plain">length</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">255</span>
+    <span class="l-Scalar-Plain">address</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+      <span class="l-Scalar-Plain">length</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">255</span>
+    <span class="l-Scalar-Plain">phone</span><span class="p-Indicator">:</span>
+      <span class="l-Scalar-Plain">type</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">string</span>
+      <span class="l-Scalar-Plain">length</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">255</span>
+ <span class="-Error"> </span><span class="l-Scalar-Plain">lifecycleCallbacks</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span>  <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<p>次に <strong>app/console doctrine:generate:entities</strong> コマンドを実行します。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> app/console doctrine:generate:entities OscDrinkOrderBundle:DrinkOrder
+<span class="go">Generating entity &quot;Osc\Bundle\DrinkOrderBundle\Entity\DrinkOrder&quot;</span>
+<span class="go">  &gt; generating Osc\Bundle\DrinkOrderBundle\Entity\DrinkOrder</span>
+</pre></div>
+</div>
+<p>以下はコマンド実行後のエンティティです。クラスの末尾にフィールドとセッタ・ゲッタメソッドが追加されたことがわかります。</p>
+<p><strong>Entity/DrinkOrder.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+    <span class="sd">/**</span>
+<span class="sd">     * Get quantity</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return integer</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getQuantity</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">quantity</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @var string $name</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$name</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @var string $address</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$address</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @var string $phone</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$phone</span><span class="p">;</span>
+
+
+    <span class="sd">/**</span>
+<span class="sd">     * Set name</span>
+<span class="sd">     *</span>
+<span class="sd">     * @param string $name</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setName</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span> <span class="o">=</span> <span class="nv">$name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Get name</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return string</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Set address</span>
+<span class="sd">     *</span>
+<span class="sd">     * @param string $address</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setAddress</span><span class="p">(</span><span class="nv">$address</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">address</span> <span class="o">=</span> <span class="nv">$address</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Get address</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return string</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getAddress</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">address</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Set phone</span>
+<span class="sd">     *</span>
+<span class="sd">     * @param string $phone</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setPhone</span><span class="p">(</span><span class="nv">$phone</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">phone</span> <span class="o">=</span> <span class="nv">$phone</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * Get phone</span>
+<span class="sd">     *</span>
+<span class="sd">     * @return string</span>
+<span class="sd">     */</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getPhone</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">phone</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>ただし、このようにバラバラとフィールドとメソッドが追加されるままにしておくとソースコードの可読性を下げてしまうため、手作業で適切な箇所に再配置しておくことをお勧めします。</p>
+<p>では <strong>http://symfony2-osc/app_dev.php/order/address</strong> にアクセスし、配送先情報入力フォームが表示されることを確認しましょう。</p>
+<img alt="../images/order-address.png" src="../_images/order-address.png" />
+</div>
+<div class="section" id="id14">
+<h4><a class="toc-backref" href="#id50">1.4.2.4&nbsp;&nbsp;&nbsp;ページ遷移の実装</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<p>これまでの実装で商品選択ページと配送先情報入力ページがそれぞれ表示されるようになりましたが、まだ2つのページは接続されていません。前述のページフローによれば、商品選択ページの送信ボタンをクリックすると配送先情報入力ページに遷移する必要があります。</p>
+<p>最初にこの遷移を実現するためのルートを定義しましょう。</p>
+<p><strong>Resources/config/routing.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">OscDrinkOrderBundle_product</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/order</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">OscDrinkOrderBundle</span><span class="p-Indicator">:</span><span class="nv">DrinkOrder</span><span class="p-Indicator">:</span><span class="nv">product</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">requirements</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_method</span><span class="p-Indicator">:</span> <span class="nv">GET</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">OscDrinkOrderBundle_product_post</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/order</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">OscDrinkOrderBundle</span><span class="p-Indicator">:</span><span class="nv">DrinkOrder</span><span class="p-Indicator">:</span><span class="nv">productPost</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">requirements</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_method</span><span class="p-Indicator">:</span> <span class="nv">POST</span> <span class="p-Indicator">}</span>
+<span class="nn">...</span>
+</pre></div>
+</div>
+<p>SymfonyではURLパターンに加えていくつものマッチパターンを指定することができます。ここでは同一のURLに対してリクエストメソッドによって異なるルートを定義しています。この方法には、1つのアクションの場合に必要になるif文をなくすことができるメリットがあります。新たなルートを機能させるために、元からあったルートに対してもリクエストメソッドの指定を行っていることに注意してください。</p>
+<p>次にアクションを実装します。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">productPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_address&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addressAction</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>では <strong>http://symfony2-osc/app_dev.php/order</strong> にアクセスし、適当にフォームを埋めて送信ボタンをクリックしてみましょう。問題がなければ次のページに遷移するはずです。</p>
+<p>続けて配送先情報入力ページから注文内容確認ページへの遷移も実装しましょう。遷移先のルートはまだありませんがルート名をOscDrinkOrderBundle_confirmationとしておきます。</p>
+<p><strong>Resources/config/routing.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">...</span>
+<span class="l-Scalar-Plain">OscDrinkOrderBundle_address</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/order/address</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">OscDrinkOrderBundle</span><span class="p-Indicator">:</span><span class="nv">DrinkOrder</span><span class="p-Indicator">:</span><span class="nv">address</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">requirements</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_method</span><span class="p-Indicator">:</span> <span class="nv">GET</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">OscDrinkOrderBundle_address_post</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/order/address</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">OscDrinkOrderBundle</span><span class="p-Indicator">:</span><span class="nv">DrinkOrder</span><span class="p-Indicator">:</span><span class="nv">addressPost</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">requirements</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_method</span><span class="p-Indicator">:</span> <span class="nv">POST</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addressAction</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="o">...</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addressPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_confirmation&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>では先ほどと同様に <strong>http://symfony2-osc/app_dev.php/order/address</strong> にアクセスし、適当にフォームを埋めて送信ボタンをクリックしてみましょう。上手くいきましたか？</p>
+<img alt="../images/order-route-not-found.png" src="../_images/order-route-not-found.png" />
+<p>まだOscDrinkOrderBundle_confirmationへのルートを定義していないためエラーが発生しますが今のところこれは問題ではありません。遷移の実装は上手くいっています。</p>
+</div>
+</div>
+<div class="section" id="id15">
+<h3><a class="toc-backref" href="#id51">1.4.3&nbsp;&nbsp;&nbsp;3つ目のページ - 注文内容確認ページ</a><a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<p>当面の目標はページフローの実装のみなので、残りの2つのページと遷移はこれまでの応用で一気に実装してしまいましょう。変更点は以下のようになります。</p>
+<p><strong>Resources/config/routing.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">...</span>
+<span class="l-Scalar-Plain">OscDrinkOrderBundle_confirmation</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/order/confirmation</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">OscDrinkOrderBundle</span><span class="p-Indicator">:</span><span class="nv">DrinkOrder</span><span class="p-Indicator">:</span><span class="nv">confirmation</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">requirements</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_method</span><span class="p-Indicator">:</span> <span class="nv">GET</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">OscDrinkOrderBundle_confirmation_post</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/order/confirmation</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">OscDrinkOrderBundle</span><span class="p-Indicator">:</span><span class="nv">DrinkOrder</span><span class="p-Indicator">:</span><span class="nv">confirmationPost</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">requirements</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_method</span><span class="p-Indicator">:</span> <span class="nv">POST</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">confirmationAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="k">new</span> <span class="nx">DrinkOrder</span><span class="p">())</span><span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:confirmation.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">()));</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">confirmationPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_success&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Resources/views/DrinkOrder/confirmation.html.twig</strong> :</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;OscDrinkOrderBundle_confirmation&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+  <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/form&gt;</span>
+</pre></div>
+</div>
+<p>変更が完了したら <strong>http://symfony2-osc/app_dev.php/order/address</strong> にアクセスし、配送先情報入力ページから注文内容確認ページ、注文内容確認ページから注文完了ページに遷移できるか確認しましょう。</p>
+<img alt="../images/order-confirmation.png" src="../_images/order-confirmation.png" />
+</div>
+<div class="section" id="id16">
+<h3><a class="toc-backref" href="#id52">1.4.4&nbsp;&nbsp;&nbsp;最後のページ - 注文完了ページ</a><a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<p>いよいよ最後のページです。変更点は以下のようになります。</p>
+<p><strong>Resources/config/routing.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">...</span>
+<span class="l-Scalar-Plain">OscDrinkOrderBundle_success</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/order/success</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">OscDrinkOrderBundle</span><span class="p-Indicator">:</span><span class="nv">DrinkOrder</span><span class="p-Indicator">:</span><span class="nv">success</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">requirements</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_method</span><span class="p-Indicator">:</span> <span class="nv">GET</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">successAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:success.html.twig&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Resources/views/DrinkOrder/success.html.twig</strong> :</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre>ご注文ありがとうございました。
+</pre></div>
+</div>
+<p>変更が完了したら <strong>http://symfony2-osc/app_dev.php/order/confirmation</strong> にアクセスし、注文内容確認ページから注文完了ページに遷移できるか確認しましょう。問題なければ、最初のページから最後のページまでの遷移を確認します。</p>
+<img alt="../images/order-success.png" src="../_images/order-success.png" />
+<p>以上でページフローの実装はひとまず完了です。</p>
+</div>
+<div class="section" id="id17">
+<h3><a class="toc-backref" href="#id53">1.4.5&nbsp;&nbsp;&nbsp;レイアウトテンプレートの導入</a><a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<p>これまで作ってきたページはまだ内容がありませんが、それにしても何か足りない気がしないでしょうか？ <strong>Welcome</strong> ページはどんな感じだったのか <strong>http://symfony2-osc/app_dev.php/</strong> にアクセスして確認してみましょう。</p>
+<img alt="../images/welcome.png" src="../_images/welcome.png" />
+<p>そうです、Welcomeページの下部にある <strong>Webデバッグツールバー</strong> がこれまで作ってきたページでは表示されないのです。Webデバッグツールバーが差し込まれるようにするには、レスポンスが <strong>&lt;/body&gt;</strong> タグを含むHTMLページでなければなりません。</p>
+<p>それぞれのページがHTML全体を表現するように変更を加えても構いませんが、ここはHTML全体の構造を表現する <strong>レイアウトテンプレート</strong> を作って、それぞれのページのテンプレートがそれを継承するようにしましょう。</p>
+<p>最初にレイアウトテンプレートを作りましょう。</p>
+<p><strong>Resources/views/layout.html.twig</strong> :</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+  <span class="nt">&lt;head&gt;</span>
+    <span class="nt">&lt;meta</span> <span class="na">http-equiv=</span><span class="s">&quot;Content-Type&quot;</span> <span class="na">content=</span><span class="s">&quot;text/html; charset=UTF-8&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>飲料注文アプリケーション<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">&quot;shortcut icon&quot;</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;favicon.ico&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;div&gt;</span>
+      <span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+      <span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+    <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+</div>
+<p>今回はStandard Editionに含まれるAcmeDemoBundleを参考に上記のようなテンプレートを作ってみました。contentブロックでページの内容、titleブロックでページのタイトルを表現しています。</p>
+<p>次にレイアウトテンプレートを使うように、商品選択ページのテンプレートを変更しましょう。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">extends</span> <span class="s2">&quot;OscDrinkOrderBundle::layout.html.twig&quot;</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span>商品選択 | <span class="cp">{{</span> <span class="nv">parent</span><span class="o">()</span> <span class="cp">}}{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+
+<span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+  <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+    <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/form&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>では商品選択ページを表示してみましょう。</p>
+<img alt="../images/order-product-with-toolbar.png" src="../_images/order-product-with-toolbar.png" />
+<p>ご覧の通り無事ツールバーが表示されました。残りのテンプレートも同様に変更しておきましょう。</p>
+</div>
+</div>
+<div class="section" id="id18">
+<h2><a class="toc-backref" href="#id54">1.5&nbsp;&nbsp;&nbsp;セッションの導入</a><a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<p>ここまでで一方向ながらページフローの実装が完了しました。しかし注文内容確認ページにはせっかく入力した情報が表示されていませんし、そもそもリクエストをまたがるデータの保持については何も実装していない状態です。では早速セッションを導入してみましょう。</p>
+<div class="section" id="id19">
+<h3><a class="toc-backref" href="#id55">1.5.1&nbsp;&nbsp;&nbsp;オブジェクトの登録</a><a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<p>まずは最初のリクエストを担当するproductAction()メソッドを以下のように変更します。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre> <span class="o">...</span>
+ <span class="k">public</span> <span class="k">function</span> <span class="nf">productAction</span><span class="p">()</span>
+ <span class="p">{</span>
+     <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">DrinkOrder</span><span class="p">());</span>
+     <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span>
+         <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span> <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;1&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;BlueBull 128個入ケース&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;GreenBull 128個入ケース&#39;</span><span class="p">)))</span>
+         <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+         <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+     <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:product.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">()));</span>
+ <span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>Symfonyはユーザセッションの状態を管理するために <strong>session</strong> サービスを使います。最初のリクエストでは新しいDrinkOrderオブジェクトをセッションに登録します。createFromBuilder()メソッドの引数にはセッションから取得したDrinkOrderオブジェクトを渡すようにします。</p>
+<p>続いて送信ボタンをクリックされたときのアクションであるproductPostAction()メソッドを以下のように変更します。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">productPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span>
+        <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span> <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;1&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;BlueBull 128個入ケース&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;GreenBull 128個入ケース&#39;</span><span class="p">)))</span>
+        <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">());</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_address&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>フォームから送信されたデータをDrinkOrderオブジェクトに結びつけるためには、フォーム表示の場合と同じ仕様を持つFormオブジェクトが必要になります。実際の結びつけには <strong>Form::bindRequest()</strong> メソッドを使います。残りのアクションについても同様の変更を行なっておきます。</p>
+<p>次に注文内容確認ページに確認用の情報を表示させましょう。これにはセッションから取得したDrinkOrderオブジェクトを使うことができます。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">confirmationAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:confirmation.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">(),</span>
+        <span class="s1">&#39;drinkOrder&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">)</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p><strong>Resources/views/DrinkOrder/confirmation.html.twig</strong> :</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre>...
+<span class="nt">&lt;ul&gt;</span>
+  <span class="nt">&lt;li&gt;</span>商品: <span class="cp">{{</span> <span class="nv">drinkOrder.productId</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span>個数: <span class="cp">{{</span> <span class="nv">drinkOrder.quantity</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span>名前: <span class="cp">{{</span> <span class="nv">drinkOrder.name</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span>住所: <span class="cp">{{</span> <span class="nv">drinkOrder.address</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+  <span class="nt">&lt;li&gt;</span>電話番号: <span class="cp">{{</span> <span class="nv">drinkOrder.phone</span> <span class="cp">}}</span><span class="nt">&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+...
+</pre></div>
+</div>
+<p>では最初のページにアクセスし、注文内容確認ページまで進めてみましょう。</p>
+<img alt="../images/order-confirmation-with-data.png" src="../_images/order-confirmation-with-data.png" />
+</div>
+<div class="section" id="id20">
+<h3><a class="toc-backref" href="#id56">1.5.2&nbsp;&nbsp;&nbsp;入力内容の修正</a><a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
+<p>冒頭で示したページフローでは、入力内容の修正のために注文内容確認ページから商品選択ページ・配送先情報入力ページへ戻れるようになっていました。これをサポートするために配送先情報入力ページを変更しましょう。</p>
+<p><strong>Resources/views/DrinkOrder/confirmation.html.twig</strong> :</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre>...
+  <span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;OscDrinkOrderBundle_confirmation&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+    <span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span>
+    <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/form&gt;</span>
+  <span class="nt">&lt;div&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>商品の再選択<span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div&gt;</span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;OscDrinkOrderBundle_address&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span><span class="nt">&gt;</span>配送先情報の修正<span class="nt">&lt;/a&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</pre></div>
+</div>
+<p>そういえばproductAction()メソッドでは新しいDrinkOrderオブジェクトを無条件でセッションに登録していましたので、セッションに存在しない場合のみ登録するように変更しておきます。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">productAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">DrinkOrder</span><span class="p">());</span>
+    <span class="p">}</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>ではアクセスして動作を確認してみましょう。</p>
+</div>
+<div class="section" id="id21">
+<h3><a class="toc-backref" href="#id57">1.5.3&nbsp;&nbsp;&nbsp;注文完了時の初期化</a><a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<p>今のままでは注文完了後に他のページにアクセスした場合にも前回の入力値が表示されてしまいますので、注文完了時はセッションからデータを削除しておく方がいいでしょう。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">confirmationPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">());</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_success&#39;</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>以上でセッションの導入は完了です。</p>
+</div>
+<div class="section" id="id22">
+<h3><a class="toc-backref" href="#id58">1.5.4&nbsp;&nbsp;&nbsp;フォームの組み立てコードの外部化</a><a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<p>セッションを導入したことでフォームの組み立てコードの重複が目立つようになりました。幸いSymfonyはフォームの組み立て処理を外部化するための仕組みを提供しています。フォームフィールドの組み合わせに対してそれぞれクラスを用意します。</p>
+<p><strong>Form/Type/ProductDrinkOrderType.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">namespace</span> <span class="nx">Osc\Bundle\DrinkOrderBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ProductDrinkOrderType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;product_id&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span> <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;1&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;BlueBull 128個入ケース&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;GreenBull 128個入ケース&#39;</span><span class="p">)));</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;product_drink_order&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>Form/Type/AddressDrinkOrderType.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="k">namespace</span> <span class="nx">Osc\Bundle\DrinkOrderBundle\Form\Type</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AddressDrinkOrderType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;phone&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;address_drink_order&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これらのフォームタイプを使ってコントローラを書き換えます。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">use</span> <span class="nx">Osc\Bundle\DrinkOrderBundle\Form\Type\AddressDrinkOrderType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Osc\Bundle\DrinkOrderBundle\Form\Type\ProductDrinkOrderType</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">DrinkOrderController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">productAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">DrinkOrder</span><span class="p">());</span>
+        <span class="p">}</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">ProductDrinkOrderType</span><span class="p">(),</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">));</span>
+<span class="o">...</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">addressAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">AddressDrinkOrderType</span><span class="p">(),</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">));</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>これでコードが随分すっきりしました。</p>
+</div>
+</div>
+<div class="section" id="id23">
+<h2><a class="toc-backref" href="#id59">1.6&nbsp;&nbsp;&nbsp;バリデーションの実装</a><a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<p>次はフォーム入力値に対するバリデーションを実装します。バリデーションの対象となるのは、ページフローに現れるすべてのフォーム、すなわち商品選択フォーム、配送先情報入力フォーム、注文内容確認フォームの3つです。</p>
+<div class="section" id="id24">
+<h3><a class="toc-backref" href="#id60">1.6.1&nbsp;&nbsp;&nbsp;最初のフォーム - 商品選択フォーム</a><a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h3>
+<p>まずは最初のフォームである商品選択フォームから実装していきましょう。</p>
+<p><strong>Resources/config/validation.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">Osc\Bundle\DrinkOrderBundle\Entity\DrinkOrder</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">product_id</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Min</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">2</span>
+    <span class="l-Scalar-Plain">quantity</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Min</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">1</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Max</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">8</span>
+</pre></div>
+</div>
+<p><strong>Form::isValid()</strong> メソッドによるフォームのバリデーションの実体は、Formオブジェクトに設定されているドメインオブジェクトに対するバリデーションの呼び出しです。よって今回はDrinkOrderエンティティに対して <strong>制約</strong> と呼ばれるバリデーションのルールを定義する必要があります。</p>
+<p>制約の定義が完了したら適切な場所でForm::isValid()メソッドを呼び出すようにコントローラを変更します。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">productPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">ProductDrinkOrderType</span><span class="p">(),</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">));</span>
+    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_address&#39;</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:product.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">()));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>バリデーションが成功した場合は今までどおりに配送先情報入力ページにリダイレクトします。失敗した場合は再度フォームを表示します。</p>
+<p>変更が完了したら動作確認を行います。わざとバリデーションを失敗させてみましょう。元のフォームにエラーメッセージが表示されればコードは正しく動作しています。</p>
+<img alt="../images/validation-failed.png" src="../_images/validation-failed.png" />
+</div>
+<div class="section" id="id25">
+<h3><a class="toc-backref" href="#id61">1.6.2&nbsp;&nbsp;&nbsp;2つ目のフォーム - 配送先情報入力フォーム</a><a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<p>続いて2つ目のフォーム、配送先情報入力フォームの実装です。まずは先ほどと同じように制約を定義し、コントローラを変更します。</p>
+<p><strong>Resources/config/validation.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="nn">...</span>
+<span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="nl">&amp;text</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MaxLength</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">16</span>
+<span class="l-Scalar-Plain">address</span><span class="p-Indicator">:</span> <span class="nv">*text</span>
+<span class="l-Scalar-Plain">phone</span><span class="p-Indicator">:</span> <span class="nv">*text</span>
+</pre></div>
+</div>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addressPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">AddressDrinkOrderType</span><span class="p">(),</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">));</span>
+    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_confirmation&#39;</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:address.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">()));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>では最初のページから動作確認してみてください。</p>
+<img alt="../images/validation-unexpected.png" src="../_images/validation-unexpected.png" />
+<p>商品選択フォームで正しい値を入力したにも関わらず、新たに追加した制約の数のエラーが発生してしまいました。これは新たな制約が機能しているからであり正しい動作です。我々はそれぞれのフォームタイプに対応するフィールドのみをバリデーションしたいのですが、そのためにはどうすればいいのでしょうか？</p>
+<p>この問題に対する1つの解決策は <a class="reference external" href="http://symfony.com/doc/2.0/book/validation.html#validation-groups">バリデーショングループ</a> の使用です。まずバリデーション定義を以下のように変更しましょう。</p>
+<p><strong>Resources/config/validation.yml</strong> :</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">Osc\Bundle\DrinkOrderBundle\Entity\DrinkOrder</span><span class="p-Indicator">:</span>
+  <span class="l-Scalar-Plain">properties</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">product_id</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">product</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Min</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">limit</span><span class="p-Indicator">:</span> <span class="nv">1</span><span class="p-Indicator">,</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">product</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Max</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">limit</span><span class="p-Indicator">:</span> <span class="nv">2</span><span class="p-Indicator">,</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">product</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">quantity</span><span class="p-Indicator">:</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">product</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Min</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">limit</span><span class="p-Indicator">:</span> <span class="nv">1</span><span class="p-Indicator">,</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">product</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Max</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">limit</span><span class="p-Indicator">:</span> <span class="nv">8</span><span class="p-Indicator">,</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">product</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">name</span><span class="p-Indicator">:</span> <span class="nl">&amp;text</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">NotBlank</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">address</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+      <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">MaxLength</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">limit</span><span class="p-Indicator">:</span> <span class="nv">16</span><span class="p-Indicator">,</span> <span class="nv">groups</span><span class="p-Indicator">:</span> <span class="p-Indicator">[</span><span class="nv">address</span><span class="p-Indicator">]</span> <span class="p-Indicator">}</span>
+    <span class="l-Scalar-Plain">address</span><span class="p-Indicator">:</span> <span class="nv">*text</span>
+    <span class="l-Scalar-Plain">phone</span><span class="p-Indicator">:</span> <span class="nv">*text</span>
+</pre></div>
+</div>
+<p>ご覧のように制約毎にgroups要素を定義しており、その値によって制約をグループ化することができます。次にフォームバリデーションでバリデーショングループを使うためにコントローラを以下のように変更します。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">productPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">ProductDrinkOrderType</span><span class="p">(),</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;validation_groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;product&#39;</span><span class="p">))</span>
+    <span class="p">);</span>
+    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">());</span>
+<span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addressPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">AddressDrinkOrderType</span><span class="p">(),</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;validation_groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">))</span>
+    <span class="p">);</span>
+    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">());</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>では動作確認を行いましょう。</p>
+<img alt="../images/validation-groups.png" src="../_images/validation-groups.png" />
+<p>今度は上手くいきました。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>文脈依存のバリデーション (Contextual Validation)</p>
+<p class="last">同一のドメインオブジェクトに対して文脈毎に異なるバリデーションを行いたい場合があります。今回の例のような同一ページフロー中のフォーム毎のバリデーションも文脈依存のバリデーションといえますが、異なるアプリケーションで必要になる場合もあるでしょう。例えば、アカウント登録時にはユーザオブジェクトに対してメールアドレスとログインパスワードのバリデーションを行い、アカウント情報変更時にはユーザオブジェクトに対して電話番号や住所のバリデーションを行う、といった具合です。筆者はバリデーションの再利用は制約単位よりもフィールド単位の方が有用だと考えていますので現在のバリデーショングループが使いやすいとは思っておらず、現在優れた実装パターンを模索中です。文脈毎にドメインオブジェクトを継承し、それに対するバリデーションを定義するという方法は良さそうに思えますが、Symfonyの実装に阻まれており(クラスの継承によってバリデーション定義も継承されるのです！)実現には至っておりません。何か良いアイデアがあれば是非筆者までご連絡ください。</p>
+</div>
+</div>
+<div class="section" id="id27">
+<h3><a class="toc-backref" href="#id62">1.6.3&nbsp;&nbsp;&nbsp;最後のフォーム - 注文内容確認フォーム</a><a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<p>最後に3つ目のフォーム、注文内容確認フォームの実装です。このフォームにはバリデーションすべきフィールドがありませんので、実装はコントローラの変更のみとなります。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">confirmationPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_success&#39;</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle:DrinkOrder:confirmation.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">(),</span>
+            <span class="s1">&#39;drinkOrder&#39;</span> <span class="o">=&gt;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">)</span>
+        <span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>以上でバリデーションの実装は完了です。</p>
+</div>
+</div>
+<div class="section" id="id28">
+<h2><a class="toc-backref" href="#id63">1.7&nbsp;&nbsp;&nbsp;データベースへのオブジェクトの保存</a><a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h2>
+<p>そのそろこの辺で注文内容をデータベースに保存することにしましょう。</p>
+<div class="section" id="id29">
+<h3><a class="toc-backref" href="#id64">1.7.1&nbsp;&nbsp;&nbsp;テーブルの作成</a><a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<p>現段階ではDrinkOrderオブジェクトの保存先となるテーブルすら存在しておりませんので <strong>app/console doctrine:schema:create</strong> コマンドを使ってテーブルを作成します。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> app/console doctrine:schema:create
+<span class="go">ATTENTION: This operation should not be executed in a production environment.</span>
+
+<span class="go">Creating database schema...</span>
+<span class="go">Database schema created successfully!</span>
+</pre></div>
+</div>
+<p>成功したようです。念のためデータベースを確認しておきます。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">mysql&gt; show tables;</span>
+<span class="go">+------------------------+</span>
+<span class="go">| Tables_in_symfony2_osc |</span>
+<span class="go">+------------------------+</span>
+<span class="go">| drink_order            |</span>
+<span class="go">+------------------------+</span>
+<span class="go">1 row in set (0.00 sec)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id30">
+<h3><a class="toc-backref" href="#id65">1.7.2&nbsp;&nbsp;&nbsp;オブジェクトの保存</a><a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<p>次にコントローラを以下のように変更します。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">confirmationPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">))</span><span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+    <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">());</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getEntityManager</span><span class="p">();</span>
+        <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">persist</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">));</span>
+        <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_success&#39;</span><span class="p">));</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>コントローラのインスタンスを経由して取得したEntityManagerオブジェクトの <strong>persist()</strong> メソッドにセッションに保存されているDrinkOrderオブジェクトを渡しています。 <strong>flush()</strong> メソッドの呼び出しによって実際の保存が行われることになります。</p>
+<p>では動作確認を行い、注文が完了したらデータベースを確認しましょう。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="go">mysql&gt; select * from drink_order;</span>
+<span class="go">+----+------------+----------+--------+---------+------------+</span>
+<span class="go">| id | product_id | quantity | name   | address | phone      |</span>
+<span class="go">+----+------------+----------+--------+---------+------------+</span>
+<span class="go">|  1 |          2 |        8 | iteman | Osaka   | 0663985061 |</span>
+<span class="go">+----+------------+----------+--------+---------+------------+</span>
+<span class="go">1 row in set (0.00 sec)</span>
+</pre></div>
+</div>
+<p>どうやら成功したようです。</p>
+</div>
+</div>
+<div class="section" id="csrf">
+<h2><a class="toc-backref" href="#id66">1.8&nbsp;&nbsp;&nbsp;ページフローの制御とCSRF対策</a><a class="headerlink" href="#csrf" title="Permalink to this headline">¶</a></h2>
+<p>前のセクションでアプリケーションの動作としてはほぼ完成の段階に来ましたが、今のままではいきなり中間のページにアクセスされた場合の対策がありません。これに対してはページフローの制御を行うことで予期しない動作を防ぐ必要があります。加えてCSRF対策を行いアプリケーションのセキュリティを高める必要もあります。</p>
+<div class="section" id="id31">
+<h3><a class="toc-backref" href="#id67">1.8.1&nbsp;&nbsp;&nbsp;ページフローの制御</a><a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
+<p>ここで冒頭に示したページフローを再度見てみましょう。</p>
+<img alt="../images/page-flow.png" src="../_images/page-flow.png" />
+<p>予期しないアプリケーションの動作を防ぐためはフローのルートを制御する必要があります。とはいってもSymfonyの標準機能では完全な制御は難しいため、条件分岐が拡散しすぎない程度に留めておくのが現実的でしょう。</p>
+<p>ここでは予期しない遷移を検出した場合に商品選択ページにリダイレクトするようにコントローラを変更します。</p>
+<p><strong>Controller/DrinkOrderController.php</strong> :</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">...</span>
+<span class="k">const</span> <span class="no">STATE_PRODUCT</span> <span class="o">=</span> <span class="s1">&#39;STATE_PRODUCT&#39;</span><span class="p">;</span>
+<span class="k">const</span> <span class="no">STATE_ADDRESS</span> <span class="o">=</span> <span class="s1">&#39;STATE_ADDRESS&#39;</span><span class="p">;</span>
+<span class="k">const</span> <span class="no">STATE_CONFIRMATION</span> <span class="o">=</span> <span class="s1">&#39;STATE_CONFIRMATION&#39;</span><span class="p">;</span>
+<span class="k">const</span> <span class="no">STATE_SUCCESS</span> <span class="o">=</span> <span class="s1">&#39;STATE_SUCCESS&#39;</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">productAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_PRODUCT</span><span class="p">);</span>
+<span class="o">...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">productPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+          <span class="o">&amp;&amp;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_PRODUCT</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="o">...</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_ADDRESS</span><span class="p">);</span>
+<span class="o">...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addressAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+          <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_ADDRESS</span>
+              <span class="o">||</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_CONFIRMATION</span><span class="p">)))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_ADDRESS</span><span class="p">);</span>
+<span class="o">...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">addressPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+          <span class="o">&amp;&amp;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_ADDRESS</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="o">...</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_CONFIRMATION</span><span class="p">);</span>
+<span class="o">...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">confirmationAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+          <span class="o">&amp;&amp;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_CONFIRMATION</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="o">...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">confirmationPostAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+          <span class="o">&amp;&amp;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_CONFIRMATION</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="o">...</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getEntityManager</span><span class="p">();</span>
+        <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">persist</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">));</span>
+        <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">setFlash</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_SUCCESS</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">remove</span><span class="p">(</span><span class="s1">&#39;drinkOrder&#39;</span><span class="p">);</span>
+<span class="o">...</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">successAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">hasFlash</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span>
+          <span class="o">&amp;&amp;</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">container</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getFlash</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="nx">self</span><span class="o">::</span><span class="na">STATE_SUCCESS</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;OscDrinkOrderBundle_product&#39;</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>変更が終わったら実際にいろいろなルートをチェックしてみましょう。例えば、新規セッションで <strong>http://symfony2-osc/app_dev.php/order/success</strong> にアクセスします。完了ページが表示されずに、商品選択ページが表示されればOKです。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>ページフローエンジン</p>
+<p class="last"><a class="reference external" href="http://redmine.piece-framework.com/projects/piece-flow">Piece_Flow</a> のようなページフローエンジンを使うことで、ページフローを完全に制御することが極めて簡単になります。残念ながらPiece_FlowのSymfonyインテグレーションはまだありません。作者のやる気自体はあるようですがリソース不足のため後回しになっています…</p>
+</div>
+</div>
+<div class="section" id="id32">
+<h3><a class="toc-backref" href="#id68">1.8.2&nbsp;&nbsp;&nbsp;CSRF対策</a><a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<p>Webページ閲覧者に対する代表的な攻撃手法の一つである <a class="reference external" href="http://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AD%E3%82%B9%E3%82%B5%E3%82%A4%E3%83%88%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%AA">クロスサイトリクエストフォージェリ(CSRF: Cross-site request forgery)</a> ですが実はすでに対策は完了しています。これはFormオブジェクトにはデフォルトでCSRF対策が組み込まれおり、form_widget()関数によって各フォームに埋めこまれている検証用文字列(<strong>トークン</strong>)がForm::isValid()メソッドの呼び出しによって検証されているためです。</p>
+<p>実際にブラウザのツールを使ってトークンを確認してみましょう。</p>
+<img alt="../images/csrf-token.png" src="../_images/csrf-token.png" />
+<p>さらにトークンの値を変更してバリデーションエラーが発生することも確認してみましょう。</p>
+<img alt="../images/csrf-error.png" src="../_images/csrf-error.png" />
+</div>
+</div>
+<div class="section" id="id33">
+<h2><a class="toc-backref" href="#id69">1.9&nbsp;&nbsp;&nbsp;まとめ</a><a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
+<p><strong>最もよくできたアーキテクチャフレームワークは、複雑な技術的問題を解決する一方で、ドメイン開発者がモデルを表現することに集中できるようにする。しかし、フレームワークは、ドメインについての設計の選択肢を制限する前提を多く設けすぎたり、開発の速度を低下させるほど実装を重苦しくしてしまったりすることで、容易に開発の妨げとなり得るのだ。...フレームワークを適用する場合、チームはその目標に集中しなければならない。それはすなわち、ドメインモデルを表現し、重要な問題を解決するためにそのモデルを使用するような実装を構築するということである。チームは、この目標を達成するためにフレームワークを採用する道を模索しなければならない。それがフレームワークのすべての機能を使用しないことを意味しても構わない。(『エリック・エヴァンスのドメイン駆動設計』より)</strong></p>
+<p>このチュートリアルではSymfonyのWebアプリケーションフレームワーク部分にフォーカスを当ててきました。そしてWebアプリケーションの技術的課題の多くがSymfonyによって解決されることの一端をお見せすることができたのではないかと思います。</p>
+<p>アプリケーション開発者にとって最も重要なのは、対象領域の本質的な知識をドメインモデルとして体系化し、それをドメインオブジェクトとしてソフトウェアに落としこむことで現実世界で機能させることです。PHPの数あるアーキテクチャフレームワークの中でも、Symfonyはそのような活動において最も効果を発揮するものの一つだといえるでしょう。</p>
+</div>
+<div class="section" id="id34">
+<h2><a class="toc-backref" href="#id70">1.10&nbsp;&nbsp;&nbsp;参考</a><a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.symfony.gr.jp/symfony2/book/forms.html">フォーム | Symfony2日本語ドキュメント</a></li>
+<li><a class="reference external" href="http://docs.symfony.gr.jp/symfony2/book/routing.html#controller-string-syntax">ルーティング | Symfony2日本語ドキュメント</a></li>
+<li><a class="reference external" href="http://symfony.com/doc/2.0/book/validation.html">Symfony - Validation</a></li>
+<li><a class="reference external" href="http://ja.wikipedia.org/wiki/%E3%83%93%E3%82%B8%E3%83%8D%E3%82%B9%E3%82%AA%E3%83%96%E3%82%B8%E3%82%A7%E3%82%AF%E3%83%88">ビジネスオブジェクト - Wikipedia</a></li>
+<li><a class="reference external" href="http://ja.wikipedia.org/wiki/%E3%83%89%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%A2%E3%83%87%E3%83%AB">ドメインモデル - Wikipedia</a></li>
+<li><a class="reference external" href="http://www.amazon.co.jp/%E3%82%A8%E3%83%AA%E3%83%83%E3%82%AF%E3%83%BB%E3%82%A8%E3%83%B4%E3%82%A1%E3%83%B3%E3%82%B9%E3%81%AE%E3%83%89%E3%83%A1%E3%82%A4%E3%83%B3%E9%A7%86%E5%8B%95%E8%A8%AD%E8%A8%88-Architects%E2%80%99Archive-%E3%82%BD%E3%83%95%E3%83%88%E3%82%A6%E3%82%A7%E3%82%A2%E9%96%8B%E7%99%BA%E3%81%AE%E5%AE%9F%E8%B7%B5-%E3%82%A8%E3%83%AA%E3%83%83%E3%82%AF%E3%83%BB%E3%82%A8%E3%83%B4%E3%82%A1%E3%83%B3%E3%82%B9/dp/4798121967">『エリック・エヴァンスのドメイン駆動設計 (IT Architects’Archive ソフトウェア開発の実践 )』、翔泳社、2011年、ISBN 978­4798121963</a></li>
+<li><a class="reference external" href="http://martinfowler.com/bliki/ContextualValidation.html">ContextualValidation</a></li>
+<li><a class="reference external" href="http://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AD%E3%82%B9%E3%82%B5%E3%82%A4%E3%83%88%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%AA">クロスサイトリクエストフォージェリ(CSRF: Cross-site request forgery)</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

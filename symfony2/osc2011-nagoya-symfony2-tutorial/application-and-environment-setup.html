@@ -1,0 +1,436 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1   アプリケーションと環境のセットアップ | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">1&nbsp;&nbsp;&nbsp;アプリケーションと環境のセットアップ</a><ul>
+<li><a class="reference internal" href="#id3">1.1&nbsp;&nbsp;&nbsp;概要</a></li>
+<li><a class="reference internal" href="#id4">1.2&nbsp;&nbsp;&nbsp;動作環境</a></li>
+<li><a class="reference internal" href="#symfony">1.3&nbsp;&nbsp;&nbsp;Symfonyのインストール</a></li>
+<li><a class="reference internal" href="#id6">1.4&nbsp;&nbsp;&nbsp;データベースの作成</a></li>
+<li><a class="reference internal" href="#id7">1.5&nbsp;&nbsp;&nbsp;Symfonyアプリケーションの設定</a></li>
+<li><a class="reference internal" href="#id8">1.6&nbsp;&nbsp;&nbsp;参考</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/osc2011-nagoya-symfony2-tutorial/application-and-environment-setup.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1><a class="toc-backref" href="#id11">1&nbsp;&nbsp;&nbsp;アプリケーションと環境のセットアップ</a><a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>Copyright (c) 2011 KUBO Atsuhiro &lt;<a class="reference external" href="mailto:kubo&#37;&#52;&#48;iteman&#46;jp">kubo<span>&#64;</span>iteman<span>&#46;</span>jp</a>&gt;, All rights reserved.</p>
+<p>This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License. To view a copy of this license, visit <a class="reference external" href="http://creativecommons.org/licenses/by-sa/3.0/">http://creativecommons.org/licenses/by-sa/3.0/</a> or send a letter to Creative Commons, 444 Castro Street, Suite 900, Mountain View, California, 94041, USA.</p>
+<div class="contents topic" id="id2">
+<p class="topic-title first">目次</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#id1" id="id11">1&nbsp;&nbsp;&nbsp;アプリケーションと環境のセットアップ</a><ul class="auto-toc">
+<li><a class="reference internal" href="#id3" id="id12">1.1&nbsp;&nbsp;&nbsp;概要</a></li>
+<li><a class="reference internal" href="#id4" id="id13">1.2&nbsp;&nbsp;&nbsp;動作環境</a></li>
+<li><a class="reference internal" href="#symfony" id="id14">1.3&nbsp;&nbsp;&nbsp;Symfonyのインストール</a></li>
+<li><a class="reference internal" href="#id6" id="id15">1.4&nbsp;&nbsp;&nbsp;データベースの作成</a></li>
+<li><a class="reference internal" href="#id7" id="id16">1.5&nbsp;&nbsp;&nbsp;Symfonyアプリケーションの設定</a></li>
+<li><a class="reference internal" href="#id8" id="id17">1.6&nbsp;&nbsp;&nbsp;参考</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id12">1.1&nbsp;&nbsp;&nbsp;概要</a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>このドキュメントでは <a class="reference external" href="https://www.ospn.jp/osc2011-nagoya/modules/eguide/event.php?eid=13">オープンソースカンファレンス2011 Nagoya PHPフレームワークSymfony2 開発チュートリアル</a> に参加される方に向けて、当日実際に手を動かしていただく場合に必要な事前準備について解説します。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>アプリケーションで使用するホスト名について</p>
+<p class="last">本チュートリアルのアプリケーションのホスト名は <strong>symfony2-osc</strong> とします。お使いの環境に合わせて適宜読み替えてください。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2><a class="toc-backref" href="#id13">1.2&nbsp;&nbsp;&nbsp;動作環境</a><a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://docs.symfony.gr.jp/symfony2/reference/requirements.html">Symfony2 の実行に必要な要件 | Symfony2日本語ドキュメント</a> を参考に動作環境をチェックします。本チュートリアルではDoctrineを使用するために <a class="reference external" href="http://www.php.net/manual/ja/book.pdo.php">PDO拡張モジュール</a> とデータベース固有のPDOドライバも必要となります。</p>
+</div>
+<div class="section" id="symfony">
+<h2><a class="toc-backref" href="#id14">1.3&nbsp;&nbsp;&nbsp;Symfonyのインストール</a><a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://docs.symfony.gr.jp/symfony2/book/installation.html">Symfony のインストールと設定 | Symfony2日本語ドキュメント</a> を参考にSymfonyをインストールします。以下は筆者の環境におけるインストールの例です。</p>
+<p>最初にアーカイブを展開します。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>tar zxf /path/to/Symfony_Standard_Vendors_2.0.0.tgz
+</pre></div>
+</div>
+<p>次に展開されたルートディレクトリの名称を変更します。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mv Symfony symfony2-osc
+</pre></div>
+</div>
+<p>次にコマンドラインから動作環境をチェックします。筆者の環境では設定パラメータ <strong>date.timezone</strong> の値が設定されていなかったためエラーが発生しました。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /path/to/symfony2-osc
+<span class="nv">$ </span>php app/check.php
+********************************
+*                              *
+*  Symfony requirements check  *
+*                              *
+********************************
+
+php.ini used by PHP: /path/to/php.ini
+
+** WARNING **
+*  The PHP CLI can use a different php.ini file
+*  than the one used with your web server.
+*  If this is the <span class="k">case</span>, please ALSO launch this
+*  utility from your web server.
+** WARNING **
+
+** Mandatory requirements **
+
+  OK        Checking that PHP version is at least 5.3.2 <span class="o">(</span>5.3.5-1ubuntu7.2 installed<span class="o">)</span>
+
+
+<span class="o">[[</span> ERROR <span class="o">]]</span> Checking that the <span class="s2">&quot;date.timezone&quot;</span> setting is <span class="nb">set</span>: FAILED
+            *** Set the <span class="s2">&quot;date.timezone&quot;</span> setting in php.ini <span class="o">(</span>like Europe/Paris<span class="o">)</span> ***
+You must fix this problem before resuming the check.
+</pre></div>
+</div>
+<p>設定ファイルの該当箇所を <strong>date.timezone = Asia/Tokyo</strong> のように変更した上で再度チェックコマンドを実行したところ以下のような出力になりました。</p>
+<div class="highlight-bash"><div class="highlight"><pre>********************************
+*                              *
+*  Symfony requirements check  *
+*                              *
+********************************
+
+php.ini used by PHP: /path/to/php.ini
+
+** WARNING **
+*  The PHP CLI can use a different php.ini file
+*  than the one used with your web server.
+*  If this is the <span class="k">case</span>, please ALSO launch this
+*  utility from your web server.
+** WARNING **
+
+** Mandatory requirements **
+
+  OK        Checking that PHP version is at least 5.3.2 <span class="o">(</span>5.3.5-1ubuntu7.2 installed<span class="o">)</span>
+  OK        Checking that the <span class="s2">&quot;date.timezone&quot;</span> setting is <span class="nb">set</span>
+<span class="nb">  </span>OK        Checking that app/cache/ directory is writable
+  OK        Checking that the app/logs/ directory is writable
+  OK        Checking that the json_encode<span class="o">()</span> is available
+  OK        Checking that the SQLite3 or PDO_SQLite extension is available
+  OK        Checking that the session_start<span class="o">()</span> is available
+  OK        Checking that the ctype_alpha<span class="o">()</span> is available
+
+** Optional checks **
+
+  OK        Checking that the PHP-XML module is installed
+  OK        Checking that the libxml version is at least 2.6.21
+  OK        Checking that the token_get_all<span class="o">()</span> <span class="k">function </span>is available
+  OK        Checking that the mb_strlen<span class="o">()</span> <span class="k">function </span>is available
+  OK        Checking that the iconv<span class="o">()</span> <span class="k">function </span>is available
+  OK        Checking that the utf8_decode<span class="o">()</span> is available
+  OK        Checking that the posix_isatty<span class="o">()</span> is available
+  OK        Checking that the intl extension is available
+  OK        Checking that the intl ICU version is at least 4+
+  OK        Checking that a PHP accelerator is installed
+  OK        Checking that the APC version is at least 3.0.17
+  OK        Checking that php.ini has short_open_tag <span class="nb">set </span>to off
+  OK        Checking that php.ini has magic_quotes_gpc <span class="nb">set </span>to off
+  OK        Checking that php.ini has register_globals <span class="nb">set </span>to off
+  OK        Checking that php.ini has session.auto_start <span class="nb">set </span>to off
+
+** Optional checks <span class="o">(</span>Doctrine<span class="o">)</span> **
+
+  OK        Checking that PDO is installed
+  OK        Checking that PDO has some drivers installed: mysql, sqlite, sqlite2
+</pre></div>
+</div>
+<p>次にブラウザから <strong>http://symfony2-osc/config.php</strong> にアクセスし、Webからも動作環境をチェックします。筆者の場合 <strong>app/cache</strong> と <strong>app/logs</strong> ディレクトリにWebサーバが書き込めないという問題が指摘されました。</p>
+<img alt="../images/config1.png" src="../_images/config1.png" />
+<p>ターミナルから実際に確認してみると、確かにWebサーバのユーザ・グループ(ユーザ: www-data, グループ: www-data)が書き込めないパーミッションになっていました。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd </span>app
+<span class="nv">$ </span>ls -la
+...
+drwxr-xr-x 2 iteman iteman  4096 2011-07-28 17:52 cache/
+...
+drwxr-xr-x 2 iteman iteman  4096 2011-08-12 16:01 logs/
+...
+</pre></div>
+</div>
+<p><a class="reference external" href="http://docs.symfony.gr.jp/symfony2/book/installation.html">Symfony のインストールと設定 | Symfony2日本語ドキュメント</a> に書かれているようにいくつかのパーミッションの設定方法があります。ここでは <strong>ACLを使わない方法</strong> を採用します。</p>
+<p>まず、グループ権限で書き込めるようにパーミッションを変更します。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>chmod 2775 cache logs
+<span class="nv">$ </span>chgrp www-data cache logs
+<span class="nv">$ </span>ls -la
+...
+drwxrwsr-x 2 iteman www-data  4096 2011-07-28 17:52 cache/
+...
+drwxrwsr-x 2 iteman www-data  4096 2011-08-12 16:01 logs/
+...
+</pre></div>
+</div>
+<p>次に以下の行を <strong>app/console</strong>, <strong>web/app.php</strong>, <strong>web/app_dev.php</strong> の先頭に追加します。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nb">umask</span><span class="o">(</span>0002<span class="o">)</span>; // This will <span class="nb">let </span>the permissions be 0775
+</pre></div>
+</div>
+<p>再度ブラウザから <strong>http://symfony2-osc/config.php</strong> にアクセスします。</p>
+<img alt="../images/config2.png" src="../_images/config2.png" />
+<p>これでSymfonyのインストールは完了です。続いてこのページからSymfonyアプリケーションの設定を行うことができますが、その前にデータベースの設定を済ませておくことにしましょう。</p>
+</div>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id15">1.4&nbsp;&nbsp;&nbsp;データベースの作成</a><a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>本チュートリアルのアプリケーションはDoctrine経由でオブジェクトをデータベースに保存します。ここではデータベースの作成とデータベースユーザの作成を行います。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>RDBMSについて</p>
+<p class="last">本チュートリアルで使用するRDBMSはMySQLとします。お使いの環境に合わせて適宜読み替えてください。</p>
+</div>
+<p>最初にデータベース <strong>symfony2_osc</strong> を作成します。</p>
+<div class="highlight-bash"><div class="highlight"><pre>mysql&gt; create database symfony2_osc;
+Query OK, 1 row affected <span class="o">(</span>0.00 sec<span class="o">)</span>
+</pre></div>
+</div>
+<p>次にユーザ <strong>symfony</strong> を作成します。パスワードは <strong>symfony</strong> とします。</p>
+<div class="highlight-bash"><div class="highlight"><pre>mysql&gt; grant all on symfony2_osc.* to symfony@<span class="s1">&#39;localhost&#39;</span> identified by <span class="s1">&#39;symfony&#39;</span> with grant option;
+Query OK, 0 rows affected <span class="o">(</span>0.00 sec<span class="o">)</span>
+</pre></div>
+</div>
+<p>最後にコマンドラインから接続確認を行います。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>mysql -u symfony -p symfony2_osc
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or <span class="se">\g</span>.
+Your MySQL connection id is 35
+Server version: 5.1.54-1ubuntu4 <span class="o">(</span>Ubuntu<span class="o">)</span>
+
+Copyright <span class="o">(</span>c<span class="o">)</span> 2000, 2010, Oracle and/or its affiliates. All rights reserved.
+This software comes with ABSOLUTELY NO WARRANTY. This is free software,
+and you are welcome to modify and redistribute it under the GPL v2 license
+
+Type <span class="s1">&#39;help;&#39;</span> or <span class="s1">&#39;\h&#39;</span> <span class="k">for </span>help. Type <span class="s1">&#39;\c&#39;</span> to clear the current input statement.
+
+mysql&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2><a class="toc-backref" href="#id16">1.5&nbsp;&nbsp;&nbsp;Symfonyアプリケーションの設定</a><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>データベースの作成が完了したら、ブラウザから <strong>http://symfony2-osc/config.php</strong> にアクセスし、オンラインでSymfonyアプリケーションの設定を行います。ここで設定する内容は最終的に <strong>app/config/parameters.ini</strong> ファイルに書き込まれるため、あらかじめWebサーバから書き込めるようにしておく必要があります。</p>
+<p>準備ができたらリンク <strong>Configure your Symfony Application online</strong> をクリックします。するとデータベース接続設定のページが表示されます。</p>
+<img alt="../images/config-database.png" src="../_images/config-database.png" />
+<p>フォームに接続情報を入力し <strong>NEXT STEP</strong> ボタンをクリックします。するとGlobal Secretの設定ページが表示されます。</p>
+<img alt="../images/config-secret.png" src="../_images/config-secret.png" />
+<p><strong>GENERATE</strong> ボタンをクリックし、Secretを生成します。Secretが確定したら <strong>NEXT STEP</strong> ボタンをクリックします。すると設定内容の書き込みが行われ、その内容がページに表示されます。</p>
+<img alt="../images/config-final.png" src="../_images/config-final.png" />
+<p>最後にページ下部のリンク <strong>Go to the Welcome page</strong> をクリックしましょう。無事 <strong>Welcome</strong> ページが表示されれば、Symfonyアプリケーションの設定は完了です。</p>
+<img alt="../images/welcome.png" src="../_images/welcome.png" />
+</div>
+<div class="section" id="id8">
+<h2><a class="toc-backref" href="#id17">1.6&nbsp;&nbsp;&nbsp;参考</a><a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><a class="reference external" href="http://docs.symfony.gr.jp/symfony2/reference/requirements.html">Symfony2 の実行に必要な要件 | Symfony2日本語ドキュメント</a></li>
+<li><a class="reference external" href="http://docs.symfony.gr.jp/symfony2/book/installation.html">Symfony のインストールと設定 | Symfony2日本語ドキュメント</a></li>
+</ul>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

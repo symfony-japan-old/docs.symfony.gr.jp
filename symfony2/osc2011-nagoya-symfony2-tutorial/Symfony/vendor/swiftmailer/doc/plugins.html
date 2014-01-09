@@ -1,0 +1,572 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Plugins | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../../../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../../../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../../../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../../../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../../../../index.html">トップ（索引）</a></li>
+          <li><a href="../../../../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../../../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../../../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../../../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../../../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../../../../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Plugins</a><ul>
+<li><a class="reference internal" href="#antiflood-plugin">AntiFlood Plugin</a><ul>
+<li><a class="reference internal" href="#using-the-antiflood-plugin">Using the AntiFlood Plugin</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#throttler-plugin">Throttler Plugin</a><ul>
+<li><a class="reference internal" href="#using-the-throttler-plugin">Using the Throttler Plugin</a></li>
+<li><a class="reference internal" href="#logger-plugin">Logger Plugin</a><ul>
+<li><a class="reference internal" href="#using-the-logger-plugin">Using the Logger Plugin</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#decorator-plugin">Decorator Plugin</a><ul>
+<li><a class="reference internal" href="#using-the-decorator-plugin">Using the Decorator Plugin</a></li>
+<li><a class="reference internal" href="#providing-your-own-replacements-lookup-for-the-decorator">Providing Your Own Replacements Lookup for the Decorator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../../../sources/osc2011-nagoya-symfony2-tutorial/Symfony/vendor/swiftmailer/doc/plugins.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../../../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../../../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../../../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../../../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="plugins">
+<h1>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">¶</a></h1>
+<p>Plugins are provided with Swift Mailer and can be used to extend the behavior
+of the library in ways that simple class inheritance would be more complex.</p>
+<div class="section" id="antiflood-plugin">
+<h2>AntiFlood Plugin<a class="headerlink" href="#antiflood-plugin" title="Permalink to this headline">¶</a></h2>
+<p>Many SMTP servers have limits on the number of messages that may be sent
+during any single SMTP connection. The AntiFlood plugin provides a way to stay
+within this limit while still managing a large number of emails.</p>
+<p>A typical limit for a single connection is 100 emails. If the server you
+connect to imposes such a limit, it expects you to disconnect after that
+number of emails has been sent. You could manage this manually within a loop,
+but the AntiFlood plugin provides the necessary wrapper code so that you don&#8217;t
+need to worry about this logic.</p>
+<p>Regardless of limits imposed by the server, it&#8217;s usually a good idea to be
+conservative with the resources of the SMTP server. Sending will become
+sluggish if the server is being over-used so using the AntiFlood plugin will
+not be a bad idea even if no limits exist.</p>
+<p>The AntiFlood plugin&#8217;s logic is basically to disconnect and the immediately
+re-connect with the SMTP server every X number of emails sent, where X is a
+number you specify to the plugin.</p>
+<p>You can also specify a time period in seconds that Swift Mailer should pause
+for between the disconnect/re-connect process. It&#8217;s a good idea to pause for a
+short time (say 30 seconds every 100 emails) simply to give the SMTP server a
+chance to process its queue and recover some resources.</p>
+<div class="section" id="using-the-antiflood-plugin">
+<h3>Using the AntiFlood Plugin<a class="headerlink" href="#using-the-antiflood-plugin" title="Permalink to this headline">¶</a></h3>
+<p>The AntiFlood Plugin &#8211; like all plugins &#8211; is added with the Mailer
+class&#8217; <tt class="docutils literal"><span class="pre">registerPlugin()</span></tt> method. It takes two constructor
+parameters: the number of emails to pause after, and optionally the number of
+seconds to pause for.</p>
+<p>To use the AntiFlood plugin:</p>
+<ul class="simple">
+<li>Create an instance of the Mailer using any Transport you choose.</li>
+<li>Create an instance of the <tt class="docutils literal"><span class="pre">Swift_Plugins_AntiFloodPlugin</span></tt> class, passing
+in one or two constructor parameters.</li>
+<li>Register the plugin using the Mailer&#8217;s <tt class="docutils literal"><span class="pre">registerPlugin()</span></tt> method.</li>
+<li>Continue using Swift Mailer to send messages as normal.</li>
+</ul>
+<p>When Swift Mailer sends messages it will count the number of messages that
+have been sent since the last re-connect. Once the number hits your specified
+threshold it will disconnect and re-connect, optionally pausing for a
+specified amount of time.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">require_once</span> <span class="s1">&#39;lib/swift_required.php&#39;</span><span class="p">;</span>
+
+<span class="c1">//Create the Mailer using any Transport</span>
+<span class="nv">$mailer</span> <span class="o">=</span> <span class="nx">Swift_Mailer</span><span class="o">::</span><span class="na">newInstance</span><span class="p">(</span>
+  <span class="nx">Swift_SmtpTransport</span><span class="o">::</span><span class="na">newInstance</span><span class="p">(</span><span class="s1">&#39;smtp.example.org&#39;</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="c1">//Use AntiFlood to re-connect after 100 emails</span>
+<span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">registerPlugin</span><span class="p">(</span><span class="k">new</span> <span class="nx">Swift_Plugins_AntiFloodPlugin</span><span class="p">(</span><span class="mi">100</span><span class="p">));</span>
+
+<span class="c1">//Or specify a time in seconds to pause for (30 secs)</span>
+<span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">registerPlugin</span><span class="p">(</span><span class="k">new</span> <span class="nx">Swift_Plugins_AntiFloodPlugin</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">30</span><span class="p">));</span>
+
+<span class="c1">//Continue sending as normal</span>
+<span class="k">for</span> <span class="p">(</span><span class="nv">$lotsOfRecipients</span> <span class="k">as</span> <span class="nv">$recipient</span><span class="p">)</span> <span class="p">{</span>
+  <span class="o">...</span>
+
+  <span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span> <span class="o">...</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="throttler-plugin">
+<h2>Throttler Plugin<a class="headerlink" href="#throttler-plugin" title="Permalink to this headline">¶</a></h2>
+<p>If your SMTP server has restrictions in place to limit the rate at which you
+send emails, then your code will need to be aware of this rate-limiting. The
+Throttler plugin makes Swift Mailer run at a rate-limited speed.</p>
+<p>Many shared hosts don&#8217;t open their SMTP servers as a free-for-all. Usually
+they have policies in place (probably to discourage spammers) that only allow
+you to send a fixed number of emails per-hour/day.</p>
+<p>The Throttler plugin supports two modes of rate-limiting and with each, you
+will need to do that math to figure out the values you want. The plugin can
+limit based on the number of emails per minute, or the number of
+bytes-transferred per-minute.</p>
+<div class="section" id="using-the-throttler-plugin">
+<h3>Using the Throttler Plugin<a class="headerlink" href="#using-the-throttler-plugin" title="Permalink to this headline">¶</a></h3>
+<p>The Throttler Plugin &#8211; like all plugins &#8211; is added with the Mailer
+class&#8217; <tt class="docutils literal"><span class="pre">registerPlugin()</span></tt> method. It has two required
+constructor parameters that tell it how to do its rate-limiting.</p>
+<p>To use the Throttler plugin:</p>
+<ul class="simple">
+<li>Create an instance of the Mailer using any Transport you choose.</li>
+<li>Create an instance of the <tt class="docutils literal"><span class="pre">Swift_Plugins_ThrottlerPlugin</span></tt> class, passing
+the number of emails, or bytes you wish to limit by, along with the mode
+you&#8217;re using.</li>
+<li>Register the plugin using the Mailer&#8217;s <tt class="docutils literal"><span class="pre">registerPlugin()</span></tt> method.</li>
+<li>Continue using Swift Mailer to send messages as normal.</li>
+</ul>
+<p>When Swift Mailer sends messages it will keep track of the rate at which
+sending messages is occuring. If it realises that sending is happening too
+fast, it will cause your program to <tt class="docutils literal"><span class="pre">sleep()</span></tt> for enough time
+to average out the rate.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">require_once</span> <span class="s1">&#39;lib/swift_required.php&#39;</span><span class="p">;</span>
+
+<span class="c1">//Create the Mailer using any Transport</span>
+<span class="nv">$mailer</span> <span class="o">=</span> <span class="nx">Swift_Mailer</span><span class="o">::</span><span class="na">newInstance</span><span class="p">(</span>
+  <span class="nx">Swift_SmtpTransport</span><span class="o">::</span><span class="na">newInstance</span><span class="p">(</span><span class="s1">&#39;smtp.example.org&#39;</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="c1">//Rate limit to 100 emails per-minute</span>
+<span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">registerPlugin</span><span class="p">(</span><span class="k">new</span> <span class="nx">Swift_Plugins_ThrottlerPlugin</span><span class="p">(</span>
+  <span class="mi">100</span><span class="p">,</span> <span class="nx">Swift_Plugins_ThrottlerPlugin</span><span class="o">::</span><span class="na">MESSAGES_PER_MINUTE</span>
+<span class="p">));</span>
+
+<span class="c1">//Rate limit to 10MB per-minute</span>
+<span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">registerPlugin</span><span class="p">(</span><span class="k">new</span> <span class="nx">Swift_Plugins_ThrottlerPlugin</span><span class="p">(</span>
+  <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">Swift_Plugins_ThrottlerPlugin</span><span class="o">::</span><span class="na">BYTES_PER_MINUTE</span>
+<span class="p">));</span>
+
+<span class="c1">//Continue sending as normal</span>
+<span class="k">for</span> <span class="p">(</span><span class="nv">$lotsOfRecipients</span> <span class="k">as</span> <span class="nv">$recipient</span><span class="p">)</span> <span class="p">{</span>
+  <span class="o">...</span>
+
+  <span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span> <span class="o">...</span> <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="logger-plugin">
+<h3>Logger Plugin<a class="headerlink" href="#logger-plugin" title="Permalink to this headline">¶</a></h3>
+<p>The Logger plugins helps with debugging during the process of sending. It can
+help to identify why an SMTP server is rejecting addresses, or any other
+hard-to-find problems that may arise.</p>
+<p>The Logger plugin comes in two parts. There&#8217;s the plugin itself, along with
+one of a number of possible Loggers that you may choose to use. For example,
+the logger may output messages directly in realtime, or it may capture
+messages in an array.</p>
+<p>One other notable feature is the way in which the Logger plugin changes
+Exception messages. If Exceptions are being thrown but the error message does
+not provide conclusive information as to the source of the problem (such as an
+ambiguous SMTP error) the Logger plugin includes the entire SMTP transcript in
+the error message so that debugging becomes a simpler task.</p>
+<p>There are a few available Loggers included with Swift Mailer, but writing your
+own implementation is incredibly simple and is achieved by creating a short
+class that implements the <tt class="docutils literal"><span class="pre">Swift_Plugins_Logger</span></tt> interface.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">Swift_Plugins_Loggers_ArrayLogger</span></tt>: Keeps a collection of log messages
+inside an array. The array content can be cleared or dumped out to the
+screen.</li>
+<li><tt class="docutils literal"><span class="pre">Swift_Plugins_Loggers_EchoLogger</span></tt>: Prints output to the screen in
+realtime. Handy for very rudimentary debug output.</li>
+</ul>
+<div class="section" id="using-the-logger-plugin">
+<h4>Using the Logger Plugin<a class="headerlink" href="#using-the-logger-plugin" title="Permalink to this headline">¶</a></h4>
+<p>The Logger Plugin &#8211; like all plugins &#8211; is added with the Mailer
+class&#8217; <tt class="docutils literal"><span class="pre">registerPlugin()</span></tt> method. It accepts an instance of
+<tt class="docutils literal"><span class="pre">Swift_Plugins_Logger</span></tt> in its constructor.</p>
+<p>To use the Logger plugin:</p>
+<ul class="simple">
+<li>Create an instance of the Mailer using any Transport you choose.</li>
+<li>Create an instance of the a Logger implementation of
+<tt class="docutils literal"><span class="pre">Swift_Plugins_Logger</span></tt>.</li>
+<li>Create an instance of the <tt class="docutils literal"><span class="pre">Swift_Plugins_LoggerPlugin</span></tt> class, passing the
+created Logger instance to its constructor.</li>
+<li>Register the plugin using the Mailer&#8217;s <tt class="docutils literal"><span class="pre">registerPlugin()</span></tt> method.</li>
+<li>Continue using Swift Mailer to send messages as normal.</li>
+<li>Dump the contents of the log with the logger&#8217;s <tt class="docutils literal"><span class="pre">dump()</span></tt> method.</li>
+</ul>
+<p>When Swift Mailer sends messages it will keep a log of all the interactions
+with the underlying Transport being used. Depending upon the Logger that has
+been used the behaviour will differ, but all implementations offer a way to
+get the contents of the log.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">require_once</span> <span class="s1">&#39;lib/swift_required.php&#39;</span><span class="p">;</span>
+
+<span class="c1">//Create the Mailer using any Transport</span>
+<span class="nv">$mailer</span> <span class="o">=</span> <span class="nx">Swift_Mailer</span><span class="o">::</span><span class="na">newInstance</span><span class="p">(</span>
+ <span class="nx">Swift_SmtpTransport</span><span class="o">::</span><span class="na">newInstance</span><span class="p">(</span><span class="s1">&#39;smtp.example.org&#39;</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="c1">//To use the ArrayLogger</span>
+<span class="nv">$logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Swift_Plugins_Loggers_ArrayLogger</span><span class="p">();</span>
+<span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">registerPlugin</span><span class="p">(</span><span class="k">new</span> <span class="nx">Swift_Plugins_LoggerPlugin</span><span class="p">(</span><span class="nv">$logger</span><span class="p">));</span>
+
+<span class="c1">//Or to use the Echo Logger</span>
+<span class="nv">$logger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Swift_Plugins_Loggers_EchoLogger</span><span class="p">();</span>
+<span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">registerPlugin</span><span class="p">(</span><span class="k">new</span> <span class="nx">Swift_Plugins_LoggerPlugin</span><span class="p">(</span><span class="nv">$logger</span><span class="p">));</span>
+
+<span class="c1">//Continue sending as normal</span>
+<span class="k">for</span> <span class="p">(</span><span class="nv">$lotsOfRecipients</span> <span class="k">as</span> <span class="nv">$recipient</span><span class="p">)</span> <span class="p">{</span>
+ <span class="o">...</span>
+
+ <span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">(</span> <span class="o">...</span> <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// Dump the log contents</span>
+<span class="c1">// NOTE: The EchoLogger dumps in realtime so dump() does nothing for it</span>
+<span class="k">echo</span> <span class="nv">$logger</span><span class="o">-&gt;</span><span class="na">dump</span><span class="p">();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="decorator-plugin">
+<h3>Decorator Plugin<a class="headerlink" href="#decorator-plugin" title="Permalink to this headline">¶</a></h3>
+<p>Often there&#8217;s a need to send the same message to multiple recipients, but with
+tiny variations such as the recipient&#8217;s name being used inside the message
+body. The Decorator plugin aims to provide a solution for allowing these small
+differences.</p>
+<p>The decorator plugin works by intercepting the sending process of Swift
+Mailer, reading the email address in the To: field and then looking up a set
+of replacements for a template.</p>
+<p>While the use of this plugin is simple, it is probably the most commonly
+misunderstood plugin due to the way in which it works. The typical mistake
+users make is to try registering the plugin multiple times (once for each
+recipient) &#8211; inside a loop for example. This is incorrect.</p>
+<p>The Decorator plugin should be registered just once, but containing the list
+of all recipients prior to sending. It will use this list of recipients to
+find the required replacements during sending.</p>
+<div class="section" id="using-the-decorator-plugin">
+<h4>Using the Decorator Plugin<a class="headerlink" href="#using-the-decorator-plugin" title="Permalink to this headline">¶</a></h4>
+<p>To use the Decorator plugin, simply create an associative array of
+replacements based on email addresses and then use the mailer&#8217;s
+<tt class="docutils literal"><span class="pre">registerPlugin()</span></tt> method to add the plugin.</p>
+<p>First create an associative array of replacements based on the email addresses
+you&#8217;ll be sending the message to.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The replacements array becomes a 2-dimensional array whose keys are the
+email addresses and whose values are an associative array of replacements
+for that email address. The curly braces used in this example can be any
+type of syntax you choose, provided they match the placeholders in your
+email template.</p>
+<div class="last highlight-php"><div class="highlight"><pre><span class="nv">$replacements</span> <span class="o">=</span> <span class="k">array</span><span class="p">();</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$users</span> <span class="k">as</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$replacements</span><span class="p">[</span><span class="nv">$user</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]]</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;{username}&#39;</span><span class="o">=&gt;</span><span class="nv">$user</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;{password}&#39;</span><span class="o">=&gt;</span><span class="nv">$user</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<p>Now create an instance of the Decorator plugin using this array of
+replacements and then register it with the Mailer. Do this only once!</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$decorator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Swift_Plugins_DecoratorPlugin</span><span class="p">(</span><span class="nv">$replacements</span><span class="p">);</span>
+
+<span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">registerPlugin</span><span class="p">(</span><span class="nv">$decorator</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>When you create your message, replace elements in the body (and/or the subject
+line) with your placeholders.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$message</span> <span class="o">=</span> <span class="nx">Swift_Message</span><span class="o">::</span><span class="na">newInstance</span><span class="p">()</span>
+  <span class="o">-&gt;</span><span class="na">setSubject</span><span class="p">(</span><span class="s1">&#39;Important notice for {username}&#39;</span><span class="p">)</span>
+  <span class="o">-&gt;</span><span class="na">setBody</span><span class="p">(</span>
+    <span class="s2">&quot;Hello {username}, we have reset your password to {password}</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">.</span>
+    <span class="s2">&quot;Please log in and change it at your earliest convenience.&quot;</span>
+  <span class="p">)</span>
+  <span class="p">;</span>
+
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$users</span> <span class="k">as</span> <span class="nv">$user</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nv">$message</span><span class="o">-&gt;</span><span class="na">addTo</span><span class="p">(</span><span class="nv">$user</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When you send this message to each of your recipients listed in your
+<tt class="docutils literal"><span class="pre">$replacements</span></tt> array they will receive a message customized
+for just themselves. For example, the message used above when received may
+appear like this to one user:</p>
+<div class="highlight-text"><div class="highlight"><pre>Subject: Important notice for smilingsunshine2009
+
+Hello smilingsunshine2009, we have reset your password to rainyDays
+Please log in and change it at your earliest convenience.
+</pre></div>
+</div>
+<p>While another use may receive the message as:</p>
+<div class="highlight-text"><div class="highlight"><pre>Subject: Important notice for billy-bo-bob
+
+Hello billy-bo-bob, we have reset your password to dancingOctopus
+Please log in and change it at your earliest convenience.
+</pre></div>
+</div>
+<p>While the decorator plugin provides a means to solve this problem, there are
+various ways you could tackle this problem without the need for a plugin.
+We&#8217;re trying to come up with a better way ourselves and while we have several
+(obvious) ideas we don&#8217;t quite have the perfect solution to go ahead and
+implement it. Watch this space.</p>
+</div>
+<div class="section" id="providing-your-own-replacements-lookup-for-the-decorator">
+<h4>Providing Your Own Replacements Lookup for the Decorator<a class="headerlink" href="#providing-your-own-replacements-lookup-for-the-decorator" title="Permalink to this headline">¶</a></h4>
+<p>Filling an array with replacements may not be the best solution for providing
+replacement information to the decorator. If you have a more elegant algorithm
+that performs replacement lookups on-the-fly you may provide your own
+implementation.</p>
+<p>Providing your own replacements lookup implementation for the Decorator is
+simply a matter of passing an instance of
+<tt class="docutils literal"><span class="pre">Swift_Plugins_Decorator_Replacements</span></tt> to the decorator
+plugin&#8217;s constructor, rather than passing in an array.</p>
+<p>The Replacements interface is very simple to implement since it has just one
+method: <tt class="docutils literal"><span class="pre">getReplacementsFor($address)</span></tt>.</p>
+<p>Imagine you want to look up replacements from a database on-the-fly, you might
+provide an implementation that does this. You need to create a small class.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">DbReplacements</span> <span class="k">implements</span> <span class="nx">Swift_Plugins_Decorator_Replacements</span> <span class="p">{</span>
+  <span class="k">public</span> <span class="k">function</span> <span class="nf">getReplacementsFor</span><span class="p">(</span><span class="nv">$address</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$sql</span> <span class="o">=</span> <span class="nb">sprintf</span><span class="p">(</span>
+      <span class="s2">&quot;SELECT * FROM user WHERE email = &#39;%s&#39;&quot;</span><span class="p">,</span>
+      <span class="nb">mysql_real_escape_string</span><span class="p">(</span><span class="nv">$address</span><span class="p">)</span>
+    <span class="p">);</span>
+
+    <span class="nv">$result</span> <span class="o">=</span> <span class="nb">mysql_query</span><span class="p">(</span><span class="nv">$sql</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$row</span> <span class="o">=</span> <span class="nb">mysql_fetch_assoc</span><span class="p">(</span><span class="nv">$result</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;{username}&#39;</span><span class="o">=&gt;</span><span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;username&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;{password}&#39;</span><span class="o">=&gt;</span><span class="nv">$row</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">]</span>
+      <span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Now all you need to do is pass an instance of your class into the Decorator
+plugin&#8217;s constructor instead of passing an array.</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$decorator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Swift_Plugins_DecoratorPlugin</span><span class="p">(</span><span class="k">new</span> <span class="nx">DbReplacements</span><span class="p">());</span>
+
+<span class="nv">$mailer</span><span class="o">-&gt;</span><span class="na">registerPlugin</span><span class="p">(</span><span class="nv">$decorator</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>For each message sent, the plugin will call your class&#8217;
+<tt class="docutils literal"><span class="pre">getReplacementsFor()</span></tt> method to find the array of replacements
+it needs.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">If your lookup algorithm is case sensitive, you should transform the
+<tt class="docutils literal"><span class="pre">$address</span></tt> argument as appropriate &#8211; for example by passing it
+through <tt class="docutils literal"><span class="pre">strtolower()</span></tt>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../../../../index.html">トップ（索引）</a></li>
+          <li><a href="../../../../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../../../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../../../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../../../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../../../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../../../../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../../../../../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,351 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Web フレームワークをつくろう - Symfony コンポーネントの上に (パート 1) | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Web フレームワークをつくろう - Symfony コンポーネントの上に (パート 1)</a><ul>
+<li><a class="reference internal" href="#id1">なぜあなたは独自のフレームワークを作りたいのでしょうか？</a></li>
+<li><a class="reference internal" href="#id2">始める前に</a></li>
+<li><a class="reference internal" href="#id3">ブートストラップ</a><ul>
+<li><a class="reference internal" href="#id4">コーディングスタンダード</a></li>
+<li><a class="reference internal" href="#id5">コンポーネントのインストール</a></li>
+<li><a class="reference internal" href="#id6">命名規約とオートロード</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">われわれのプロジェクト</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/create-your-framework/part01.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web-symfony-1">
+<h1>Web フレームワークをつくろう - Symfony コンポーネントの上に (パート 1)<a class="headerlink" href="#web-symfony-1" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この記事は Symfony2 コンポーネントでフレームワークをつくる方法を説明した連載記事の一部です: <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part01.html">1</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part02.html">2</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part03.html">3</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part04.html">4</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part05.html">5</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part06.html">6</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part07.html">7</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part08.html">8</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part09.html">9</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part10.html">10</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part11.html">11</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part12.html">12</a></p>
+</div>
+<p>Symfony2 は単体で独立していて、疎結合され、凝縮された PHP コンポーネントの集まりで、Web 開発の共通の問題を解決します。</p>
+<p>これらの低水準のコンポーネントに取り組む代わりに、フルスタックフレームワークの Symfony2 をすぐに使い始めることができます。これは先ほどあげた Symfony2 のコンポーネントがもとになっています。もしくはまったくあなた独自のフレームワークを作ることもできます。この連載は後者に関するものです。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フルスタックフレームワークの Symfony2 をふつうに使うだけなら、公式 <a class="reference external" href="http://symfony.com/doc">ドキュメント</a> を読むとよいでしょう。</p>
+</div>
+<div class="section" id="id1">
+<h2>なぜあなたは独自のフレームワークを作りたいのでしょうか？<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>まず第一に、なぜ独自のフレームワークを作りたいのでしょうか？周りを見回すと、誰もが車輪を再発明することはよくないことで、既存のフレームワークを選び、独自のフレームワークを作ることは忘れたほうがよいと言うでしょう。大抵の場合、それは正しいことですが、独自のフレームワークを作り始めるのによい理由がいくつか挙げることができます。</p>
+<ul class="simple">
+<li>モダンな Web フレームワークの低水準のアーキテクチャおよびとりわけフルスタックフレームである Symfony2 の内部をよりくわしく学ぶため</li>
+<li>非常に特殊なニーズのために適合したフレームワークを作るため (まずはあなたのニーズが本当に特殊なのか最初にご確認ください)</li>
+<li>楽しみのためにフレームワークを作ることを試すため (学んで捨てるアプローチ)</li>
+<li>Web 開発の最新のベストプラクティスを一服必要とする古い/既存のアプリケーションをリファクタリングするために</li>
+<li>あなたが実際に自分自身でフレームワークを作ることができることを世の中に示すため (ただし少し労力が必要です)。</li>
+</ul>
+<p>Web フレームワークの作成を通じて、一歩ずつ丁寧に優しく導きます。
+それぞれのステップにおいて、そのまま使えて、独自のものを作り始めるための完全なフレームワークが手に入ります。シンプルなフレームワークで始めて、時間とともに機能が追加されてゆきます。結局のところ、フルフィーチャのフルスタックの Web フレームワークを手に入れることになります。</p>
+<p>そしてもちろん、それぞれの段階で Symfony2 コンポーネントの一部についてくわしく学ぶ機会があります。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">この連載記事をすべて読む時間がない、もしくはすぐにアプリケーションを作り始めたいのであれば、 Symfony コンポーネントをもとにしたマイクロフレームワークである <a class="reference external" href="http://silex.sensiolabs.org/">Silex</a> を見るとよいでしょう。コードはよりスリムで Symfony2 コンポーネントのさまざまな特徴を活かしています。</p>
+</div>
+<p>モダンな Web フレームワークの多くは自分自身を MVC フレームワークと呼んでいます。ここでは MVC を説明しません。Symfony2 コンポーネントを使えば、MVC アーキテクチャに従うフレームワークだけでなく、任意のフレームワークを作ることができるからです。ともかく、MVC セマンティックスを見ると、この連載はフレームワークの Controller に当たる部分の作り方に関するものです。Model と View に関して、本当に個人の好みの問題であり、既存のサードパーティを使っていただくことになります (Doctrine、Propel、もしくは Model のための簡素な PDO。View に関しては PHP もしくは Twig)。</p>
+<p>フレームワークを作成するとき、MVC パターンに従うことは正しいゴールではありません。メインとなるゴールは「関心ごとの分離」です。本当に大切すべきであるもののデザインパターンでしかないと筆者は考えております。Symfony2 コンポーネントの基本原則は HTTP の仕様を中心としています。ですので、これから作ろうとしているフレームワークをより正確に説明すると HTTP フレームワークもしくは Request/Response フレームワークと分類されるものです。</p>
+</div>
+<div class="section" id="id2">
+<h2>始める前に<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>フレームワークの作り方を読むことだけではじゅうぶんではありません。手順に従い、これから取り組む例題のコードを実際に入力しなければなりません。そのためには、必要なのは最新バージョンの PHP (5.3.8 もしくはそれ以降のバージョンがじゅうぶんによいものです)、Web サーバー (Apache や Nginx など)、PHP のじゅうぶんな知識とオブジェクト指向の理解です。</p>
+<p>準備はできていますか？始めましょう。</p>
+</div>
+<div class="section" id="id3">
+<h2>ブートストラップ<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>最初のフレームワークを作ることを考える前に、コードをどこに保存し、どのようにクラスの名前をつけ、外部の依存パッケージをどのように参照するかなどについて、約束ごとを話す必要があります。</p>
+<p>フレームワークを保存するために、あなたのマシンのどこかにディレクトリを作りましょう。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>mkdir framework
+<span class="nv">$ </span><span class="nb">cd </span>framework
+</pre></div>
+</div>
+<div class="section" id="id4">
+<h3>コーディングスタンダード<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>コーディング標準とここで使われるものがなぜとてもひどいものなのかという論争を誰かが始める前に、一貫性のあるかぎり、問題ではないことを認めましょう。この本に関して、 <a class="reference external" href="http://symfony.com/doc/current/contributing/code/standards.html">Symfony2 のコーディング標準</a> を使っています。</p>
+</div>
+<div class="section" id="id5">
+<h3>コンポーネントのインストール<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>われわれのフレームワークに必要な Symfony2 のコンポーネントをインストールするために、PHP プロジェクトの依存パッケージマネージャである <a class="reference external" href="http://packagist.org/about-composer">Composer</a> を使います。最初に、 <tt class="docutils literal"><span class="pre">composer.json</span></tt> ファイルに依存パッケージのリストを記載します。</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;require&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;symfony/class-loader&quot;</span><span class="o">:</span> <span class="s2">&quot;2.1.*&quot;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>ここでは、Symfony2 のコンポーネントである ClassLoader のバージョン 2.1.0 とそれ以降に依存していることを Composer に伝えます。実際にプロジェクトの依存パッケージをインストールするには、composer のバイナリファイルをダウンロードして実行します。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>wget http://getcomposer.org/composer.phar
+<span class="nv">$ </span><span class="c"># or</span>
+<span class="nv">$ </span>curl -O http://getcomposer.org/composer.phar
+
+<span class="nv">$ </span>php composer.phar install
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">install</span></tt> コマンドを実行した後で、新しい <tt class="docutils literal"><span class="pre">vendor/</span></tt>
+ディレクトリに Symfony2 の ClassLoader のコードが入っていることを確認しなければなりません。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Composer が一押しですが、コンポーネントのアーカイブもしくは Git のサブモジュールを利用して直接ダウンロードすることもできます。これはあなた次第です。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h3>命名規約とオートロード<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>われわれのクラスをすべて、 <a class="reference external" href="http://fr.php.net/autoload">オートロード</a> しようとしています。オートロードを利用しなければ、クラスが利用できるようになる前にクラスが定義されたファイルを読み込む必要があります。しかし、命名規約によっては、PHP にハードワークをさせることができます。</p>
+<p>クラスの名前とオートロードに関する PHP のデファクトスタンダードである <a class="reference external" href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md">PSR-0</a> に Symfony2 は従います。Symfony2 の ClassLoader コンポーネントはこの PSR-0 標準を実装するオートローダーを提供します。大抵の場合、プロジェクトのすべてのクラスをオートロードするために必要なのは Symfony2 の ClassLoader
+だけです。</p>
+<p><tt class="docutils literal"><span class="pre">autoload.php</span></tt> ファイルの中で空のオートローダーを作ります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// framework/autoload.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/vendor/symfony/class-loader/Symfony/Component/ClassLoader/UniversalClassLoader.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\ClassLoader\UniversalClassLoader</span><span class="p">;</span>
+
+<span class="nv">$loader</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">UniversalClassLoader</span><span class="p">();</span>
+<span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">register</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>CLI で <tt class="docutils literal"><span class="pre">autoload.php</span></tt> を実行できます。これは何も行わず、エラーを投げることもしません。</p>
+<div class="highlight-sh"><div class="highlight"><pre><span class="nv">$ </span>php autoload.php
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><a class="reference external" href="http://symfony.com/doc/current/components/class_loader.html">ClassLoader</a>
+コンポーネントに関するくわしい情報は Symfony の公式サイトで公開されています。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">インストールしたすべての依存パッケージのために Composer はオートローダーを自動的に生成します。ClassLoader コンポーネントを利用する代わりに、 <tt class="docutils literal"><span class="pre">vendor/.composer/autoload.php</span></tt> を require 文でも読むこともができます。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>われわれのプロジェクト<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>ゼロからフレームワークを作る代わりに、一度に1つの抽象化を加えながら、同じ「アプリケーション」を何度も書きます。PHP で考えられるもっともシンプルな Web アプリケーションを始めましょう</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="nv">$input</span> <span class="o">=</span> <span class="nv">$_GET</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">];</span>
+
+<span class="nb">printf</span><span class="p">(</span><span class="s1">&#39;Hello %s&#39;</span><span class="p">,</span> <span class="nv">$input</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>このシリーズの最初の部分はこれでおしまいです。次に、HttpFoundation コンポーネントを導入して何がもたらされるか見ることにします。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,398 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>blogチュートリアル(3) バンドルの作成 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">blogチュートリアル(3) バンドルの作成</a><ul>
+<li><a class="reference internal" href="#id1">バンドルの作成</a></li>
+<li><a class="reference internal" href="#id2">自動生成されるファイル</a></li>
+<li><a class="reference internal" href="#id3">バンドルの登録</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/sf2-blog-tutorial/03-create-bundle.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="blog-3">
+<h1>blogチュートリアル(3) バンドルの作成<a class="headerlink" href="#blog-3" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+</div>
+<div class="section" id="id1">
+<h2>バンドルの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Symfony2には、 <em>バンドル(Bundle)</em> と呼ばれる重要な機構があります。
+他のソフトウェアやフレームワークで言うところのプラグインの概念に近い存在です。
+Symfony2では、コアフレームワークの機能からあなたが書こうとしているアプリケーションコードまで、すべてがバンドルで構成されています。
+バンドルについて詳しく知りたい方は <a class="reference external" href="http://symfony.com/doc/current/book/bundles.html">Bundles</a> を参照してください。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">symfony 1.x系を知っている方は、「frontendアプリケーションの中にblogモジュールを作成する」と言えば一連の流れがイメージできると思います。
+しかし、Symfony2では、frontendアプリケーションもblogモジュールもバンドルとして定義することが <strong>できます</strong> 。
+Symfony2ではバンドルをどの粒度で作成するのかが、アプリケーション設計上の重要なポイントになります。</p>
+</div>
+<p>このチュートリアルで作成するブログ機能もバンドルの中に作っていきます。コンソールコマンドでバンドルを作ってみましょう。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> php app/console generate:bundle --namespace<span class="o">=</span>My/BlogBundle --format<span class="o">=</span>yml
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">app/console</span></tt> コマンドを実行する際のカレントディレクトリが、現在のSymfony2プロジェクトのルートディレクトリであることを確認して下さい。
+<tt class="docutils literal"><span class="pre">app</span></tt> ディレクトリ上で <tt class="docutils literal"><span class="pre">console</span></tt> と呼び出したり、他のカレントディレクトリから呼び出したりすると、正しい位置にバンドルが生成されない可能性があります。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p><tt class="docutils literal"><span class="pre">generate:bundle</span></tt> コマンドを実行したときに以下のようなエラーが起きた場合は、<tt class="docutils literal"><span class="pre">app/cache</span></tt> ディレクトリ配下に適切な権限が設定されていない可能性があります。
+<tt class="docutils literal"><span class="pre">sudo</span> <span class="pre">chmod</span> <span class="pre">-R</span> <span class="pre">777</span> <span class="pre">app/cache</span></tt> などのコマンドで、権限の問題が解消できるかもしれません。</p>
+<div class="last highlight-console"><div class="highlight"><pre><span class="go">[RuntimeException]</span>
+<span class="go">Unable to write in the cache directory (/path-to-root/Symfony/app/cache/dev)</span>
+</pre></div>
+</div>
+</div>
+<p><tt class="docutils literal"><span class="pre">generate:bundle</span></tt> コマンドの実行中には５〜６個の質問項目がありますが、すべての項目で何も入力せずにエンターを入力してください。
+適切な初期値でコマンドを実行することができます。<tt class="docutils literal"><span class="pre">generate:bundle</span></tt> が成功すると、コンソールに以下のような出力がなされているでしょう。</p>
+<div class="highlight-console"><div class="highlight"><pre><span class="gp">$</span> php app/console generate:bundle --namespace<span class="o">=</span>My/BlogBundle --format<span class="o">=</span>yml
+
+
+<span class="go">  Welcome to the Symfony2 bundle generator</span>
+
+
+
+<span class="go">Your application code must be written in bundles. This command helps</span>
+<span class="go">you generate them easily.</span>
+
+<span class="go">Each bundle is hosted under a namespace (like Acme/Bundle/BlogBundle).</span>
+<span class="go">The namespace should begin with a &quot;vendor&quot; name like your company name, your</span>
+<span class="go">project name, or your client name, followed by one or more optional category</span>
+<span class="go">sub-namespaces, and it should end with the bundle name itself</span>
+<span class="go">(which must have Bundle as a suffix).</span>
+
+<span class="go">Use / instead of \ for the namespace delimiter to avoid any problem.</span>
+
+<span class="go">Bundle namespace [My/BlogBundle]:</span>
+
+<span class="go">In your code, a bundle is often referenced by its name. It can be the</span>
+<span class="go">concatenation of all namespace parts but it&#39;s really up to you to come</span>
+<span class="go">up with a unique name (a good practice is to start with the vendor name).</span>
+<span class="go">Based on the namespace, we suggest MyBlogBundle.</span>
+
+<span class="go">Bundle name [MyBlogBundle]:</span>
+
+<span class="go">The bundle can be generated anywhere. The suggested default directory uses</span>
+<span class="go">the standard conventions.</span>
+
+<span class="go">Target directory [/path/to/Symfony/src]:</span>
+
+<span class="go">Determine the format to use for the generated configuration.</span>
+
+<span class="go">Configuration format (yml, xml, php, or annotation) [yml]:</span>
+
+<span class="go">To help you getting started faster, the command can generate some</span>
+<span class="go">code snippets for you.</span>
+
+<span class="go">Do you want to generate the whole directory structure [no]?</span>
+
+
+<span class="go">  Summary before generation</span>
+
+
+<span class="go">You are going to generate a &quot;My\BlogBundle\MyBlogBundle&quot; bundle</span>
+<span class="go">in &quot;/path/to/Symfony/src/&quot; using the &quot;yml&quot; format.</span>
+
+<span class="go">Do you confirm generation [yes]?</span>
+
+
+<span class="go">  Bundle generation</span>
+
+
+<span class="go">Generating the bundle code: OK</span>
+<span class="go">Checking that the bundle is autoloaded: OK</span>
+<span class="go">Confirm automatic update of your Kernel [yes]?</span>
+<span class="go">Enabling the bundle inside the Kernel: OK</span>
+<span class="go">Confirm automatic update of the Routing [yes]?</span>
+<span class="go">Importing the bundle routing resource: OK</span>
+
+
+<span class="go">  You can now start using the generated code!</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>自動生成されるファイル<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">genarate:bundle</span></tt> コマンドで作成したバンドルは、以下のようなファイルから成り立っています。</p>
+<div class="highlight-text"><div class="highlight"><pre>src/
+    My/
+        BlogBundle/
+            Controller/
+                DefaultController.php
+            DependencyInjection/
+                Configuration.php
+                MyBlogExtension.php
+            Resources/
+                config/
+                    routing.yml
+                    services.yml
+                views/
+                    Default/
+                        index.html.twig
+            Tests/
+                Controller/
+                    DefaultControllerTest.php
+            MyBlogBundle.php
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>バンドルの登録<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>さきほど作成したバンドルを使用するためには、<em>名前空間の登録</em>と <em>Kernel への登録</em> の2つの作業が必要です。
+ところが、さきほどの <tt class="docutils literal"><span class="pre">generate:bundle</span></tt> コマンドが Kernel への登録も自動的に行なってくれています。
+また、<tt class="docutils literal"><span class="pre">src</span></tt> ディレクトリに置かれたバンドルは名前空間の登録を行わなくても動くようなフォールバック機構が設定されているため、
+名前空間の登録をしなくても動作します。</p>
+<p>ここではこれらの作業がなぜ必要なのかを簡単に説明します。</p>
+<p>名前空間の登録は、<tt class="docutils literal"><span class="pre">My</span></tt> という名前空間と物理的なパスを結びつけ、名前空間が使用されたときに自動読み込み(autoloading)されるように設定しています。名前空間を登録することで、<tt class="docutils literal"><span class="pre">include</span></tt> や <tt class="docutils literal"><span class="pre">require</span></tt> などを使用することを気にかけなくても Symfony2 がよきに計らってくれます。登録された名前空間の中に該当のクラスが見つからなかった場合は、<tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリの中も自動的に検索してくれます。</p>
+<p>名前空間の登録は、<tt class="docutils literal"><span class="pre">app/autoload.php</span></tt> の <tt class="docutils literal"><span class="pre">registerNamespaces()</span></tt> メソッドに、以下の１行を追加します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$loader</span><span class="o">-&gt;</span><span class="na">registerNamespaces</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+    <span class="s1">&#39;My&#39;</span> <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../src&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<p>次に、Kernel への登録は、<tt class="docutils literal"><span class="pre">My\BlogBundle</span></tt> 名前空間を Symfony2 に認識させ、使用可能な状態に設定するために行います。
+Kernel への登録は、<tt class="docutils literal"><span class="pre">app/AppKernel.php</span></tt> の <tt class="docutils literal"><span class="pre">AppKernel::registerBundles()</span></tt> メソッドに、以下の１行を追加します(すでに登録されているはずです)。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">registerBundles</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$bundles</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+        <span class="c1">// ...</span>
+        <span class="k">new</span> <span class="nx">My\BlogBundle\MyBlogBundle</span><span class="p">(),</span>
+    <span class="p">);</span>
+
+    <span class="c1">// ...</span>
+
+    <span class="k">return</span> <span class="nv">$bundles</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">AppKernelには、アプリケーションで使用するすべてのバンドルのインスタンス生成文が並んでいます。
+こんなにたくさんのインスタンスを毎回生成するコストは大きいのではないかと不安になるかもしれませんが安心してください。
+この <tt class="docutils literal"><span class="pre">registerBundles()</span></tt> メソッドではDIコンテナから読み込まれるために必要な最低限の初期化処理しか行っていません。
+実際にバンドルの機能を読み込むわけではないので、大きな負荷にはなりません。
+ある程度のバンドル数までは気にしなくても大丈夫でしょう。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">バンドルを作成する手順を復習したい場合は、ガイドブックの<a class="reference external" href="http://docs.symfony.gr.jp/symfony2/book/page_creation.html">Symfony2 でのページ作成</a>を参照してください。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

@@ -1,0 +1,380 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Web フレームワークをつくろう - Symfony2 コンポーネントの上に (パート 11) | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/create-your-framework/part11.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web-symfony2-11">
+<h1>Web フレームワークをつくろう - Symfony2 コンポーネントの上に (パート 11)<a class="headerlink" href="#web-symfony2-11" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この記事は Symfony2 コンポーネントでフレームワークをつくる方法を説明した連載記事の一部です: <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part01.html">1</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part02.html">2</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part03.html">3</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part04.html">4</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part05.html">5</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part06.html">6</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part07.html">7</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part08.html">8</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part09.html">9</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part10.html">10</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part11.html">11</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part12.html">12</a></p>
+</div>
+<p>我々のフレームワークをすぐに使いたいのであれば、カスタムエラーメッセージのサポートを追加しなければならないでしょう。404エラーと500エラーのサポートがありますが、レスポンスがフレームワークの中でハードコードされています。これらをカスタマイズできるようにすることはとてもかんたんです: 新しいイベントをディスパッチし、リスニングするようにします。これを行うことはリスナーが通常のコントローラを呼び出さなければならないということです。しかしエラーコントローラが例外を投げたら？無限ループに陥ります。もっとかんたんな方法があるのでしょうか？</p>
+<p><tt class="docutils literal"><span class="pre">HttpKernel</span></tt> クラスに入ります。同じ問題を何度も解決したり、車輪の再発明を繰り返す代わりに、 <tt class="docutils literal"><span class="pre">HttpKernel</span></tt>
+クラスは一般的で、拡張性があり、
+<tt class="docutils literal"><span class="pre">HttpKernelInterface</span></tt> の柔軟性のある実装です。</p>
+<p>このクラスはこれまで書いてきたフレームワーククラスとよく似ています: これはリクエスト処理のあいだのある戦略的なポイントにおいてイベントをディスパッチし、リクエストをディスパッチするコントローラを選ぶコントローラリゾルバを使い、さらによいことに、これはエッジケースを考慮し、問題が起きたときにすばらしいフィードバックを提供してくれます。</p>
+<p>新しいフレームワークのコードは次のようになります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Simplex/Framework.php</span>
+
+<span class="k">namespace</span> <span class="nx">Simplex</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\HttpKernel</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Framework</span> <span class="k">extends</span> <span class="nx">HttpKernel</span>
+<span class="p">{</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>新しいフロントコントローラです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/web/front.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../vendor/.composer/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\EventDispatcher</span><span class="p">;</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+<span class="nv">$routes</span> <span class="o">=</span> <span class="k">include</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../src/app.php&#39;</span><span class="p">;</span>
+
+<span class="nv">$context</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Routing\RequestContext</span><span class="p">();</span>
+<span class="nv">$matcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Routing\Matcher\UrlMatcher</span><span class="p">(</span><span class="nv">$routes</span><span class="p">,</span> <span class="nv">$context</span><span class="p">);</span>
+<span class="nv">$resolver</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpKernel\Controller\ControllerResolver</span><span class="p">();</span>
+
+<span class="nv">$dispatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventDispatcher</span><span class="p">();</span>
+<span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addSubscriber</span><span class="p">(</span><span class="k">new</span> <span class="nx">HttpKernel\EventListener\RouterListener</span><span class="p">(</span><span class="nv">$matcher</span><span class="p">));</span>
+
+<span class="nv">$framework</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Simplex\Framework</span><span class="p">(</span><span class="nv">$dispatcher</span><span class="p">,</span> <span class="nv">$resolver</span><span class="p">);</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$framework</span><span class="o">-&gt;</span><span class="na">handle</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">RouterListener</span></tt> はフレームワークにある同じロジックの実装です: これはやってくるリクエストのマッチングを行い、ルートパラメータをリクエスト属性に投入します。</p>
+<p>コードはこれまでよりもはるかに簡潔で驚くべきほど強力になりました。たとえば、エラー管理機能を調整できるようにするためには組み込みの <tt class="docutils literal"><span class="pre">ExceptionListener</span></tt> を使います。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$errorHandler</span> <span class="o">=</span> <span class="k">function</span> <span class="p">(</span><span class="nx">HttpKernel\Exception\FlattenException</span> <span class="nv">$exception</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$msg</span> <span class="o">=</span> <span class="s1">&#39;Something went wrong! (&#39;</span><span class="o">.</span><span class="nv">$exception</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">()</span><span class="o">.</span><span class="s1">&#39;)&#39;</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$msg</span><span class="p">,</span> <span class="nv">$exception</span><span class="o">-&gt;</span><span class="na">getStatusCode</span><span class="p">());</span>
+<span class="p">});</span>
+<span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addSubscriber</span><span class="p">(</span><span class="k">new</span> <span class="nx">HttpKernel\EventListener\ExceptionListener</span><span class="p">(</span><span class="nv">$errorHandler</span><span class="p">));</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">ExceptionListener</span></tt> は例外の操作と表示を楽にするために <tt class="docutils literal"><span class="pre">Exception</span></tt> のインスタンスを投げる代わりに <tt class="docutils literal"><span class="pre">FlattenException</span></tt> のインスタンスを提供します。これは任意のコントローラを例外ハンドラとして引数にとるので、 Closure を使う代わりに ErrorController クラスをつくることができます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$listener</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpKernel\EventListener\ExceptionListener</span><span class="p">(</span><span class="s1">&#39;Calendar\\Controller\\ErrorController::exceptionAction&#39;</span><span class="p">);</span>
+<span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addSubscriber</span><span class="p">(</span><span class="nv">$listener</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>エラーコントローラは次のようになります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Calendar/Controller/ErrorController.php</span>
+
+<span class="k">namespace</span> <span class="nx">Calendar\Controller</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\Exception\FlattenException</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ErrorController</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">exceptionAction</span><span class="p">(</span><span class="nx">FlattenException</span> <span class="nv">$exception</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$msg</span> <span class="o">=</span> <span class="s1">&#39;Something went wrong! (&#39;</span><span class="o">.</span><span class="nv">$exception</span><span class="o">-&gt;</span><span class="na">getMessage</span><span class="p">()</span><span class="o">.</span><span class="s1">&#39;)&#39;</span><span class="p">;</span>
+
+        <span class="k">return</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$msg</span><span class="p">,</span> <span class="nv">$exception</span><span class="o">-&gt;</span><span class="na">getStatusCode</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>ほら！労力もなしにクリーンでカスタマイズ可能なエラー管理機能が手に入りました。そしてもちろん、コントローラが例外を投げる場合、HttpKernel はそれをきちんと処理します。</p>
+<p>パート2において、 <tt class="docutils literal"><span class="pre">Response::prepare()</span></tt> メソッドを説明しました。このメソッドは Response が HTTP の仕様にしたがっていることを保証します。Response をクライアントに送る直前にこれを呼び出すのは常によい考えでしょう; <tt class="docutils literal"><span class="pre">ResponseListener</span></tt> がやっていることはこれです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addSubscriber</span><span class="p">(</span><span class="k">new</span> <span class="nx">HttpKernel\EventListener\ResponseListener</span><span class="p">(</span><span class="s1">&#39;UTF-8&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>この呼び出しもかんたんでした！別のものを見てみましょう: ストリーム化されたレスポンスのサポートをそのまま利用したいですか？ <tt class="docutils literal"><span class="pre">StreamedResponseListener</span></tt> を購読するだけです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addSubscriber</span><span class="p">(</span><span class="k">new</span> <span class="nx">HttpKernel\EventListener\StreamedResponseListener</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>そしてコントローラの中では、Response のインスタンスの代わりに <tt class="docutils literal"><span class="pre">StreamedResponse</span></tt> のインスタンスを返します。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">HttpKernel によってディスパッチされるイベントとそれらのイベントによって
+リクエストのフローをどのように変更できるのかに関しては
+Symfony2 の <a class="reference external" href="http://symfony.com/doc/current/book/internals.html#events">内部</a> の章をご覧ください。</p>
+</div>
+<p>では、コントローラにフルの Response オブジェクトの代わりに文字列を返すことをさせるリスナーをつくりましょう。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">LeapYearController</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nv">$year</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$leapyear</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LeapYear</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$leapyear</span><span class="o">-&gt;</span><span class="na">isLeapYear</span><span class="p">(</span><span class="nv">$year</span><span class="p">))</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="s1">&#39;Yep, this is a leap year! &#39;</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="s1">&#39;Nope, this is not a leap year.&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>このフィーチャを実装するために、 <tt class="docutils literal"><span class="pre">kernel.view</span></tt>
+イベントにリスニングします。これはコントローラが呼び出された直後に発動します。これの目的は必要な場合にかぎり、コントローラの戻り値を適切な Response インスタンスに変換することです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Simplex/StringResponseListener.php</span>
+
+<span class="k">namespace</span> <span class="nx">Simplex</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\EventSubscriberInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">StringResponseListener</span> <span class="k">implements</span> <span class="nx">EventSubscriberInterface</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">onView</span><span class="p">(</span><span class="nx">GetResponseForControllerResultEvent</span> <span class="nv">$event</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getControllerResult</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">is_string</span><span class="p">(</span><span class="nv">$response</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">setResponse</span><span class="p">(</span><span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="nv">$response</span><span class="p">));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;kernel.view&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;onView&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>コードはシンプルで <tt class="docutils literal"><span class="pre">kernel.view</span></tt> イベントはコントローラの戻り値が Response ではない場合にかぎり発動しイベント上でレスポンスを設定するとイベントプロパゲーションが止まります (リスナーはほかのビューリスナーに干渉することはできません)。</p>
+<p>フロントコントローラでリスナーを登録することをお忘れなく。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addSubscriber</span><span class="p">(</span><span class="k">new</span> <span class="nx">Simplex\StringResponseListener</span><span class="p">());</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">サブスクライバを登録することを忘れると、HttpKernel はわかりやすいメッセージとともに
+例外を投げます: <tt class="docutils literal"><span class="pre">The</span> <span class="pre">controller</span> <span class="pre">must</span> <span class="pre">return</span> <span class="pre">a</span> <span class="pre">response</span>
+<span class="pre">(Nope,</span> <span class="pre">this</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">a</span> <span class="pre">leap</span> <span class="pre">year.</span> <span class="pre">given).</span></tt></p>
+</div>
+<p>この点で、我々のフレームワーク全体のコードは可能なかぎりコンパクトで、既存のライブラリの集まりで構成されています。機能の拡張はイベントリスナー/サブスクライバを登録することで行われます。</p>
+<p>うまくいけば、 <tt class="docutils literal"><span class="pre">HttpKernelInterface</span></tt> を求めることがとても強力であることの理解がより深まります。デフォルトの実装である <tt class="docutils literal"><span class="pre">HttpKernel</span></tt> は労力なしでそのまま使うことのできるたくさんのクールなフィーチャをもたらします。そして <tt class="docutils literal"><span class="pre">HttpKernel</span></tt> は Symfony2 と Silex フレームワークを推し進めるコードなので、両方の世界の最高のものをもたらします: カスタムフレームワークで、あなたのニーズにテーラメードされていますが、多くのサイトで動くことが証明された堅牢でよくメンテナンスされた低レイヤーのアーキテクチャおよび セキュリティの問題に関して検査されおよびじゅうぶんにスケールアウトできることが証明されたコードにもとづいています。</p>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

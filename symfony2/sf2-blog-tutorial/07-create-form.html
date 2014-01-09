@@ -1,0 +1,373 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>blogチュートリアル(7) 記事の追加 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">blogチュートリアル(7) 記事の追加</a><ul>
+<li><a class="reference internal" href="#id1">記事を追加するページのルーティングの作成</a></li>
+<li><a class="reference internal" href="#post">Postモデル用のフォームの作成</a></li>
+<li><a class="reference internal" href="#id2">フォームを表示するテンプレートの作成</a></li>
+<li><a class="reference internal" href="#id3">ブラウザで確認</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/sf2-blog-tutorial/07-create-form.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="blog-7">
+<h1>blogチュートリアル(7) 記事の追加<a class="headerlink" href="#blog-7" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+</div>
+<p>これまでのステップでデータベースに登録されている記事を表示できるようになりました。
+次はいよいよ、フォームを作成してデータを追加・編集できるよにしてみましょう。</p>
+<div class="section" id="id1">
+<h2>記事を追加するページのルーティングの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>記事を追加するページが増えますので、対応するルーティングを追加する必要があります。
+<tt class="docutils literal"><span class="pre">src/My/BlogBundle/Resources/config/routing.yml</span></tt> に <tt class="docutils literal"><span class="pre">blog_new</span></tt> ルート(route)を追加してください。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/My/BlogBundle/Resources/config/routing.yml</span>
+<span class="l-Scalar-Plain">blog_index</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">MyBlogBundle</span><span class="p-Indicator">:</span><span class="nv">Default</span><span class="p-Indicator">:</span><span class="nv">index</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">blog_new</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/new</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">MyBlogBundle</span><span class="p-Indicator">:</span><span class="nv">Default</span><span class="p-Indicator">:</span><span class="nv">new</span> <span class="p-Indicator">}</span>
+
+<span class="l-Scalar-Plain">blog_show</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">pattern</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">/{id}/show</span>
+    <span class="l-Scalar-Plain">defaults</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">_controller</span><span class="p-Indicator">:</span> <span class="nv">MyBlogBundle</span><span class="p-Indicator">:</span><span class="nv">Default</span><span class="p-Indicator">:</span><span class="nv">show</span> <span class="p-Indicator">}</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">{id}</span></tt> の条件として数値のみを受け付けるように制限することも可能です。この方法は<a class="reference external" href="customize/01-routing-requirements.html">カスタマイズ編のルーティングのページ</a>にて説明しています。</p>
+</div>
+</div>
+<div class="section" id="post">
+<h2>Postモデル用のフォームの作成<a class="headerlink" href="#post" title="Permalink to this headline">¶</a></h2>
+<p>続いて、Default コントローラに記事追加用の <tt class="docutils literal"><span class="pre">new</span></tt> アクションを追加します。<tt class="docutils literal"><span class="pre">use</span></tt> 行を追加していることに注意してください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/My/BlogBundle/Controller/DefaultController.php</span>
+<span class="k">use</span> <span class="nx">My\BlogBundle\Entity\Post</span><span class="p">;</span>
+<span class="c1">// ...</span>
+
+<span class="k">class</span> <span class="nc">DefaultController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">newAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// フォームのビルド</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="k">new</span> <span class="nx">Post</span><span class="p">())</span>  <span class="c1">// ここでPostクラスを使うため、ファイルの先頭あたりにuseを追加していることに注意</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
+
+        <span class="c1">// バリデーション</span>
+        <span class="nv">$request</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;POST&#39;</span> <span class="o">===</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">())</span> <span class="p">{</span>
+            <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+                <span class="c1">// エンティティを永続化</span>
+                <span class="nv">$post</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">();</span>
+                <span class="nv">$post</span><span class="o">-&gt;</span><span class="na">setCreatedAt</span><span class="p">(</span><span class="k">new</span> <span class="nx">\DateTime</span><span class="p">());</span>
+                <span class="nv">$post</span><span class="o">-&gt;</span><span class="na">setUpdatedAt</span><span class="p">(</span><span class="k">new</span> <span class="nx">\DateTime</span><span class="p">());</span>
+                <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getEntityManager</span><span class="p">();</span>
+                <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">persist</span><span class="p">(</span><span class="nv">$post</span><span class="p">);</span>
+                <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
+                <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;blog_index&#39;</span><span class="p">));</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+
+        <span class="c1">// 描画</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;MyBlogBundle:Default:new.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">(),</span>
+        <span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Symfony2では、<tt class="docutils literal"><span class="pre">FormBuilder</span></tt> を用いてコントローラのアクション内で簡単にフォームオブジェクトを作成することができます。
+フォームオブジェクトを作成することで、バリデーションやDoctrineとの連携、フォームウィジェットのHTMLレンダリングなどを行うことができます。
+このアクションでは、<tt class="docutils literal"><span class="pre">title</span></tt> と <tt class="docutils literal"><span class="pre">body</span></tt> の2つのフィールドを定義して、フォームを作成しています。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">このステップではフォームをコントローラ内で動的に生成しましたが、別のクラスに分離することもできます。
+クラス化することで、アプリケーション内の別のアクションで再利用しやすくなります。</p>
+</div>
+<p><tt class="docutils literal"><span class="pre">new</span></tt> アクションでは、<tt class="docutils literal"><span class="pre">GET</span></tt> メソッドでアクセスした場合と、<tt class="docutils literal"><span class="pre">POST</span></tt> メソッドでアクセスした場合の両方を扱っています。
+最初にブラウザで「/blog/new」というURLにアクセスした場合は <tt class="docutils literal"><span class="pre">GET</span></tt> メソッドになりますが、
+フォームに内容を入力して送信ボタンを押した場合は <tt class="docutils literal"><span class="pre">POST</span></tt> メソッドになります。
+<tt class="docutils literal"><span class="pre">POST</span></tt> メソッドでアクションが実行された場合は、送信されたデータをフォームオブジェクトに<strong>バインド</strong>しています。
+こうすることで、フォームオブジェクトに送信されたデータが統合されます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">CakePHPのチュートリアルでは、フォームの初回表示と投稿時でのアクション内の分岐を <tt class="docutils literal"><span class="pre">$this-&gt;data</span></tt> の有無で判断しています。
+symfony 1.x系やSymfony2では、REST(ful)の概念に基づき、このような判定をHTTPメソッドで行います。</p>
+</div>
+<p>フォームにデータをバインドすると、<tt class="docutils literal"><span class="pre">isValid()</span></tt> メソッドを実行してデータのバリデーション（検証）を実行できるようになります。
+今のところ、バリデーションルールを追加していないので、あまり意味はありません。
+バリデーションを通過した <tt class="docutils literal"><span class="pre">Post</span></tt> オブジェクトをフォームオブジェクトから取り出すには、<tt class="docutils literal"><span class="pre">getData()</span></tt> メソッドを使います。</p>
+<p>フォームから取り出したオブジェクトをデータベースに登録するには、<tt class="docutils literal"><span class="pre">persist()</span></tt> メソッドで <tt class="docutils literal"><span class="pre">EntityManager</span></tt> に対して永続化指示を行った後、<tt class="docutils literal"><span class="pre">EntityManager</span></tt> の <tt class="docutils literal"><span class="pre">flush()</span></tt> メソッドを呼び出します。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">Post</span></tt> オブジェクトを <tt class="docutils literal"><span class="pre">persist()</span></tt> するときに、<tt class="docutils literal"><span class="pre">createdAt</span></tt> と <tt class="docutils literal"><span class="pre">updatedAt</span></tt> の値を手動で代入しています。
+Doctrine2の <tt class="docutils literal"><span class="pre">Timestampable</span></tt> 拡張機能をインストールすると、この代入を自動で行うようにもできます。
+この方法は<a class="reference external" href="customize/04-doctrine-timestampable.html">カスタマイズ編の投稿日時・更新日時の自動挿入のページ</a>で説明しています。</p>
+</div>
+<p>最後の数行は <tt class="docutils literal"><span class="pre">GET</span></tt> メソッドでアクセスされたときと、<tt class="docutils literal"><span class="pre">POST</span></tt> メソッドだがバリデーションに失敗した時に実行されます。
+今まで見てきたアクションと同様に、入力フォーム用のテンプレートをレンダリングしています。
+ここでは、フォームオブジェクトを描画可能な <tt class="docutils literal"><span class="pre">FormView</span></tt> オブジェクトに変換するために <tt class="docutils literal"><span class="pre">createView()</span></tt> メソッドを呼び出し、その結果をテンプレートにパラメータとして引き渡しています。</p>
+</div>
+<div class="section" id="id2">
+<h2>フォームを表示するテンプレートの作成<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>最後に、表示用のテンプレートを作成します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# src/My/BlogBundle/Resources/views/Default/new.html.twig #}</span><span class="x"></span>
+<span class="x">&lt;h1&gt;Add Post&lt;/h1&gt;</span>
+<span class="x">&lt;form action=&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;blog_new&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&quot; method=&quot;post&quot; </span><span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"> novalidate&gt;</span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    &lt;input type=&quot;submit&quot; value=&quot;Save Post&quot; /&gt;</span>
+<span class="x">&lt;/form&gt;</span>
+</pre></div>
+</div>
+<p>フォームタグのaction属性には、<tt class="docutils literal"><span class="pre">path()</span></tt> Twig関数でURIを生成しています。
+<tt class="docutils literal"><span class="pre">form_enctype()</span></tt> Twig関数は、ファイルアップロードフォームなどの時に <tt class="docutils literal"><span class="pre">enctype=&quot;multipart/form-data&quot;</span></tt> を自動的に付加する関数です。
+<tt class="docutils literal"><span class="pre">form_widget()</span></tt> Twig関数は、HTMLウィジェットを描画する関数です。
+フォームコレクション全体を与えることもできますし、個別のフォームフィールドを与えることもできます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">FORM タグに <tt class="docutils literal"><span class="pre">novalidate</span></tt> 属性をつけていることに注意してください。
+Symfony2 の Form コンポーネントを使うと、標準で <a class="reference external" href="http://www.w3.org/TR/html5/forms.html#client-side-form-validation">HTML5 のクライアントサイドフォームバリデーション</a> が有効になります。
+これはとても便利ですが、このチュートリアルではサーバーサイドのバリデーション等の実装の確認も行うため、<tt class="docutils literal"><span class="pre">novalidate</span></tt> 属性によりクライアントサイドバリデーションを無効化しています。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Twigで使用可能なフォーム関数を詳しく知りたい方は、<a class="reference external" href="http://symfony.com/doc/2.0/reference/forms/twig_reference.html">Twig Template Form Function Reference</a>を参照してください。</p>
+</div>
+<p>また、記事の追加がしやすいように、ブログ一覧ページの末尾に追加ページへのリンクを追加しておきます。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# src/My/BlogBundle/Resources/views/Default/index.html.twig #}</span><span class="x"></span>
+<span class="c">{# ... #}</span><span class="x"></span>
+<span class="x">&lt;div&gt;</span>
+<span class="x">&lt;a href=&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;blog_new&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&quot;&gt;add post&lt;/a&gt;</span>
+<span class="x">&lt;/div&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>ブラウザで確認<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>コードの入力が完了したら、ブラウザで <a class="reference external" href="http://localhost/Symfony/web/app_dev.php/blog/new">http://localhost/Symfony/web/app_dev.php/blog/new</a> にアクセスしてみてください。
+新規追加用のフォームが表示されたら、何かデータを入力して「Save Post」ボタンをクリックし、
+データが正しく追加されるかどうか確認して下さい。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

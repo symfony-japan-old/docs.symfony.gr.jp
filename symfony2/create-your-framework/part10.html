@@ -1,0 +1,367 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Web フレームワークをつくろう - Symfony2 コンポーネントの上に (パート 10) | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/create-your-framework/part10.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web-symfony2-10">
+<h1>Web フレームワークをつくろう - Symfony2 コンポーネントの上に (パート 10)<a class="headerlink" href="#web-symfony2-10" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この記事は Symfony2 コンポーネントでフレームワークをつくる方法を説明した連載記事の一部です: <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part01.html">1</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part02.html">2</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part03.html">3</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part04.html">4</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part05.html">5</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part06.html">6</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part07.html">7</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part08.html">8</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part09.html">9</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part10.html">10</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part11.html">11</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part12.html">12</a></p>
+</div>
+<p>この連載のパート2の結論において、Symfony2 コンポーネントを使うことによる大きな恩恵を話しました: コンポーネントを使うすべてのフレームワークとアプリケーションのあいだの <em>相互運用性</em> です。 <tt class="docutils literal"><span class="pre">HttpKernelInterface</span></tt> を実装するフレームワークをつくることでこのゴールに向かって大きく前進しましょう。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Symfony\Component\HttpKernel</span><span class="p">;</span>
+
+<span class="k">interface</span> <span class="nx">HttpKernelInterface</span>
+<span class="p">{</span>
+    <span class="sd">/**</span>
+<span class="sd">     * @return Response A Response instance</span>
+<span class="sd">     */</span>
+    <span class="k">function</span> <span class="nf">handle</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nv">$type</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">MASTER_REQUEST</span><span class="p">,</span> <span class="nv">$catch</span> <span class="o">=</span> <span class="k">true</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">HttpKernelInterface</span></tt> は冗談抜きに HttpKernel コンポーネントの中でもっとも重要なピースでしょう。このインターフェイスを実装するフレームワークとアプリケーションはじゅうぶんな相互運用性があります。さらに、たくさんのすばらしいフィーチャがそのままついてきます。</p>
+<p>このインターフェイスを実装するようにフレームワークをアップデートします。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Framework.php</span>
+
+<span class="c1">// ...</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\HttpKernelInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Framework</span> <span class="k">implements</span> <span class="nx">HttpKernelInterface</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">handle</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nv">$type</span> <span class="o">=</span> <span class="nx">HttpKernelInterface</span><span class="o">::</span><span class="na">MASTER_REQUEST</span><span class="p">,</span> <span class="nv">$catch</span> <span class="o">=</span> <span class="k">true</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>この変更がささいなものであれ、たくさんのものがもたらされます！もっとも印象に残るものの1つ: 透過的な <a class="reference external" href="http://symfony.com/doc/current/book/http_cache.html">HTTP キャッシング</a> サポートについて語りましょう。</p>
+<p><tt class="docutils literal"><span class="pre">HttpCache</span></tt> クラスは PHP で書かれたフルフィーチャのリバースプロキシを実装します; <tt class="docutils literal"><span class="pre">HttpKernelInterface</span></tt> を実装し
+<tt class="docutils literal"><span class="pre">HttpKernelInterface</span></tt> インスタンスを包み込みます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// example.com/web/front.php</span>
+
+<span class="nv">$framework</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Simplex\Framework</span><span class="p">(</span><span class="nv">$dispatcher</span><span class="p">,</span> <span class="nv">$matcher</span><span class="p">,</span> <span class="nv">$resolver</span><span class="p">);</span>
+<span class="nv">$framework</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpKernel\HttpCache\HttpCache</span><span class="p">(</span><span class="nv">$framework</span><span class="p">,</span> <span class="k">new</span> <span class="nx">HttpKernel\HttpCache\Store</span><span class="p">(</span><span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../cache&#39;</span><span class="p">));</span>
+
+<span class="nv">$framework</span><span class="o">-&gt;</span><span class="na">handle</span><span class="p">(</span><span class="nv">$request</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>HTTP キャッシングサポートをフレームワークに追加するために必要なことはこれですべてです。驚きました？</p>
+<p>キャッシュ機能の調整は HTTP キャッシュヘッダー経由で行うことが必要です。たとえば、10秒のあいだにレスポンスをキャッシュしたいのであれば、 <tt class="docutils literal"><span class="pre">Response::setTtl()</span></tt> メソッドを使います。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// example.com/src/Calendar/Controller/LeapYearController.php</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nv">$year</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$leapyear</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">LeapYear</span><span class="p">();</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$leapyear</span><span class="o">-&gt;</span><span class="na">isLeapYear</span><span class="p">(</span><span class="nv">$year</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Yep, this is a leap year!&#39;</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Nope, this is not a leap year.&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setTtl</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">筆者のように、リクエストをシミュレートすることでコマンドラインからフレームワークを実行している場合 (<tt class="docutils literal"><span class="pre">Request::create('/is_leap_year/2012')</span></tt>) 、Response のインスタンスを文字列表現 (<tt class="docutils literal"><span class="pre">echo</span> <span class="pre">$response;</span></tt>) として吐き出させることでかんたんにデバッグすることできます。文字列表現にはレスポンスのコンテントと同じようにすべてのヘッダーが含まれます。</p>
+</div>
+<p>これが正しく動くのか検証するためには、レスポンスのコンテントにランダムな数値を追加し、10秒ごとに数値だけが変わることをチェックします。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Yep, this is a leap year! &#39;</span><span class="o">.</span><span class="nx">rand</span><span class="p">());</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">プロダクション環境にデプロイするとき、Symfony2 のリバースプロキシを使い続けるか
+(共用ホスティングの用途にすぐれています) もしくはより方法は、
+<a class="reference external" href="https://www.varnish-cache.org/">Varnish</a> のようなより効率的なリバースプロキシに切り替えることです。</p>
+</div>
+<p>アプリケーションキャッシュをマネージするために HTTP キャッシュヘッダーを使うやりかたはとても強力で、HTTP の仕様の有効期限とバリデーションモデルの両方を使うことができるので、キャッシング戦略をきめ細かく調整できます。これらのコンセプトを快適に感じないのであれば、 <a class="reference external" href="http://symfony.com/doc/current/book/http_cache.html">HTTP
+キャッシング</a> の章を読んでいただくことをおすすめします。</p>
+<p>Response クラスにはたくさんのメソッドが用意されているので、HTTP キャッシュの調整をとてもかんたんにできます。もっとも強力なものの1つは <tt class="docutils literal"><span class="pre">setCache()</span></tt> でもっともよく使われるキャッシング戦略を1つのシンプルな配列に抽象化します。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$date</span> <span class="o">=</span> <span class="nb">date_create_from_format</span><span class="p">(</span><span class="s1">&#39;Y-m-d H:i:s&#39;</span><span class="p">,</span> <span class="s1">&#39;2005-10-15 10:00:00&#39;</span><span class="p">);</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setCache</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;public&#39;</span>        <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+    <span class="s1">&#39;etag&#39;</span>          <span class="o">=&gt;</span> <span class="s1">&#39;abcde&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;last_modified&#39;</span> <span class="o">=&gt;</span> <span class="nv">$date</span><span class="p">,</span>
+    <span class="s1">&#39;max_age&#39;</span>       <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;s_maxage&#39;</span>      <span class="o">=&gt;</span> <span class="mi">10</span><span class="p">,</span>
+<span class="p">));</span>
+
+<span class="c1">// 上記のコードは次のコードと同等です</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setPublic</span><span class="p">();</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setEtag</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setLastModified</span><span class="p">(</span><span class="nv">$date</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setMaxAge</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setSharedMaxAge</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>バリデーションモデルを使うとき、 <tt class="docutils literal"><span class="pre">isNotModified()</span></tt> メソッドによっってレスポンスの生成を可能なかぎり短縮することでレスポンスの時間をかんたんに短くすることができます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setETag</span><span class="p">(</span><span class="s1">&#39;whatever_you_compute_as_an_etag&#39;</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">isNotModified</span><span class="p">(</span><span class="nv">$request</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="s1">&#39;The computed content of the response&#39;</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>HTTP キャッシングを使うことはすばらしいですが、ページ全体をキャッシュすることはできないのでしょうか？
+動的なサイドバー以外の残りのコンテンツをキャッシュしたい場合は？Edge Side Includes (<a class="reference external" href="http://en.wikipedia.org/wiki/Edge_Side_Includes">ESI</a>) が助けになります！コンテンツ全体を生成する代わりに、ESI によってページの領域をサブリクエスト呼び出しのコンテンツとしてマークできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">This</span> <span class="nx">is</span> <span class="nx">the</span> <span class="nx">content</span> <span class="nx">of</span> <span class="nx">your</span> <span class="nx">page</span>
+
+<span class="nx">Is</span> <span class="mi">2012</span> <span class="nx">a</span> <span class="nx">leap</span> <span class="nx">year</span><span class="o">?</span> <span class="o">&lt;</span><span class="nx">esi</span><span class="o">:</span><span class="k">include</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;/leapyear/2012&quot;</span> <span class="o">/&gt;</span>
+
+<span class="nx">Some</span> <span class="nx">other</span> <span class="nx">content</span>
+</pre></div>
+</div>
+<p>HttpCache によってサポートされる ESI タグに関して、 <tt class="docutils literal"><span class="pre">ESI</span></tt> クラスのインスタンスにそれを渡す必要があります。 <tt class="docutils literal"><span class="pre">ESI</span></tt> クラスは自動的に ESI タグをパースし、これらを適切なコンテントに変換するためにサブリクエストを作成します。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$framework</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpKernel\HttpCache\HttpCache</span><span class="p">(</span>
+    <span class="nv">$framework</span><span class="p">,</span>
+    <span class="k">new</span> <span class="nx">HttpKernel\HttpCache\Store</span><span class="p">(</span><span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../cache&#39;</span><span class="p">),</span>
+    <span class="k">new</span> <span class="nx">HttpKernel\HttpCache\ESI</span><span class="p">()</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ESI を動かすために、Symfony2 の実装のようなリバースプロキシを使う必要があります。
+<a class="reference external" href="https://www.varnish-cache.org/">Varnish</a> は最良の代替ソフトウェアです。</p>
+</div>
+<p>複雑な HTTP キャッシングストラテジと/またはたくさんの ESI のインクルードタグを使うとき、リソースをキャッシュすべきかどうかを理解するのは困難な状況があり得ます。デバッグを楽にするために、デバッグモードを有効にすることができます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$framework</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">HttpCache</span><span class="p">(</span><span class="nv">$framework</span><span class="p">,</span> <span class="k">new</span> <span class="nx">Store</span><span class="p">(</span><span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../cache&#39;</span><span class="p">),</span> <span class="k">new</span> <span class="nx">ESI</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;debug&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>デバッグモードではキャッシュレイヤーが行ったことをそれぞれのレスポンスに <tt class="docutils literal"><span class="pre">X-Symfony-Cache</span></tt> ヘッダーを追加されます。</p>
+<div class="highlight-text"><div class="highlight"><pre>X-Symfony-Cache:  GET /is_leap_year/2012: stale, invalid, store
+
+X-Symfony-Cache:  GET /is_leap_year/2012: fresh
+</pre></div>
+</div>
+<p>HttpCache には多くのフィーチャが備わっており、has many features like support for the
+RFC5861 で定義された <tt class="docutils literal"><span class="pre">stale-while-revalidate</span></tt> と <tt class="docutils literal"><span class="pre">stale-if-error</span></tt> HTTP Cache-Control
+エクステンションが用意されています。</p>
+<p>単一のインターフェイスに加えて、HttpKernel コンポーネントに組み込まれている多くのフィーチャから恩恵を得ることができます; HTTP キャッシングはそれらの1つでしかありませんが、我々のアプリケーションを羽ばたかせるために大切なフィーチャです！</p>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

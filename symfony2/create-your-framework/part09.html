@@ -1,0 +1,502 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Web フレームワークをつくろう - Symfony2 コンポーネントの上に (パート 9) | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/create-your-framework/part09.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web-symfony2-9">
+<h1>Web フレームワークをつくろう - Symfony2 コンポーネントの上に (パート 9)<a class="headerlink" href="#web-symfony2-9" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この記事は Symfony2 コンポーネントでフレームワークをつくる方法を説明した連載記事の一部です: <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part01.html">1</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part02.html">2</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part03.html">3</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part04.html">4</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part05.html">5</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part06.html">6</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part07.html">7</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part08.html">8</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part09.html">9</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part10.html">10</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part11.html">11</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part12.html">12</a></p>
+</div>
+<p>我々のフレームワークにはよいフレームワークにあるべき主な特徴が欠けています:
+<em>拡張性</em> です。拡張できるということはリクエストが処理される方法を修正するフレームワークのライフサイクルに手軽にフックできることを意味します。</p>
+<p>どんな種類のフックを話しているのでしょうか？たとえば、認証もしくはキャッシュです。柔軟性を保つために、フックはプラグアンドプレイでなければなりません; アプリケーションのために「登録する」ものはあなた独自のニーズしだいの次のものとは異なります。多くのソフトウェアは Drupal や Wordpress のような似たコンセプトをもっています。プログラミング言語によっては、Python の <a class="reference external" href="http://www.python.org/dev/peps/pep-0333/#middleware-components-that-play-both-sides">WSGI</a> や Ruby の <a class="reference external" href="http://rack.rubyforge.org/">Rack</a> などの標準さえあります。</p>
+<p>PHP にはそのような標準はありませんが、フレームワークに任意のふるまいをアタッチすることを可能にするために、よく知られたデザインパターンである <em>Observer</em> を使おうとしています; Symfony2 EventDispatcher コンポーネントはこのパターンの軽量バージョンです。</p>
+<div class="highlight-javascript"><div class="highlight"><pre><span class="p">{</span>
+    <span class="s2">&quot;require&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;symfony/class-loader&quot;</span><span class="o">:</span> <span class="s2">&quot;2.1.*&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;symfony/http-foundation&quot;</span><span class="o">:</span> <span class="s2">&quot;2.1.*&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;symfony/routing&quot;</span><span class="o">:</span> <span class="s2">&quot;2.1.*&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;symfony/http-kernel&quot;</span><span class="o">:</span> <span class="s2">&quot;2.1.*&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;symfony/event-dispatcher&quot;</span><span class="o">:</span> <span class="s2">&quot;2.1.*&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;autoload&quot;</span><span class="o">:</span> <span class="p">{</span>
+        <span class="s2">&quot;psr-0&quot;</span><span class="o">:</span> <span class="p">{</span> <span class="s2">&quot;Simplex&quot;</span><span class="o">:</span> <span class="s2">&quot;src/&quot;</span><span class="p">,</span> <span class="s2">&quot;Calendar&quot;</span><span class="o">:</span> <span class="s2">&quot;src/&quot;</span> <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>どのように動くのでしょうか？ <em>ディスパッチャ</em> 、イベントディスパッチャシステムの中心的なオブジェクトは 自身にディスパッチされた <em>イベント</em> の <em>リスナー</em> に通知します。別の説明をします:
+あなたのコードがイベントをディスパッチャにディスパッチし、ディスパッチャはイベントに対して登録されたすべてのリスナーに通知し、それぞれのリスナーはイベントに対してお望みのことを行います。</p>
+<p>たとえば、Google
+Analytics のコードをすべてのレスポンスに透過的に追加するリスナーをつくってみましょう。</p>
+<p>このコードが動くようにするために、Response インスタンスを返す直前にフレームワークはイベントをディスパッチしなければなりません。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Simplex/Framework.php</span>
+
+<span class="k">namespace</span> <span class="nx">Simplex</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Matcher\UrlMatcherInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Exception\ResourceNotFoundException</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\Controller\ControllerResolverInterface</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\EventDispatcher</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Framework</span>
+<span class="p">{</span>
+    <span class="k">protected</span> <span class="nv">$matcher</span><span class="p">;</span>
+    <span class="k">protected</span> <span class="nv">$resolver</span><span class="p">;</span>
+    <span class="k">protected</span> <span class="nv">$dispatcher</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">EventDispatcher</span> <span class="nv">$dispatcher</span><span class="p">,</span> <span class="nx">UrlMatcherInterface</span> <span class="nv">$matcher</span><span class="p">,</span> <span class="nx">ControllerResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">matcher</span> <span class="o">=</span> <span class="nv">$matcher</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">resolver</span> <span class="o">=</span> <span class="nv">$resolver</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dispatcher</span> <span class="o">=</span> <span class="nv">$dispatcher</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">handle</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">matcher</span><span class="o">-&gt;</span><span class="na">getContext</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">fromRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+
+        <span class="k">try</span> <span class="p">{</span>
+            <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">attributes</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">matcher</span><span class="o">-&gt;</span><span class="na">match</span><span class="p">(</span><span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">()));</span>
+
+            <span class="nv">$controller</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">resolver</span><span class="o">-&gt;</span><span class="na">getController</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+            <span class="nv">$arguments</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">resolver</span><span class="o">-&gt;</span><span class="na">getArguments</span><span class="p">(</span><span class="nv">$request</span><span class="p">,</span> <span class="nv">$controller</span><span class="p">);</span>
+
+            <span class="nv">$response</span> <span class="o">=</span> <span class="nb">call_user_func_array</span><span class="p">(</span><span class="nv">$controller</span><span class="p">,</span> <span class="nv">$arguments</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">ResourceNotFoundException</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Not Found&#39;</span><span class="p">,</span> <span class="mi">404</span><span class="p">);</span>
+        <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">\Exception</span> <span class="nv">$e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;An error occurred&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="c1">// response イベントをディスパッチします</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">dispatcher</span><span class="o">-&gt;</span><span class="na">dispatch</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">ResponseEvent</span><span class="p">(</span><span class="nv">$response</span><span class="p">,</span> <span class="nv">$request</span><span class="p">));</span>
+
+        <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>フレームワークが Request を処理する度に、 <tt class="docutils literal"><span class="pre">ResponseEvent</span></tt> イベントがディスパッチされます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Simplex/ResponseEvent.php</span>
+
+<span class="k">namespace</span> <span class="nx">Simplex</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\Event</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ResponseEvent</span> <span class="k">extends</span> <span class="nx">Event</span>
+<span class="p">{</span>
+    <span class="k">private</span> <span class="nv">$request</span><span class="p">;</span>
+    <span class="k">private</span> <span class="nv">$response</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">Response</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span> <span class="o">=</span> <span class="nv">$response</span><span class="p">;</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span> <span class="o">=</span> <span class="nv">$request</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getResponse</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">response</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getRequest</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>最後のステップはフロントコントローラの中でディスパッチャオブジェクトの生成と <tt class="docutils literal"><span class="pre">response</span></tt> イベントに対するリスナーの登録です。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/web/front.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../vendor/.composer/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="c1">// ...</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\EventDispatcher</span><span class="p">;</span>
+
+<span class="nv">$dispatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventDispatcher</span><span class="p">();</span>
+<span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">Simplex\ResponseEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">isRedirection</span><span class="p">()</span>
+        <span class="o">||</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="k">false</span> <span class="o">===</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">),</span> <span class="s1">&#39;html&#39;</span><span class="p">))</span>
+        <span class="o">||</span> <span class="s1">&#39;html&#39;</span> <span class="o">!==</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getRequestFormat</span><span class="p">()</span>
+    <span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">()</span><span class="o">.</span><span class="s1">&#39;GA CODE&#39;</span><span class="p">);</span>
+<span class="p">});</span>
+
+<span class="nv">$framework</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Simplex\Framework</span><span class="p">(</span><span class="nv">$dispatcher</span><span class="p">,</span> <span class="nv">$matcher</span><span class="p">,</span> <span class="nv">$resolver</span><span class="p">);</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nv">$framework</span><span class="o">-&gt;</span><span class="na">handle</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">リスナーはたんなる概念の証明で body タグの直前に Google
+Analytics のコードを追加すべきです。</p>
+</div>
+<p>ご覧のとおり、 <tt class="docutils literal"><span class="pre">addListener()</span></tt> は有効な PHP コールバックを名前つきイベント (<tt class="docutils literal"><span class="pre">response</span></tt>) に関連づけます; イベントの名前は <tt class="docutils literal"><span class="pre">dispatch()</span></tt> の呼び出しで使われたものと同じでなければなりません。</p>
+<p>リスナーにおいて、レスポンスがリダイレクトではなく、リクエストされたフォーマットが HTML であり、レスポンスの Content-Type が HTML である場合にかぎり、Google Analytics コードを追加します (これらの条件はコードから Request と Response のデータを操作する作業の負担を和らげてくれることの実証になります)。</p>
+<p>これまでのところうまくいっていますが、同じイベントに別のリスナーを追加します。Response の <tt class="docutils literal"><span class="pre">Content-Length</span></tt> がまだセットされていない場合にこれをセットすることを考えてみましょう。</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>$dispatcher-&gt;addListener(&#8216;response&#8217;, function (SimplexResponseEvent $event) {</dt>
+<dd><p class="first">$response = $event-&gt;getResponse();
+$headers = $response-&gt;headers;</p>
+<dl class="docutils">
+<dt>if (!$headers-&gt;has(&#8216;Content-Length&#8217;) &amp;&amp; !$headers-&gt;has(&#8216;Transfer-Encoding&#8217;)) {</dt>
+<dd>$headers-&gt;set(&#8216;Content-Length&#8217;, strlen($response-&gt;getContent()));</dd>
+</dl>
+<p class="last">}</p>
+</dd>
+</dl>
+<p>});</p>
+</div></blockquote>
+<p>以前に登録したリスナーの前か後にこのコードのピースを追加するかによって、 <tt class="docutils literal"><span class="pre">Content-Length</span></tt> ヘッダーに対して間違ったもしくは正しい値を得ることになります。ときには、リスナーの順番は重要ですが、デフォルトでは、すべてのリスナーは同じ優先順位の <tt class="docutils literal"><span class="pre">0</span></tt> で登録されます。リスナーをより早く実行するようディスパッチャに伝えるには、優先順位を正の数に変更します; 負の数は優先順位の低いリスナーに使うことができます。ここでは <tt class="docutils literal"><span class="pre">Content-Length</span></tt> リスナーを最後に実行させたいので、優先順位を <tt class="docutils literal"><span class="pre">-255</span></tt> に変更します。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">Simplex\ResponseEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>
+    <span class="nv">$headers</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;Transfer-Encoding&#39;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">()));</span>
+    <span class="p">}</span>
+<span class="p">},</span> <span class="o">-</span><span class="mi">255</span><span class="p">);</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">フレームワークをつくるとき、優先順位を考え (たとえばreserve some numbers
+内部のリスナーに対するいくつかの値を反転させます) それらをドキュメントに徹底的に記載します。</p>
+</div>
+<p>ちょっとコードをリファクタリングして Google リスナーを独自のクラスに移動させましょう。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Simplex/GoogleListener.php</span>
+
+<span class="k">namespace</span> <span class="nx">Simplex</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">GoogleListener</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">onResponse</span><span class="p">(</span><span class="nx">ResponseEvent</span> <span class="nv">$event</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">isRedirection</span><span class="p">()</span>
+            <span class="o">||</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="k">false</span> <span class="o">===</span> <span class="nb">strpos</span><span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">),</span> <span class="s1">&#39;html&#39;</span><span class="p">))</span>
+            <span class="o">||</span> <span class="s1">&#39;html&#39;</span> <span class="o">!==</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getRequestFormat</span><span class="p">()</span>
+        <span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">()</span><span class="o">.</span><span class="s1">&#39;GA CODE&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>ほかのリスナーと同じことを行います。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Simplex/ContentLengthListener.php</span>
+
+<span class="k">namespace</span> <span class="nx">Simplex</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ContentLengthListener</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">onResponse</span><span class="p">(</span><span class="nx">ResponseEvent</span> <span class="nv">$event</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>
+        <span class="nv">$headers</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;Transfer-Encoding&#39;</span><span class="p">))</span> <span class="p">{</span>
+            <span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">()));</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>フロントコントローラは次のようになります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dispatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventDispatcher</span><span class="p">();</span>
+<span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="k">new</span> <span class="nx">Simplex\ContentLengthListener</span><span class="p">(),</span> <span class="s1">&#39;onResponse&#39;</span><span class="p">),</span> <span class="o">-</span><span class="mi">255</span><span class="p">);</span>
+<span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="k">new</span> <span class="nx">Simplex\GoogleListener</span><span class="p">(),</span> <span class="s1">&#39;onResponse&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>コードがクラスにすばらしく包まれていますが、それでも少し問題が残っています: 優先順位の知識がリスナー自身ではなくフロントコントローラに「ハードコード」されています。それぞれのアプリケーションに対して、適切な優先順位を設定することを覚えておかなければなりません。さらに、リスナーのメソッド名はここにも公開され、このことは我々のリスナーをリファクタリングすることはこれらのリスナーに依存しているすべてのアプリケーションを変更することを意味します。もちろん、ソリューションがあります。リスナーの代わりにサブスクライバを使います。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dispatcher</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">EventDispatcher</span><span class="p">();</span>
+<span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addSubscriber</span><span class="p">(</span><span class="k">new</span> <span class="nx">Simplex\ContentLengthListener</span><span class="p">());</span>
+<span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addSubscriber</span><span class="p">(</span><span class="k">new</span> <span class="nx">Simplex\GoogleListener</span><span class="p">());</span>
+</pre></div>
+</div>
+<p>サブスクライバは興味のあるすべてのイベントを知っており、 <tt class="docutils literal"><span class="pre">getSubscribedEvents()</span></tt> メソッドを通じてこの情報をディスパッチャに渡します。新しいバージョンの <tt class="docutils literal"><span class="pre">GoogleListener</span></tt> を見てみましょう。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Simplex/GoogleListener.php</span>
+
+<span class="k">namespace</span> <span class="nx">Simplex</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\EventSubscriberInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">GoogleListener</span> <span class="k">implements</span> <span class="nx">EventSubscriberInterface</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;response&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;onResponse&#39;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>そして新しいバージョンの <tt class="docutils literal"><span class="pre">ContentLengthListener</span></tt> です。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/src/Simplex/ContentLengthListener.php</span>
+
+<span class="k">namespace</span> <span class="nx">Simplex</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\EventDispatcher\EventSubscriberInterface</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ContentLengthListener</span> <span class="k">implements</span> <span class="nx">EventSubscriberInterface</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">public</span> <span class="k">static</span> <span class="k">function</span> <span class="nf">getSubscribedEvents</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;response&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;onResponse&#39;</span><span class="p">,</span> <span class="o">-</span><span class="mi">255</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">単独のサブスクライバは必要な数だけリスナーをホストできます。</p>
+</div>
+<p>フレームワークを本当に柔軟なものにするためには、さらにイベントを追加することをためらわないでください; そしてそのまま使えるようにするには、さらにリスナーを追加してください。繰り返しますが、この連載は一般的なフレームワーク作成に関するものではなく、あなたのニーズに合わせてテーラーメードされるものです。満足したら止めて、そこからコードをさらに進化させましょう。</p>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

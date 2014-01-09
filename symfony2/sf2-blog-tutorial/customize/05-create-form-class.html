@@ -1,0 +1,376 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>カスタマイズ編(5) フォームクラスの作成 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">カスタマイズ編(5) フォームクラスの作成</a><ul>
+<li><a class="reference internal" href="#id2">フォームクラス</a></li>
+<li><a class="reference internal" href="#id3">修正する</a></li>
+<li><a class="reference internal" href="#id4">ブラウザで確認する</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../sources/sf2-blog-tutorial/customize/05-create-form-class.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="id1">
+<h1>カスタマイズ編(5) フォームクラスの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+</div>
+<div class="section" id="id2">
+<h2>フォームクラス<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">Default</span></tt> コントローラの <tt class="docutils literal"><span class="pre">newAction()</span></tt> や <tt class="docutils literal"><span class="pre">editAction()</span></tt> のフォーム作成部を見てみると、
+フォームがコントローラ内で直接生成されていることがわかります。
+しかしながら、より良い実装方法はフォーム生成部分を独立したPHPクラスに分離することです。
+フォーム生成部を分離することで、アプリケーション内で再利用することができます。</p>
+<p>フォーム生成部分を独立したPHPクラスに分離するには、<tt class="docutils literal"><span class="pre">Symfony\Component\Form\AbstractType</span></tt> を継承したクラスを作成し、
+<tt class="docutils literal"><span class="pre">buildForm()</span></tt> メソッドと <tt class="docutils literal"><span class="pre">getName()</span></tt> メソッドを実装します。
+例えば商品名と商品価格を表すフォームクラスを作ると以下のようになります。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+<span class="c1">// src/Acme/StoreBundle/Form/ProductType.php</span>
+<span class="k">namespace</span> <span class="nx">Acme\StoreBundle\Form</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">ProductType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;money&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;USD&#39;</span><span class="p">))</span>
+        <span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;product&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>追加した個々のフォーム要素は、それぞれ <tt class="docutils literal"><span class="pre">FormType</span></tt> クラスの要素（フォームタイプ）として扱われます。
+フォームタイプには、<tt class="docutils literal"><span class="pre">TextType</span></tt> や <tt class="docutils literal"><span class="pre">FileType</span></tt>、<tt class="docutils literal"><span class="pre">MoneyType</span></tt> などの多くの種類があります。
+Formコンポーネントでは、フォームの要素がどんなフォームタイプに近しいかを推測する <tt class="docutils literal"><span class="pre">FormTypeGuesser</span></tt> クラスが存在します。
+<tt class="docutils literal"><span class="pre">FormTypeGuesser</span></tt> は、DoctrineやValidatorのマッピング情報から動的にフォームタイプを判別しています。</p>
+<p>分離したフォームをコントローラで使うには、コントローラの便利関数である <tt class="docutils literal"><span class="pre">createForm()</span></tt> メソッドを使います。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/StoreBundle/Controller/DefaultController.php</span>
+
+<span class="c1">// add this new use statement at the top of the class</span>
+<span class="k">use</span> <span class="nx">Acme\StoreBundle\Form\ProductType</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$product</span> <span class="o">=</span> <span class="c1">// ...</span>
+    <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">ProductType</span><span class="p">(),</span> <span class="nv">$product</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">createForm()</span></tt> メソッドは、以下のように書き直すこともできます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">ProductType</span><span class="p">());</span>
+<span class="nv">$form</span><span class="o">-&gt;</span><span class="na">setData</span><span class="p">(</span><span class="nv">$product</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">setData()</span></tt> メソッドを使う場合、フォームタイプの推測を活用するために、
+フォームクラス側に以下のメソッドを追加することが望ましいです。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">getDefaultOptions</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Acme\StoreBundle\Entity\Product&#39;</span><span class="p">,</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>修正する<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>blogアプリケーションのフォームもクラスを分離して再利用してみましょう。
+まずは、<tt class="docutils literal"><span class="pre">Post</span></tt> エンティティに対応する <tt class="docutils literal"><span class="pre">PostType</span></tt> フォームクラスを作成します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/My/BlogBundle/Form/PostType.php</span>
+<span class="k">namespace</span> <span class="nx">My\BlogBundle\Form</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">PostType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nv">$builder</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span>
+        <span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getDefaultOptions</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My\BlogBundle\Entity\Post&#39;</span><span class="p">,</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="s1">&#39;post&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>次に、<tt class="docutils literal"><span class="pre">Default</span></tt> コントローラの <tt class="docutils literal"><span class="pre">addAction()</span></tt> と <tt class="docutils literal"><span class="pre">editAction()</span></tt> で直接フォーム生成している部分をフォームクラス経由に変更します。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">My\BlogBundle\Form\PostType</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">DefaultController</span> <span class="k">extends</span> <span class="nx">Controller</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">newAction</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="c1">// フォームのビルド</span>
+<span class="c1">//        $form = $this-&gt;createFormBuilder(new Post())</span>
+<span class="c1">//            -&gt;add(&#39;title&#39;)</span>
+<span class="c1">//            -&gt;add(&#39;body&#39;)</span>
+<span class="c1">//            -&gt;getForm();</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">PostType</span><span class="p">(),</span> <span class="k">new</span> <span class="nx">Post</span><span class="p">());</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">editAction</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+
+        <span class="c1">// フォームのビルド</span>
+<span class="c1">//        $form = $this-&gt;createFormBuilder($post)</span>
+<span class="c1">//            -&gt;add(&#39;title&#39;)</span>
+<span class="c1">//            -&gt;add(&#39;body&#39;)</span>
+<span class="c1">//            -&gt;getForm();</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createForm</span><span class="p">(</span><span class="k">new</span> <span class="nx">PostType</span><span class="p">(),</span> <span class="nv">$post</span><span class="p">);</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>コントローラのソースコードが少しすっきりしました。</p>
+</div>
+<div class="section" id="id4">
+<h2>ブラウザで確認する<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>ブラウザで前と同じ動作をしているか、確認しましょう。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

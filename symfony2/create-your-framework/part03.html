@@ -1,0 +1,428 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Web フレームワークをつくろう - Symfony2 コンポーネントの上に (パート 3) | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/create-your-framework/part03.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="web-symfony2-3">
+<h1>Web フレームワークをつくろう - Symfony2 コンポーネントの上に (パート 3)<a class="headerlink" href="#web-symfony2-3" title="Permalink to this headline">¶</a></h1>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">この記事は Symfony2 コンポーネントでフレームワークをつくる方法を説明した連載記事の一部です: <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part01.html">1</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part02.html">2</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part03.html">3</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part04.html">4</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part05.html">5</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part06.html">6</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part07.html">7</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part08.html">8</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part09.html">9</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part10.html">10</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part11.html">11</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part12.html">12</a></p>
+</div>
+<p>これまで、ページが1つしかなかったので、我々のアプリケーションは割り切ったものでした。少しおもしろくするために、頭をやわらかくして、Goodbye を伝える別のページを追加しましょう。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// framework/bye.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+
+<span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">(</span><span class="s1">&#39;Goodbye!&#39;</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>ご覧の通り、大半のコードは最初のページに対して書いたものとまったく同じです。すべてのページのあいだで共有できる共通のコードを抽出しましょう。コードのシェアリングは我々の最初の「実際の」フレームワークをつくるためのよいプランに見えます！</p>
+<p>PHP 流のリファクタリングはおそらくはファイルのインクルードです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// framework/init.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>実際の例を見てみましょう。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// framework/index.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/init.php&#39;</span><span class="p">;</span>
+
+<span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;World&#39;</span><span class="p">);</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s1">&#39;Hello %s&#39;</span><span class="p">,</span> <span class="nb">htmlspecialchars</span><span class="p">(</span><span class="nv">$input</span><span class="p">,</span> <span class="nx">ENT_QUOTES</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">)));</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>そして「Goodbye」を表示するページです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// framework/bye.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/init.php&#39;</span><span class="p">;</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="s1">&#39;Goodbye!&#39;</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>共有コードの大半を中心的な場所に実際に移動させましたが、あまりよい抽象化には見ませんよね？最初に、すべてのページにおいて <tt class="docutils literal"><span class="pre">send()</span></tt> メソッドがすでに用意されていますが、我々のページはテンプレートとは異なるので、このコードをテストすることはまだできません。</p>
+<p>さらに、新しいページを追加することは URL を通じてエンドユーザーに公開される名前をもつ PHP スクリプトを新たに作る必要があるということです
+(<tt class="docutils literal"><span class="pre">http://example.com/bye.php</span></tt>): PHP
+スクリプトの名前とクライアント URL のあいだに直接のマッピングが存在しています。これはリクエストのディスパッチが Web サーバーによって直接行われるからです。このディスパッチを我々のコードに移すことはよりよい柔軟性のためによいことでしょう。これはすべてのクライアントのリクエストを単独の PHP スクリプトにルーティングさせることでかんたんに実現できます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">エンドユーザーに単独の PHP スクリプトを公開するやりかたは
+「 <a href="#id14"><span class="problematic" id="id15">`フロントコントローラf`_</span></a> 」と呼ばれるデザインパターンです。</p>
+</div>
+<p>このようなスクリプトは次のようになります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// framework/front.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">();</span>
+
+<span class="nv">$map</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;/hello&#39;</span> <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/hello.php&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;/bye&#39;</span>   <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/bye.php&#39;</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$map</span><span class="p">[</span><span class="nv">$path</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="k">require</span> <span class="nv">$map</span><span class="p">[</span><span class="nv">$path</span><span class="p">];</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setStatusCode</span><span class="p">(</span><span class="mi">404</span><span class="p">);</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="s1">&#39;Not Found&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>そして新しい <tt class="docutils literal"><span class="pre">hello.php</span></tt> スクリプトの例です。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// framework/hello.php</span>
+
+<span class="nv">$input</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;World&#39;</span><span class="p">);</span>
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="nb">sprintf</span><span class="p">(</span><span class="s1">&#39;Hello %s&#39;</span><span class="p">,</span> <span class="nb">htmlspecialchars</span><span class="p">(</span><span class="nv">$input</span><span class="p">,</span> <span class="nx">ENT_QUOTES</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">)));</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">front.php</span></tt> スクリプトにおいて、 <tt class="docutils literal"><span class="pre">$map</span></tt> は URL のパスを対応する PHP スクリプトのパスに関連づけます。</p>
+<p>おまけとして、URL マップの中で定義されていないパスをクライアントが問い合わせると、カスタマイズされた 404 ページが返されます。Web サイトを思いどおりにできます。</p>
+<p>ページにアクセスするには、 <tt class="docutils literal"><span class="pre">front.php</span></tt> スクリプトを使わなければなりません。</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">http://example.com/front.php/hello?name=Fabien</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">http://example.com/front.php/bye</span></tt></li>
+</ul>
+<p><tt class="docutils literal"><span class="pre">/hello</span></tt> と <tt class="docutils literal"><span class="pre">/bye</span></tt> の両方はページの <em>パス</em> です。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Apache もしくは nginx のような Web サーバーはやってくる URL を書き換え、フロントコントローラのスクリプトを取り除くので、
+Web サイトのユーザーはずっと見やすい <tt class="docutils literal"><span class="pre">http://example.com/hello?name=Fabien</span></tt> を入力できるようになります。</p>
+</div>
+<p>これは、サブディレクトリを含む ((必要な場合のみ &#8211; 上記のティップをご覧ください)) フロントコントローラスクリプトの名前を取り除くことによって Request オブジェクトのパスを返す <tt class="docutils literal"><span class="pre">Request::getPathInfo()</span></tt> メソッドを使うことで実現されます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">コードをテストするために Web サーバーをセットアップする必要はありません。
+代わりに、 <tt class="docutils literal"><span class="pre">$request</span> <span class="pre">=</span> <span class="pre">Request::create('/hello?name=Fabien');</span></tt> のような <tt class="docutils literal"><span class="pre">$request</span> <span class="pre">=</span> <span class="pre">Request::createFromGlobals();</span></tt> に置き換えます。引数はシミュレートしたい URL のパスです。</p>
+</div>
+<p>これで Web サーバーはすべてのページに対して同じスクリプト (<tt class="docutils literal"><span class="pre">front.php</span></tt>) にアクセスするので、ほかのすべての PHP ファイルを Web サイトのルートディレクトリの外側に移動させることで我々のコードをよりセキュアなものにできます。</p>
+<div class="highlight-text"><div class="highlight"><pre>example.com
+├── composer.json
+│   src
+│   ├── autoload.php
+│   └── pages
+│       ├── hello.php
+│       └── bye.php
+├── vendor
+└── web
+    └── front.php
+</pre></div>
+</div>
+<p>これで、 <tt class="docutils literal"><span class="pre">web/</span></tt> に指し示す Web サーバーのルートディレクトリの設定を行い、ほかのすべてのファイルはクライアントからアクセスできなくなります。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">新しい構造が機能するためには、さまざまな PHP ファイルのパスを調整しなければなりません。
+変更の作業は読者の練習課題として残しておきます。</p>
+</div>
+<p>最後の取り組みはそれぞれのページで繰り返される <tt class="docutils literal"><span class="pre">setContent()</span></tt> の呼び出しです。コンテンツを echo で出力し <tt class="docutils literal"><span class="pre">setContent()</span></tt> をフロントコントローラスクリプトを直接呼び出すだけですべてのページを「テンプレート」に変換できます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/web/front.php</span>
+
+<span class="c1">// ...</span>
+
+<span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$map</span><span class="p">[</span><span class="nv">$path</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="nb">ob_start</span><span class="p">();</span>
+    <span class="k">include</span> <span class="nv">$map</span><span class="p">[</span><span class="nv">$path</span><span class="p">];</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="nb">ob_get_clean</span><span class="p">());</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setStatusCode</span><span class="p">(</span><span class="mi">404</span><span class="p">);</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="s1">&#39;Not Found&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ...</span>
+</pre></div>
+</div>
+<p>そして <tt class="docutils literal"><span class="pre">hello.php</span></tt> スクリプトはテンプレートに変換できます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;!--</span> <span class="nx">example</span><span class="o">.</span><span class="nx">com</span><span class="o">/</span><span class="nx">src</span><span class="o">/</span><span class="nx">pages</span><span class="o">/</span><span class="nx">hello</span><span class="o">.</span><span class="nx">php</span> <span class="o">--&gt;</span>
+
+<span class="o">&lt;?</span><span class="nx">php</span> <span class="nv">$name</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;World&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+
+<span class="x">Hello </span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nb">htmlspecialchars</span><span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nx">ENT_QUOTES</span><span class="p">,</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+<p>We have our framework for today:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
+
+<span class="c1">// example.com/web/front.php</span>
+
+<span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../src/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
+
+<span class="nv">$request</span> <span class="o">=</span> <span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">();</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Response</span><span class="p">();</span>
+
+<span class="nv">$map</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;/hello&#39;</span> <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../src/pages/hello.php&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;/bye&#39;</span>   <span class="o">=&gt;</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../src/pages/bye.php&#39;</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="nv">$path</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">();</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$map</span><span class="p">[</span><span class="nv">$path</span><span class="p">]))</span> <span class="p">{</span>
+    <span class="nb">ob_start</span><span class="p">();</span>
+    <span class="k">include</span> <span class="nv">$map</span><span class="p">[</span><span class="nv">$path</span><span class="p">];</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="nb">ob_get_clean</span><span class="p">());</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setStatusCode</span><span class="p">(</span><span class="mi">404</span><span class="p">);</span>
+    <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setContent</span><span class="p">(</span><span class="s1">&#39;Not Found&#39;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="nv">$response</span><span class="o">-&gt;</span><span class="na">send</span><span class="p">();</span>
+</pre></div>
+</div>
+<p>新しいページを追加する作業は2つのステップになります。エントリをマップに追加し、 <tt class="docutils literal"><span class="pre">src/pages/</span></tt> の中で PHP テンプレートを作ります。テンプレートから、
+<tt class="docutils literal"><span class="pre">$request</span></tt> 変数を通じて Request のデータを取得し、 <tt class="docutils literal"><span class="pre">$response</span></tt>
+変数を通じて Response ヘッダーを調整します。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">ここで止めるのであれば、URL マップを設定ファイルに抽出することであなたのフレームワークを強化できるでしょう。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

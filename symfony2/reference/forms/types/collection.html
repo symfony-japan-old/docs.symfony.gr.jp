@@ -94,6 +94,8 @@
 <li><a class="reference internal" href="#mapped">mapped</a></li>
 <li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
 <li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#by-reference">by_reference</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
 </ul>
 </li>
 </ul>
@@ -193,8 +195,8 @@
 <li><a class="reference internal" href="#label">label</a></li>
 <li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
 <li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
-<li><a href="#id5"><span class="problematic" id="id6">`by_reference`_</span></a></li>
-<li><a href="#id7"><span class="problematic" id="id8">`empty_data`_</span></a></li>
+<li><a class="reference internal" href="#by-reference">by_reference</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
 <li><a class="reference internal" href="#mapped">mapped</a></li>
 </ul>
 </td>
@@ -209,7 +211,7 @@
 </table>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">もしDoctrineのエンティティとあわせて使っている場合、 <a class="reference internal" href="#allow-add">allow_add</a> 、 <a class="reference internal" href="#allow-delete">allow_delete</a> 、 <a href="#id9"><span class="problematic" id="id10">`by_reference`_</span></a> オプションには特に注意を払ってください。
+<p class="last">もしDoctrineのエンティティとあわせて使っている場合、 <a class="reference internal" href="#allow-add">allow_add</a> 、 <a class="reference internal" href="#allow-delete">allow_delete</a> 、 <a class="reference internal" href="#by-reference">by_reference</a> オプションには特に注意を払ってください。
 クックブックの記事「 <a class="reference internal" href="../../../cookbook/form/form_collections.html"><em>フォームのコレクションを埋め込む方法</em></a> 」に完全な例があります。</p>
 </div>
 <div class="section" id="id1">
@@ -505,6 +507,68 @@ Doctrineを使っている場合、これは自動的にはされません。詳
 <p><tt class="docutils literal"><span class="pre">true</span></tt> の場合、このフィールドのエラーは親フィールドまたはフォームに渡されます。
 たとえば、通常のフィールドを <tt class="docutils literal"><span class="pre">true</span></tt> に設定した場合、フィールドに対するエラーは
 特定のフィールドではなくメインのフォームに付加されます。</p>
+</div>
+<div class="section" id="by-reference">
+<span id="reference-form-types-by-reference"></span><h3>by_reference<a class="headerlink" href="#by-reference" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型type</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+<p>下層にあるオブジェクトに <tt class="docutils literal"><span class="pre">name</span></tt> フィールドを持つとして、ほとんどの場合、<tt class="docutils literal"><span class="pre">setName</span></tt> が呼ばれることを期待します。
+しかし、場合によっては <tt class="docutils literal"><span class="pre">setName</span></tt> が呼ばれ <em>ない</em> ことがあります。<tt class="docutils literal"><span class="pre">by_reference</span></tt> をセットすることですべての場合にセッターが呼ばれることを確実にします。</p>
+<p>さらに説明するため、簡単な例がこちらです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$article</span><span class="p">);</span>
+<span class="nv">$builder</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;by_reference&#39;</span> <span class="o">=&gt;</span> <span class="o">?</span><span class="p">))</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">by_reference</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、フォームの <tt class="docutils literal"><span class="pre">submit</span></tt> （または <tt class="docutils literal"><span class="pre">handleRequest</span></tt> ）が呼ばれたとき、次のように裏側では処理されます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$article</span><span class="o">-&gt;</span><span class="na">setTitle</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getAuthor</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getAuthor</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setEmail</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">setAuthor</span></tt> が呼び出されないことに注意して下さい。その <tt class="docutils literal"><span class="pre">author</span></tt> はリファレンスにより変更されます。</p>
+<p><tt class="docutils literal"><span class="pre">by_reference</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、送信時の処理はこのようになります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$article</span><span class="o">-&gt;</span><span class="na">setTitle</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$author</span> <span class="o">=</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getAuthor</span><span class="p">();</span>
+<span class="nv">$author</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$author</span><span class="o">-&gt;</span><span class="na">setEmail</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$article</span><span class="o">-&gt;</span><span class="na">setAuthor</span><span class="p">(</span><span class="nv">$author</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>このように <tt class="docutils literal"><span class="pre">by_reference=false</span></tt> が実際にすることは、親オブジェクトでセッターを呼ぶことをフレームワークに強制することです。</p>
+<p>同様に、下層にあるコレクションに <a class="reference internal" href=""><em>collection</em></a> フォームタイプを利用している場合、データは（ Doctrine の <tt class="docutils literal"><span class="pre">ArrayCollection</span></tt> のように）オブジェクトです。そして、（例えば <tt class="docutils literal"><span class="pre">setAuthors</span></tt> のように）セッターが呼ばれる必要があるときは、<tt class="docutils literal"><span class="pre">by_reference</span></tt> は <tt class="docutils literal"><span class="pre">false</span></tt> に設定されるべきです。</p>
+</div>
+<div class="section" id="empty-data">
+<h3>empty_data<a class="headerlink" href="#empty-data" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">mixed</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">multiple</span></tt> 又は <tt class="docutils literal"><span class="pre">expanded</span></tt> の場合 <tt class="docutils literal"><span class="pre">array()</span></tt> それ以外 <tt class="docutils literal"><span class="pre">''</span></tt></p>
+<p>このオプションは <tt class="docutils literal"><span class="pre">empty_value</span></tt> の選択肢が選ばれた時に、どのような値を返すかを決定します。</p>
+<p>このオプションのデフォルト値はフィールドオプションによって異なります。:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定され <tt class="docutils literal"><span class="pre">required</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、 <tt class="docutils literal"><span class="pre">new</span> <span class="pre">$data_class()</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定され <tt class="docutils literal"><span class="pre">required</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、 <tt class="docutils literal"><span class="pre">null</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定されず <tt class="docutils literal"><span class="pre">compound</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、 <tt class="docutils literal"><span class="pre">array()</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定されず <tt class="docutils literal"><span class="pre">compound</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、 <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
+</ul>
+<p>しかし、必要に応じてこれを変更することができます。例えば、値が選択されていないとき <tt class="docutils literal"><span class="pre">gender</span></tt> フィールドを明示的に <tt class="docutils literal"><span class="pre">null</span></tt> に設定したいとすると、このようにできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;m&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Male&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;f&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Female&#39;</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;required&#39;</span>    <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+    <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Choose your gender&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;empty_data&#39;</span>  <span class="o">=&gt;</span> <span class="k">null</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームクラス全体に <tt class="docutils literal"><span class="pre">empty_data</span></tt> オプションをセットしたい場合はクックブックの記事( <tt class="xref doc docutils literal"><span class="pre">/cookbook/form/use_empty_data</span></tt> )を参照してください。</p>
+</div>
 </div>
 </div>
 </div>

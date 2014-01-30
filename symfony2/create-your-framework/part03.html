@@ -186,7 +186,7 @@
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">エンドユーザーに単独の PHP スクリプトを公開するやりかたは
-「 <a href="#id14"><span class="problematic" id="id15">`フロントコントローラf`_</span></a> 」と呼ばれるデザインパターンです。</p>
+「 <a class="reference external" href="http://symfony.com/doc/current/book/from_flat_php_to_symfony2.html#a-front-controller-to-the-rescue">フロントコントローラ</a> 」と呼ばれるデザインパターンです。</p>
 </div>
 <p>このようなスクリプトは次のようになります。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
@@ -239,7 +239,7 @@
 <p class="last">Apache もしくは nginx のような Web サーバーはやってくる URL を書き換え、フロントコントローラのスクリプトを取り除くので、
 Web サイトのユーザーはずっと見やすい <tt class="docutils literal"><span class="pre">http://example.com/hello?name=Fabien</span></tt> を入力できるようになります。</p>
 </div>
-<p>これは、サブディレクトリを含む ((必要な場合のみ &#8211; 上記のティップをご覧ください)) フロントコントローラスクリプトの名前を取り除くことによって Request オブジェクトのパスを返す <tt class="docutils literal"><span class="pre">Request::getPathInfo()</span></tt> メソッドを使うことで実現されます。</p>
+<p>これは、サブディレクトリを含む (必要な場合のみ &#8211; 上記のティップをご覧ください) フロントコントローラスクリプトの名前を取り除くことによって Request オブジェクトのパスを返す <tt class="docutils literal"><span class="pre">Request::getPathInfo()</span></tt> メソッドを使うことで実現されます。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">コードをテストするために Web サーバーをセットアップする必要はありません。

@@ -270,21 +270,17 @@ Analytics のコードを追加すべきです。</p>
 </div>
 <p>ご覧のとおり、 <tt class="docutils literal"><span class="pre">addListener()</span></tt> は有効な PHP コールバックを名前つきイベント (<tt class="docutils literal"><span class="pre">response</span></tt>) に関連づけます; イベントの名前は <tt class="docutils literal"><span class="pre">dispatch()</span></tt> の呼び出しで使われたものと同じでなければなりません。</p>
 <p>リスナーにおいて、レスポンスがリダイレクトではなく、リクエストされたフォーマットが HTML であり、レスポンスの Content-Type が HTML である場合にかぎり、Google Analytics コードを追加します (これらの条件はコードから Request と Response のデータを操作する作業の負担を和らげてくれることの実証になります)。</p>
-<p>これまでのところうまくいっていますが、同じイベントに別のリスナーを追加します。Response の <tt class="docutils literal"><span class="pre">Content-Length</span></tt> がまだセットされていない場合にこれをセットすることを考えてみましょう。</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>$dispatcher-&gt;addListener(&#8216;response&#8217;, function (SimplexResponseEvent $event) {</dt>
-<dd><p class="first">$response = $event-&gt;getResponse();
-$headers = $response-&gt;headers;</p>
-<dl class="docutils">
-<dt>if (!$headers-&gt;has(&#8216;Content-Length&#8217;) &amp;&amp; !$headers-&gt;has(&#8216;Transfer-Encoding&#8217;)) {</dt>
-<dd>$headers-&gt;set(&#8216;Content-Length&#8217;, strlen($response-&gt;getContent()));</dd>
-</dl>
-<p class="last">}</p>
-</dd>
-</dl>
-<p>});</p>
-</div></blockquote>
+<p>これまでのところうまくいっていますが、同じイベントに別のリスナーを追加します。Response の <tt class="docutils literal"><span class="pre">Content-Length</span></tt> がまだセットされていない場合にこれをセットすることを考えてみましょう。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">Simplex\ResponseEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>
+    <span class="nv">$headers</span> <span class="o">=</span> <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">headers</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">has</span><span class="p">(</span><span class="s1">&#39;Transfer-Encoding&#39;</span><span class="p">))</span> <span class="p">{</span>
+        <span class="nv">$headers</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;Content-Length&#39;</span><span class="p">,</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">getContent</span><span class="p">()));</span>
+    <span class="p">}</span>
+<span class="p">});</span>
+</pre></div>
+</div>
 <p>以前に登録したリスナーの前か後にこのコードのピースを追加するかによって、 <tt class="docutils literal"><span class="pre">Content-Length</span></tt> ヘッダーに対して間違ったもしくは正しい値を得ることになります。ときには、リスナーの順番は重要ですが、デフォルトでは、すべてのリスナーは同じ優先順位の <tt class="docutils literal"><span class="pre">0</span></tt> で登録されます。リスナーをより早く実行するようディスパッチャに伝えるには、優先順位を正の数に変更します; 負の数は優先順位の低いリスナーに使うことができます。ここでは <tt class="docutils literal"><span class="pre">Content-Length</span></tt> リスナーを最後に実行させたいので、優先順位を <tt class="docutils literal"><span class="pre">-255</span></tt> に変更します。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$dispatcher</span><span class="o">-&gt;</span><span class="na">addListener</span><span class="p">(</span><span class="s1">&#39;response&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">Simplex\ResponseEvent</span> <span class="nv">$event</span><span class="p">)</span> <span class="p">{</span>
     <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$event</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">();</span>

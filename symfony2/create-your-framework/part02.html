@@ -261,7 +261,7 @@
 <p><tt class="docutils literal"><span class="pre">send()</span></tt> メソッドは <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトにクライアントに送り戻します (これは最初に HTTP ヘッダーを出力し、その後にコンテンツが続きます)。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last"><tt class="docutils literal"><span class="pre">send()</span></tt> の呼び出しの前に、Response オブジェクトが HTTP の仕様と互換性があることを保証するため <tt class="docutils literal"><span class="pre">prepare()</span></tt> メソッド (<tt class="docutils literal"><span class="pre">$response-&gt;prepare($request);</span></tt>) 呼び出しを追加しました。たとえば、<tt class="docutils literal"><span class="pre">HEAD</span></tt> メソッドでページを呼び出すのであれば、 Response オブジェクトのコンテンツは削除されます。</p>
+<p class="last"><tt class="docutils literal"><span class="pre">send()</span></tt> の呼び出しの前に、Response オブジェクトが HTTP の仕様と互換性があることを保証するため <tt class="docutils literal"><span class="pre">prepare()</span></tt> メソッド (<tt class="docutils literal"><span class="pre">$response-&gt;prepare($request);</span></tt>) 呼び出しを追加すべきです。たとえば、<tt class="docutils literal"><span class="pre">HEAD</span></tt> メソッドでページを呼び出すのであれば、 Response オブジェクトのコンテンツは削除されます。</p>
 </div>
 <p>前のコードとの主な違いは HTTP メッセージのトータルなコントロールがあることです。お望みのリクエストをつくり、ちょうどよいときにレスポンスを送ることができます。</p>
 <div class="admonition note">

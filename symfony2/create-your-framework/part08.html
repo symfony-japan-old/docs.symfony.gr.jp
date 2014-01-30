@@ -124,8 +124,8 @@
 <p class="first admonition-title">Note</p>
 <p class="last">この記事は Symfony2 コンポーネントでフレームワークをつくる方法を説明した連載記事の一部です: <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part01.html">1</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part02.html">2</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part03.html">3</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part04.html">4</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part05.html">5</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part06.html">6</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part07.html">7</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part08.html">8</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part09.html">9</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part10.html">10</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part11.html">11</a>, <a class="reference external" href="http://docs.symfony.gr.jp/symfony2/create-your-framework/part12.html">12</a></p>
 </div>
-<p>用心深い読者の方に昨日つくったフレームワークにささいだが重大なバグがあることを指摘しました。フレームワークをつくるとき、フレームワークのふるまいが想定どおりなのか確認しなければなりません。そうでなければ、それにもとづいたすべてのアプリケーションは同じバグをさらすことになります。よいニュースはバグを修正すれば、無数のアプリケーションも修正したことになります。</p>
-<p>今日のミッションは <a class="reference external" href="http://www.phpunit.de/manual/current/ja/index.html">PHPUnit</a> を使ってすでに作成したフレームワークのユニットテストを書くことです。
+<p>用心深い読者の方が昨日つくったフレームワークにささいだが重大なバグがあることを指摘しました。フレームワークをつくるとき、フレームワークのふるまいが想定どおりなのか確認しなければなりません。そうでなければ、それにもとづいたすべてのアプリケーションは同じバグをさらすことになります。よいニュースはバグを修正すれば、無数のアプリケーションも修正したことになります。</p>
+<p>今日のミッションは <a class="reference external" href="http://phpunit.de/manual/current/ja/index.html">PHPUnit</a> を使ってすでに作成したフレームワークのユニットテストを書くことです。
 <tt class="docutils literal"><span class="pre">example.com/phpunit.xml.dist</span></tt> の中で PHPUnit の設定ファイルを作ります。</p>
 <div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 
@@ -149,7 +149,7 @@
 </pre></div>
 </div>
 <p>このコンフィギュレーションはたいていの PHPUnit の道理に適ったデフォルト設定を定義します; さらに興味深いことに、オートローダはテストをブートストラップするために使われ、テストは <tt class="docutils literal"><span class="pre">example.com/tests/</span></tt> ディレクトリに保存されます。</p>
-<p>では、「not found」のリソースに対するテストを書いてみましょう。テストを書くときにすべての依存オブジェクトの生成を避けるためと、本当に必要なことだけをユニットテストするために、 <a class="reference external" href="http://www.phpunit.de/manual/current/ja/test-doubles.html">テストダブル</a> を使います。テストダブルは具象クラスの代わりにインターフェイスに依存するときに作るのがかんたんです。さいわいなことに、Symfony2 は URL マッチャとコントローラリゾルバのようなコアオブジェクトに対するインターフェイスを提供します。これらを利用するためにフレームワークを修正します。:</p>
+<p>では、「not found」のリソースに対するテストを書いてみましょう。テストを書くときにすべての依存オブジェクトの生成を避けるためと、本当に必要なことだけをユニットテストするために、 <a class="reference external" href="http://phpunit.de/manual/current/ja/test-doubles.html">テストダブル</a> を使います。テストダブルは具象クラスの代わりにインターフェイスに依存するときに作るのがかんたんです。さいわいなことに、Symfony2 は URL マッチャとコントローラリゾルバのようなコアオブジェクトに対するインターフェイスを提供します。これらを利用するためにフレームワークを修正します。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
 <span class="c1">// example.com/src/Simplex/Framework.php</span>
@@ -223,7 +223,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">この連載の目的からはずれるので、コードがどのように動くのかくわしくは説明しませんが、
 何が行われているのかわからなければ、
-PHPUnit の <a class="reference external" href="http://www.phpunit.de/manual/current/ja/test-doubles.html">テストダブル</a> のドキュメントを読むことをおすすめします。</p>
+PHPUnit の <a class="reference external" href="http://phpunit.de/manual/current/ja/test-doubles.html">テストダブル</a> のドキュメントを読むことをおすすめします。</p>
 </div>
 <p>テストを実行した後で、緑のバーが見えます。そうでなければ、テストもしくはフレームワークのコードにバグがあります！</p>
 <p>コントローラに投げられる例外のユニットテストを追加することはかんたんです。:</p>

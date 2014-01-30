@@ -198,7 +198,7 @@
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">プロダクション環境にデプロイするとき、Symfony2 のリバースプロキシを使い続けるか
-(共用ホスティングの用途にすぐれています) もしくはより方法は、
+(共用ホスティングの用途にすぐれています) もしくはよりよい方法は、
 <a class="reference external" href="https://www.varnish-cache.org/">Varnish</a> のようなより効率的なリバースプロキシに切り替えることです。</p>
 </div>
 <p>アプリケーションキャッシュをマネージするために HTTP キャッシュヘッダーを使うやりかたはとても強力で、HTTP の仕様の有効期限とバリデーションモデルの両方を使うことができるので、キャッシング戦略をきめ細かく調整できます。これらのコンセプトを快適に感じないのであれば、 <a class="reference external" href="http://symfony.com/doc/current/book/http_cache.html">HTTP
@@ -222,7 +222,7 @@
 <span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setSharedMaxAge</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>バリデーションモデルを使うとき、 <tt class="docutils literal"><span class="pre">isNotModified()</span></tt> メソッドによっってレスポンスの生成を可能なかぎり短縮することでレスポンスの時間をかんたんに短くすることができます。:</p>
+<p>バリデーションモデルを使うとき、 <tt class="docutils literal"><span class="pre">isNotModified()</span></tt> メソッドによってレスポンスの生成を可能なかぎり短縮することでレスポンスの時間をかんたんに短くすることができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">setETag</span><span class="p">(</span><span class="s1">&#39;whatever_you_compute_as_an_etag&#39;</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="p">(</span><span class="nv">$response</span><span class="o">-&gt;</span><span class="na">isNotModified</span><span class="p">(</span><span class="nv">$request</span><span class="p">))</span> <span class="p">{</span>
@@ -233,7 +233,7 @@
 <span class="k">return</span> <span class="nv">$response</span><span class="p">;</span>
 </pre></div>
 </div>
-<p>HTTP キャッシングを使うことはすばらしいですが、ページ全体をキャッシュすることはできないのでしょうか？
+<p>HTTP キャッシングを使うことはすばらしいですが、ページ全体をキャッシュできないとしたらどうでしょうか？
 動的なサイドバー以外の残りのコンテンツをキャッシュしたい場合は？Edge Side Includes (<a class="reference external" href="http://en.wikipedia.org/wiki/Edge_Side_Includes">ESI</a>) が助けになります！コンテンツ全体を生成する代わりに、ESI によってページの領域をサブリクエスト呼び出しのコンテンツとしてマークできます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">This</span> <span class="nx">is</span> <span class="nx">the</span> <span class="nx">content</span> <span class="nx">of</span> <span class="nx">your</span> <span class="nx">page</span>
 
@@ -265,7 +265,7 @@
 X-Symfony-Cache:  GET /is_leap_year/2012: fresh
 </pre></div>
 </div>
-<p>HttpCache には多くのフィーチャが備わっており、has many features like support for the
+<p>HttpCache には多くのフィーチャが備わっており、
 RFC5861 で定義された <tt class="docutils literal"><span class="pre">stale-while-revalidate</span></tt> と <tt class="docutils literal"><span class="pre">stale-if-error</span></tt> HTTP Cache-Control
 エクステンションが用意されています。</p>
 <p>単一のインターフェイスに加えて、HttpKernel コンポーネントに組み込まれている多くのフィーチャから恩恵を得ることができます; HTTP キャッシングはそれらの1つでしかありませんが、我々のアプリケーションを羽ばたかせるために大切なフィーチャです！</p>

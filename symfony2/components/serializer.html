@@ -149,7 +149,7 @@
 <blockquote>
 <div>Serializer コンポーネントは、オブジェクトを別のフォーマット（XML、JSON、 Yamlなど）に変更するのに使われます。</div></blockquote>
 <p>そのために、 Serializer コンポーネントは下図のようなシンプルな仕組みに従っています。</p>
-<span id="component-serializer-encoders"></span><img alt="../images/serializer_workflow.png" id="component-serializer-normalizers" src="../_images/serializer_workflow.png" />
+<span id="component-serializer-encoders"></span><img alt="../images/serializer_workflow.png" id="component-serializer-normalizers" src="../images/serializer_workflow.png" />
 <p>上の図を見るとわかるように、配列（Array）が仲介として使われています。
 つまり、 Encoder は <strong>フォーマット</strong> を <strong>配列</strong> に変換したり元に戻したりするのを担当し、 Normalizer は <strong>オブジェクト</strong> を <strong>配列</strong> に変換したり戻したりするのを担当しています。</p>
 <p>シリアライズは複雑な課題であり、Serializer コンポーネントはすべてのケースに使えるわけではありませんが、開発者がシリアライズしたいオブジェクトをシリアライズする道具を作るのに役立つでしょう。</p>

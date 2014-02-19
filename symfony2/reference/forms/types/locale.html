@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>locale Field Type | Symfony2日本語ドキュメント</title>
+    <title>locale フィールドタイプ | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/configurationblock.css" type="text/css" />
@@ -35,7 +35,7 @@
     <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../../index.html" />
     <link rel="up" title="Form Type リファレンス" href="../types.html" />
     <link rel="next" title="money フィールドタイプ" href="money.html" />
-    <link rel="prev" title="language Field Type" href="language.html" /> 
+    <link rel="prev" title="language フィールドタイプ" href="language.html" /> 
   </head>
   <body>
 <div id="fb-root"></div>
@@ -75,16 +75,25 @@
         <div class="sphinxsidebarwrapper">
   <h3>このページのコンテンツ</h3>
   <ul>
-<li><a class="reference internal" href="#">locale Field Type</a><ul>
-<li><a class="reference internal" href="#inherited-options">Inherited options</a><ul>
+<li><a class="reference internal" href="#">locale フィールドタイプ</a><ul>
+<li><a class="reference internal" href="#id3">上書きされたオプション</a><ul>
+<li><a class="reference internal" href="#choices">choices</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">継承されたオプション</a><ul>
 <li><a class="reference internal" href="#multiple">multiple</a></li>
 <li><a class="reference internal" href="#expanded">expanded</a></li>
 <li><a class="reference internal" href="#preferred-choices">preferred_choices</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
 <li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
 <li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#read-only">read_only</a></li>
+<li><a class="reference internal" href="#disabled">disabled</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
 </ul>
 </li>
 </ul>
@@ -93,7 +102,7 @@
 
   <h4>前のドキュメント</h4>
   <p class="topless"><a href="language.html"
-                        title="previous chapter">language Field Type</a></p>
+                        title="previous chapter">language フィールドタイプ</a></p>
   <h4>次のドキュメント</h4>
   <p class="topless"><a href="money.html"
                         title="next chapter">money フィールドタイプ</a></p>
@@ -145,56 +154,80 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="locale-field-type">
-<span id="index-0"></span><h1>locale Field Type<a class="headerlink" href="#locale-field-type" title="Permalink to this headline">¶</a></h1>
-<p>The <tt class="docutils literal"><span class="pre">locale</span></tt> type is a subset of the <tt class="docutils literal"><span class="pre">ChoiceType</span></tt> that allows the user
-to select from a large list of locales (language+country). As an added bonus,
-the locale names are displayed in the language of the user.</p>
-<p>The &#8220;value&#8221; for each locale is either the two letter ISO639-1 <em>language</em> code
-(e.g. <tt class="docutils literal"><span class="pre">fr</span></tt>), or the language code followed by an underscore (<tt class="docutils literal"><span class="pre">_</span></tt>), then
-the ISO3166 <em>country</em> code (e.g. <tt class="docutils literal"><span class="pre">fr_FR</span></tt> for French/France).</p>
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/locale.html">原文のページ</a>をご確認ください。</p>
+
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.4 (2.0以降)</li>
+<li>翻訳更新日：2014/02/16</li>
+</ul>
+</div>
+<div class="section" id="locale">
+<h1>locale フィールドタイプ<a class="headerlink" href="#locale" title="Permalink to this headline">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">locale</span></tt> タイプは、大きなロケール（言語+国）のリストから選ぶことが出来る <tt class="docutils literal"><span class="pre">ChoiceType</span></tt> のサブセットです。加えて、ロケール名がユーザーの言語の中に表示されます。</p>
+<p>各ロケールの値は2文字の <a class="reference external" href="http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1</a> <em>言語</em> コード（例 <tt class="docutils literal"><span class="pre">fr</span></tt> ）か、または、その言語コードにアンダースコアー （ <tt class="docutils literal"><span class="pre">_</span></tt> ） で <a class="reference external" href="http://en.wikipedia.org/wiki/ISO_3166-1#Current_codes">ISO 3166-1 alpha-2</a> <em>国</em> コードを続けたもの（例 French/France は <tt class="docutils literal"><span class="pre">fr_FR</span></tt>）です。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">The locale of your user is guessed using <a class="reference external" href="http://php.net/manual/en/locale.getdefault.php">Locale::getDefault()</a></p>
+<p class="last">ユーザーのロケールは <a href="#id1"><span class="problematic" id="id2">:phpmethod:`Locale::getDefault`</span></a> を使用して推測されています。</p>
 </div>
-<p>Unlike the <tt class="docutils literal"><span class="pre">choice</span></tt> type, you don&#8217;t need to specify a <tt class="docutils literal"><span class="pre">choices</span></tt> or
-<tt class="docutils literal"><span class="pre">choice_list</span></tt> option as the field type automatically uses a large list
-of locales. You <em>can</em> specify either of these options manually, but then
-you should just use the <tt class="docutils literal"><span class="pre">choice</span></tt> type directly.</p>
+<p><tt class="docutils literal"><span class="pre">choice</span></tt> タイプとは異なり、<tt class="docutils literal"><span class="pre">choices</span></tt> または <tt class="docutils literal"><span class="pre">choice_list</span></tt> オプションを特定する必要はなく、フィールドタイプとして自動的に大きなロケールのリストを使います。それらのオプションのどちらかを手動で設定することは <em>出来ます</em> が、その場合は <tt class="docutils literal"><span class="pre">choice</span></tt> タイプを直接使うべきです。</p>
 <table border="1" class="docutils">
 <colgroup>
 <col width="15%" />
 <col width="85%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Rendered as</td>
-<td>can be various tags (see <a class="reference internal" href="choice.html#forms-reference-choice-tags"><em>セレクトタグ、チェックボックス、ラジオボタン</em></a>)</td>
+<tr class="row-odd"><td>対応するタグ</td>
+<td>様々なタグとして利用可能 (see <a class="reference internal" href="choice.html#forms-reference-choice-tags"><em>セレクトタグ、チェックボックス、ラジオボタン</em></a>)</td>
 </tr>
-<tr class="row-even"><td>Inherited
-options</td>
+<tr class="row-even"><td>上書きされた
+オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#choices">choices</a></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>継承された
+オプション</td>
 <td><ul class="first last simple">
 <li><a class="reference internal" href="#multiple">multiple</a></li>
 <li><a class="reference internal" href="#expanded">expanded</a></li>
 <li><a class="reference internal" href="#preferred-choices">preferred_choices</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
 <li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
 <li><a class="reference internal" href="#label">label</a></li>
+<li><a href="#id5"><span class="problematic" id="id6">`label_attr`_</span></a></li>
+<li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#read-only">read_only</a></li>
+<li><a class="reference internal" href="#disabled">disabled</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>Parent type</td>
+<tr class="row-even"><td>親タイプ</td>
 <td><a class="reference internal" href="choice.html"><em>choice</em></a></td>
 </tr>
-<tr class="row-even"><td>Class</td>
-<td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\LanguageType</span></tt></td>
+<tr class="row-odd"><td>クラス</td>
+<td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\LocaleType</span></tt></td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="inherited-options">
-<h2>Inherited options<a class="headerlink" href="#inherited-options" title="Permalink to this headline">¶</a></h2>
-<p>These options inherit from the <a class="reference internal" href="choice.html"><em>choice</em></a> type:</p>
+<div class="section" id="id3">
+<h2>上書きされたオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="choices">
+<h3>choices<a class="headerlink" href="#choices" title="Permalink to this headline">¶</a></h3>
+<p><strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">Symfony\Component\Intl\Intl::getLocaleBundle()-&gt;getLocaleNames()</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">choices</span></tt> オプションはデフォルトですべてのロケールを設定します。これは言語を特定するデフォルトのロケールとして使われます。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>継承されたオプション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>以下のオプションは <a class="reference internal" href="choice.html"><em>choice</em></a> タイプを継承しています:</p>
 <div class="section" id="multiple">
 <h3>multiple<a class="headerlink" href="#multiple" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
@@ -266,7 +299,61 @@ options</td>
 <p><tt class="docutils literal"><span class="pre">true</span></tt> の場合、このフィールドのエラーは親フィールドまたはフォームに渡されます。
 たとえば、通常のフィールドを <tt class="docutils literal"><span class="pre">true</span></tt> に設定した場合、フィールドに対するエラーは
 特定のフィールドではなくメインのフォームに付加されます。</p>
-<p>These options inherit from the <a class="reference internal" href="field.html"><em>field</em></a> type:</p>
+</div>
+<div class="section" id="error-mapping">
+<h3>error_mapping<a class="headerlink" href="#error-mapping" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">empty</span></tt></p>
+<p>このオプションはバリデーションエラーの対象を編集することができます。</p>
+<p><tt class="docutils literal"><span class="pre">matchingCityAndZipCode</span></tt> という名前のメソッドを持っているとして、それが <tt class="docutils literal"><span class="pre">city</span></tt> および <tt class="docutils literal"><span class="pre">zip</span> <span class="pre">code</span></tt> が一致するかの検証をするとします。しかし残念なことに、 &#8220;matchingCityAndZipCode&#8221; フィールドがフォームに無いため、 Symfony ができるのはフォームの上部にエラーを表示することです。</p>
+<p>カスタマイズされたエラーマッピングを使うと、<tt class="docutils literal"><span class="pre">city</span></tt> フィールドの上にエラーを表示するように、より上手にエラーをマップできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;error_mapping&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;matchingCityAndZipCode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>こちらが左側、右側のマッピングするルールです:</p>
+<ul class="simple">
+<li>左側はプロパティパスを有します。</li>
+<li>クラスのプロパティまたはメソッドで違反が生成された場合、そのパスは単に &#8220;propertyName&#8221; です。</li>
+<li><tt class="docutils literal"><span class="pre">array</span></tt> または <tt class="docutils literal"><span class="pre">ArrayAccess</span></tt> オブジェクトで違反が生成された場合、プロパティパスは <tt class="docutils literal"><span class="pre">[indexName]</span></tt> です。</li>
+<li>ドットでプロパティを分離し、それらを連結して、ネストされたプロパティパスを作成することができます。たとえば <tt class="docutils literal"><span class="pre">addresses[work].matchingCityAndZipCode</span></tt> のように。</li>
+<li>左側のエラーマッピングは単一のドット <tt class="docutils literal"><span class="pre">.</span></tt> も認められます。それはフィールド自体をさしています。フィールドに追加されたエラーはネストされたフィールドの代わりに付与されたことを意味します。</li>
+<li>右側は単にフォームのフィールド名を有します。</li>
+</ul>
+<p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています:</p>
+</div>
+<div class="section" id="empty-data">
+<h3>empty_data<a class="headerlink" href="#empty-data" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">mixed</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">multiple</span></tt> 又は <tt class="docutils literal"><span class="pre">expanded</span></tt> の場合 <tt class="docutils literal"><span class="pre">array()</span></tt> それ以外 <tt class="docutils literal"><span class="pre">''</span></tt></p>
+<p>このオプションは <tt class="docutils literal"><span class="pre">empty_value</span></tt> の選択肢が選ばれた時に、どのような値を返すかを決定します。</p>
+<p>このオプションのデフォルト値はフィールドオプションによって異なります。:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定され <tt class="docutils literal"><span class="pre">required</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、 <tt class="docutils literal"><span class="pre">new</span> <span class="pre">$data_class()</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定され <tt class="docutils literal"><span class="pre">required</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、 <tt class="docutils literal"><span class="pre">null</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定されず <tt class="docutils literal"><span class="pre">compound</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、 <tt class="docutils literal"><span class="pre">array()</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定されず <tt class="docutils literal"><span class="pre">compound</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、 <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
+</ul>
+<p>しかし、必要に応じてこれを変更することができます。例えば、値が選択されていないとき <tt class="docutils literal"><span class="pre">gender</span></tt> フィールドを明示的に <tt class="docutils literal"><span class="pre">null</span></tt> に設定したいとすると、このようにできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;m&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Male&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;f&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Female&#39;</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;required&#39;</span>    <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+    <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Choose your gender&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;empty_data&#39;</span>  <span class="o">=&gt;</span> <span class="k">null</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームクラス全体に <tt class="docutils literal"><span class="pre">empty_data</span></tt> オプションをセットしたい場合はクックブックの記事( <tt class="xref doc docutils literal"><span class="pre">/cookbook/form/use_empty_data</span></tt> )を参照してください。</p>
+</div>
 </div>
 <div class="section" id="required">
 <h3>required<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h3>
@@ -286,21 +373,51 @@ options</td>
 </pre></div>
 </div>
 </div>
+<div class="section" id="data">
+<h3>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
+<p><strong>type</strong>: mixed <strong>default</strong>: Defaults to field of the underlying object (if there is one)</p>
+<p>When you create a form, each field initially displays the value of the
+corresponding property of the form&#8217;s domain object (if an object is bound
+to the form). If you want to override the initial value for the form or just
+and individual field, you can set it in the data option:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="read-only">
 <h3>read_only<a class="headerlink" href="#read-only" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
 <p>このオプションが <tt class="docutils literal"><span class="pre">true</span></tt> の場合、そのフィールドは <tt class="docutils literal"><span class="pre">readonly</span></tt> 属性付きでレンダリングされるため、編集する事が出来ません。</p>
+</div>
+<div class="section" id="disabled">
+<h3>disabled<a class="headerlink" href="#disabled" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt>  <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>ユーザにフィールドの値を変更させたくない場合は、
+<tt class="docutils literal"><span class="pre">disabled</span></tt> オプションを <tt class="docutils literal"><span class="pre">true</span></tt> にします。どんなサブミットされた値も無視されます。</p>
+</div>
+<div class="section" id="mapped">
+<h3>mapped<a class="headerlink" href="#mapped" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>オブジェクトを読み込んでいるまたは書き込んでいる間、フィールドが無視されるようにしたい場合は、
+<tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にしてください。</p>
 </div>
 </div>
 </div>
 
 
 <div id="page_prev_next">
-<a class="prev" href="language.html">< language Field Type</a>
+<a class="prev" href="language.html">< language フィールドタイプ</a>
 <a class="next" href="money.html">money フィールドタイプ ></a>
 </div>
 
 <div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/reference/forms/types/locale.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types/locale.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types/locale.rst">翻訳コミット履歴</a>
+</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

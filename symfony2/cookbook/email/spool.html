@@ -118,6 +118,9 @@
         <div class="bodywrapper">
           <div class="body">
             
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/email/spool.html">原文のページ</a>をご確認ください。</p>
+
   <div class="section" id="id1">
 <h1>メールをスプールする方法<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p><tt class="docutils literal"><span class="pre">SwiftmailerBundle</span></tt> を使用してSymfony2 のアプリケーションからメールを送信する際に、デフォルトでは、すぐにメールを送信する設定になっています。しかし、 <tt class="docutils literal"><span class="pre">Swfitmailer</span></tt> とメールトランスポートのコミュニケーションによるパフォーマンス低下は避けた方が良いときもあるでしょう。次のページをロードするのに、メール送信に時間がかかってしまえば、ユーザは待たなければならないですから。この問題を避けるために、メールを直接送信するのではなく、 &#8220;spool&#8221; を選択することができます。つまり、 <tt class="docutils literal"><span class="pre">Swiftmailer</span></tt> がメールを送信しようとするのではなく、ファイルなどにメッセージを保存します。そして、他のプロセスがスプールを読み、メールの送信の面倒をみます。現時点の <tt class="docutils literal"><span class="pre">Swfitmailer</span></tt> では、ファイルへのスプールのみを対応しています。</p>
@@ -188,6 +191,11 @@
 </div>
 
 <div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/cookbook/email/spool.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/email/spool.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/email/spool.rst">翻訳コミット履歴</a>
+</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

@@ -83,8 +83,10 @@
 <li><a class="reference internal" href="#preferred-choices">preferred_choices</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
 <li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
 <li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#read-only">read_only</a></li>
 <li><a class="reference internal" href="#disabled">disabled</a></li>
 <li><a class="reference internal" href="#mapped">mapped</a></li>
@@ -142,18 +144,21 @@
         <div class="bodywrapper">
           <div class="body">
             
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/currency.html">原文のページ</a>をご確認ください。</p>
+
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
 <li>対象バージョン：2.3</li>
-<li>翻訳更新日：2013/11/24</li>
+<li>翻訳更新日：2014/02/16</li>
 </ul>
 </div>
 <div class="section" id="currency">
 <h1>currency フィールドタイプ<a class="headerlink" href="#currency" title="Permalink to this headline">¶</a></h1>
 <p><tt class="docutils literal"><span class="pre">currency</span></tt> タイプは <a class="reference internal" href="choice.html"><em>choice タイプ</em></a> のサブセットで、
 ユーザーは <a class="reference external" href="http://ja.wikipedia.org/wiki/ISO_4217">3-letter ISO 4217</a> の大量の通貨リストから選択することができます。</p>
-<p><tt class="docutils literal"><span class="pre">choice</span></tt> タイプとは異なり、 <tt class="docutils literal"><span class="pre">choices</span></tt> または <tt class="docutils literal"><span class="pre">choice_list</span></tt> オプションを特定する必要はなく、
+<p><tt class="docutils literal"><span class="pre">choice</span></tt> タイプとは異なり、<tt class="docutils literal"><span class="pre">choices</span></tt> または <tt class="docutils literal"><span class="pre">choice_list</span></tt> オプションを特定する必要はなく、
 フィールドタイプとして自動的に大量の通貨リストを使います。それらのオプションのどちらかを手動で設定する
 ことは <em>出来ます</em> が、その場合は <tt class="docutils literal"><span class="pre">choice</span></tt> タイプを直接使うべきです。</p>
 <table border="1" class="docutils">
@@ -163,7 +168,7 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>対応するタグ</td>
-<td>多数のタグで利用できます (see <a class="reference internal" href="choice.html#forms-reference-choice-tags"><em>セレクトタグ、チェックボックス、ラジオボタン</em></a>)</td>
+<td>様々なタグとして利用可能 (see <a class="reference internal" href="choice.html#forms-reference-choice-tags"><em>セレクトタグ、チェックボックス、ラジオボタン</em></a>)</td>
 </tr>
 <tr class="row-even"><td>上書きされた
 オプション</td>
@@ -180,15 +185,18 @@
 <li><a class="reference internal" href="#preferred-choices">preferred_choices</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
 <li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
 <li><a class="reference internal" href="#label">label</a></li>
+<li><a href="#id3"><span class="problematic" id="id4">`label_attr`_</span></a></li>
+<li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#read-only">read_only</a></li>
 <li><a class="reference internal" href="#disabled">disabled</a></li>
 <li><a class="reference internal" href="#mapped">mapped</a></li>
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td>親　タイプ</td>
+<tr class="row-even"><td>親タイプ</td>
 <td><a class="reference internal" href="choice.html"><em>choice</em></a></td>
 </tr>
 <tr class="row-odd"><td>クラス</td>
@@ -278,7 +286,35 @@
 <p><tt class="docutils literal"><span class="pre">true</span></tt> の場合、このフィールドのエラーは親フィールドまたはフォームに渡されます。
 たとえば、通常のフィールドを <tt class="docutils literal"><span class="pre">true</span></tt> に設定した場合、フィールドに対するエラーは
 特定のフィールドではなくメインのフォームに付加されます。</p>
-<p>以下のオプションは <a class="reference internal" href="form.html"><em>date</em></a> タイプを継承しています:</p>
+<p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています:</p>
+</div>
+<div class="section" id="empty-data">
+<h3>empty_data<a class="headerlink" href="#empty-data" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">mixed</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">multiple</span></tt> 又は <tt class="docutils literal"><span class="pre">expanded</span></tt> の場合 <tt class="docutils literal"><span class="pre">array()</span></tt> それ以外 <tt class="docutils literal"><span class="pre">''</span></tt></p>
+<p>このオプションは <tt class="docutils literal"><span class="pre">empty_value</span></tt> の選択肢が選ばれた時に、どのような値を返すかを決定します。</p>
+<p>このオプションのデフォルト値はフィールドオプションによって異なります。:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定され <tt class="docutils literal"><span class="pre">required</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、 <tt class="docutils literal"><span class="pre">new</span> <span class="pre">$data_class()</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定され <tt class="docutils literal"><span class="pre">required</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、 <tt class="docutils literal"><span class="pre">null</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定されず <tt class="docutils literal"><span class="pre">compound</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、 <tt class="docutils literal"><span class="pre">array()</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定されず <tt class="docutils literal"><span class="pre">compound</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、 <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
+</ul>
+<p>しかし、必要に応じてこれを変更することができます。例えば、値が選択されていないとき <tt class="docutils literal"><span class="pre">gender</span></tt> フィールドを明示的に <tt class="docutils literal"><span class="pre">null</span></tt> に設定したいとすると、このようにできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;m&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Male&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;f&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Female&#39;</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;required&#39;</span>    <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+    <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Choose your gender&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;empty_data&#39;</span>  <span class="o">=&gt;</span> <span class="k">null</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームクラス全体に <tt class="docutils literal"><span class="pre">empty_data</span></tt> オプションをセットしたい場合はクックブックの記事( <tt class="xref doc docutils literal"><span class="pre">/cookbook/form/use_empty_data</span></tt> )を参照してください。</p>
+</div>
 </div>
 <div class="section" id="required">
 <h3>required<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h3>
@@ -295,6 +331,19 @@
 <p>フィールドがレンダリングされる際にラベルが設定されます。<tt class="docutils literal"><span class="pre">false</span></tt> が設定されるとラベルは表示されません。
 ラベルはテンプレート内部で設定することもできます。</p>
 <div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">render_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;Your name&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="data">
+<h3>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
+<p><strong>type</strong>: mixed <strong>default</strong>: Defaults to field of the underlying object (if there is one)</p>
+<p>When you create a form, each field initially displays the value of the
+corresponding property of the form&#8217;s domain object (if an object is bound
+to the form). If you want to override the initial value for the form or just
+and individual field, you can set it in the data option:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">,</span>
+<span class="p">));</span>
 </pre></div>
 </div>
 </div>
@@ -323,6 +372,11 @@
 </div>
 
 <div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/reference/forms/types/currency.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types/currency.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types/currency.rst">翻訳コミット履歴</a>
+</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

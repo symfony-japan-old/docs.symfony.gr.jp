@@ -127,12 +127,15 @@
         <div class="bodywrapper">
           <div class="body">
             
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/doctrine/reverse_engineering.html">原文のページ</a>をご確認ください。</p>
+
   <div class="section" id="index-0">
 <span id="id1"></span><h1>既にあるデータベースからエンティティを生成する方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>データベースを使用する新しいプロジェクトで、開発を始める際には、一般的に２つのシチュエーションが考えられます。ほとんどの場合、データベースのモデルは設計され、スクラッチで作成されます。しかし、毎回そうとは限りません。既にあるデータベースを使用しており、モデルを変更できない場合から始めるときもあります。幸運なことに、 Doctrine の多くの付属のツールが既存のデータベースからモデルクラスを生成するのを助けてくれます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a class="reference external" href="http://www.doctrine-project.org/docs/orm/2.0/en/reference/tools.html#reverse-engineering">Doctrine tools documentation</a> のドキュメントにあるように、リバースエンジニアリングは、プロジェクトを始める際に一度だけ行うものです。 Doctrine は、フィールド、インデックス、外部キー制約に基づく必須なマッピング情報の全てを変換することはできません。 Doctrine は逆のアソシエーション、継承のタイプ、エンティティの様々な動作まで知ることができません。エンティティの様々な動作とは、アソシエーション上のプライマリーキーとしての外部キーを持つことだったり、スケードやライフサイクルイベントのようなセマンティックなオペレーションです。</p>
+<p class="last"><a class="reference external" href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html#reverse-engineering">Doctrine tools documentation</a> のドキュメントにあるように、リバースエンジニアリングは、プロジェクトを始める際に一度だけ行うものです。 Doctrine は、フィールド、インデックス、外部キー制約に基づく必須なマッピング情報の全てを変換することはできません。 Doctrine は逆のアソシエーション、継承のタイプ、エンティティの様々な動作まで知ることができません。エンティティの様々な動作とは、アソシエーション上のプライマリーキーとしての外部キーを持つことだったり、スケードやライフサイクルイベントのようなセマンティックなオペレーションです。</p>
 </div>
 <p>このチュートリアルでは <tt class="docutils literal"><span class="pre">blog_post</span></tt> と <tt class="docutils literal"><span class="pre">blog_comment</span></tt> という２つのテーブルを持つシンプルなブログアプリケーションを使用することを想定しています。コメントのレコードは、外部キー制約を使用して投稿のレコードに結びついています。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">blog_post</span><span class="o">`</span> <span class="p">(</span>
@@ -140,7 +143,7 @@
   <span class="o">`</span><span class="n">title</span><span class="o">`</span> <span class="nb">varchar</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">COLLATE</span> <span class="n">utf8_unicode_ci</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
   <span class="o">`</span><span class="n">content</span><span class="o">`</span> <span class="n">longtext</span> <span class="k">COLLATE</span> <span class="n">utf8_unicode_ci</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
   <span class="o">`</span><span class="n">created_at</span><span class="o">`</span> <span class="n">datetime</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
-  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">),</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span> <span class="p">(</span><span class="o">`</span><span class="n">id</span><span class="o">`</span><span class="p">)</span>
 <span class="p">)</span> <span class="n">ENGINE</span><span class="o">=</span><span class="n">InnoDB</span> <span class="n">AUTO_INCREMENT</span><span class="o">=</span><span class="mi">1</span> <span class="k">DEFAULT</span> <span class="n">CHARSET</span><span class="o">=</span><span class="n">utf8</span> <span class="k">COLLATE</span><span class="o">=</span><span class="n">utf8_unicode_ci</span><span class="p">;</span>
 
 <span class="k">CREATE</span> <span class="k">TABLE</span> <span class="o">`</span><span class="n">blog_comment</span><span class="o">`</span> <span class="p">(</span>
@@ -157,41 +160,43 @@
 </div>
 <p>レシピに入る前に、 <tt class="docutils literal"><span class="pre">app/config/parameters.yml</span></tt> ファイルなどのデータベースコンフィギュレーションファイルのデータベース接続のパラメータが正しくセットアップされているか調べてください。そして、エンティティクラスを置くことになるバンドルを初期化しておいてください。このチュートリアルでは、 <tt class="docutils literal"><span class="pre">src/Acme/BlogBundle</span></tt> フォルダに <tt class="docutils literal"><span class="pre">AcmeBlogBundle</span></tt> があることを想定しています。</p>
 <p>既存のデータベースからエンティティクラスを作成するための最初のステップは、 Doctrine にデータベースの内部を調べさせて、一致するメタデータのファイルを生成することです。メタデータのファイルは、テーブルのフィールドに基づいて生成されたエンティティクラスを記述しています。</p>
-<div class="highlight-bash"><div class="highlight"><pre>php app/console doctrine:mapping:convert xml ./src/Acme/BlogBundle/Resources/config/doctrine/metadata/orm --from-database --force
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console doctrine:mapping:import --force AcmeBlogBundle xml
 </pre></div>
 </div>
-<p>このコマンドラインツールは、 Doctrine にデータベースの内部を調べさせて、 あなたのバンドルのフォルダである <tt class="docutils literal"><span class="pre">src/Acme/BlogBundle/Resources/config/doctrine/metadata/orm</span></tt> 以下に XML のメタデータファイルを生成します。</p>
+<p>このコマンドラインツールは、 Doctrine にデータベースの内部を調べさせて、 あなたのバンドルのフォルダである <tt class="docutils literal"><span class="pre">src/Acme/BlogBundle/Resources/config/doctrine</span></tt> 以下に XML のメタデータファイルを生成します。
+実行すると2つのファイルが生成されます。 <tt class="docutils literal"><span class="pre">BlogPost.orm.xml</span></tt> と <tt class="docutils literal"><span class="pre">BlogComment.orm.xml</span></tt> です。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">上記のコマンドで、最初の引数を <cite>yml</cite> に変更すれば、メタデータのクラスを YAML フォーマットで生成することもできます。</p>
+<p class="last">上記のコマンドで、最後の引数を <cite>yml</cite> に変更すれば、メタデータのクラスを YAML フォーマットで生成することもできます。</p>
 </div>
-<p>生成された <tt class="docutils literal"><span class="pre">BlogPost.dcm.xml</span></tt> メタデータファイルは以下のようになります。
+<p>生成された <tt class="docutils literal"><span class="pre">BlogPost.orm.xml</span></tt> メタデータファイルは以下のようになります。
 :</p>
 <div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
 <span class="nt">&lt;doctrine-mapping&gt;</span>
-  <span class="nt">&lt;entity</span> <span class="na">name=</span><span class="s">&quot;BlogPost&quot;</span> <span class="na">table=</span><span class="s">&quot;blog_post&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;entity</span> <span class="na">name=</span><span class="s">&quot;Acme\BlogBundle\Entity\BlogPost&quot;</span> <span class="na">table=</span><span class="s">&quot;blog_post&quot;</span><span class="nt">&gt;</span>
     <span class="nt">&lt;change-tracking-policy&gt;</span>DEFERRED_IMPLICIT<span class="nt">&lt;/change-tracking-policy&gt;</span>
     <span class="nt">&lt;id</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">type=</span><span class="s">&quot;bigint&quot;</span> <span class="na">column=</span><span class="s">&quot;id&quot;</span><span class="nt">&gt;</span>
       <span class="nt">&lt;generator</span> <span class="na">strategy=</span><span class="s">&quot;IDENTITY&quot;</span><span class="nt">/&gt;</span>
     <span class="nt">&lt;/id&gt;</span>
-    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;title&quot;</span> <span class="na">type=</span><span class="s">&quot;string&quot;</span> <span class="na">column=</span><span class="s">&quot;title&quot;</span> <span class="na">length=</span><span class="s">&quot;100&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;content&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">column=</span><span class="s">&quot;content&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;isPublished&quot;</span> <span class="na">type=</span><span class="s">&quot;boolean&quot;</span> <span class="na">column=</span><span class="s">&quot;is_published&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;createdAt&quot;</span> <span class="na">type=</span><span class="s">&quot;datetime&quot;</span> <span class="na">column=</span><span class="s">&quot;created_at&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;updatedAt&quot;</span> <span class="na">type=</span><span class="s">&quot;datetime&quot;</span> <span class="na">column=</span><span class="s">&quot;updated_at&quot;</span><span class="nt">/&gt;</span>
-    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;slug&quot;</span> <span class="na">type=</span><span class="s">&quot;string&quot;</span> <span class="na">column=</span><span class="s">&quot;slug&quot;</span> <span class="na">length=</span><span class="s">&quot;255&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;title&quot;</span> <span class="na">type=</span><span class="s">&quot;string&quot;</span> <span class="na">column=</span><span class="s">&quot;title&quot;</span> <span class="na">length=</span><span class="s">&quot;100&quot;</span> <span class="na">nullable=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;content&quot;</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">column=</span><span class="s">&quot;content&quot;</span> <span class="na">nullable=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;field</span> <span class="na">name=</span><span class="s">&quot;createdAt&quot;</span> <span class="na">type=</span><span class="s">&quot;datetime&quot;</span> <span class="na">column=</span><span class="s">&quot;created_at&quot;</span> <span class="na">nullable=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
     <span class="nt">&lt;lifecycle-callbacks/&gt;</span>
   <span class="nt">&lt;/entity&gt;</span>
 <span class="nt">&lt;/doctrine-mapping&gt;</span>
 </pre></div>
 </div>
 <p>メタデータファイルが生成されれば、 Doctrine にスキーマをインポートし、関連するエンティティクラスを作成するように尋ねることができます。次のコマンドを実行してください。</p>
-<div class="highlight-bash"><div class="highlight"><pre>php app/console doctrine:mapping:import AcmeBlogBundle annotation
-php app/console doctrine:generate:entities AcmeBlogBundle
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console doctrine:mapping:convert annotation ./src
+<span class="nv">$ </span>php app/console doctrine:generate:entities AcmeBlogBundle
 </pre></div>
 </div>
-<p>最初のコマンドは、アノテーションマッピングをしたエンティティクラスを生成します。もちろん <tt class="docutils literal"><span class="pre">anotation</span></tt> 引数ではなく、 <tt class="docutils literal"><span class="pre">xml</span></tt> や <tt class="docutils literal"><span class="pre">yml</span></tt> に変更することができます。新しく作成された <tt class="docutils literal"><span class="pre">BlogComment</span></tt> エンティティクラスは以下のようになります。
-:</p>
+<p>最初のコマンドは、アノテーションマッピングをしたエンティティクラスを生成します。マッピングとしてアノテーションではなく YAML や XML を使いたい場合は二つ目のコマンドだけを実行してください。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">アノテーションマッピングを使用する場合、上の二つのコマンドの実行後に XML (または YAML)のマッピングファイルは削除して構いません。</p>
+</div>
+<p>新しく作成された <tt class="docutils literal"><span class="pre">BlogComment</span></tt> エンティティクラスは以下のようになります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span>
 
 <span class="c1">// src/Acme/BlogBundle/Entity/BlogComment.php</span>
@@ -208,9 +213,9 @@ php app/console doctrine:generate:entities AcmeBlogBundle
 <span class="k">class</span> <span class="nc">BlogComment</span>
 <span class="p">{</span>
     <span class="sd">/**</span>
-<span class="sd">     * @var bigint $id</span>
+<span class="sd">     * @var int $id</span>
 <span class="sd">     *</span>
-<span class="sd">     * @ORM\Column(name=&quot;id&quot;, type=&quot;bigint&quot;, nullable=false)</span>
+<span class="sd">     * @ORM\Column(name=&quot;id&quot;, type=&quot;int&quot;)</span>
 <span class="sd">     * @ORM\Id</span>
 <span class="sd">     * @ORM\GeneratedValue(strategy=&quot;IDENTITY&quot;)</span>
 <span class="sd">     */</span>
@@ -248,7 +253,11 @@ php app/console doctrine:generate:entities AcmeBlogBundle
 </pre></div>
 </div>
 <p>このように、 Doctrine は全てのテーブルのフィールドをプライベートでアノテーションされたクラスのプロパティに変換します。最も注目すべきことは、外部キー制約に基づいた <tt class="docutils literal"><span class="pre">BlogPost</span></tt> エンティティクラスとのリレーションも検知することです。そして、 <tt class="docutils literal"><span class="pre">BlogComment</span></tt> エンティティクラスにプライベートな <tt class="docutils literal"><span class="pre">$post</span></tt> プロパティが <tt class="docutils literal"><span class="pre">BlogPost</span></tt> エンティティをマップされます。</p>
-<p>最後のコマンドは、 <tt class="docutils literal"><span class="pre">BlogPost</span></tt> と <tt class="docutils literal"><span class="pre">BlogComment</span></tt> エンティティクラスのプロパティの全てのゲッターとセッターを生成します。生成されたエンティティは、これで使用することができました。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">エンティティクラスに一対多のリレーションを追加したい場合は、エンティティ、 XML 又は YAML ファイルに手動で追加する必要があります。
+必要なエンティティに <tt class="docutils literal"><span class="pre">inversedBy</span></tt> と <tt class="docutils literal"><span class="pre">mappedBy</span></tt> を含む一対多のセクションを追加してください。</p>
+</div>
 </div>
 
 
@@ -258,6 +267,11 @@ php app/console doctrine:generate:entities AcmeBlogBundle
 </div>
 
 <div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/cookbook/doctrine/reverse_engineering.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/doctrine/reverse_engineering.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/doctrine/reverse_engineering.rst">翻訳コミット履歴</a>
+</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

@@ -81,7 +81,8 @@
 <li><a class="reference internal" href="#read-only">read_only</a></li>
 <li><a class="reference internal" href="#disabled">disabled</a></li>
 <li><a class="reference internal" href="#trim">trim</a></li>
-<li><a class="reference internal" href="#mapped">mapped</a><ul>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+<li><a class="reference internal" href="#attr">attr</a><ul>
 <li><a class="reference internal" href="#inherit-data">inherit_data</a></li>
 </ul>
 </li>
@@ -159,15 +160,17 @@
 <p><tt class="docutils literal"><span class="pre">form</span></tt> タイプはすべてのフィールドで利用可能となるいくつかのオプションをあらかじめ定義します。</p>
 <div class="section" id="data">
 <h2>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
-<p><strong>type</strong>: mixed <strong>default</strong>: Defaults to field of the underlying object (if there is one)</p>
-<p>When you create a form, each field initially displays the value of the
-corresponding property of the form&#8217;s domain object (if an object is bound
-to the form). If you want to override the initial value for the form or just
-and individual field, you can set it in the data option:</p>
+<p><strong>データ型</strong>: mixed <strong>デフォルト</strong>: 対応するオブジェクトのフィールド(一つであれば）</p>
+<p>フォームを作成したとき、各フィールドに表示する初期値は、フォームのドメインオブジェクトの対応するプロパティの値です（オブジェクトがフォームにバインドされている場合）。もしフォーム、または、単に個々のフィールドの初期値を上書きしたい場合は、<tt class="docutils literal"><span class="pre">data</span></tt> オプションで設定することが出来ます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
     <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">,</span>
 <span class="p">));</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームのフィールドのデフォルト値は、直接データ構造（例えば、エンティティまたは配列）から取得されます。
+<tt class="docutils literal"><span class="pre">data</span></tt> オプションはこのデフォルト値を上書きします。</p>
 </div>
 </div>
 <div class="section" id="required">
@@ -210,6 +213,16 @@ you can set the <tt class="docutils literal"><span class="pre">property_path</sp
 name.</p>
 </li>
 </ul>
+</div>
+<div class="section" id="attr">
+<h2>attr<a class="headerlink" href="#attr" title="Permalink to this headline">¶</a></h2>
+<p><strong>データ型</strong>: array <strong>デフォルト値</strong>: Empty array</p>
+<p>HTML フィールドの表現に追加属性を加えたい場合、<tt class="docutils literal"><span class="pre">attr</span></tt> オプションを使うことが出来ます。これは HTML 属性をキーとした連想配列です。ウィジェットにカスタムクラスを設定する必要があるときに便利です。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;tinymce&#39;</span><span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
 <div class="section" id="inherit-data">
 <h3>inherit_data<a class="headerlink" href="#inherit-data" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="../../../cookbook/form/inherit_data_option.html"><em>&#8220;inherit_data&#8221;オプションを使用してコードの重複を減らす</em></a> を参照してください。</p>

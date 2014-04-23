@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Symfony2 の実行に必要な要件 | Symfony2日本語ドキュメント</title>
+    <title>Symfony2 Twig エクステンション | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
@@ -34,8 +34,8 @@
       </script>
     <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" />
     <link rel="up" title="リファレンスドキュメント" href="index.html" />
-    <link rel="next" title="Symfony Standard Edition のバンドル" href="../bundles/index.html" />
-    <link rel="prev" title="Dependency Injectionタグ" href="dic_tags.html" /> 
+    <link rel="next" title="Dependency Injectionタグ" href="dic_tags.html" />
+    <link rel="prev" title="Twig テンプレートのフォーム関数と変数" href="forms/twig_reference.html" /> 
   </head>
   <body>
 <div id="fb-root"></div>
@@ -75,23 +75,26 @@
         <div class="sphinxsidebarwrapper">
   <h3>このページのコンテンツ</h3>
   <ul>
-<li><a class="reference internal" href="#">Symfony2 の実行に必要な要件</a><ul>
-<li><a class="reference internal" href="#id1">必須</a></li>
-<li><a class="reference internal" href="#id2">任意</a></li>
-<li><a class="reference internal" href="#doctrine">Doctrine</a></li>
+<li><a class="reference internal" href="#">Symfony2 Twig エクステンション</a><ul>
+<li><a class="reference internal" href="#id1">関数</a></li>
+<li><a class="reference internal" href="#id2">フィルタ</a></li>
+<li><a class="reference internal" href="#id3">タグ</a></li>
+<li><a class="reference internal" href="#id4">テスト</a></li>
+<li><a class="reference internal" href="#id5">グローバル変数</a></li>
+<li><a class="reference internal" href="#symfony-standard-edition-twig">Symfony Standard Edition の Twig エクステンション</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>前のドキュメント</h4>
-  <p class="topless"><a href="dic_tags.html"
-                        title="previous chapter">Dependency Injectionタグ</a></p>
+  <p class="topless"><a href="forms/twig_reference.html"
+                        title="previous chapter">Twig テンプレートのフォーム関数と変数</a></p>
   <h4>次のドキュメント</h4>
-  <p class="topless"><a href="../bundles/index.html"
-                        title="next chapter">Symfony Standard Edition のバンドル</a></p>
+  <p class="topless"><a href="dic_tags.html"
+                        title="next chapter">Dependency Injectionタグ</a></p>
   <h3>ソース</h3>
   <ul class="this-page-menu">
-    <li><a href="../sources/reference/requirements.txt"
+    <li><a href="../sources/reference/twig_reference.txt"
            rel="nofollow">ページのソースを表示</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -138,73 +141,63 @@
           <div class="body">
             
 
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/requirements.html">原文のページ</a>をご確認ください。</p>
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/twig_reference.html">原文のページ</a>をご確認ください。</p>
 
-  <div class="section" id="symfony2">
-<span id="index-0"></span><h1>Symfony2 の実行に必要な要件<a class="headerlink" href="#symfony2" title="Permalink to this headline">¶</a></h1>
-<p>Symfony2 を実行するには、いくつかの実行要件を満たす必要があります。
-Symfony ディストリビューションに同梱されている <tt class="docutils literal"><span class="pre">web/config.php</span></tt> に Web ブラウザからアクセスすると、お使いのシステムがすべての要件を満たしているかどうか、簡単にテストできます。
-ただし、PHP の CLI 環境は、Web サーバー環境とは異なる <tt class="docutils literal"><span class="pre">php.ini</span></tt> ファイルを使っている場合があるため、コマンドラインからも次のプログラムを実行して要件を確認しておくことをお勧めします。</p>
-<div class="highlight-bash"><div class="highlight"><pre>php app/check.php
-</pre></div>
-</div>
-<p>必須および任意の要件の一覧は、次のとおりです。</p>
-<div class="section" id="id1">
-<h2>必須<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>PHP 5.3.2 か、それ以降のバージョンがインストールされていること</li>
-<li>PHP.ini で date.timezone の設定があること</li>
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン ： 2.3以上</li>
+<li>翻訳更新日 ： 2014/02/12</li>
 </ul>
+</div>
+<div class="section" id="symfony2-twig">
+<h1>Symfony2 Twig エクステンション<a class="headerlink" href="#symfony2-twig" title="Permalink to this headline">¶</a></h1>
+<p>Twig は Symfony2 のデフォルトのテンプレートエンジンです。 Twig 自体にも、既に多数の組み込み関数・フィルタ・タグ・テストが含まれています。（ <a class="reference external" href="http://twig.sensiolabs.org/documentation">http://twig.sensiolabs.org/documentation</a> ）</p>
+<p>Symfony2 は、 Twig テンプレートでコンポーネントの機能を使えるようにするために、 Twig の拡張機能を追加しています。
+下記は Symfony2 をフレームワークとして使う際に利用できるカスタム関数・フィルタ・タグ・テストの一覧です。</p>
+<p>バンドルで提供されるエクステンションについては、下記には掲載されていません。</p>
+<div class="section" id="id1">
+<h2>関数<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span>New in version 2.4: </span><tt class="docutils literal"><span class="pre">expression</span></tt> 関数は Symfony2.4 で追加されました。</p>
+</div>
 </div>
 <div class="section" id="id2">
-<h2>任意<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<ul>
-<li><p class="first">PHP-XML モジュールがインストールされていること</p>
-</li>
-<li><p class="first">libxml の 2.6.21 か、それ以降のバージョンがインストールされていること</p>
-</li>
-<li><p class="first">PHP tokenizer が有効化されていること</p>
-</li>
-<li><p class="first">mbstring 関数群が有効化されていること</p>
-</li>
-<li><p class="first">iconv が有効化されていること</p>
-</li>
-<li><p class="first">POSIX が有効化されていること</p>
-</li>
-<li><p class="first">Intl がインストールされていること</p>
-</li>
-<li><p class="first">APC または他の OPCODE キャッシュシステムがインストールされていること</p>
-</li>
-<li><p class="first">PHP.ini の推奨設定は次のとおりです</p>
-<blockquote>
-<div><ul class="simple">
-<li>short_open_tags: off</li>
-<li>magic_quotes_gpc: off</li>
-<li>register_globals: off</li>
-<li>session.autostart: off</li>
-</ul>
-</div></blockquote>
-</li>
-</ul>
+<h2>フィルタ<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="doctrine">
-<h2>Doctrine<a class="headerlink" href="#doctrine" title="Permalink to this headline">¶</a></h2>
-<p>Doctrine を使う場合は、PDO がインストールされている必要があります。
-また、データベースサーバー側にも PDO ドライバがインストールされている必要があります。</p>
+<div class="section" id="id3">
+<h2>タグ<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="versionadded">
+<p><span>New in version 2.4: </span>ストップウォッチタグは Symfony 2.4 で追加されました。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>テスト<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="id5">
+<h2>グローバル変数<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="symfony-standard-edition-twig">
+<h2>Symfony Standard Edition の Twig エクステンション<a class="headerlink" href="#symfony-standard-edition-twig" title="Permalink to this headline">¶</a></h2>
+<p>Symfony Standard Edition は Symfony2 のコアフレームワークにいくつかのバンドルを追加しています。この追加バンドルは上記に無い他の Twig エクステンションを含んでいます。</p>
+<ul class="simple">
+<li><strong>Twig Extensions</strong> は Twig のコアには含まれないエクステンションを含んでいます。詳細は <a class="reference external" href="http://twig.sensiolabs.org/doc/extensions/index.html">Twig Extensions 公式ドキュメント</a> を参照してください。</li>
+<li><strong>Assetic</strong> は <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">stylesheets</span> <span class="pre">%}</span></tt>, <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">javascripts</span> <span class="pre">%}</span></tt>, <tt class="docutils literal"><span class="pre">{%</span> <span class="pre">image</span> <span class="pre">%}</span></tt> タグを追加しています。詳細は <a class="reference internal" href="../cookbook/assetic/asset_management.html"><em>Assetic のドキュメント</em></a> を参照してください。</li>
+</ul>
 </div>
 </div>
 
 
 <div id="page_prev_next">
-<a class="prev" href="dic_tags.html">< Dependency Injectionタグ</a>
-<a class="next" href="../bundles/index.html">Symfony Standard Edition のバンドル ></a>
+<a class="prev" href="forms/twig_reference.html">< Twig テンプレートのフォーム関数と変数</a>
+<a class="next" href="dic_tags.html">Dependency Injectionタグ ></a>
 </div>
 
 <div class="common_content_footer">
 <ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/requirements.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/requirements.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/requirements.rst">翻訳コミット履歴</a>
+  <li> → <a href="http://symfony.com/doc/current/reference/twig_reference.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/twig_reference.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/twig_reference.rst">翻訳コミット履歴</a>
 </ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。

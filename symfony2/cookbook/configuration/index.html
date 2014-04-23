@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Form Type リファレンス | Symfony2日本語ドキュメント</title>
+    <title>コンフィギュレーション | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
@@ -33,9 +33,9 @@
       });
       </script>
     <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
-    <link rel="up" title="リファレンスドキュメント" href="../index.html" />
-    <link rel="next" title="birthday フィールドタイプ" href="types/birthday.html" />
-    <link rel="prev" title="WebProfilerBundle 設定 (“web_profiler”)" href="../configuration/web_profiler.html" /> 
+    <link rel="up" title="クックブック" href="../index.html" />
+    <link rel="next" title="新しい環境を作成して、使いこなす方法" href="environments.html" />
+    <link rel="prev" title="クックブック" href="../index.html" /> 
   </head>
   <body>
 <div id="fb-root"></div>
@@ -63,9 +63,9 @@
           <li><a href="../../index.html">トップ（索引）</a></li>
           <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
           <li><a href="../../book/index.html">ガイドブック</a></li>
-          <li><a href="../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
           <li><a href="../../components/index.html">コンポーネント</a></li>
-          <li><a href="../index.html">リファレンス</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
           <li><a href="../../contributing/index.html">貢献</a></li>
         </ul>
       </div>
@@ -73,33 +73,15 @@
       <div id="main">  
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h3>このページのコンテンツ</h3>
-  <ul>
-<li><a class="reference internal" href="#">Form Type リファレンス</a><ul>
-<li><a class="reference internal" href="#id1">サポートされているフィールドタイプ</a><ul>
-<li><a class="reference internal" href="#id2">テキストフィールド</a></li>
-<li><a class="reference internal" href="#id3">選択フィールド</a></li>
-<li><a class="reference internal" href="#id4">日付フィールド、時刻フィールド</a></li>
-<li><a class="reference internal" href="#id5">その他のフィールド</a></li>
-<li><a class="reference internal" href="#id6">フィールドグループ</a></li>
-<li><a class="reference internal" href="#hidden">Hidden フィールド</a></li>
-<li><a class="reference internal" href="#id7">ボタンフィールド</a></li>
-<li><a class="reference internal" href="#base">Base フィールド</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
   <h4>前のドキュメント</h4>
-  <p class="topless"><a href="../configuration/web_profiler.html"
-                        title="previous chapter">WebProfilerBundle 設定 (&#8220;web_profiler&#8221;)</a></p>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">クックブック</a></p>
   <h4>次のドキュメント</h4>
-  <p class="topless"><a href="types/birthday.html"
-                        title="next chapter">birthday フィールドタイプ</a></p>
+  <p class="topless"><a href="environments.html"
+                        title="next chapter">新しい環境を作成して、使いこなす方法</a></p>
   <h3>ソース</h3>
   <ul class="this-page-menu">
-    <li><a href="../../sources/reference/forms/types.txt"
+    <li><a href="../../sources/cookbook/configuration/index.txt"
            rel="nofollow">ページのソースを表示</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -120,8 +102,8 @@
             <h3>クイックリンク</h3>
             <ul>
               <li><a href="../../book/installation.html">インストール方法</a></li>
-              <li><a href="#">FormTypeリファレンス</a></li>
-              <li><a href="../constraints.html">バリデータリファレンス</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
               <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
               <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
             </ul>
@@ -146,103 +128,59 @@
           <div class="body">
             
 
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types.html">原文のページ</a>をご確認ください。</p>
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/configuration/index.html">原文のページ</a>をご確認ください。</p>
 
-  <div class="section" id="form-type">
-<span id="index-0"></span><h1>Form Type リファレンス<a class="headerlink" href="#form-type" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
+  <div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3</li>
+<li>翻訳更新日：2013/11/26</li>
+</ul>
 </div>
-<p>フォームは <em>フィールド</em> で構成されています。
-各フィールドは、<tt class="docutils literal"><span class="pre">text</span></tt> タイプや <tt class="docutils literal"><span class="pre">choice</span></tt> タイプといったフィールドの <em>タイプ</em> を元に作られます。
-Symfony2 には、アプリケーションで使える数多くのフィールドタイプが標準で組み込まれています。</p>
 <div class="section" id="id1">
-<h2>サポートされているフィールドタイプ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>次のフィールドタイプは、Symfony2 でネイティブにサポートされています:</p>
-<div class="section" id="id2">
-<h3>テキストフィールド<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="types/text.html"><em>text</em></a></li>
-<li><a class="reference internal" href="types/textarea.html"><em>textarea</em></a></li>
-<li><a class="reference internal" href="types/email.html"><em>email</em></a></li>
-<li><a class="reference internal" href="types/integer.html"><em>integer</em></a></li>
-<li><a class="reference internal" href="types/money.html"><em>money</em></a></li>
-<li><a class="reference internal" href="types/number.html"><em>number</em></a></li>
-<li><a class="reference internal" href="types/password.html"><em>password</em></a></li>
-<li><a class="reference internal" href="types/percent.html"><em>percent</em></a></li>
-<li><a class="reference internal" href="types/search.html"><em>search</em></a></li>
-<li><a class="reference internal" href="types/url.html"><em>url</em></a></li>
+<h1>コンフィギュレーション<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="environments.html">新しい環境を作成して、使いこなす方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="environments.html#index-1">異なる環境、異なるコンフィギュレーションファイル</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environments.html#index-2">異なる環境でアプリケーションを実行する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environments.html#index-4">新しく環境を作成する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environments.html#index-5">環境とキャッシュディレクトリ</a></li>
+<li class="toctree-l2"><a class="reference internal" href="environments.html#id6">さらに進むには</a></li>
 </ul>
-</div>
-<div class="section" id="id3">
-<h3>選択フィールド<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="types/choice.html"><em>choice</em></a></li>
-<li><a class="reference internal" href="types/entity.html"><em>entity</em></a></li>
-<li><a class="reference internal" href="types/country.html"><em>country</em></a></li>
-<li><a class="reference internal" href="types/language.html"><em>language</em></a></li>
-<li><a class="reference internal" href="types/locale.html"><em>locale</em></a></li>
-<li><a class="reference internal" href="types/timezone.html"><em>timezone</em></a></li>
-<li><a class="reference internal" href="types/currency.html"><em>currency</em></a></li>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="override_dir_structure.html">Symfony のディレクトリ構造をカスタマイズする方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="override_dir_structure.html#cache"><tt class="docutils literal"><span class="pre">cache</span></tt> ディレクトリを変更する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="override_dir_structure.html#logs"><tt class="docutils literal"><span class="pre">logs</span></tt> ディレクトリを変更する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="override_dir_structure.html#web"><tt class="docutils literal"><span class="pre">web</span></tt> ディレクトリを変更する</a></li>
 </ul>
-</div>
-<div class="section" id="id4">
-<h3>日付フィールド、時刻フィールド<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="types/date.html"><em>date</em></a></li>
-<li><a class="reference internal" href="types/datetime.html"><em>datetime</em></a></li>
-<li><a class="reference internal" href="types/time.html"><em>time</em></a></li>
-<li><a class="reference internal" href="types/birthday.html"><em>birthday</em></a></li>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="external_parameters.html">サービスコンテナで外部パラメータをセットする方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="external_parameters.html#id2">環境変数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external_parameters.html#id3">定数</a></li>
+<li class="toctree-l2"><a class="reference internal" href="external_parameters.html#id4">その他のコンフィギュレーション</a></li>
 </ul>
-</div>
-<div class="section" id="id5">
-<h3>その他のフィールド<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="types/checkbox.html"><em>checkbox</em></a></li>
-<li><a class="reference internal" href="types/file.html"><em>file</em></a></li>
-<li><a class="reference internal" href="types/radio.html"><em>radio</em></a></li>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pdo_session_storage.html">PdoSessionStorage を使用してデータベースにセッションを格納する方法</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pdo_session_storage.html#id1">データベース接続情報を共有する</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pdo_session_storage.html#sql">SQL 構文の例</a></li>
 </ul>
-</div>
-<div class="section" id="id6">
-<h3>フィールドグループ<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="types/collection.html"><em>collection</em></a></li>
-<li><a class="reference internal" href="types/repeated.html"><em>repeated</em></a></li>
+</li>
 </ul>
-</div>
-<div class="section" id="hidden">
-<h3>Hidden フィールド<a class="headerlink" href="#hidden" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="types/hidden.html"><em>hidden</em></a></li>
-</ul>
-</div>
-<div class="section" id="id7">
-<h3>ボタンフィールド<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="types/button.html"><em>button</em></a></li>
-<li><a class="reference internal" href="types/reset.html"><em>reset</em></a></li>
-<li><a class="reference internal" href="types/submit.html"><em>submit</em></a></li>
-</ul>
-</div>
-<div class="section" id="base">
-<h3>Base フィールド<a class="headerlink" href="#base" title="Permalink to this headline">¶</a></h3>
-<ul class="simple">
-<li><a class="reference internal" href="types/form.html"><em>form</em></a></li>
-</ul>
-</div>
 </div>
 </div>
 
 
 <div id="page_prev_next">
-<a class="prev" href="../configuration/web_profiler.html">< WebProfilerBundle 設定 (&#8220;web_profiler&#8221;)</a>
-<a class="next" href="types/birthday.html">birthday フィールドタイプ ></a>
+<a class="prev" href="../index.html">< クックブック</a>
+<a class="next" href="environments.html">新しい環境を作成して、使いこなす方法 ></a>
 </div>
 
 <div class="common_content_footer">
 <ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/forms/types.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types.rst">翻訳コミット履歴</a>
+  <li> → <a href="http://symfony.com/doc/current/cookbook/configuration/index.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/configuration/index.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/configuration/index.rst">翻訳コミット履歴</a>
 </ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
@@ -296,9 +234,9 @@ Symfony2 には、アプリケーションで使える数多くのフィール�
           <li><a href="../../index.html">トップ（索引）</a></li>
           <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
           <li><a href="../../book/index.html">ガイドブック</a></li>
-          <li><a href="../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../index.html">クックブック</a></li>
           <li><a href="../../components/index.html">コンポーネント</a></li>
-          <li><a href="../index.html">リファレンス</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
           <li><a href="../../contributing/index.html">貢献</a></li>
         </ul>
       </div>

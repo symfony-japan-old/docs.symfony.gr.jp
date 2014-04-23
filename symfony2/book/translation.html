@@ -761,7 +761,7 @@ Symfony2 の内部ロジックを使うことです。場合によっては、�
 <p>多くの場合、翻訳はテンプレート内で発生します。 Symfony2 は Twig と PHP テンプレートの
 両方をネイティブでサポートします。</p>
 <div class="section" id="twig">
-<h3>Twig テンプレート<a class="headerlink" href="#twig" title="Permalink to this headline">¶</a></h3>
+<span id="book-translation-tags"></span><h3>Twig テンプレート<a class="headerlink" href="#twig" title="Permalink to this headline">¶</a></h3>
 <p>Symfony2 はメッセージの翻訳に役立つよう特別な Twig タグ (<tt class="docutils literal"><span class="pre">trans</span></tt> と <tt class="docutils literal"><span class="pre">transChoice</span></tt>)
 を提供します。</p>
 <div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">trans</span> <span class="cp">%}</span><span class="x">Hello %name%</span><span class="cp">{%</span> <span class="k">endtrans</span> <span class="cp">%}</span><span class="x"></span>
@@ -786,7 +786,7 @@ Symfony2 の内部ロジックを使うことです。場合によっては、�
 <span class="cp">{%</span> <span class="k">endtranschoice</span> <span class="cp">%}</span><span class="x"></span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">trans</span></tt>、<a href="#id19"><span class="problematic" id="id20">``</span></a>transchoice``フィルターは、<a href="#id21"><span class="problematic" id="id22">*</span></a>variable texts*や複雑な式を変換するために使用できます。</p>
+<p id="book-translation-filters"><tt class="docutils literal"><span class="pre">trans</span></tt>、<a href="#id19"><span class="problematic" id="id20">``</span></a>transchoice``フィルターは、<a href="#id21"><span class="problematic" id="id22">*</span></a>variable texts*や複雑な式を変換するために使用できます。</p>
 <div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">message</span> <span class="o">|</span> <span class="nf">trans</span> <span class="cp">}}</span><span class="x"></span>
 
 <span class="cp">{{</span> <span class="nv">message</span> <span class="o">|</span> <span class="nf">transchoice</span><span class="o">(</span><span class="m">5</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>

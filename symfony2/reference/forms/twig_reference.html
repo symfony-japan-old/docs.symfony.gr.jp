@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>このページの翻訳はまだ行われていません。 | Symfony2日本語ドキュメント</title>
+    <title>Twig テンプレートのフォーム関数と変数 | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
@@ -34,8 +34,8 @@
       </script>
     <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
     <link rel="up" title="リファレンスドキュメント" href="../index.html" />
-    <link rel="next" title="バリデータリファレンス" href="../constraints.html" />
-    <link rel="prev" title="url フィールドタイプ" href="types/url.html" /> 
+    <link rel="next" title="Symfony2 Twig エクステンション" href="../twig_reference.html" />
+    <link rel="prev" title="Valid" href="../constraints/Valid.html" /> 
   </head>
   <body>
 <div id="fb-root"></div>
@@ -73,12 +73,37 @@
       <div id="main">  
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">Twig テンプレートのフォーム関数と変数</a><ul>
+<li><a class="reference internal" href="#form">Form 出力関数</a></li>
+<li><a class="reference internal" href="#form-view-variables">form(view, variables)</a></li>
+<li><a class="reference internal" href="#form-start-view-variables">form_start(view, variables)</a></li>
+<li><a class="reference internal" href="#form-end-view-variables">form_end(view, variables)</a></li>
+<li><a class="reference internal" href="#form-label-view-label-variables">form_label(view, label, variables)</a></li>
+<li><a class="reference internal" href="#form-errors-view">form_errors(view)</a></li>
+<li><a class="reference internal" href="#form-widget-view-variables">form_widget(view, variables)</a></li>
+<li><a class="reference internal" href="#form-row-view-variables">form_row(view, variables)</a></li>
+<li><a class="reference internal" href="#form-rest-view-variables">form_rest(view, variables)</a></li>
+<li><a class="reference internal" href="#form-enctype-view">form_enctype(view)</a></li>
+<li><a class="reference internal" href="#id3">Form テストリファレンス</a><ul>
+<li><a class="reference internal" href="#selectedchoice-selected-value">selectedchoice(selected_value)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#twig-reference-form-variables">フォーム変数の詳細</a><ul>
+<li><a class="reference internal" href="#reference-form-twig-variables">Form 変数リファレンス</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>前のドキュメント</h4>
-  <p class="topless"><a href="types/url.html"
-                        title="previous chapter">url フィールドタイプ</a></p>
+  <p class="topless"><a href="../constraints/Valid.html"
+                        title="previous chapter">Valid</a></p>
   <h4>次のドキュメント</h4>
-  <p class="topless"><a href="../constraints.html"
-                        title="next chapter">バリデータリファレンス</a></p>
+  <p class="topless"><a href="../twig_reference.html"
+                        title="next chapter">Symfony2 Twig エクステンション</a></p>
   <h3>ソース</h3>
   <ul class="this-page-menu">
     <li><a href="../../sources/reference/forms/twig_reference.txt"
@@ -130,16 +155,219 @@
 
 <p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/twig_reference.html">原文のページ</a>をご確認ください。</p>
 
-  <div class="section" id="id1">
-<h1>このページの翻訳はまだ行われていません。<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>翻訳にご協力くださる方は
-<a class="reference external" href="https://github.com/symfony-japan/symfony-docs-ja/wiki">github/symfony-japan</a> まで！</p>
+  <div class="section" id="twig">
+<span id="index-0"></span><h1>Twig テンプレートのフォーム関数と変数<a class="headerlink" href="#twig" title="Permalink to this headline">¶</a></h1>
+<p>テンプレートでフォームを扱うとき、二つの強力な道具があります。</p>
+<ul class="simple">
+<li>フォームの各部を出力する:ref:<a href="#id1"><span class="problematic" id="id2">`</span></a>関数 &lt;reference-form-twig-functions&gt;</li>
+<li>フィールドについてのあらゆる情報が取得できる:ref:<cite>変数 &lt;twig-reference-form-variables&gt;</cite></li>
+</ul>
+<p>関数はフィールドを出力するのによく使われます。一方、変数は普通はそれほど使いませんが、フィールドのラベル・ID属性・エラー、その他フィールドに関するあらゆる情報を利用することができ、とても強力です。</p>
+<div class="section" id="form">
+<span id="reference-form-twig-functions"></span><h2>Form 出力関数<a class="headerlink" href="#form" title="Permalink to this headline">¶</a></h2>
+<p>このマニュアルではフォームを出力するためのありとあらゆる Twig 関数を掲載しています。様々な関数がありますが、それぞれが違うフォーム部品の出力に対応しています。（例えば、ラベル、エラーメッセージ、ウィジェットなど）</p>
+</div>
+<div class="section" id="form-view-variables">
+<span id="reference-forms-twig-form"></span><h2>form(view, variables)<a class="headerlink" href="#form-view-variables" title="Permalink to this headline">¶</a></h2>
+<p>フォーム全体のHTMLを出力します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# フォームを出力し、submitメソッドを変更します #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form</span><span class="o">(</span><span class="nv">form</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>主にアプリケーションのプロトタイプを作成するときや、カスタムフォームテーマを利用するときに使います。フォームを出力するときにもっと柔軟性がほしいなら、フォームの各部品を出力する他のヘルパーを利用した方が良いでしょう。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_start</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.dueDate</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+
+<span class="x">    </span><span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.submit</span><span class="o">,</span> <span class="o">{</span> <span class="s1">&#39;label&#39;</span><span class="o">:</span> <span class="s1">&#39;送信&#39;</span> <span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_end</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="form-start-view-variables">
+<span id="reference-forms-twig-start"></span><h2>form_start(view, variables)<a class="headerlink" href="#form-start-view-variables" title="Permalink to this headline">¶</a></h2>
+<p>フォームの開始タグを出力します。設定されたメソッドとアクションを考慮します。
+フォームがファイルアップロードを含んでいれば、適切な <tt class="docutils literal"><span class="pre">enctype</span></tt> も出力します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# 開始タグを出力し、送信メソッドを変更します #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_start</span><span class="o">(</span><span class="nv">form</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;method&#39;</span><span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="form-end-view-variables">
+<span id="reference-forms-twig-end"></span><h2>form_end(view, variables)<a class="headerlink" href="#form-end-view-variables" title="Permalink to this headline">¶</a></h2>
+<p>フォームの終了タグを出力します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_end</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">render_rest</span></tt> をfalseにセットしない限り、 <tt class="docutils literal"><span class="pre">form_rest()</span></tt> も出力します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# 未出力のフィールドを出力しません #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_end</span><span class="o">(</span><span class="nv">form</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;render_rest&#39;</span><span class="o">:</span> <span class="kp">false</span><span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="form-label-view-label-variables">
+<span id="reference-forms-twig-label"></span><h2>form_label(view, label, variables)<a class="headerlink" href="#form-label-view-label-variables" title="Permalink to this headline">¶</a></h2>
+<p>指定したフィールドのラベルを出力します。第二引数として、このフィールドに出力したいラベルを渡すこともできます。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+
+<span class="c">{# 下記の二つの書き方は同じ意味になります #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;お名前&#39;</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;label_attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;foo&#39;</span><span class="cp">}}</span><span class="x">) }}</span>
+<span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="nv">null</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;label&#39;</span><span class="o">:</span> <span class="s1">&#39;お名前&#39;</span><span class="o">,</span> <span class="s1">&#39;label_attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;foo&#39;</span><span class="cp">}}</span><span class="x">) }}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">variables</span></tt> について詳しくは &#8220;<a class="reference internal" href="#twig-reference-form-variables"><em>フォーム変数の詳細</em></a>&#8221; を参照してください。</p>
+</div>
+<div class="section" id="form-errors-view">
+<span id="reference-forms-twig-errors"></span><h2>form_errors(view)<a class="headerlink" href="#form-errors-view" title="Permalink to this headline">¶</a></h2>
+<p>指定したフィールドのエラーを出力します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form.name</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+
+<span class="c">{# グローバルなエラーを出力します #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_errors</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="form-widget-view-variables">
+<span id="reference-forms-twig-widget"></span><h2>form_widget(view, variables)<a class="headerlink" href="#form-widget-view-variables" title="Permalink to this headline">¶</a></h2>
+<p>指定したフィールドの HTML ウィジェットを出力します。
+フォーム全体やフォームの集合に対して使用すると、それに含まれている全フィールドの各行を出力します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# ウィジェットを出力し、 &quot;foo&quot; クラスを追加します #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;foo&#39;</span><span class="cp">}}</span><span class="x">) }}</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">form_widget</span></tt> の第二引数は変数の配列です。
+一番よく使われるのは <tt class="docutils literal"><span class="pre">attr</span></tt> で、HTMLウィジェットに追加する属性の配列です。フィールドのタイプによってはテンプレートに関係する他の変数も渡すことができます。
+<tt class="docutils literal"><span class="pre">attributes</span></tt> は一度に多数のフィールドを出力するときでも（たとえば、 <tt class="docutils literal"><span class="pre">form_widget(form)</span></tt> としたとき）再帰しません。</p>
+<p><tt class="docutils literal"><span class="pre">variables</span></tt> についての詳細は &#8220;<a class="reference internal" href="#twig-reference-form-variables"><em>フォーム変数の詳細</em></a>&#8221; を参照してください。</p>
+</div>
+<div class="section" id="form-row-view-variables">
+<span id="reference-forms-twig-row"></span><h2>form_row(view, variables)<a class="headerlink" href="#form-row-view-variables" title="Permalink to this headline">¶</a></h2>
+<p>指定したフィールドの「行」、つまりラベル・エラーメッセージ・ウィジェットの組み合わさったものを出力します。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# 行を出力しますが、ラベルはfooに変更します #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;label&#39;</span><span class="o">:</span> <span class="s1">&#39;foo&#39;</span><span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">form_row</span></tt> の第二引数は変数の配列です。
+上の例のように、 Symfony で提供されているテンプレートではラベルのみ上書きすることができます。</p>
+<p><tt class="docutils literal"><span class="pre">variables</span></tt> について詳細は &#8220;<a class="reference internal" href="#twig-reference-form-variables"><em>フォーム変数の詳細</em></a>&#8221; を参照してください。</p>
+</div>
+<div class="section" id="form-rest-view-variables">
+<span id="reference-forms-twig-rest"></span><h2>form_rest(view, variables)<a class="headerlink" href="#form-rest-view-variables" title="Permalink to this headline">¶</a></h2>
+<p>指定したフォームについてまだ出力されていない全てのフィールドを出力します。
+hidden フィールドや、出力し忘れたフィールドを出力してくれるので、いつもこのヘルパーを入れておくと便利です。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_rest</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="form-enctype-view">
+<span id="reference-forms-twig-enctype"></span><h2>form_enctype(view)<a class="headerlink" href="#form-enctype-view" title="Permalink to this headline">¶</a></h2>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">このヘルパーは Symfony 2.3 で廃止され、 Symfony 3.0 で削除される予定です。代わりに <tt class="docutils literal"><span class="pre">form_start()</span></tt> を使用してください。</p>
+</div>
+<p>フォームに少なくとも一つのファイルアップロードフィールドがあるとき、このヘルパーは必要な <tt class="docutils literal"><span class="pre">enctype=&quot;multipart/form-data&quot;</span></tt> フォーム属性を出力します。 form タグにいつでもこれを含めておくと便利です。</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;</span><span class="cp">{{</span> <span class="nv">path</span><span class="o">(</span><span class="s1">&#39;form_submit&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="s">&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Form テストリファレンス<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>テストは、 <tt class="docutils literal"><span class="pre">is</span></tt> と一緒に使うことで条件を作ることができます。
+詳しくは <a class="reference external" href="http://twig.sensiolabs.org/doc/templates.html#test-operator">Twig ドキュメント</a> を参照してください。</p>
+<div class="section" id="selectedchoice-selected-value">
+<span id="form-twig-selectedchoice"></span><h3>selectedchoice(selected_value)<a class="headerlink" href="#selectedchoice-selected-value" title="Permalink to this headline">¶</a></h3>
+<p>このテストは、現在の選択肢が <tt class="docutils literal"><span class="pre">selected_value</span></tt> に等しいかどうかを調べます。 <tt class="docutils literal"><span class="pre">selected_value</span></tt> が配列のときには、現在の選択肢が <tt class="docutils literal"><span class="pre">selected_value</span></tt> の配列の中に含まれているかどうかを調べます。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="x">&lt;option </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">choice</span> <span class="k">is</span> <span class="nf">selectedchoice</span><span class="o">(</span><span class="nv">value</span><span class="o">)</span> <span class="cp">%}</span><span class="x"> selected=&quot;selected&quot;</span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"> ...&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="twig-reference-form-variables">
+<span id="id4"></span><h2>フォーム変数の詳細<a class="headerlink" href="#twig-reference-form-variables" title="Permalink to this headline">¶</a></h2>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">全てのフォーム変数の一覧は <a class="reference internal" href="#reference-form-twig-variables"><em>Form 変数リファレンス</em></a> にあります。</p>
+</div>
+<p>上に出てきたほとんど全ての Twig 関数では、最後の引数はフォームの一部分を出力する時に使われる変数の配列です。
+例えば、次のコードはフィールドのウィジェットを出力しますが、特別なクラスを含めるように変更されています。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# ウィジェットを出力し、 &quot;foo&quot; クラスを追加します #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="o">{</span> <span class="s1">&#39;attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;foo&#39;</span><span class="o">}</span> <span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>この変数の配列の目的（どこから来て何をするのか）はわかりにくいかもしれませんが、信じられないぐらい強力です。
+フォームのどの部分を出力するときでも、その部分を出力するブロックはたくさんの変数を使います。
+デフォルトでは、ブロックは <a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig">form_div_layout.html.twig</a> の中に書かれています。</p>
+<p>一例として <tt class="docutils literal"><span class="pre">form_label</span></tt> を見てみましょう。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">block</span> <span class="nv">form_label</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="k">not</span> <span class="nv">compound</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">set</span> <span class="nv">label_attr</span> <span class="o">=</span> <span class="nv">label_attr</span><span class="o">|</span><span class="nf">merge</span><span class="o">({</span><span class="s1">&#39;for&#39;</span><span class="o">:</span> <span class="nv">id</span><span class="o">})</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">required</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">set</span> <span class="nv">label_attr</span> <span class="o">=</span> <span class="nv">label_attr</span><span class="o">|</span><span class="nf">merge</span><span class="o">({</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="o">(</span><span class="nv">label_attr.class</span><span class="o">|</span><span class="nf">default</span><span class="o">(</span><span class="s1">&#39;&#39;</span><span class="o">)</span> <span class="o">~</span> <span class="s1">&#39; required&#39;</span><span class="o">)|</span><span class="nf">trim</span><span class="o">})</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">label</span> <span class="k">is</span> <span class="nf">empty</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        </span><span class="cp">{%</span> <span class="k">set</span> <span class="nv">label</span> <span class="o">=</span> <span class="nv">name</span><span class="o">|</span><span class="nf">humanize</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    &lt;label</span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">attrname</span><span class="o">,</span> <span class="nv">attrvalue</span> <span class="k">in</span> <span class="nv">label_attr</span> <span class="cp">%}</span><span class="x"> </span><span class="cp">{{</span> <span class="nv">attrname</span> <span class="cp">}}</span><span class="x">=&quot;</span><span class="cp">{{</span> <span class="nv">attrvalue</span> <span class="cp">}}</span><span class="x">&quot;</span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x">&gt;</span><span class="cp">{{</span> <span class="nv">label</span><span class="o">|</span><span class="nf">trans</span><span class="o">({},</span> <span class="nv">translation_domain</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&lt;/label&gt;</span>
+<span class="cp">{%</span> <span class="k">endblock</span> <span class="nv">form_label</span> <span class="cp">%}</span><span class="x"></span>
+</pre></div>
+</div>
+<p>このブロックはいくつか変数を使っています。すなわち、 <tt class="docutils literal"><span class="pre">compound</span></tt>, <tt class="docutils literal"><span class="pre">label_attr</span></tt>, <tt class="docutils literal"><span class="pre">required</span></tt>,
+<tt class="docutils literal"><span class="pre">label</span></tt>, <tt class="docutils literal"><span class="pre">name</span></tt> そして <tt class="docutils literal"><span class="pre">translation_domain</span></tt> です。
+変数はフォームレンダリング機構によって利用可能になっています。しかし、もっと重要なことは、この変数は開発者が <tt class="docutils literal"><span class="pre">form_label</span></tt> を呼び出すときに（上の例はラベルを出力する時のものなので）上書きすることができるということです。</p>
+<p>上書きできる変数はフォームのどの部分を出力しようとしているか（例えば、ラベルかウィジェットか）、あるいはどのフィールドを出力しようとしているか（例えば、 <tt class="docutils literal"><span class="pre">choice</span></tt> ウィジェットには <tt class="docutils literal"><span class="pre">expanded</span></tt> という追加オプションがあります）によって異なります。
+<a class="reference external" href="https://github.com/symfony/symfony/blob/master/src/Symfony/Bridge/Twig/Resources/views/Form/form_div_layout.html.twig">form_div_layout.html.twig</a> には全てのオプションが網羅されています。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">内部的には、変数は Form コンポーネントがフォームの各ノードについて <tt class="docutils literal"><span class="pre">buildView</span></tt> や <tt class="docutils literal"><span class="pre">finishView</span></tt>  を呼び出したときに <tt class="docutils literal"><span class="pre">FormView</span></tt> によって利用可能になります。
+特定のフィールドについてどんなビュー変数が利用できるのか知りたいときは、そのフォームフィールド（および親のフィールド）のソースコードを調べ、上の二つのメソッドを見てください。</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>フォーム全体（あるいは埋め込みフォーム全体）を一度に出力する場合は、 <tt class="docutils literal"><span class="pre">variables</span></tt> 引数はそのフォーム自身のみに適用され、フォームの子要素には適用されません。
+つまり、下のサンプルコードでは、 &#8220;foo&#8221; クラス属性はフィールドには適用され <strong>ません</strong> 。</p>
+<div class="last highlight-jinja"><div class="highlight"><pre><span class="c">{# 機能しません。変数は再帰しないため。 #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_widget</span><span class="o">(</span><span class="nv">form</span><span class="o">,</span> <span class="o">{</span> <span class="s1">&#39;attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;foo&#39;</span><span class="o">}</span> <span class="o">})</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="reference-form-twig-variables">
+<span id="id5"></span><h3>Form 変数リファレンス<a class="headerlink" href="#reference-form-twig-variables" title="Permalink to this headline">¶</a></h3>
+<p>下の変数は全てのフィールドタイプに共通です。フィールドタイプの中にはもっと多くの変数があるものもあり、特定のフィールドのみに有効な変数もあります。</p>
+<p>テンプレートに <tt class="docutils literal"><span class="pre">form</span></tt> 変数が含まれていて <tt class="docutils literal"><span class="pre">name</span></tt> フィールドの変数にアクセスしたいとき、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\FormView</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">vars</span></tt> プロパティを使うことによりアクセスできます。</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-html+jinja"><pre>&lt;label for="{{ form.name.vars.id }}"
+    class="{{ form.name.vars.required ? 'required' : '' }}"&gt;
+    {{ form.name.vars.label }}
+&lt;/label&gt;</pre>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">vars</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="s">&quot;</span>
+    <span class="na">class=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">vars</span><span class="p">[</span><span class="s1">&#39;required&#39;</span><span class="p">]</span> <span class="o">?</span> <span class="s1">&#39;required&#39;</span> <span class="o">:</span> <span class="s1">&#39;&#39;</span> <span class="cp">?&gt;</span><span class="s">&quot;</span><span class="nt">&gt;</span>
+    <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">vars</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span>
+<span class="nt">&lt;/label&gt;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="versionadded">
+<p><span>New in version 2.3: </span>The <tt class="docutils literal"><span class="pre">method</span></tt> and <tt class="docutils literal"><span class="pre">action</span></tt> variables were introduced in Symfony 2.3.</p>
+</div>
+<div class="versionadded">
+<p><span>New in version 2.4: </span><tt class="docutils literal"><span class="pre">submitted</span></tt> 変数は Symfony2.4 で追加されました。</p>
+</div>
+</div>
+</div>
 </div>
 
 
 <div id="page_prev_next">
-<a class="prev" href="types/url.html">< url フィールドタイプ</a>
-<a class="next" href="../constraints.html">バリデータリファレンス ></a>
+<a class="prev" href="../constraints/Valid.html">< Valid</a>
+<a class="next" href="../twig_reference.html">Symfony2 Twig エクステンション ></a>
 </div>
 
 <div class="common_content_footer">

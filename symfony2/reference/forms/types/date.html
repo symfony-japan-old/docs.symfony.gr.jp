@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>date Field Type | Symfony2日本語ドキュメント</title>
+    <title>date フィールドタイプ | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/configurationblock.css" type="text/css" />
@@ -34,7 +34,7 @@
       </script>
     <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../../index.html" />
     <link rel="up" title="Form Type リファレンス" href="../types.html" />
-    <link rel="next" title="datetime Field Type" href="datetime.html" />
+    <link rel="next" title="datetime フィールドタイプ" href="datetime.html" />
     <link rel="prev" title="country フィールドタイプ" href="country.html" /> 
   </head>
   <body>
@@ -75,9 +75,9 @@
         <div class="sphinxsidebarwrapper">
   <h3>このページのコンテンツ</h3>
   <ul>
-<li><a class="reference internal" href="#">date Field Type</a><ul>
-<li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
-<li><a class="reference internal" href="#field-options">Field Options</a><ul>
+<li><a class="reference internal" href="#">date フィールドタイプ</a><ul>
+<li><a class="reference internal" href="#id1">基本的な使い方</a></li>
+<li><a class="reference internal" href="#id2">フィールドオプション</a><ul>
 <li><a class="reference internal" href="#widget">widget</a></li>
 <li><a class="reference internal" href="#input">input</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
@@ -85,11 +85,25 @@
 <li><a class="reference internal" href="#months">months</a></li>
 <li><a class="reference internal" href="#days">days</a></li>
 <li><a class="reference internal" href="#format">format</a></li>
-<li><a class="reference internal" href="#pattern">pattern</a></li>
-<li><a class="reference internal" href="#data-timezone">data_timezone</a></li>
-<li><a class="reference internal" href="#user-timezone">user_timezone</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#id3">上書きされたオプション</a><ul>
+<li><a class="reference internal" href="#by-reference">by_reference</a></li>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">継承されたオプション</a><ul>
+<li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
+<li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
+<li><a class="reference internal" href="#read-only">read_only</a></li>
+<li><a class="reference internal" href="#disabled">disabled</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+<li><a class="reference internal" href="#inherit-data">inherit_data</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">フィールド変数</a></li>
 </ul>
 </li>
 </ul>
@@ -99,7 +113,7 @@
                         title="previous chapter">country フィールドタイプ</a></p>
   <h4>次のドキュメント</h4>
   <p class="topless"><a href="datetime.html"
-                        title="next chapter">datetime Field Type</a></p>
+                        title="next chapter">datetime フィールドタイプ</a></p>
   <h3>ソース</h3>
   <ul class="this-page-menu">
     <li><a href="../../../sources/reference/forms/types/date.txt"
@@ -151,28 +165,32 @@
 
 <p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/date.html">原文のページ</a>をご確認ください。</p>
 
-  <div class="section" id="date-field-type">
-<span id="index-0"></span><h1>date Field Type<a class="headerlink" href="#date-field-type" title="Permalink to this headline">¶</a></h1>
-<p>A field that allows the user to modify date information via a variety of
-different HTML elements.</p>
-<p>The underlying data used for this field type can be a <tt class="docutils literal"><span class="pre">DateTime</span></tt> object,
-a string, a timestamp or an array. As long as the <a class="reference internal" href="#input">input</a> option is set
-correctly, the field will take care of all of the details.</p>
-<p>The field can be rendered as a single text box, three text boxes (month,
-day, and year) or three select boxes (see the <cite>widget_</cite> option).</p>
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3+</li>
+<li>翻訳更新日：2014/04/23</li>
+</ul>
+</div>
+<div class="section" id="date">
+<h1>date フィールドタイプ<a class="headerlink" href="#date" title="Permalink to this headline">¶</a></h1>
+<p>異なった様々な HTML 要素で日付情報を変更することができるフィールドです。</p>
+<p>このフィールドタイプに使用される元となるデータは <tt class="docutils literal"><span class="pre">DateTime</span></tt> オブジェクト、 <tt class="docutils literal"><span class="pre">string</span></tt> 、 <tt class="docutils literal"><span class="pre">timestamp</span></tt> または <tt class="docutils literal"><span class="pre">array</span></tt> です。
+<a class="reference internal" href="#input">input</a> オプションが正しく設定されている限り、フィールドはすべての詳細を引き受けます。</p>
+<p>このフィールドは1つのテキストボックス、または、3つのテキストボックス（月、日、年）、または、3つのセレクトボックス（参照 <a class="reference internal" href="#widget">widget</a> オプション)として表示することができます。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="22%" />
-<col width="78%" />
+<col width="20%" />
+<col width="80%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Underlying Data Type</td>
-<td>can be <tt class="docutils literal"><span class="pre">DateTime</span></tt>, string, timestamp, or array (see the <tt class="docutils literal"><span class="pre">input</span></tt> option)</td>
+<tr class="row-odd"><td>対応するデータ型</td>
+<td><tt class="docutils literal"><span class="pre">DateTime</span></tt>,``string``, <tt class="docutils literal"><span class="pre">timestamp</span></tt>, <tt class="docutils literal"><span class="pre">array</span></tt>  (参照 <tt class="docutils literal"><span class="pre">input</span></tt> オプション)</td>
 </tr>
-<tr class="row-even"><td>Rendered as</td>
-<td>single text box or three select fields</td>
+<tr class="row-even"><td>対応するタグ</td>
+<td>単一のテキストボックス または、 3つのセレクトフィールド</td>
 </tr>
-<tr class="row-odd"><td>Options</td>
+<tr class="row-odd"><td>オプション</td>
 <td><ul class="first last simple">
 <li><a class="reference internal" href="#widget">widget</a></li>
 <li><a class="reference internal" href="#input">input</a></li>
@@ -181,54 +199,75 @@ day, and year) or three select boxes (see the <cite>widget_</cite> option).</p>
 <li><a class="reference internal" href="#months">months</a></li>
 <li><a class="reference internal" href="#days">days</a></li>
 <li><a class="reference internal" href="#format">format</a></li>
-<li><a class="reference internal" href="#pattern">pattern</a></li>
-<li><a class="reference internal" href="#data-timezone">data_timezone</a></li>
-<li><a class="reference internal" href="#user-timezone">user_timezone</a></li>
+<li><a href="#id6"><span class="problematic" id="id7">`model_timezone`_</span></a></li>
+<li><a href="#id8"><span class="problematic" id="id9">`view_timezone`_</span></a></li>
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td>Parent type</td>
-<td><tt class="docutils literal"><span class="pre">field</span></tt> (if text), <tt class="docutils literal"><span class="pre">form</span></tt> otherwise</td>
+<tr class="row-even"><td>上書きされた
+オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#by-reference">by_reference</a></li>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+</ul>
+</td>
 </tr>
-<tr class="row-odd"><td>Class</td>
+<tr class="row-odd"><td>継承された
+オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
+<li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
+<li><a class="reference internal" href="#read-only">read_only</a></li>
+<li><a class="reference internal" href="#disabled">disabled</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+<li><a class="reference internal" href="#inherit-data">inherit_data</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>親タイプ</td>
+<td><a class="reference internal" href="form.html"><em>form</em></a></td>
+</tr>
+<tr class="row-odd"><td>クラス</td>
 <td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\DateType</span></tt></td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="basic-usage">
-<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h2>
-<p>This field type is highly configurable, but easy to use. The most important
+<div class="section" id="id1">
+<h2>基本的な使い方<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>このフィールドタイプは高度に設定が可能でありながら、簡単に使えます。最も重要なオプションは <tt class="docutils literal"><span class="pre">input</span></tt> と <tt class="docutils literal"><span class="pre">widget</span></tt> です。
+This field type is highly configurable, but easy to use. The most important
 options are <tt class="docutils literal"><span class="pre">input</span></tt> and <tt class="docutils literal"><span class="pre">widget</span></tt>.</p>
-<p>Suppose that you have a <tt class="docutils literal"><span class="pre">publishedAt</span></tt> field whose underlying date is a
-<tt class="docutils literal"><span class="pre">DateTime</span></tt> object. The following configures the <tt class="docutils literal"><span class="pre">date</span></tt> type for that
-field as three different choice fields:</p>
+<p><tt class="docutils literal"><span class="pre">publishedAt</span></tt> フィールドに``DateTime`` オブジェクトの日付データを持つとします。
+以下は、<tt class="docutils literal"><span class="pre">date</span></tt> タイプを3つの選択フィールドとして設定します。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;publishedAt&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
     <span class="s1">&#39;input&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;datetime&#39;</span><span class="p">,</span>
     <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span>
 <span class="p">));</span>
 </pre></div>
 </div>
-<p>The <tt class="docutils literal"><span class="pre">input</span></tt> option <em>must</em> be changed to match the type of the underlying
-date data. For example, if the <tt class="docutils literal"><span class="pre">publishedAt</span></tt> field&#8217;s data were a unix timestamp,
-you&#8217;d need to set <tt class="docutils literal"><span class="pre">input</span></tt> to <tt class="docutils literal"><span class="pre">timestamp</span></tt>:</p>
+<p>この <tt class="docutils literal"><span class="pre">input</span></tt> オプションは元となる日付データと同じタイプに変換され <em>なくてはいけません</em> 。
+例えば、 <tt class="docutils literal"><span class="pre">publishedAt</span></tt> フィールドデータが Unix タイムスタンプの場合、<tt class="docutils literal"><span class="pre">input</span></tt> に <tt class="docutils literal"><span class="pre">timestamp</span></tt> を設定しないといけません。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;publishedAt&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
     <span class="s1">&#39;input&#39;</span>  <span class="o">=&gt;</span> <span class="s1">&#39;timestamp&#39;</span><span class="p">,</span>
     <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span>
 <span class="p">));</span>
 </pre></div>
 </div>
-<p>The field also supports an <tt class="docutils literal"><span class="pre">array</span></tt> and <tt class="docutils literal"><span class="pre">string</span></tt> as valid <tt class="docutils literal"><span class="pre">input</span></tt> option
+<p>フィールドは <tt class="docutils literal"><span class="pre">array</span></tt> と <tt class="docutils literal"><span class="pre">string</span></tt> を正しい <tt class="docutils literal"><span class="pre">input</span></tt> オプションの値としてサポートします。
+The field also supports an <tt class="docutils literal"><span class="pre">array</span></tt> and <tt class="docutils literal"><span class="pre">string</span></tt> as valid <tt class="docutils literal"><span class="pre">input</span></tt> option
 values.</p>
 </div>
-<div class="section" id="field-options">
-<h2>Field Options<a class="headerlink" href="#field-options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>フィールドオプション<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="widget">
 <h3>widget<a class="headerlink" href="#widget" title="Permalink to this headline">¶</a></h3>
 <p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">choice</span></tt></p>
 <p>The basic way in which this field should be rendered. Can be one of the following:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">choice</span></tt>: renders three select inputs.  The order of the selects is defined
-in the <a class="reference internal" href="#pattern">pattern</a> option.</li>
+in the <a href="#id10"><span class="problematic" id="id11">`pattern`_</span></a> option.</li>
 <li><tt class="docutils literal"><span class="pre">text</span></tt>: renders a three field input of type text (month, day, year).</li>
 <li><tt class="docutils literal"><span class="pre">single_text</span></tt>: renders a single input of type text. User&#8217;s input is validated
 based on the <a class="reference internal" href="#format">format</a> option.</li>
@@ -250,16 +289,15 @@ this format.</p>
 </div>
 <div class="section" id="empty-value">
 <h3>empty_value<a class="headerlink" href="#empty-value" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string``|``array</span></tt></p>
-<p>If your widget option is set to <tt class="docutils literal"><span class="pre">choice</span></tt>, then this field will be represented
-as a series of <tt class="docutils literal"><span class="pre">select</span></tt> boxes. The <tt class="docutils literal"><span class="pre">empty_value</span></tt> option can be used to
-add a &#8220;blank&#8221; entry to the top of each select box:</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> または <tt class="docutils literal"><span class="pre">array</span></tt></p>
+<p>もし、ウィジェットのオプションが <tt class="docutils literal"><span class="pre">choice</span></tt> がセットされていた場合、一連のセレクトボックスとして表現されます。
+<tt class="docutils literal"><span class="pre">empty_value</span></tt> オプションは&#8221;空&#8221;エントリーを各セレクトボックスの一番上に追加できます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;dueDate&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
     <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
 <span class="p">));</span>
 </pre></div>
 </div>
-<p>Alternatively, you can specify a string to be displayed for the &#8220;blank&#8221; value:</p>
+<p>別の方法として、&#8221;空&#8221;の値として特定の文字を指定することが出来ます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;dueDate&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
     <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;year&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Year&#39;</span><span class="p">,</span> <span class="s1">&#39;month&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Month&#39;</span><span class="p">,</span> <span class="s1">&#39;day&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Day&#39;</span><span class="p">)</span>
 <span class="p">));</span>
@@ -288,7 +326,7 @@ when the <tt class="docutils literal"><span class="pre">widget</span></tt> optio
 </div>
 </div>
 <div class="section" id="format">
-<h3>format<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h3>
+<span id="reference-forms-type-date-format"></span><h3>format<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h3>
 <p><strong>type</strong>: <tt class="docutils literal"><span class="pre">integer</span></tt> or <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">IntlDateFormatter::MEDIUM</span></tt></p>
 <p>Option passed to the <tt class="docutils literal"><span class="pre">IntlDateFormatter</span></tt> class, used to transform user input
 into the proper format. This is critical when the <a class="reference internal" href="#widget">widget</a> option is
@@ -296,41 +334,148 @@ set to <tt class="docutils literal"><span class="pre">single_text</span></tt>, a
 the format is determined based on the current user locale; you can override
 it by passing the format as a string.</p>
 </div>
-<div class="section" id="pattern">
-<h3>pattern<a class="headerlink" href="#pattern" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt></p>
-<p>This option is only relevant when the <a class="reference internal" href="#widget">widget</a> is set to <tt class="docutils literal"><span class="pre">choice</span></tt>.
-The default pattern is based off the <a class="reference internal" href="#format">format</a> option, and tries to
-match the characters <tt class="docutils literal"><span class="pre">M</span></tt>, <tt class="docutils literal"><span class="pre">d</span></tt>, and <tt class="docutils literal"><span class="pre">y</span></tt> in the format pattern. If
-no match is found, the default is the string <tt class="docutils literal"><span class="pre">{{</span> <span class="pre">year</span> <span class="pre">}}-{{</span> <span class="pre">month</span> <span class="pre">}}-{{</span> <span class="pre">day</span> <span class="pre">}}</span></tt>.
-Tokens for this option include:</p>
-<blockquote>
-<div><ul class="simple">
-<li><tt class="docutils literal"><span class="pre">{{</span> <span class="pre">year</span> <span class="pre">}}</span></tt>: Replaced with the <tt class="docutils literal"><span class="pre">year</span></tt> widget</li>
-<li><tt class="docutils literal"><span class="pre">{{</span> <span class="pre">month</span> <span class="pre">}}</span></tt>: Replaced with the <tt class="docutils literal"><span class="pre">month</span></tt> widget</li>
-<li><tt class="docutils literal"><span class="pre">{{</span> <span class="pre">day</span> <span class="pre">}}</span></tt>: Replaced with the <tt class="docutils literal"><span class="pre">day</span></tt> widget</li>
+</div>
+<div class="section" id="id3">
+<h2>上書きされたオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="by-reference">
+<h3>by_reference<a class="headerlink" href="#by-reference" title="Permalink to this headline">¶</a></h3>
+<p><strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">DateTime</span></tt> クラスは不変のオブジェクトとして扱われます。</p>
+</div>
+<div class="section" id="error-bubbling">
+<h3>error_bubbling<a class="headerlink" href="#error-bubbling" title="Permalink to this headline">¶</a></h3>
+<p><strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>継承されたオプション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています:</p>
+<div class="section" id="data">
+<h3>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: mixed <strong>デフォルト</strong>: 対応するオブジェクトのフィールド(一つであれば）</p>
+<p>フォームを作成したとき、各フィールドに表示する初期値は、フォームのドメインオブジェクトの対応するプロパティの値です（オブジェクトがフォームにバインドされている場合）。もしフォーム、または、単に個々のフィールドの初期値を上書きしたい場合は、<tt class="docutils literal"><span class="pre">data</span></tt> オプションで設定することが出来ます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームのフィールドのデフォルト値は、直接データ構造（例えば、エンティティまたは配列）から取得されます。
+<tt class="docutils literal"><span class="pre">data</span></tt> オプションはこのデフォルト値を上書きします。</p>
+</div>
+</div>
+<div class="section" id="invalid-message">
+<h3>invalid_message<a class="headerlink" href="#invalid-message" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">This</span> <span class="pre">value</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">valid</span></tt></p>
+<p>フィールドに入力されたデータが意味を成さない（すなわち、バリデーション失敗の）場合に使われるバリデーションエラーのメッセージです。</p>
+<p>たとえば、時間に変換される <a class="reference internal" href="time.html"><em>time</em></a> フィールドに無意味な文字を入れたときに、または、 <tt class="docutils literal"><span class="pre">number</span></tt> フィールドに文字列（例、 <tt class="docutils literal"><span class="pre">apple</span></tt> ）を入れたときにおきます。</p>
+<p>通常の（最小の文字数をセットするような）(ビジネスロジック)バリデーションはバリデーションメッセージをバリデーションルール( <a class="reference internal" href="../../../book/validation.html#book-validation-constraint-configuration"><em>reference</em></a> )とあわせて設定すべきです。</p>
+</div>
+<div class="section" id="invalid-message-parameters">
+<h3>invalid_message_parameters<a class="headerlink" href="#invalid-message-parameters" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">invalid_message</span></tt> オプションをセットする場合、文字列にいくつかの変数を取り込む必要があるかもしれません。プレースホルダーをそのオプションに加え、変数をこのオプションに含めることで可能です:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;some_field&#39;</span><span class="p">,</span> <span class="s1">&#39;some_type&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+    <span class="s1">&#39;invalid_message&#39;</span>            <span class="o">=&gt;</span> <span class="s1">&#39;You entered an invalid value - it should include %num% letters&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;invalid_message_parameters&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;%num%&#39;</span> <span class="o">=&gt;</span> <span class="mi">6</span><span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-only">
+<h3>read_only<a class="headerlink" href="#read-only" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>このオプションが <tt class="docutils literal"><span class="pre">true</span></tt> の場合、そのフィールドは <tt class="docutils literal"><span class="pre">readonly</span></tt> 属性付きでレンダリングされるため、編集する事が出来ません。</p>
+</div>
+<div class="section" id="disabled">
+<h3>disabled<a class="headerlink" href="#disabled" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt>  <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>ユーザにフィールドの値を変更させたくない場合は、
+<tt class="docutils literal"><span class="pre">disabled</span></tt> オプションを <tt class="docutils literal"><span class="pre">true</span></tt> にします。どんなサブミットされた値も無視されます。</p>
+</div>
+<div class="section" id="mapped">
+<h3>mapped<a class="headerlink" href="#mapped" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>オブジェクトを読み込んでいるまたは書き込んでいる間、フィールドが無視されるようにしたい場合は、
+<tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にしてください。</p>
+</div>
+<div class="section" id="inherit-data">
+<h3>inherit_data<a class="headerlink" href="#inherit-data" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span>New in version 2.3: </span>このオプションは Symfony 2.3 より前は <tt class="docutils literal"><span class="pre">virtual</span></tt> として知られていました。</p>
+</div>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>フォームが親フォームからデータを継承する場合は、このオプションで決定します。複数のフォーム間で重複しているフィールドのセットを持っている場合に役立ちます。参照 <a class="reference internal" href="../../../cookbook/form/inherit_data_option.html"><em>&#8220;inherit_data&#8221;オプションを使用してコードの重複を減らす</em></a> 。</p>
+</div>
+<div class="section" id="error-mapping">
+<h3>error_mapping<a class="headerlink" href="#error-mapping" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">empty</span></tt></p>
+<p>このオプションはバリデーションエラーの対象を編集することができます。</p>
+<p><tt class="docutils literal"><span class="pre">matchingCityAndZipCode</span></tt> という名前のメソッドを持っているとして、それが <tt class="docutils literal"><span class="pre">city</span></tt> および <tt class="docutils literal"><span class="pre">zip</span> <span class="pre">code</span></tt> が一致するかの検証をするとします。しかし残念なことに、 &#8220;matchingCityAndZipCode&#8221; フィールドがフォームに無いため、 Symfony ができるのはフォームの上部にエラーを表示することです。</p>
+<p>カスタマイズされたエラーマッピングを使うと、<tt class="docutils literal"><span class="pre">city</span></tt> フィールドの上にエラーを表示するように、より上手にエラーをマップできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;error_mapping&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;matchingCityAndZipCode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>こちらが左側、右側のマッピングするルールです:</p>
+<ul class="simple">
+<li>左側はプロパティパスを有します。</li>
+<li>クラスのプロパティまたはメソッドで違反が生成された場合、そのパスは単に &#8220;propertyName&#8221; です。</li>
+<li><tt class="docutils literal"><span class="pre">array</span></tt> または <tt class="docutils literal"><span class="pre">ArrayAccess</span></tt> オブジェクトで違反が生成された場合、プロパティパスは <tt class="docutils literal"><span class="pre">[indexName]</span></tt> です。</li>
+<li>ドットでプロパティを分離し、それらを連結して、ネストされたプロパティパスを作成することができます。たとえば <tt class="docutils literal"><span class="pre">addresses[work].matchingCityAndZipCode</span></tt> のように。</li>
+<li>左側のエラーマッピングは単一のドット <tt class="docutils literal"><span class="pre">.</span></tt> も認められます。それはフィールド自体をさしています。フィールドに追加されたエラーはネストされたフィールドの代わりに付与されたことを意味します。</li>
+<li>右側は単にフォームのフィールド名を有します。</li>
 </ul>
-</div></blockquote>
 </div>
-<div class="section" id="data-timezone">
-<h3>data_timezone<a class="headerlink" href="#data-timezone" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: system default timezone</p>
-<p>Timezone that the input data is stored in. This must be one of the
-<a class="reference external" href="http://php.net/manual/en/timezones.php">PHP supported timezones</a></p>
 </div>
-<div class="section" id="user-timezone">
-<h3>user_timezone<a class="headerlink" href="#user-timezone" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: system default timezone</p>
-<p>Timezone for how the data should be shown to the user (and therefore also
-the data that the user submits). This must be one of the <a class="reference external" href="http://php.net/manual/en/timezones.php">PHP supported timezones</a></p>
-</div>
+<div class="section" id="id5">
+<h2>フィールド変数<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="11%" />
+<col width="76%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">変数</th>
+<th class="head">データ型</th>
+<th class="head">使用法</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>widget</td>
+<td><tt class="docutils literal"><span class="pre">mixed</span></tt></td>
+<td><a class="reference internal" href="#widget">widget</a> オプションの値。</td>
+</tr>
+<tr class="row-odd"><td>type</td>
+<td><tt class="docutils literal"><span class="pre">string</span></tt></td>
+<td><dl class="first last docutils">
+<dt><tt class="docutils literal"><span class="pre">widget</span></tt> が <tt class="docutils literal"><span class="pre">single_text</span></tt> で、且つ、 HTML5 が有効な場合のみ、</dt>
+<dd>インプットタイプ(<tt class="docutils literal"><span class="pre">datetime</span></tt>, <tt class="docutils literal"><span class="pre">date</span></tt>  または <tt class="docutils literal"><span class="pre">time</span></tt> )を使用できます。</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-even"><td>date_pattern</td>
+<td><tt class="docutils literal"><span class="pre">string</span></tt></td>
+<td>日付フォーマットの文字列</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 
 
 <div id="page_prev_next">
 <a class="prev" href="country.html">< country フィールドタイプ</a>
-<a class="next" href="datetime.html">datetime Field Type ></a>
+<a class="next" href="datetime.html">datetime フィールドタイプ ></a>
 </div>
 
 <div class="common_content_footer">

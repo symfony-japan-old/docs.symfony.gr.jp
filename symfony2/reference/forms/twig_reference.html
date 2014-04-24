@@ -355,11 +355,102 @@ hidden フィールドや、出力し忘れたフィールドを出力してく�
 </ul>
 </div>
 <div class="versionadded">
-<p><span>New in version 2.3: </span>The <tt class="docutils literal"><span class="pre">method</span></tt> and <tt class="docutils literal"><span class="pre">action</span></tt> variables were introduced in Symfony 2.3.</p>
+<p><span>New in version 2.3: </span><tt class="docutils literal"><span class="pre">method</span></tt> と <tt class="docutils literal"><span class="pre">action</span></tt> は Symfony2.3 で追加されました。</p>
 </div>
 <div class="versionadded">
 <p><span>New in version 2.4: </span><tt class="docutils literal"><span class="pre">submitted</span></tt> 変数は Symfony2.4 で追加されました。</p>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="78%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head" colspan="2">変数名               | 使い方</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">form</span></tt></td>
+<td>現在の <tt class="docutils literal"><span class="pre">FormView</span></tt> インスタンス</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">id</span></tt></td>
+<td>出力される <tt class="docutils literal"><span class="pre">id</span></tt> HTML属性</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">name</span></tt></td>
+<td>フィールド名 (例えば <tt class="docutils literal"><span class="pre">title</span></tt>) ただし <tt class="docutils literal"><span class="pre">name</span></tt> HTML属性ではありません。
+<tt class="docutils literal"><span class="pre">name</span></tt> HTML属性は <tt class="docutils literal"><span class="pre">full_name</span></tt> です。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">full_name</span></tt></td>
+<td>出力される <tt class="docutils literal"><span class="pre">name</span></tt> HTML属性</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">errors</span></tt></td>
+<td>個別のフィールドについての全てのエラーの配列d
+(たとえば <tt class="docutils literal"><span class="pre">form.title.errors</span></tt> のように)
+<tt class="docutils literal"><span class="pre">form.errors</span></tt> はフォームが正しいかどうかを調べるのに利用することはできません。
+グローバルなエラーしか返さないので、 個別のフィールドにはエラーがある可能性がある
+からです。代わりに <tt class="docutils literal"><span class="pre">valid</span></tt> を使ってください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">submitted</span></tt></td>
+<td>フォームが送信されたかどうか <tt class="docutils literal"><span class="pre">true</span></tt> 又は <tt class="docutils literal"><span class="pre">false</span></tt> で返します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">valid</span></tt></td>
+<td>フォーム全体にエラーが無いかどうか <tt class="docutils literal"><span class="pre">true</span></tt> 又は <tt class="docutils literal"><span class="pre">false</span></tt> で返します。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">value</span></tt></td>
+<td>出力時に利用される値(大抵の場合は <tt class="docutils literal"><span class="pre">value</span></tt> HTML属性)</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">read_only</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt> であれば <tt class="docutils literal"><span class="pre">readonly=&quot;readonly&quot;</span></tt> がフィールドに追加されます。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">disabled</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt> であれば <tt class="docutils literal"><span class="pre">disabled=&quot;disabled&quot;</span></tt> がフィールドに追加されます。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">required</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">true</span></tt> であれば <tt class="docutils literal"><span class="pre">required</span></tt> 属性がフィールドに追加され、HTML5のバリデーションを
+有効にします。さらに、 <tt class="docutils literal"><span class="pre">required</span></tt> クラスがラベルに追加されます。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">max_length</span></tt></td>
+<td>エレメントに <tt class="docutils literal"><span class="pre">maxlength</span></tt> 属性を追加します。（2.5で廃止され、3.0で削除予定です。
+代わりに <tt class="docutils literal"><span class="pre">attr[maxlength]</span></tt> を使ってください）</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">pattern</span></tt></td>
+<td>エレメントに <tt class="docutils literal"><span class="pre">pattern</span></tt> 属性を追加します。（2.5で廃止され、3.0で削除予定です。
+代わりに <tt class="docutils literal"><span class="pre">attr[pattern]</span></tt> を使ってください）</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">label</span></tt></td>
+<td>出力されるラベル文字列。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">multipart</span></tt></td>
+<td>もし <tt class="docutils literal"><span class="pre">true</span></tt> なら、 <tt class="docutils literal"><span class="pre">form_enctype</span></tt> は <tt class="docutils literal"><span class="pre">enctype=&quot;multipart/form-data&quot;</span></tt> を出力
+します。親のフォームだけに適用されます。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">attr</span></tt></td>
+<td>フィールドに HTML 属性として出力される key-value 配列。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">compound</span></tt></td>
+<td>フィールドが実際は子フィールドを保持しているかどうか。(例えば <tt class="docutils literal"><span class="pre">choice</span></tt> フィールド
+があるときに、それがチェックボックスの集合で成り立っているかどうか。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">block_prefixes</span></tt></td>
+<td>親タイプ全ての名前の配列</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">translation_domain</span></tt></td>
+<td>現在のフォームの翻訳ドメイン</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">cache_key</span></tt></td>
+<td>キャッシュで利用される一意なキー</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">data</span></tt></td>
+<td>タイプの変換された（ノーマライズされた）データ</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">method</span></tt></td>
+<td>現在のフォームのメソッド(GET, POSTなど)</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">action</span></tt></td>
+<td>現在のフォームのアクション</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>

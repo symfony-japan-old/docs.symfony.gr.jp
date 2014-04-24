@@ -161,21 +161,261 @@
 <div class="versionadded">
 <p><span>New in version 2.4: </span><tt class="docutils literal"><span class="pre">expression</span></tt> 関数は Symfony2.4 で追加されました。</p>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="36%" />
+<col width="64%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">文法</th>
+<th class="head">使い方</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">render(uri,</span> <span class="pre">options</span> <span class="pre">=</span> <span class="pre">{})</span></tt>
+<tt class="docutils literal"><span class="pre">render(controller('B:C:a',</span> <span class="pre">{params}))</span></tt>
+<tt class="docutils literal"><span class="pre">render(path('route',</span> <span class="pre">{params}))</span></tt>
+<tt class="docutils literal"><span class="pre">render(url('route',</span> <span class="pre">{params}))</span></tt></td>
+<td>指定されたコントローラー又はURLのテンプレート断片を出力します。
+詳細は <a class="reference internal" href="../book/templating.html#templating-embedding-controller"><em>コントローラーを埋め込む</em></a> を参照して下さい。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">render_esi(controller('B:C:a',</span> <span class="pre">{params}))</span></tt>
+<tt class="docutils literal"><span class="pre">render_esi(url('route',</span> <span class="pre">{params}))</span></tt>
+<tt class="docutils literal"><span class="pre">render_esi(path('route',</span> <span class="pre">{params}))</span></tt></td>
+<td>ESIタグを生成します。利用できなければ代わりに <tt class="docutils literal"><span class="pre">render</span></tt> を
+実行します。詳細は <a class="reference internal" href="../book/templating.html#templating-embedding-controller"><em>コントローラーを埋め込む</em></a> を参照してください。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">render_hinclude(controller(...))</span></tt>
+<tt class="docutils literal"><span class="pre">render_hinclude(url('route',</span> <span class="pre">{params}))</span></tt>
+<tt class="docutils literal"><span class="pre">render_hinclude(path('route',</span> <span class="pre">{params}))</span></tt></td>
+<td>指定されたコントローラ又はURLのHincludeタグを生成します。
+詳細は <a class="reference internal" href="../book/templating.html#templating-embedding-controller"><em>コントローラーを埋め込む</em></a> を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">controller(attributes</span> <span class="pre">=</span> <span class="pre">{},</span> <span class="pre">query</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">render</span></tt> と合わせてレンダリングしたいコントローラを指定するのに使います。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">asset(path,</span> <span class="pre">packageName</span> <span class="pre">=</span> <span class="pre">null)</span></tt></td>
+<td>静的ファイルへの公開パスを取得します。詳細は
+&#8220;<a class="reference internal" href="../book/templating.html#book-templating-assets"><em>アセットへのリンク</em></a>&#8221; を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">asset_version(packageName</span> <span class="pre">=</span> <span class="pre">null)</span></tt></td>
+<td>パッケージの現在のバージョンを取得します。詳細は
+&#8220;<a class="reference internal" href="../book/templating.html#book-templating-assets"><em>アセットへのリンク</em></a>&#8221; を参照してください。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">form(view,</span> <span class="pre">variables</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td>フォーム全体のHTMLを出力します。詳細は
+<a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-form"><em>Twig フォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">form_start(view,</span> <span class="pre">variables</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td>フォームの開始タグを出力します。詳細は
+<a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-start"><em>Twig フォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">form_end(view,</span> <span class="pre">variables</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td>フォームの終了タグと、フォームのまだレンダリングされていないフィールド全てを出力します。
+詳細は <a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-end"><em>Twig フォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">form_enctype(view)</span></tt></td>
+<td>フォームがファイルアップロードのフィールドを最低でも一つ含む場合に、
+必要な <tt class="docutils literal"><span class="pre">enctype=&quot;multipart/form-data&quot;</span></tt> 属性を出力します。
+詳細は <a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-enctype"><em>Twigフォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">form_widget(view,</span> <span class="pre">variables</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td>フォーム全体又は特定のフィールドのHTMLウィジェットを出力します。
+詳細は <a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-widget"><em>Twig フォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">form_errors(view)</span></tt></td>
+<td>指定されたフィールド又はフォーム全体のエラーを出力します。
+詳細は <a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-errors"><em>Twig フォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">form_label(view,</span> <span class="pre">label</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">variables</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td>指定されたフィールドのラベルを出力します。
+詳細は <a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-label"><em>Twig フォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">form_row(view,</span> <span class="pre">variables</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td>指定されたフィールドの行（ラベル、エラー、ウィジェット）を出力します。
+詳細は <a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-row"><em>Twig フォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">form_rest(view,</span> <span class="pre">variables</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td>まだ出力されていない全てのフィールドを出力します。
+詳細は <a class="reference internal" href="forms/twig_reference.html#reference-forms-twig-rest"><em>Twig フォームリファレンス</em></a> を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">csrf_token(intention)</span></tt></td>
+<td>CSRFトークンを出力します。フォームを作成せずにCSRFから保護したいときに使用します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">is_granted(role,</span> <span class="pre">object</span> <span class="pre">=</span> <span class="pre">null,</span> <span class="pre">field</span> <span class="pre">=</span> <span class="pre">null)</span></tt></td>
+<td>現在のユーザーが指定されたロールを持っていれば <tt class="docutils literal"><span class="pre">true</span></tt> を返します。
+詳細は &#8220;<a class="reference internal" href="../book/security.html#book-security-template"><em>テンプレートにおけるアクセス制御</em></a>&#8221; を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">logout_path(key)</span></tt></td>
+<td>指定されたファイアーウォールのためのログアウト用のパスを返します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">logout_url(key)</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">logout_path(...)</span></tt> と同じですが、こちらは絶対URLを返します。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">path(name,</span> <span class="pre">parameters</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td>指定されたルーティング名のパスを返します。
+詳細は &#8220;<a class="reference internal" href="../book/templating.html#book-templating-pages"><em>ページ間をリンクする</em></a>&#8221; を参照してください。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">url(name,</span> <span class="pre">parameters</span> <span class="pre">=</span> <span class="pre">{})</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">path(...)</span></tt> と同じですが、こちらは絶対URLを返します。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">expression(expression)</span></tt></td>
+<td>Twig 内で <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\ExpressionLanguage\Expression</span></tt> を作ります。
+詳細は <em class="xref std std-ref">Template Expressions</em> を参照してください。</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="id2">
 <h2>フィルタ<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="55%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">文法</th>
+<th class="head">使い方</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">text|humanize</span></tt></td>
+<td>機械的的な名前を人間が読みやすい形式にします （アンダースコアを
+スペースに置き換え、文字列を大文字から始まるようにします）。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">text|trans(arguments</span> <span class="pre">=</span> <span class="pre">{},</span> <span class="pre">domain</span> <span class="pre">=</span> <span class="pre">'messages',</span> <span class="pre">locale</span> <span class="pre">=</span> <span class="pre">null)</span></tt></td>
+<td><dl class="first docutils">
+<dt>テキストを現在の言語に翻訳します。詳細は</dt>
+<dd><a class="reference internal" href="../book/translation.html#book-translation-filters"><em>Translation Filters</em></a> を参照して</dd>
+</dl>
+<p class="last">ください。</p>
+</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">text|transchoice(count,</span> <span class="pre">arguments</span> <span class="pre">=</span> <span class="pre">{},</span> <span class="pre">domain</span> <span class="pre">=</span> <span class="pre">'messages',</span> <span class="pre">locale</span> <span class="pre">=</span> <span class="pre">null)</span></tt></td>
+<td>テキストを、複数形を考慮して現在の言語に翻訳します。
+詳細は <a class="reference internal" href="../book/translation.html#book-translation-filters"><em>Translation Filters</em></a> を
+参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">variable|yaml_encode(inline</span> <span class="pre">=</span> <span class="pre">0)</span></tt></td>
+<td>変数をyaml形式に変換します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">variable|yaml_dump</span></tt></td>
+<td>値の型を示してyaml形式に変換した結果を返します。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">classname|abbr_class</span></tt></td>
+<td>PHP のクラス名と <tt class="docutils literal"><span class="pre">abbr</span></tt> 要素を出力します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">methodname|abbr_method</span></tt></td>
+<td>PHP のメソッド名と <tt class="docutils literal"><span class="pre">abbr</span></tt> 要素を出力します。
+(例えば <tt class="docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response::getContent</span></tt></td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">arguments|format_args</span></tt></td>
+<td>関数の引数とその型を出力します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">arguments|format_args_as_text</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">[...]|format_args</span></tt> と同じですがタグをつけずに出力します。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">path|file_excerpt(line)</span></tt></td>
+<td>コードのファイル内の指定行付近を出力します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">path|format_file(line,</span> <span class="pre">text</span> <span class="pre">=</span> <span class="pre">null)</span></tt></td>
+<td>ファイルのパスをリンクとして出力します。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">exceptionMessage|format_file_from_text</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">format_file</span></tt> と同じですが、PHPのデフォルトのエラー文字列
+(例えば &#8216;in foo.php on line 45&#8217; のような文字列)
+をパースしてファイルパス形式に変換します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">path|file_link(line)</span></tt></td>
+<td>ファイルの正しいパスと行を出力します。</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="id3">
 <h2>タグ<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
 <p><span>New in version 2.4: </span>ストップウォッチタグは Symfony 2.4 で追加されました。</p>
 </div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="43%" />
+<col width="57%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">文法</th>
+<th class="head">使い方</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">{%</span> <span class="pre">form_theme</span> <span class="pre">form</span> <span class="pre">'file'</span> <span class="pre">%}</span></tt></td>
+<td>指定されたファイル内を調べ、フォームブロックを上書きします。詳細は
+<a class="reference internal" href="../cookbook/form/form_customization.html"><em>フォームのレンダリングのカスタマイズ方法</em></a> を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">{%</span> <span class="pre">trans</span> <span class="pre">with</span> <span class="pre">{variables}</span> <span class="pre">%}...{%</span> <span class="pre">endtrans</span> <span class="pre">%}</span></tt></td>
+<td>テキストを翻訳して出力します。
+詳細は <a class="reference internal" href="../book/translation.html#book-translation-tags"><em>Twig テンプレート</em></a> を参照してください。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">{%</span> <span class="pre">transchoice</span> <span class="pre">count</span> <span class="pre">with</span> <span class="pre">{variables}</span> <span class="pre">%}</span></tt>
+...
+<tt class="docutils literal"><span class="pre">{%</span> <span class="pre">endtranschoice</span> <span class="pre">%}</span></tt></td>
+<td>テキストを、複数形を使って翻訳して出力します。   　　　　　　　　　
+詳細は <a class="reference internal" href="../book/translation.html#book-translation-tags"><em>Twig テンプレート</em></a> を参照してください。</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">{%</span> <span class="pre">trans_default_domain</span> <span class="pre">language</span> <span class="pre">%}</span></tt></td>
+<td>現在のテンプレート内での翻訳メッセージカタログの、デフォルトの
+ドメインを設定します。</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">{%</span> <span class="pre">stopwatch</span> <span class="pre">'name'</span> <span class="pre">%}...{%</span> <span class="pre">endstopwatch</span> <span class="pre">%}</span></tt></td>
+<td>コードの実行時間を測り、 WebProfilerBundle のタイムラインに追加
+します。</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="id4">
 <h2>テスト<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">文法</th>
+<th class="head">使い方</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">selectedchoice(choice,</span> <span class="pre">selectedValue)</span></tt></td>
+<td>指定された選択肢フィールドが指定された値を選択していれば、 <tt class="docutils literal"><span class="pre">true</span></tt> を返し
+ます。</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="id5">
 <h2>グローバル変数<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="40%" />
+<col width="60%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">変数</th>
+<th class="head">使い方</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">app</span></tt> <em>属性</em>: <tt class="docutils literal"><span class="pre">app.user</span></tt>, <tt class="docutils literal"><span class="pre">app.request</span></tt>,
+<tt class="docutils literal"><span class="pre">app.session</span></tt>, <tt class="docutils literal"><span class="pre">app.environment</span></tt>, <tt class="docutils literal"><span class="pre">app.debug</span></tt>,
+<tt class="docutils literal"><span class="pre">app.security</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">app</span></tt> 変数はテンプレート内のどこでも使うことができ、共通で使用するオブジェクトに
+すばやくアクセスできるようになっています。 <tt class="docutils literal"><span class="pre">app</span></tt> 変数は
+<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables</span></tt> の
+インスタンスです。</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="symfony-standard-edition-twig">
 <h2>Symfony Standard Edition の Twig エクステンション<a class="headerlink" href="#symfony-standard-edition-twig" title="Permalink to this headline">¶</a></h2>

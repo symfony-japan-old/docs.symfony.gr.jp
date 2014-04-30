@@ -87,6 +87,8 @@
 <li><a class="reference internal" href="#months">months</a></li>
 <li><a class="reference internal" href="#days">days</a></li>
 <li><a class="reference internal" href="#format">format</a></li>
+<li><a class="reference internal" href="#model-timezone">model_timezone</a></li>
+<li><a class="reference internal" href="#view-timezone">view_timezone</a></li>
 <li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
 <li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
@@ -197,8 +199,8 @@
 <li><a class="reference internal" href="#months">months</a></li>
 <li><a class="reference internal" href="#days">days</a></li>
 <li><a class="reference internal" href="#format">format</a></li>
-<li><a href="#id3"><span class="problematic" id="id4">`model_timezone`_</span></a></li>
-<li><a href="#id5"><span class="problematic" id="id6">`view_timezone`_</span></a></li>
+<li><a class="reference internal" href="#model-timezone">model_timezone</a></li>
+<li><a class="reference internal" href="#view-timezone">view_timezone</a></li>
 <li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
 <li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
@@ -234,7 +236,7 @@
 <p>The basic way in which this field should be rendered. Can be one of the following:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">choice</span></tt>: renders three select inputs.  The order of the selects is defined
-in the <a href="#id7"><span class="problematic" id="id8">`pattern`_</span></a> option.</li>
+in the <a href="#id4"><span class="problematic" id="id5">`pattern`_</span></a> option.</li>
 <li><tt class="docutils literal"><span class="pre">text</span></tt>: renders a three field input of type text (month, day, year).</li>
 <li><tt class="docutils literal"><span class="pre">single_text</span></tt>: renders a single input of type text. User&#8217;s input is validated
 based on the <a class="reference internal" href="#format">format</a> option.</li>
@@ -287,15 +289,13 @@ this format.</p>
 </div>
 <div class="section" id="months">
 <h3>months<a class="headerlink" href="#months" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>default</strong>: 1 to 12</p>
-<p>List of months available to the month field type. This option is only relevant
-when the <tt class="docutils literal"><span class="pre">widget</span></tt> option is set to <tt class="docutils literal"><span class="pre">choice</span></tt>.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: 1 to 12</p>
+<p><tt class="docutils literal"><span class="pre">month</span></tt> フィールドタイプに設定可能な月のリストです。このオプションは <tt class="docutils literal"><span class="pre">widget</span></tt> オプションに <tt class="docutils literal"><span class="pre">choice</span></tt> が設定されている場合のみ意味を持ちます。</p>
 </div>
 <div class="section" id="days">
 <h3>days<a class="headerlink" href="#days" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>default</strong>: 1 to 31</p>
-<p>List of days available to the day field type.  This option is only relevant
-when the <tt class="docutils literal"><span class="pre">widget</span></tt> option is set to <tt class="docutils literal"><span class="pre">choice</span></tt>:</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: 1 to 31</p>
+<p><tt class="docutils literal"><span class="pre">day</span></tt> フィールドタイプに設定可能な日のリストです。このオプションは <tt class="docutils literal"><span class="pre">widget</span></tt> オプションに <tt class="docutils literal"><span class="pre">choice</span></tt> が設定されている場合のみ意味を持ちます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="s1">&#39;days&#39;</span> <span class="o">=&gt;</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -308,6 +308,16 @@ into the proper format. This is critical when the <a class="reference internal" 
 set to <tt class="docutils literal"><span class="pre">single_text</span></tt>, and will define how to transform the input. By default,
 the format is determined based on the current user locale; you can override
 it by passing the format as a string.</p>
+</div>
+<div class="section" id="model-timezone">
+<h3>model_timezone<a class="headerlink" href="#model-timezone" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: システムのデフォルトのタイムゾーン</p>
+<p>保存されている入力データのタイムゾーン。これは <a class="reference external" href="http://php.net/manual/ja/timezones.php">PHP supported timezones</a> の一つである必要があります。</p>
+</div>
+<div class="section" id="view-timezone">
+<h3>view_timezone<a class="headerlink" href="#view-timezone" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: システムのデフォルトのタイムゾーン</p>
+<p>ユーザーに表示されるデータのタイムゾーン（従って、ユーザーが送信するデータも）。これは <a class="reference external" href="http://php.net/manual/ja/timezones.php">PHP supported timezones</a> の一つである必要があります。</p>
 <p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています:</p>
 </div>
 <div class="section" id="data">

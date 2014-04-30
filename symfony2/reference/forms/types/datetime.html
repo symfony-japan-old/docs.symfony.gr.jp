@@ -90,10 +90,12 @@
 <li><a class="reference internal" href="#months">months</a></li>
 <li><a class="reference internal" href="#days">days</a></li>
 <li><a class="reference internal" href="#with-seconds">with_seconds</a></li>
+<li><a class="reference internal" href="#model-timezone">model_timezone</a></li>
+<li><a class="reference internal" href="#view-timezone">view_timezone</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id2">継承されたオプション</a><ul>
+<li><a class="reference internal" href="#id3">継承されたオプション</a><ul>
 <li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
 <li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
@@ -103,7 +105,7 @@
 <li><a class="reference internal" href="#inherit-data">inherit_data</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id3">フィールド変数</a></li>
+<li><a class="reference internal" href="#id4">フィールド変数</a></li>
 </ul>
 </li>
 </ul>
@@ -203,10 +205,10 @@
 <li><a class="reference internal" href="#years">years</a></li>
 <li><a class="reference internal" href="#months">months</a></li>
 <li><a class="reference internal" href="#days">days</a></li>
-<li><a href="#id4"><span class="problematic" id="id5">`with_minutes`_</span></a></li>
+<li><a href="#id5"><span class="problematic" id="id6">`with_minutes`_</span></a></li>
 <li><a class="reference internal" href="#with-seconds">with_seconds</a></li>
-<li><a href="#id6"><span class="problematic" id="id7">`model_timezone`_</span></a></li>
-<li><a href="#id8"><span class="problematic" id="id9">`view_timezone`_</span></a></li>
+<li><a class="reference internal" href="#model-timezone">model_timezone</a></li>
+<li><a class="reference internal" href="#view-timezone">view_timezone</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
 </ul>
 </td>
@@ -273,7 +275,7 @@
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\DateTimeType::HTML5_FORMAT</span></tt></p>
 <p><tt class="docutils literal"><span class="pre">widget</span></tt> オプションを <tt class="docutils literal"><span class="pre">single_text</span></tt> にセットした場合、このオプションは入力フォーマットを特定します。
 すなわち、 Symfony が入力を日時文字列としてどのように解釈するかを指定します。
-デフォルトでは <a href="#id10"><span class="problematic" id="id11">`RFC3339`_</span></a> フォーマットが HTML5の <tt class="docutils literal"><span class="pre">datetime</span></tt> フィールドに利用されます。
+デフォルトでは <a href="#id7"><span class="problematic" id="id8">`RFC3339`_</span></a> フォーマットが HTML5の <tt class="docutils literal"><span class="pre">datetime</span></tt> フィールドに利用されます。
 デフォルト値を維持することでフィールドが <tt class="docutils literal"><span class="pre">type=&quot;datetime&quot;</span></tt> 付の <tt class="docutils literal"><span class="pre">input</span></tt> フィールドとしてレンダリングされます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -300,30 +302,36 @@
 </div>
 <div class="section" id="years">
 <h3>years<a class="headerlink" href="#years" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>default</strong>: five years before to five years after the current year</p>
-<p>List of years available to the year field type.  This option is only relevant
-when the <tt class="docutils literal"><span class="pre">widget</span></tt> option is set to <tt class="docutils literal"><span class="pre">choice</span></tt>.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: 今年より５年前から５年後</p>
+<p><tt class="docutils literal"><span class="pre">year</span></tt> フィールドタイプに設定可能な年のリストです。このオプションは <tt class="docutils literal"><span class="pre">widget</span></tt> オプションに <tt class="docutils literal"><span class="pre">choice</span></tt> が設定されている場合のみ意味を持ちます。</p>
 </div>
 <div class="section" id="months">
 <h3>months<a class="headerlink" href="#months" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>default</strong>: 1 to 12</p>
-<p>List of months available to the month field type. This option is only relevant
-when the <tt class="docutils literal"><span class="pre">widget</span></tt> option is set to <tt class="docutils literal"><span class="pre">choice</span></tt>.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: 1 to 12</p>
+<p><tt class="docutils literal"><span class="pre">month</span></tt> フィールドタイプに設定可能な月のリストです。このオプションは <tt class="docutils literal"><span class="pre">widget</span></tt> オプションに <tt class="docutils literal"><span class="pre">choice</span></tt> が設定されている場合のみ意味を持ちます。</p>
 </div>
 <div class="section" id="days">
 <h3>days<a class="headerlink" href="#days" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>default</strong>: 1 to 31</p>
-<p>List of days available to the day field type.  This option is only relevant
-when the <tt class="docutils literal"><span class="pre">widget</span></tt> option is set to <tt class="docutils literal"><span class="pre">choice</span></tt>:</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: 1 to 31</p>
+<p><tt class="docutils literal"><span class="pre">day</span></tt> フィールドタイプに設定可能な日のリストです。このオプションは <tt class="docutils literal"><span class="pre">widget</span></tt> オプションに <tt class="docutils literal"><span class="pre">choice</span></tt> が設定されている場合のみ意味を持ちます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="s1">&#39;days&#39;</span> <span class="o">=&gt;</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">31</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="with-seconds">
 <h3>with_seconds<a class="headerlink" href="#with-seconds" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
-<p>Whether or not to include seconds in the input. This will result in an additional
-input to capture seconds.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>秒を入力に含めるかどうか。これは秒を取得する追加の入力フォームを出力します。</p>
+</div>
+<div class="section" id="model-timezone">
+<h3>model_timezone<a class="headerlink" href="#model-timezone" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: システムのデフォルトのタイムゾーン</p>
+<p>保存されている入力データのタイムゾーン。これは <a class="reference external" href="http://php.net/manual/ja/timezones.php">PHP supported timezones</a> の一つである必要があります。</p>
+</div>
+<div class="section" id="view-timezone">
+<h3>view_timezone<a class="headerlink" href="#view-timezone" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: システムのデフォルトのタイムゾーン</p>
+<p>ユーザーに表示されるデータのタイムゾーン（従って、ユーザーが送信するデータも）。これは <a class="reference external" href="http://php.net/manual/ja/timezones.php">PHP supported timezones</a> の一つである必要があります。</p>
 </div>
 <div class="section" id="empty-value">
 <h3>empty_value<a class="headerlink" href="#empty-value" title="Permalink to this headline">¶</a></h3>
@@ -357,8 +365,8 @@ input to capture seconds.</p>
 </div>
 </div>
 </div>
-<div class="section" id="id2">
-<h2>継承されたオプション<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>継承されたオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています:</p>
 <div class="section" id="data">
 <h3>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
@@ -420,8 +428,8 @@ input to capture seconds.</p>
 <p>フォームが親フォームからデータを継承する場合は、このオプションで決定します。複数のフォーム間で重複しているフィールドのセットを持っている場合に役立ちます。参照 <a class="reference internal" href="../../../cookbook/form/inherit_data_option.html"><em>&#8220;inherit_data&#8221;オプションを使用してコードの重複を減らす</em></a> 。</p>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>フィールド変数<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>フィールド変数<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="9%" />

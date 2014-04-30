@@ -84,15 +84,17 @@
 <li><a class="reference internal" href="#hours">hours</a></li>
 <li><a class="reference internal" href="#minutes">minutes</a></li>
 <li><a class="reference internal" href="#seconds">seconds</a></li>
+<li><a class="reference internal" href="#model-timezone">model_timezone</a></li>
+<li><a class="reference internal" href="#view-timezone">view_timezone</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id3">上書きされたオプション</a><ul>
+<li><a class="reference internal" href="#id4">上書きされたオプション</a><ul>
 <li><a class="reference internal" href="#by-reference">by_reference</a></li>
 <li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4">継承されたオプション</a><ul>
+<li><a class="reference internal" href="#id5">継承されたオプション</a><ul>
 <li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
 <li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
 <li><a class="reference internal" href="#data">data</a></li>
@@ -103,7 +105,7 @@
 <li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id5">フォーム変数</a></li>
+<li><a class="reference internal" href="#id6">フォーム変数</a></li>
 </ul>
 </li>
 </ul>
@@ -193,13 +195,13 @@
 <td><ul class="first last simple">
 <li><a class="reference internal" href="#widget">widget</a></li>
 <li><a class="reference internal" href="#input">input</a></li>
-<li><a href="#id6"><span class="problematic" id="id7">`with_minutes`_</span></a></li>
+<li><a href="#id7"><span class="problematic" id="id8">`with_minutes`_</span></a></li>
 <li><a class="reference internal" href="#with-seconds">with_seconds</a></li>
 <li><a class="reference internal" href="#hours">hours</a></li>
 <li><a class="reference internal" href="#minutes">minutes</a></li>
 <li><a class="reference internal" href="#seconds">seconds</a></li>
-<li><a href="#id8"><span class="problematic" id="id9">`model_timezone`_</span></a></li>
-<li><a href="#id10"><span class="problematic" id="id11">`view_timezone`_</span></a></li>
+<li><a class="reference internal" href="#model-timezone">model_timezone</a></li>
+<li><a class="reference internal" href="#view-timezone">view_timezone</a></li>
 <li><a class="reference internal" href="#empty-value">empty_value</a></li>
 </ul>
 </td>
@@ -262,13 +264,13 @@
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">choice</span></tt></p>
 <p>このフィールドがレンダリングされるべき基本的な方法は次のいずれかになります。:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">choice</span></tt>: <a href="#id12"><span class="problematic" id="id13">`with_minutes`_</span></a> と <a class="reference internal" href="#with-seconds">with_seconds</a> オプションに基づいて、1つ、または、2つ（デフォルト）または3つのセレクト入力（ <tt class="docutils literal"><span class="pre">hour</span></tt> , <tt class="docutils literal"><span class="pre">minute</span></tt> , <tt class="docutils literal"><span class="pre">second</span></tt> ）を表示します。</li>
-<li><tt class="docutils literal"><span class="pre">text</span></tt>:  <a href="#id14"><span class="problematic" id="id15">`with_minutes`_</span></a> と <a class="reference internal" href="#with-seconds">with_seconds</a> オプションに基づいて、1つ、または、2つ（デフォルト）または3つのテキスト入力（ <tt class="docutils literal"><span class="pre">hour</span></tt> , <tt class="docutils literal"><span class="pre">minute</span></tt> , <tt class="docutils literal"><span class="pre">second</span></tt> ）を表示します。</li>
+<li><tt class="docutils literal"><span class="pre">choice</span></tt>: <a href="#id9"><span class="problematic" id="id10">`with_minutes`_</span></a> と <a class="reference internal" href="#with-seconds">with_seconds</a> オプションに基づいて、1つ、または、2つ（デフォルト）または3つのセレクト入力（ <tt class="docutils literal"><span class="pre">hour</span></tt> , <tt class="docutils literal"><span class="pre">minute</span></tt> , <tt class="docutils literal"><span class="pre">second</span></tt> ）を表示します。</li>
+<li><tt class="docutils literal"><span class="pre">text</span></tt>:  <a href="#id11"><span class="problematic" id="id12">`with_minutes`_</span></a> と <a class="reference internal" href="#with-seconds">with_seconds</a> オプションに基づいて、1つ、または、2つ（デフォルト）または3つのテキスト入力（ <tt class="docutils literal"><span class="pre">hour</span></tt> , <tt class="docutils literal"><span class="pre">minute</span></tt> , <tt class="docutils literal"><span class="pre">second</span></tt> ）を表示します。</li>
 <li><tt class="docutils literal"><span class="pre">single_text</span></tt>: 単一の <tt class="docutils literal"><span class="pre">time</span></tt> タイプの入力フォームを表示します。ユーザーの入力は <tt class="docutils literal"><span class="pre">hh:mm</span></tt> （または <tt class="docutils literal"><span class="pre">HH：MM：SS</span></tt> 秒を使用している場合） のフォームに対して検証されます。</li>
 </ul>
 <div class="admonition caution">
 <p class="first admonition-title">Caution</p>
-<p class="last">ウィジェットタイプの <tt class="docutils literal"><span class="pre">single_text</span></tt> と <a href="#id16"><span class="problematic" id="id17">`with_minutes`_</span></a> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> とする組み合わせは、
+<p class="last">ウィジェットタイプの <tt class="docutils literal"><span class="pre">single_text</span></tt> と <a href="#id13"><span class="problematic" id="id14">`with_minutes`_</span></a> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> とする組み合わせは、
 入力タイプ <tt class="docutils literal"><span class="pre">time</span></tt>  が時間のみ選択することをサポートしていない可能性があり、
 クライアントで予期しない動作を引き起こす可能性があります。</p>
 </div>
@@ -288,9 +290,8 @@
 </div>
 <div class="section" id="with-seconds">
 <h3>with_seconds<a class="headerlink" href="#with-seconds" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
-<p>Whether or not to include seconds in the input. This will result in an additional
-input to capture seconds.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>秒を入力に含めるかどうか。これは秒を取得する追加の入力フォームを出力します。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -313,6 +314,16 @@ input to capture seconds.</p>
 <h3>seconds<a class="headerlink" href="#seconds" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">integer</span></tt> <strong>デフォルト</strong>: 1 to 59</p>
 <p>秒のフィールドタイプで使用可能な秒のリストです。このオプションは <tt class="docutils literal"><span class="pre">widget</span></tt> オプションに <tt class="docutils literal"><span class="pre">choice</span></tt> が設定されている場合にのみ意味を持ちます。</p>
+</div>
+<div class="section" id="model-timezone">
+<h3>model_timezone<a class="headerlink" href="#model-timezone" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: システムのデフォルトのタイムゾーン</p>
+<p>保存されている入力データのタイムゾーン。これは <a class="reference external" href="http://php.net/manual/ja/timezones.php">PHP supported timezones</a> の一つである必要があります。</p>
+</div>
+<div class="section" id="view-timezone">
+<h3>view_timezone<a class="headerlink" href="#view-timezone" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: システムのデフォルトのタイムゾーン</p>
+<p>ユーザーに表示されるデータのタイムゾーン（従って、ユーザーが送信するデータも）。これは <a class="reference external" href="http://php.net/manual/ja/timezones.php">PHP supported timezones</a> の一つである必要があります。</p>
 </div>
 <div class="section" id="empty-value">
 <h3>empty_value<a class="headerlink" href="#empty-value" title="Permalink to this headline">¶</a></h3>
@@ -346,8 +357,8 @@ input to capture seconds.</p>
 </div>
 </div>
 </div>
-<div class="section" id="id3">
-<h2>上書きされたオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>上書きされたオプション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="by-reference">
 <h3>by_reference<a class="headerlink" href="#by-reference" title="Permalink to this headline">¶</a></h3>
 <p><strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
@@ -358,8 +369,8 @@ input to capture seconds.</p>
 <p><strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>継承されたオプション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>継承されたオプション<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています:</p>
 <div class="section" id="invalid-message">
 <h3>invalid_message<a class="headerlink" href="#invalid-message" title="Permalink to this headline">¶</a></h3>
@@ -447,8 +458,8 @@ input to capture seconds.</p>
 </ul>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>フォーム変数<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>フォーム変数<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <colgroup>
 <col width="14%" />
@@ -468,7 +479,7 @@ input to capture seconds.</p>
 </tr>
 <tr class="row-odd"><td>with_minutes</td>
 <td><tt class="docutils literal"><span class="pre">Boolean</span></tt></td>
-<td><a href="#id18"><span class="problematic" id="id19">`with_minutes`_</span></a> オプションの値。</td>
+<td><a href="#id15"><span class="problematic" id="id16">`with_minutes`_</span></a> オプションの値。</td>
 </tr>
 <tr class="row-even"><td>with_seconds</td>
 <td><tt class="docutils literal"><span class="pre">Boolean</span></tt></td>

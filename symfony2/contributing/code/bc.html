@@ -1,0 +1,980 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>後方互換性の保証について | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">後方互換性の保証について</a><ul>
+<li><a class="reference internal" href="#symfony">Symfonyコードの利用</a><ul>
+<li><a class="reference internal" href="#id2">インターフェースの利用</a></li>
+<li><a class="reference internal" href="#id5">クラスの利用</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#symfony-code">Symfony Codeへの取り組み</a><ul>
+<li><a class="reference internal" href="#id12">インターフェースへの変更</a></li>
+<li><a class="reference internal" href="#id25">クラスへの変更</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../sources/contributing/code/bc.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/contributing/code/bc.html">原文のページ</a>をご確認ください。</p>
+
+  <div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3以降</li>
+<li>翻訳更新日：2014/04/30</li>
+</ul>
+</div>
+<div class="section" id="id1">
+<h1>後方互換性の保証について<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>私達はプロジェクトの円滑なアップグレードの保証を最重視している為、Symfonyではすべてのマイナーリリース間の後方互換性を保証します。
+このようなバージョン管理の方式を<a class="reference external" href="http://semver.org/">セマンティックバージョニング</a>と呼びます。
+セマンティックバージョニングは、互換性のないAPIの変更はメジャーリリース（2.0や3.0など）でのみ行い、マイナーリリース（2.5や2.6のような）では新機能の追加は、そのリリースブランチ（前の例で言う2.x）の既存のAPIの後方互換性が保たれた状態で行われます。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">この保証はSymfony 2.3 から施行されたため、その前のバージョンには適用されません。</p>
+</div>
+<p>しかし、後方互換性の破壊はあらゆる場面で起きます。
+実際には、フレームワークに行われるほぼすべての変更がアプリケーションを破壊する可能性があると言っても過言ではありません。
+例えば、Symfonyのクラスをアプリケーションで継承して使っている場合、あなたが既に追加したメソッドとシグネチャの異なる同名のメソッドが追加された時にアプリケーションが壊れてしまいます。</p>
+<p>同時に、全ての後方互換性の破壊がアプリケーションに影響を与えると言うわけではありません。
+既存のクラスやアーキテクチャに大幅な変更が必要な場合がある一方で、単にメソッド名を変更する等、簡単に解決できる場合もあります。</p>
+<p>そこで私達はこのページを作りました。&#8221;Symfonyコードの利用&#8221;セクションでは、どのようにすればアプリケーションを壊す事なく、新しいマイナーバージョンに確実にアップグレードできるかについて説明します。</p>
+<p>次の&#8221;Symfonyコードへの取り組み&#8221;は、Symfonyのコントリビュータ向けのセクションです。
+このセクションではユーザが円滑にアップグレードを行えるように、すべてのコントリビュータが守るべき規則の詳細を列挙します。</p>
+<div class="section" id="symfony">
+<h2>Symfonyコードの利用<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h2>
+<p>以下のガイドラインに沿ってSymfonyを使用していれば、今後のすべてのマイナーバージョンに円滑にアップグレードする事ができます。</p>
+<div class="section" id="id2">
+<h3>インターフェースの利用<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>Symfonyが用意する全てのインターフェースはタイプヒントで指定する事ができ、宣言されている全てのメソッドをコールすることができます。
+これらの規則に従うコードは壊される事はありません。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last"><tt class="docutils literal"><span class="pre">&#64;internal</span></tt>タグが付いているインターフェースは保証外になります。このようなインターフェースは使用、または実装すべきでありません。</p>
+</div>
+<p>インターフェースを実装する場合は、まずそれがAPIインターフェースであるか確認しましょう。次のような、<tt class="docutils literal"><span class="pre">&#64;api</span></tt>タグの付いている物はAPIインターフェースとなります:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * HttpKernelInterface handles a Request to convert it to a Response.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @author Fabien Potencier &lt;fabien@symfony.com&gt;</span>
+<span class="sd"> *</span>
+<span class="sd"> * @api</span>
+<span class="sd"> */</span>
+<span class="k">interface</span> <span class="nx">HttpKernelInterface</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>APIインターフェースを実装していれば、将来そのコードが壊される事はありません。対照的に、レギュラーインターフェースはマイナーリリース時に新しいメソッドを追加する等の拡張がされる事がある為、アップグレードの際は事前に確認を行い、必要に応じて手動でコードを移行する必要があります。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">容易に移行が可能な変更だけが行われます。また、それらの変更がある際はSymfonyルートディレクトリに配置されるUPGRADEファイルに正確な移行の指示を明記します。</p>
+</div>
+<p>次の表は、どのようなユースケースで後方互換性が保たれるかを説明します。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="59%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ユースケース</th>
+<th class="head">レギュラー</th>
+<th class="head">API</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>あなたが...</strong></td>
+<td colspan="2"><strong>する場合は後方互換性を保証...</strong></td>
+</tr>
+<tr class="row-odd"><td>インターフェースへのタイプヒント</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>メソッドをコール</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><strong>あなたがインターフェースを実装し、かつ、...</strong></td>
+<td colspan="2"><strong>する場合は後方互換性を保証...</strong></td>
+</tr>
+<tr class="row-even"><td>メソッドを実装</td>
+<td>No <a class="footnote-reference" href="#id58" id="id3">[1]</a></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>実装したメソッドに引数を追加</td>
+<td>No <a class="footnote-reference" href="#id58" id="id4">[1]</a></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>引数にデフォルト値を設定</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id5">
+<h3>クラスの利用<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>Symfonyによって提供されるすべてのクラスはインスタンス化され、publicメソッドおよびプロパティを介してアクセスする事ができます。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last"><tt class="docutils literal"><span class="pre">&#64;internal</span></tt>タグの付いたクラス、プロパティやメソッド、並びに名前空間に<tt class="docutils literal"><span class="pre">**Tests**</span></tt>を含むクラスはこの規約の対象外となります。
+これらは内部利用を目的としているので、アプリケーションのコードからアクセスすべきではありません。</p>
+</div>
+<p>インターフェースと同様、クラスもAPIクラス、レギュラークラスと区分されています。
+APIクラスもインターフェースと同様に<tt class="docutils literal"><span class="pre">&#64;api</span></tt>タグが付けられています:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/**</span>
+<span class="sd"> * Request represents an HTTP request.</span>
+<span class="sd"> *</span>
+<span class="sd"> * @author Fabien Potencier &lt;fabien@symfony.com&gt;</span>
+<span class="sd"> *</span>
+<span class="sd"> * @api</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">Request</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>APIクラスとレギュラークラスの違いは、APIクラスは継承先でオーバーライドしたメソッドは完全に後方互換性が保証されるのに対し、レギュラークラスはその限りではないと言う点です。
+例えば省略可能な引数がメソッドに追加される事があります。その結果、あなたがオーバーライドしたメソッドとのシグネチャに不一致が生じた場合、致命的なエラーが発生するでしょう。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">インターフェースと同様に、クラスの変更は最小限に留められ、移行が必要な場合はSymfonyルートディレクトリに配置されるUPGRADEにその詳細な手順を示します。</p>
+</div>
+<p>場合によっては、<tt class="docutils literal"><span class="pre">&#64;api</span></tt>タグがクラス単位ではなく、特定のプロパティやメソッドにのみ付けられている事があります。
+このような場合、そのプロパティやメソッドに対する（下図のAPI列で示すように）後方互換性は保証されますが、それ以外の部分に関してはその限りではないと言う事を意味します。</p>
+<p>念のため、以下のユースケースと後方互換性保証の対応表を確認して下さい:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="59%" />
+<col width="21%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">ユースケース</th>
+<th class="head">レギュラー</th>
+<th class="head">API</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><strong>あなたが...</strong></td>
+<td colspan="2"><strong>する場合は後方互換性を保証...</strong></td>
+</tr>
+<tr class="row-odd"><td>クラスへのタイプヒント</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>新しいインスタンスを作成</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>クラスを継承</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>publicプロパティにアクセス</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>publicメソッドをコール</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><strong>あなたがクラスを継承し、かつ、...</strong></td>
+<td colspan="2"><strong>する場合は後方互換性を保証...</strong></td>
+</tr>
+<tr class="row-odd"><td>protectedプロパティにアクセス</td>
+<td>No <a class="footnote-reference" href="#id58" id="id6">[1]</a></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>protectedメソッドをコール</td>
+<td>No <a class="footnote-reference" href="#id58" id="id7">[1]</a></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>publicプロパティをオーバーライド</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>protectedプロパティをオーバーライド</td>
+<td>No <a class="footnote-reference" href="#id58" id="id8">[1]</a></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>publicメソッドをオーバーライド</td>
+<td>No <a class="footnote-reference" href="#id58" id="id9">[1]</a></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>protectedメソッドをオーバーライド</td>
+<td>No <a class="footnote-reference" href="#id58" id="id10">[1]</a></td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>新しいプロパティを追加</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>新しいメソッドを追加</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>オーバーライドしたメソッドに引数を追加</td>
+<td>No <a class="footnote-reference" href="#id58" id="id11">[1]</a></td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>引数にデフォルト値を追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>（Reflectionから）privateメソッドのコール</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>(Reflectionから) privateプロパティにアクセス</td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="symfony-code">
+<h2>Symfony Codeへの取り組み<a class="headerlink" href="#symfony-code" title="Permalink to this headline">¶</a></h2>
+<p>Symfonyの改善に貢献する場合、ユーザーの円滑なアップグレードを保証する為に下記で示すルールに厳格に則る必要があります。</p>
+<div class="section" id="id12">
+<h3>インターフェースへの変更<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p>次の表では、既存インターフェースに対して許可されている変更を示します:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="61%" />
+<col width="20%" />
+<col width="20%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">変更の内容</th>
+<th class="head">レギュラー</th>
+<th class="head">API</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>インターフェースそのものを削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>インターフェース名、あるいは名前空間の変更</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>親インターフェースの追加</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id13">[2]</a></td>
+<td>Yes <a class="footnote-reference" href="#id60" id="id14">[3]</a></td>
+</tr>
+<tr class="row-odd"><td>親インターフェースの削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td><strong>メソッド</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>メソッドの追加</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id15">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>メソッドの削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>メソッド名の変更</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>親インターフェースに移動</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>デフォルト値を持たない引数の追加</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>デフォルト値を持つ引数の追加</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id16">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>引数の削除</td>
+<td>Yes <a class="footnote-reference" href="#id61" id="id17">[4]</a></td>
+<td>Yes <a class="footnote-reference" href="#id61" id="id18">[4]</a></td>
+</tr>
+<tr class="row-even"><td>引数にデフォルト値を設定</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id19">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>引数のデフォルト値を削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>引数にタイプヒントを設定</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>引数のタイプヒントを削除</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id20">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>引数の型を変更</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id21">[2]</a> <a class="footnote-reference" href="#id62" id="id22">[5]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>戻り値の型を変更</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id23">[2]</a> <a class="footnote-reference" href="#id63" id="id24">[6]</a></td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id25">
+<h3>クラスへの変更<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
+<p>次の表では、既存クラスに対して許可されている変更を示します:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="59%" />
+<col width="21%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">変更の内容</th>
+<th class="head">レギュラー</th>
+<th class="head">API</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>クラスそのものを削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>finalに変更</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>abstractに変更</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>クラス名、あるいは名前空間の変更</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>親クラスの変更</td>
+<td>Yes <a class="footnote-reference" href="#id64" id="id26">[7]</a></td>
+<td>Yes <a class="footnote-reference" href="#id64" id="id27">[7]</a></td>
+</tr>
+<tr class="row-odd"><td>インターフェースの追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>インターフェースの削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td><strong>publicプロパティ</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>publicプロパティの追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>publicプロパティの削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>スコープの降格</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>親クラスに移動</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><strong>protectedプロパティ</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>protectedプロパティの追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>protectedプロパティの削除</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id28">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>スコープの降格</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id29">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>親クラスに移動</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td><strong>privateプロパティ</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>privateプロパティの追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>privateプロパティの削除</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><strong>コンストラクタ</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>必須な引数のないコンストラクタの追加</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id30">[2]</a></td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id31">[2]</a></td>
+</tr>
+<tr class="row-even"><td>コンストラクタの削除</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id32">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>publicコンストラクタのスコープの降格</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>protectedコンストラクタのスコープの降格</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id33">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>親クラスに移動</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td><strong>publicメソッド</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>publicメソッドの追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>publicメソッドの削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>メソッド名の変更</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>スコープの降格</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>親クラスに移動</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>デフォルト値を持たない引数の追加</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>デフォルト値を持つ引数の追加</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id34">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>引数の削除</td>
+<td>Yes <a class="footnote-reference" href="#id61" id="id35">[4]</a></td>
+<td>Yes <a class="footnote-reference" href="#id61" id="id36">[4]</a></td>
+</tr>
+<tr class="row-odd"><td>引数にデフォルト値を設定</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id37">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>引数のデフォルト値を削除</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>引数にタイプヒントを設定</td>
+<td>Yes <a class="footnote-reference" href="#id65" id="id38">[8]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>引数のタイプヒントを削除</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id39">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>引数の型を変更</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id40">[2]</a> <a class="footnote-reference" href="#id62" id="id41">[5]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>戻り値の型を変更</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id42">[2]</a> <a class="footnote-reference" href="#id63" id="id43">[6]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td><strong>protectedメソッド</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>protectedメソッドの追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>protectedメソッドの削除</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id44">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>メソッド名の変更</td>
+<td>No</td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>スコープの降格</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id45">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>親クラスに移動</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>デフォルト値を持たない引数の追加</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id46">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>デフォルト値を持つ引数の追加</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id47">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>引数の削除</td>
+<td>Yes <a class="footnote-reference" href="#id61" id="id48">[4]</a></td>
+<td>Yes <a class="footnote-reference" href="#id61" id="id49">[4]</a></td>
+</tr>
+<tr class="row-even"><td>引数にデフォルト値を設定</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id50">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>引数のデフォルト値を削除</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id51">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>引数にタイプヒントを設定</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id52">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>引数のタイプヒントを削除</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id53">[2]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td>引数の型を変更</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id54">[2]</a> <a class="footnote-reference" href="#id62" id="id55">[5]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-odd"><td>戻り値の型を変更</td>
+<td>Yes <a class="footnote-reference" href="#id59" id="id56">[2]</a> <a class="footnote-reference" href="#id63" id="id57">[6]</a></td>
+<td>No</td>
+</tr>
+<tr class="row-even"><td><strong>privateメソッド</strong></td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>protectedメソッドの追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>protectedメソッドの削除</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>メソッド名の変更</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>スコープの降格</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>デフォルト値を持たない引数の追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>デフォルト値を持つ引数の追加</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>引数の削除</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>引数にデフォルト値を設定</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>引数のデフォルト値を削除</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>引数にタイプヒントを設定</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>引数のタイプヒントを削除</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-even"><td>引数の型を変更</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="row-odd"><td>戻り値の型を変更</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id58" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[1]</td><td><em>(<a class="fn-backref" href="#id3">1</a>, <a class="fn-backref" href="#id4">2</a>, <a class="fn-backref" href="#id6">3</a>, <a class="fn-backref" href="#id7">4</a>, <a class="fn-backref" href="#id8">5</a>, <a class="fn-backref" href="#id9">6</a>, <a class="fn-backref" href="#id10">7</a>, <a class="fn-backref" href="#id11">8</a>)</em> アプリケーションのコードはSymfonyのアップグレード時に破損する可能性があるが、
+その際はUPGRADEファイルに移行の手順が明記される。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id59" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[2]</td><td><em>(<a class="fn-backref" href="#id13">1</a>, <a class="fn-backref" href="#id15">2</a>, <a class="fn-backref" href="#id16">3</a>, <a class="fn-backref" href="#id19">4</a>, <a class="fn-backref" href="#id20">5</a>, <a class="fn-backref" href="#id21">6</a>, <a class="fn-backref" href="#id23">7</a>, <a class="fn-backref" href="#id28">8</a>, <a class="fn-backref" href="#id29">9</a>, <a class="fn-backref" href="#id30">10</a>, <a class="fn-backref" href="#id31">11</a>, <a class="fn-backref" href="#id32">12</a>, <a class="fn-backref" href="#id33">13</a>, <a class="fn-backref" href="#id34">14</a>, <a class="fn-backref" href="#id37">15</a>, <a class="fn-backref" href="#id39">16</a>, <a class="fn-backref" href="#id40">17</a>, <a class="fn-backref" href="#id42">18</a>, <a class="fn-backref" href="#id44">19</a>, <a class="fn-backref" href="#id45">20</a>, <a class="fn-backref" href="#id46">21</a>, <a class="fn-backref" href="#id47">22</a>, <a class="fn-backref" href="#id50">23</a>, <a class="fn-backref" href="#id51">24</a>, <a class="fn-backref" href="#id52">25</a>, <a class="fn-backref" href="#id53">26</a>, <a class="fn-backref" href="#id54">27</a>, <a class="fn-backref" href="#id56">28</a>)</em> 基本的に行うべきではない。行う場合はUPGARADEファイルに変更を明記する必要がある。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id60" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id14">[3]</a></td><td>追加される親インターフェースは、現状のインターフェースに存在しない新しいメソッドを定義してはならない。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id61" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[4]</td><td><em>(<a class="fn-backref" href="#id17">1</a>, <a class="fn-backref" href="#id18">2</a>, <a class="fn-backref" href="#id35">3</a>, <a class="fn-backref" href="#id36">4</a>, <a class="fn-backref" href="#id48">5</a>, <a class="fn-backref" href="#id49">6</a>)</em> 最後の引数（複数可）のみ削除可能。PHPは余分な引数の受け渡しを無視する為。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id62" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[5]</td><td><em>(<a class="fn-backref" href="#id22">1</a>, <a class="fn-backref" href="#id41">2</a>, <a class="fn-backref" href="#id55">3</a>)</em> <p>引数の型は互換性がある、またはより曖昧な型にのみ変更可能。許可されている変更は次の通り:</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="20%" />
+<col width="80%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">変更元の型</th>
+<th class="head">変更先の型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>boolean</td>
+<td><a class="reference external" href="http://php.net/manual/ja/function.boolval.php">boolean値</a>と等価に評価可能な<a class="reference external" href="http://php.net/manual/ja/function.is-scalar.php">スカラー型</a></td>
+</tr>
+<tr class="row-odd"><td>string</td>
+<td><a class="reference external" href="http://www.php.net/manual/ja/function.strval.php">string値</a>と等価に評価可能な<a class="reference external" href="http://php.net/manual/ja/function.is-scalar.php">スカラー型</a>またはオブジェクト</td>
+</tr>
+<tr class="row-even"><td>integer</td>
+<td><a class="reference external" href="http://www.php.net/manual/ja/function.intval.php">integer値</a>と等価に評価可能な<a class="reference external" href="http://php.net/manual/ja/function.is-scalar.php">スカラー型</a></td>
+</tr>
+<tr class="row-odd"><td>float</td>
+<td><a class="reference external" href="http://www.php.net/manual/ja/function.floatval.php">float値</a>と等価に評価可能な<a class="reference external" href="http://php.net/manual/ja/function.is-scalar.php">スカラー型</a></td>
+</tr>
+<tr class="row-even"><td>class <tt class="docutils literal"><span class="pre">&lt;C&gt;</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&lt;C&gt;</span></tt> のスーパークラス、またはこれが実装しているいずれかのインターフェース</td>
+</tr>
+<tr class="row-odd"><td>interface <tt class="docutils literal"><span class="pre">&lt;I&gt;</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&lt;I&gt;</span></tt> のスーパーインタフェース</td>
+</tr>
+</tbody>
+</table>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id63" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[6]</td><td><em>(<a class="fn-backref" href="#id24">1</a>, <a class="fn-backref" href="#id43">2</a>, <a class="fn-backref" href="#id57">3</a>)</em> <p>戻り値の型は互換性がある、またはより具体的な型にのみ変更可能。許可されている変更は次の通り:</p>
+<table border="1" class="last docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">変更元の型</th>
+<th class="head">変更先の型</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>boolean</td>
+<td><a class="reference external" href="http://php.net/manual/ja/function.boolval.php">boolean値</a>と等価に評価可能な<a class="reference external" href="http://php.net/manual/ja/function.is-scalar.php">スカラー型</a></td>
+</tr>
+<tr class="row-odd"><td>string</td>
+<td><a class="reference external" href="http://www.php.net/manual/ja/function.strval.php">string値</a>と等価に評価可能な<a class="reference external" href="http://php.net/manual/ja/function.is-scalar.php">スカラー型</a>またはオブジェクト</td>
+</tr>
+<tr class="row-even"><td>integer</td>
+<td><a class="reference external" href="http://www.php.net/manual/ja/function.intval.php">integer値</a>と等価に評価可能な<a class="reference external" href="http://php.net/manual/ja/function.is-scalar.php">スカラー型</a></td>
+</tr>
+<tr class="row-odd"><td>float</td>
+<td><a class="reference external" href="http://www.php.net/manual/ja/function.floatval.php">float値</a>と等価に評価可能な<a class="reference external" href="http://php.net/manual/ja/function.is-scalar.php">スカラー型</a></td>
+</tr>
+<tr class="row-even"><td>array</td>
+<td><tt class="docutils literal"><span class="pre">ArrayAccess</span></tt>、<tt class="docutils literal"><span class="pre">Traversable</span></tt>および<tt class="docutils literal"><span class="pre">Countable</span></tt>を実装しているインスタンス</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">ArrayAccess</span></tt></td>
+<td>array</td>
+</tr>
+<tr class="row-even"><td><tt class="docutils literal"><span class="pre">Traversable</span></tt></td>
+<td>array</td>
+</tr>
+<tr class="row-odd"><td><tt class="docutils literal"><span class="pre">Countable</span></tt></td>
+<td>array</td>
+</tr>
+<tr class="row-even"><td>class <tt class="docutils literal"><span class="pre">&lt;C&gt;</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&lt;C&gt;</span></tt> のサブクラス</td>
+</tr>
+<tr class="row-odd"><td>interface <tt class="docutils literal"><span class="pre">&lt;I&gt;</span></tt></td>
+<td><tt class="docutils literal"><span class="pre">&lt;I&gt;</span></tt> のサブインターフェース、またはこれを実装しているクラス</td>
+</tr>
+</tbody>
+</table>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id64" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label">[7]</td><td><em>(<a class="fn-backref" href="#id26">1</a>, <a class="fn-backref" href="#id27">2</a>)</em> 変更される親クラスは、元のクラスの先祖である必要がある。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id65" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id38">[8]</a></td><td>異なる型の値を渡した際にFatalエラーが発生する場合にのみタイプヒントを設定できる。</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/contributing/code/bc.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/contributing/code/bc.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/contributing/code/bc.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../cookbook/index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

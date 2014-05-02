@@ -140,8 +140,15 @@
 
 <p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/requirements.html">原文のページ</a>をご確認ください。</p>
 
-  <div class="section" id="symfony2">
-<span id="index-0"></span><h1>Symfony2 の実行に必要な要件<a class="headerlink" href="#symfony2" title="Permalink to this headline">¶</a></h1>
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン: 2.3以上</li>
+<li>翻訳更新日: 2014/05/02</li>
+</ul>
+</div>
+<div class="section" id="symfony2">
+<h1>Symfony2 の実行に必要な要件<a class="headerlink" href="#symfony2" title="Permalink to this headline">¶</a></h1>
 <p>Symfony2 を実行するには、いくつかの実行要件を満たす必要があります。
 Symfony ディストリビューションに同梱されている <tt class="docutils literal"><span class="pre">web/config.php</span></tt> に Web ブラウザからアクセスすると、お使いのシステムがすべての要件を満たしているかどうか、簡単にテストできます。
 ただし、PHP の CLI 環境は、Web サーバー環境とは異なる <tt class="docutils literal"><span class="pre">php.ini</span></tt> ファイルを使っている場合があるため、コマンドラインからも次のプログラムを実行して要件を確認しておくことをお勧めします。</p>
@@ -152,9 +159,16 @@ Symfony ディストリビューションに同梱されている <tt class="doc
 <div class="section" id="id1">
 <h2>必須<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>PHP 5.3.2 か、それ以降のバージョンがインストールされていること</li>
-<li>PHP.ini で date.timezone の設定があること</li>
+<li>PHP 5.3.3 か、それ以降のバージョンがインストールされていること</li>
+<li>json が有効になっていること</li>
+<li>ctype が有効になっていること</li>
+<li><tt class="docutils literal"><span class="pre">php.ini</span></tt> に <tt class="docutils literal"><span class="pre">date.timezone</span></tt> の設定があること</li>
 </ul>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">PHP 5.3.8 以下と 5.3.16 の環境では、 Symfony2 の実行に制限があります。
+詳しくは <a class="reference external" href="https://github.com/symfony/symfony#requirements">READMEの要件セクション</a> をお読みください。</p>
+</div>
 </div>
 <div class="section" id="id2">
 <h2>任意<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -169,19 +183,19 @@ Symfony ディストリビューションに同梱されている <tt class="doc
 </li>
 <li><p class="first">iconv が有効化されていること</p>
 </li>
-<li><p class="first">POSIX が有効化されていること</p>
+<li><p class="first">POSIX 拡張が有効化されていること（ *nix 系OSの場合）</p>
 </li>
-<li><p class="first">Intl がインストールされていること</p>
+<li><p class="first">ICU 4以上にリンクした Intl がインストールされていること</p>
 </li>
-<li><p class="first">APC または他の OPCODE キャッシュシステムがインストールされていること</p>
+<li><p class="first">APC 3.0.17以上または他の OPCODE キャッシュシステムがインストールされていること</p>
 </li>
-<li><p class="first">PHP.ini の推奨設定は次のとおりです</p>
+<li><p class="first"><tt class="docutils literal"><span class="pre">php.ini</span></tt> の推奨設定は次のとおりです</p>
 <blockquote>
 <div><ul class="simple">
-<li>short_open_tags: off</li>
-<li>magic_quotes_gpc: off</li>
-<li>register_globals: off</li>
-<li>session.autostart: off</li>
+<li><tt class="docutils literal"><span class="pre">short_open_tag</span> <span class="pre">=</span> <span class="pre">off</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">magic_quotes_gpc</span> <span class="pre">=</span> <span class="pre">off</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">register_globals</span> <span class="pre">=</span> <span class="pre">off</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">session.auto_start</span> <span class="pre">=</span> <span class="pre">off</span></tt></li>
 </ul>
 </div></blockquote>
 </li>
@@ -190,7 +204,7 @@ Symfony ディストリビューションに同梱されている <tt class="doc
 <div class="section" id="doctrine">
 <h2>Doctrine<a class="headerlink" href="#doctrine" title="Permalink to this headline">¶</a></h2>
 <p>Doctrine を使う場合は、PDO がインストールされている必要があります。
-また、データベースサーバー側にも PDO ドライバがインストールされている必要があります。</p>
+また、使用するデータベースサーバーに対応するPDO ドライバもインストールされている必要があります。</p>
 </div>
 </div>
 

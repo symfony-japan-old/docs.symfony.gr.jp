@@ -90,6 +90,7 @@
 <li><a class="reference internal" href="#empty-data">empty_data</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
 <li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#label-attr">label_attr</a></li>
 <li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#read-only">read_only</a></li>
 <li><a class="reference internal" href="#disabled">disabled</a></li>
@@ -202,7 +203,7 @@
 <li><a class="reference internal" href="#empty-data">empty_data</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
 <li><a class="reference internal" href="#label">label</a></li>
-<li><a href="#id5"><span class="problematic" id="id6">`label_attr`_</span></a></li>
+<li><a class="reference internal" href="#label-attr">label_attr</a></li>
 <li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#read-only">read_only</a></li>
 <li><a class="reference internal" href="#disabled">disabled</a></li>
@@ -373,6 +374,27 @@
 ラベルはテンプレート内部で設定することもできます。</p>
 <div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">render_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;Your name&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
 </pre></div>
+</div>
+</div>
+<div class="section" id="label-attr">
+<h3>label_attr<a class="headerlink" href="#label-attr" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト値</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p>フィールドのラベルを表示する際、 <tt class="docutils literal"><span class="pre">&lt;label&gt;</span></tt> 要素に html 属性を設定します。それは HTML 属性をキーとした連想配列です。この属性は直接テンプレートの中に設定することも出来ます。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;あなたのお名前&#39;</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;label_attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;CUSTOM_LABEL_CLASS&#39;</span><span class="cp">}}</span><span class="x">) }}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;あなたのお名前&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;label_attr&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;CUSTOM_LABEL_CLASS&#39;</span><span class="p">))</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
 </div>
 </div>
 <div class="section" id="data">

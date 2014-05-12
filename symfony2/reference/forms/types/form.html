@@ -78,11 +78,15 @@
 <li><a class="reference internal" href="#">form フィールドタイプ</a><ul>
 <li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
+<li><a class="reference internal" href="#constraints">constraints</a></li>
+<li><a class="reference internal" href="#cascade-validation">cascade_validation</a></li>
 <li><a class="reference internal" href="#read-only">read_only</a></li>
 <li><a class="reference internal" href="#disabled">disabled</a></li>
 <li><a class="reference internal" href="#trim">trim</a></li>
 <li><a class="reference internal" href="#mapped">mapped</a></li>
-<li><a class="reference internal" href="#attr">attr</a><ul>
+<li><a class="reference internal" href="#attr">attr</a></li>
+<li><a class="reference internal" href="#translation-domain">translation_domain</a></li>
+<li><a class="reference internal" href="#block-name">block_name</a><ul>
 <li><a class="reference internal" href="#inherit-data">inherit_data</a></li>
 </ul>
 </li>
@@ -182,6 +186,25 @@
 フィールドタイプを推測することを許可する場合は、
 このオプションの値はバリデーションの情報から推測されるのが理想的でしょう。</p>
 </div>
+<div class="section" id="constraints">
+<h2>constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h2>
+<p><strong>データ型</strong>: array または <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Validator\Constraint</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">null</span></tt></p>
+<p>特定のフィールドに1つ以上の検証制約を設定することができます。
+より詳しくはこちらを参照 <em class="xref std std-ref">Adding Validation</em> 。
+このオプションはフォーム拡張の <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension</span></tt> に追加されます。</p>
+</div>
+<div class="section" id="cascade-validation">
+<h2>cascade_validation<a class="headerlink" href="#cascade-validation" title="Permalink to this headline">¶</a></h2>
+<p><strong>データ型</strong>: Boolean <strong>デフォルト</strong>: false</p>
+<p>埋め込んだフォームタイプの検証を強制するためにこのオプションを <tt class="docutils literal"><span class="pre">true</span></tt> にします。
+例えば、 <tt class="docutils literal"><span class="pre">ProductType</span></tt> に <tt class="docutils literal"><span class="pre">CategoryType</span></tt> を埋め込んで持つ場合、 <tt class="docutils literal"><span class="pre">ProductType</span></tt> の <tt class="docutils literal"><span class="pre">cascade_validation</span></tt> を <tt class="docutils literal"><span class="pre">true</span></tt> にすることで、 検証されるべき <tt class="docutils literal"><span class="pre">CategoryType</span></tt> からもデータが発生します。</p>
+<p>このオプションの代わりに、モデルの <tt class="docutils literal"><span class="pre">Valid</span></tt> 制約でプロパティに格納されている子オブジェクトの検証を強制することができます。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><a class="reference internal" href="collection.html"><em>collection Field Type</em></a> では親フォームへエラーを渡す <tt class="docutils literal"><span class="pre">error_bubbling</span></tt> オプションはデフォルトで有効になっています。
+実際に発生した場所にエラーを添付したい場合は、 <tt class="docutils literal"><span class="pre">error_bubbling</span></tt> を <tt class="docutils literal"><span class="pre">false</span></tt> に設定する必要があります。</p>
+</div>
+</div>
 <div class="section" id="read-only">
 <h2>read_only<a class="headerlink" href="#read-only" title="Permalink to this headline">¶</a></h2>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
@@ -223,6 +246,17 @@ name.</p>
 <span class="p">));</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="translation-domain">
+<h2>translation_domain<a class="headerlink" href="#translation-domain" title="Permalink to this headline">¶</a></h2>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">messages</span></tt></p>
+<p>このフィールドのラベルまたはオプションの表示に使用されるに翻訳ドメインです。</p>
+</div>
+<div class="section" id="block-name">
+<h2>block_name<a class="headerlink" href="#block-name" title="Permalink to this headline">¶</a></h2>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: そのフォームの名前 (参照 <a class="reference internal" href="../../../cookbook/form/form_customization.html#cookbook-form-customization-sidebar"><em>Knowing which block to customize</em></a>)</p>
+<p>フォームタイプをレンダリングするために使用されるブロック名を上書きすることができます。
+同じフォームの複数のインスタンスがあり、レンダリングを個別にパーソナライズする必要がある場合に便利です。</p>
 <div class="section" id="inherit-data">
 <h3>inherit_data<a class="headerlink" href="#inherit-data" title="Permalink to this headline">¶</a></h3>
 <p><a class="reference internal" href="../../../cookbook/form/inherit_data_option.html"><em>&#8220;inherit_data&#8221;オプションを使用してコードの重複を減らす</em></a> を参照してください。</p>

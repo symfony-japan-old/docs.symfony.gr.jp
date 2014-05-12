@@ -80,6 +80,7 @@
 <li><a class="reference internal" href="#id2">フィールドオプション</a><ul>
 <li><a class="reference internal" href="#widget">widget</a></li>
 <li><a class="reference internal" href="#input">input</a></li>
+<li><a class="reference internal" href="#with-minutes">with_minutes</a></li>
 <li><a class="reference internal" href="#with-seconds">with_seconds</a></li>
 <li><a class="reference internal" href="#hours">hours</a></li>
 <li><a class="reference internal" href="#minutes">minutes</a></li>
@@ -186,7 +187,7 @@
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>対応するデータ型</td>
-<td><tt class="docutils literal"><span class="pre">DateTime</span></tt>, <tt class="docutils literal"><span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">timestamp</span></tt>, <tt class="docutils literal"><span class="pre">array</span></tt> (参照``input`` オプション )</td>
+<td><tt class="docutils literal"><span class="pre">DateTime</span></tt>, <tt class="docutils literal"><span class="pre">string</span></tt>, <tt class="docutils literal"><span class="pre">timestamp</span></tt>, <tt class="docutils literal"><span class="pre">array</span></tt> (参照 <tt class="docutils literal"><span class="pre">input</span></tt> オプション )</td>
 </tr>
 <tr class="row-even"><td>対応するタグ</td>
 <td>様々なタグとして利用可能 (下記参照)</td>
@@ -195,7 +196,7 @@
 <td><ul class="first last simple">
 <li><a class="reference internal" href="#widget">widget</a></li>
 <li><a class="reference internal" href="#input">input</a></li>
-<li><a href="#id7"><span class="problematic" id="id8">`with_minutes`_</span></a></li>
+<li><a class="reference internal" href="#with-minutes">with_minutes</a></li>
 <li><a class="reference internal" href="#with-seconds">with_seconds</a></li>
 <li><a class="reference internal" href="#hours">hours</a></li>
 <li><a class="reference internal" href="#minutes">minutes</a></li>
@@ -264,13 +265,13 @@
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">choice</span></tt></p>
 <p>このフィールドがレンダリングされるべき基本的な方法は次のいずれかになります。:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">choice</span></tt>: <a href="#id9"><span class="problematic" id="id10">`with_minutes`_</span></a> と <a class="reference internal" href="#with-seconds">with_seconds</a> オプションに基づいて、1つ、または、2つ（デフォルト）または3つのセレクト入力（ <tt class="docutils literal"><span class="pre">hour</span></tt> , <tt class="docutils literal"><span class="pre">minute</span></tt> , <tt class="docutils literal"><span class="pre">second</span></tt> ）を表示します。</li>
-<li><tt class="docutils literal"><span class="pre">text</span></tt>:  <a href="#id11"><span class="problematic" id="id12">`with_minutes`_</span></a> と <a class="reference internal" href="#with-seconds">with_seconds</a> オプションに基づいて、1つ、または、2つ（デフォルト）または3つのテキスト入力（ <tt class="docutils literal"><span class="pre">hour</span></tt> , <tt class="docutils literal"><span class="pre">minute</span></tt> , <tt class="docutils literal"><span class="pre">second</span></tt> ）を表示します。</li>
+<li><tt class="docutils literal"><span class="pre">choice</span></tt>: <a class="reference internal" href="#with-minutes">with_minutes</a> と <a class="reference internal" href="#with-seconds">with_seconds</a> オプションに基づいて、1つ、または、2つ（デフォルト）または3つのセレクト入力（ <tt class="docutils literal"><span class="pre">hour</span></tt> , <tt class="docutils literal"><span class="pre">minute</span></tt> , <tt class="docutils literal"><span class="pre">second</span></tt> ）を表示します。</li>
+<li><tt class="docutils literal"><span class="pre">text</span></tt>:  <a class="reference internal" href="#with-minutes">with_minutes</a> と <a class="reference internal" href="#with-seconds">with_seconds</a> オプションに基づいて、1つ、または、2つ（デフォルト）または3つのテキスト入力（ <tt class="docutils literal"><span class="pre">hour</span></tt> , <tt class="docutils literal"><span class="pre">minute</span></tt> , <tt class="docutils literal"><span class="pre">second</span></tt> ）を表示します。</li>
 <li><tt class="docutils literal"><span class="pre">single_text</span></tt>: 単一の <tt class="docutils literal"><span class="pre">time</span></tt> タイプの入力フォームを表示します。ユーザーの入力は <tt class="docutils literal"><span class="pre">hh:mm</span></tt> （または <tt class="docutils literal"><span class="pre">HH：MM：SS</span></tt> 秒を使用している場合） のフォームに対して検証されます。</li>
 </ul>
 <div class="admonition caution">
 <p class="first admonition-title">Caution</p>
-<p class="last">ウィジェットタイプの <tt class="docutils literal"><span class="pre">single_text</span></tt> と <a href="#id13"><span class="problematic" id="id14">`with_minutes`_</span></a> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> とする組み合わせは、
+<p class="last">ウィジェットタイプの <tt class="docutils literal"><span class="pre">single_text</span></tt> と <a class="reference internal" href="#with-minutes">with_minutes</a> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> とする組み合わせは、
 入力タイプ <tt class="docutils literal"><span class="pre">time</span></tt>  が時間のみ選択することをサポートしていない可能性があり、
 クライアントで予期しない動作を引き起こす可能性があります。</p>
 </div>
@@ -287,6 +288,14 @@
 <li><tt class="docutils literal"><span class="pre">timestamp</span></tt> (例 <tt class="docutils literal"><span class="pre">1307232000</span></tt>)</li>
 </ul>
 <p>フォームから戻って来る値も、この形式に戻して正規化されます。</p>
+<div class="versionadded">
+<p><span>New in version 2.2: </span><tt class="docutils literal"><span class="pre">with_minutes</span></tt> オプションは Symfony 2.2 で追加されました。</p>
+</div>
+</div>
+<div class="section" id="with-minutes">
+<h3>with_minutes<a class="headerlink" href="#with-minutes" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+<p>分を入力に含めるかどうか。これは分を取得する追加の入力フォームを出力します。</p>
 </div>
 <div class="section" id="with-seconds">
 <h3>with_seconds<a class="headerlink" href="#with-seconds" title="Permalink to this headline">¶</a></h3>
@@ -479,7 +488,7 @@
 </tr>
 <tr class="row-odd"><td>with_minutes</td>
 <td><tt class="docutils literal"><span class="pre">Boolean</span></tt></td>
-<td><a href="#id15"><span class="problematic" id="id16">`with_minutes`_</span></a> オプションの値。</td>
+<td><a class="reference internal" href="#with-minutes">with_minutes</a> オプションの値。</td>
 </tr>
 <tr class="row-even"><td>with_seconds</td>
 <td><tt class="docutils literal"><span class="pre">Boolean</span></tt></td>

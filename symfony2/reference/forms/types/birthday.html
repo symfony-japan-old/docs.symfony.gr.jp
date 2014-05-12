@@ -232,29 +232,31 @@
 <p>以下のオプションは <a class="reference internal" href="date.html"><em>date</em></a> タイプを継承しています:</p>
 <div class="section" id="widget">
 <h3>widget<a class="headerlink" href="#widget" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">choice</span></tt></p>
-<p>The basic way in which this field should be rendered. Can be one of the following:</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">choice</span></tt></p>
+<p>フィールドの表示の基本的な方法です。次のいずれかになります。
+The basic way in which this field should be rendered. Can be one of the following:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">choice</span></tt>: renders three select inputs.  The order of the selects is defined
-in the <a href="#id4"><span class="problematic" id="id5">`pattern`_</span></a> option.</li>
-<li><tt class="docutils literal"><span class="pre">text</span></tt>: renders a three field input of type text (month, day, year).</li>
-<li><tt class="docutils literal"><span class="pre">single_text</span></tt>: renders a single input of type text. User&#8217;s input is validated
-based on the <a class="reference internal" href="#format">format</a> option.</li>
+<li><tt class="docutils literal"><span class="pre">choice</span></tt>: 3つの選択フォームを表示します。選択の順序は、<a class="reference internal" href="#format">format</a> オプションで定義されています。</li>
+<li><tt class="docutils literal"><span class="pre">text</span></tt>: 3つの <tt class="docutils literal"><span class="pre">text</span></tt> タイプの入力フィールド（月、日、年）をレンダリングします。</li>
+<li><tt class="docutils literal"><span class="pre">single_text</span></tt>: <tt class="docutils literal"><span class="pre">date</span></tt> タイプの単一の入力フォームをレンダリングします。ユーザーの入力は <a class="reference internal" href="#format">format</a> オプションに基づいて検証されます。</li>
 </ul>
 </div>
 <div class="section" id="input">
 <h3>input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">datetime</span></tt></p>
-<p>The format of the <em>input</em> data - i.e. the format that the date is stored on
-your underlying object. Valid values are:</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">datetime</span></tt></p>
+<p><em>input</em> データのフォーマット、すなわち、対応するオブジェクトに保存される日付のフォーマットの有効な値は次のとおりです。:</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">string</span></tt> (e.g. <tt class="docutils literal"><span class="pre">2011-06-05</span></tt>)</li>
-<li><tt class="docutils literal"><span class="pre">datetime</span></tt> (a <tt class="docutils literal"><span class="pre">DateTime</span></tt> object)</li>
-<li><tt class="docutils literal"><span class="pre">array</span></tt> (e.g. <tt class="docutils literal"><span class="pre">array('year'</span> <span class="pre">=&gt;</span> <span class="pre">2011,</span> <span class="pre">'month'</span> <span class="pre">=&gt;</span> <span class="pre">06,</span> <span class="pre">'day'</span> <span class="pre">=&gt;</span> <span class="pre">05)</span></tt>)</li>
-<li><tt class="docutils literal"><span class="pre">timestamp</span></tt> (e.g. <tt class="docutils literal"><span class="pre">1307232000</span></tt>)</li>
+<li><tt class="docutils literal"><span class="pre">string</span></tt> (例 <tt class="docutils literal"><span class="pre">2011-06-05</span></tt>)</li>
+<li><tt class="docutils literal"><span class="pre">datetime</span></tt> (単一の <tt class="docutils literal"><span class="pre">DateTime</span></tt> オブジェクト)</li>
+<li><tt class="docutils literal"><span class="pre">array</span></tt> (例 <tt class="docutils literal"><span class="pre">array('year'</span> <span class="pre">=&gt;</span> <span class="pre">2011,</span> <span class="pre">'month'</span> <span class="pre">=&gt;</span> <span class="pre">06,</span> <span class="pre">'day'</span> <span class="pre">=&gt;</span> <span class="pre">05)`</span></tt>)</li>
+<li><tt class="docutils literal"><span class="pre">timestamp</span></tt> (例 <tt class="docutils literal"><span class="pre">1307276100</span></tt>)</li>
 </ul>
-<p>The value that comes back from the form will also be normalized back into
-this format.</p>
+<p>フォームから戻って来る値も、この形式に戻して正規化されます。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last"><tt class="docutils literal"><span class="pre">timestamp</span></tt> を使用する場合、32bitシステムでは <tt class="docutils literal"><span class="pre">DateType</span></tt> は 1901年12月13日(金)20時45分54秒 (GMT) から 2038年1月19日(木)03時14分07秒(GMT) までの日時に限られます。
+これは <a class="reference external" href="http://php.net/manual/ja/function.date.php#refsect1-function.date-changelog">limitation in PHP itself</a> によるものです。</p>
+</div>
 </div>
 <div class="section" id="empty-value">
 <h3>empty_value<a class="headerlink" href="#empty-value" title="Permalink to this headline">¶</a></h3>
@@ -302,12 +304,24 @@ this format.</p>
 </div>
 <div class="section" id="format">
 <h3>format<a class="headerlink" href="#format" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">integer</span></tt> or <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">IntlDateFormatter::MEDIUM</span></tt></p>
-<p>Option passed to the <tt class="docutils literal"><span class="pre">IntlDateFormatter</span></tt> class, used to transform user input
-into the proper format. This is critical when the <a class="reference internal" href="#widget">widget</a> option is
-set to <tt class="docutils literal"><span class="pre">single_text</span></tt>, and will define how to transform the input. By default,
-the format is determined based on the current user locale; you can override
-it by passing the format as a string.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">integer</span></tt> または <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <a class="reference external" href="http://www.php.net/manual/en/class.intldateformatter.php#intl.intldateformatter-constants">IntlDateFormatter::MEDIUM</a> ( <a class="reference internal" href="#widget">widget</a> が <tt class="docutils literal"><span class="pre">single_text</span></tt> の場合は <tt class="docutils literal"><span class="pre">yyyy-MM-dd</span></tt> )</p>
+<p>ユーザーの入力を適切なフォーマットに変換するために使用され、オプションは <tt class="docutils literal"><span class="pre">IntlDateFormatter</span></tt> クラスに渡されます。
+<a class="reference internal" href="#widget">widget</a> オプションが <tt class="docutils literal"><span class="pre">single_text</span></tt> に設定されている場合に重要であり、ユーザがどのようにデータを入力するのかを定義します。
+デフォルトでは、フォーマットは現在のユーザーのロケールに基づいて決定さます。これは、 <em>期待するフォーマットはユーザーごとに異なる</em> ことを意味します。
+文字列として書式を渡してオーバーライドすることができます。</p>
+<p>有効なフォーマットの詳細については、 <a class="reference external" href="http://userguide.icu-project.org/formatparse/datetime#TOC-Date-Time-Format-Syntax">Date/Time Format Syntax</a> を参照してください。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;date_created&#39;</span><span class="p">,</span> <span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;widget&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;single_text&#39;</span><span class="p">,</span>
+    <span class="c1">// これは single_text フォーマットの実際のデフォルトです。</span>
+    <span class="s1">&#39;format&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;yyyy-MM-dd&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">HTML5の &#8220;date&#8221; フィールドとして表示したい場合、 <tt class="docutils literal"><span class="pre">single_text</span></tt> ウィジェットを <tt class="docutils literal"><span class="pre">yyyy-MM-dd</span></tt> ( <a class="reference external" href="http://tools.ietf.org/html/rfc3339">RFC 3339</a> のフォーマット) のフォーマットで使用しなくてはいけません。
+それは <tt class="docutils literal"><span class="pre">single_text</span></tt> ウィジェットを使用する場合のデフォルト値です。</p>
+</div>
 </div>
 <div class="section" id="model-timezone">
 <h3>model_timezone<a class="headerlink" href="#model-timezone" title="Permalink to this headline">¶</a></h3>

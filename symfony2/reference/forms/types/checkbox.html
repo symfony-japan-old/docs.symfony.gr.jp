@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>checkbox Field Type | Symfony2日本語ドキュメント</title>
+    <title>checkbox フィールドタイプ | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/configurationblock.css" type="text/css" />
@@ -75,19 +75,30 @@
         <div class="sphinxsidebarwrapper">
   <h3>このページのコンテンツ</h3>
   <ul>
-<li><a class="reference internal" href="#">checkbox Field Type</a><ul>
-<li><a class="reference internal" href="#example-usage">Example Usage</a></li>
-<li><a class="reference internal" href="#field-options">Field Options</a><ul>
+<li><a class="reference internal" href="#">checkbox フィールドタイプ</a><ul>
+<li><a class="reference internal" href="#id1">使用例</a></li>
+<li><a class="reference internal" href="#id2">フィールドオプション</a><ul>
 <li><a class="reference internal" href="#value">value</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inherited-options">Inherited options</a><ul>
-<li><a class="reference internal" href="#required">required</a></li>
-<li><a class="reference internal" href="#label">label</a></li>
-<li><a class="reference internal" href="#read-only">read_only</a></li>
-<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#id3">上書きされたオプション</a><ul>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
+<li><a class="reference internal" href="#compound">compound</a></li>
 </ul>
 </li>
+<li><a class="reference internal" href="#id4">継承されたオプション</a><ul>
+<li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#required">required</a></li>
+<li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#label-attr">label_attr</a></li>
+<li><a class="reference internal" href="#read-only">read_only</a></li>
+<li><a class="reference internal" href="#disabled">disabled</a></li>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">フォーム変数</a></li>
 </ul>
 </li>
 </ul>
@@ -149,65 +160,118 @@
 
 <p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/checkbox.html">原文のページ</a>をご確認ください。</p>
 
-  <div class="section" id="checkbox-field-type">
-<span id="index-0"></span><h1>checkbox Field Type<a class="headerlink" href="#checkbox-field-type" title="Permalink to this headline">¶</a></h1>
-<p>Creates a single input checkbox. This should always be used for a field that
-has a Boolean value: if the box is checked, the field will be set to true,
-if the box is unchecked, the value will be set to false.</p>
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3+</li>
+<li>翻訳更新日：2014/05/18</li>
+</ul>
+</div>
+<div class="section" id="checkbox">
+<h1>checkbox フィールドタイプ<a class="headerlink" href="#checkbox" title="Permalink to this headline">¶</a></h1>
+<p>単一の入力チェックボックスを作成します。これは、常にブール値を持つフィールドに使用する必要があります。
+チェックボックスがチェックされている場合 true に設定され、チェックボックスをオフにすると、 false に設定されます。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="15%" />
-<col width="85%" />
+<col width="20%" />
+<col width="80%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Rendered as</td>
-<td><tt class="docutils literal"><span class="pre">input</span></tt> <tt class="docutils literal"><span class="pre">text</span></tt> field</td>
+<tr class="row-odd"><td>対応するデータ型</td>
+<td><tt class="docutils literal"><span class="pre">input</span></tt> <tt class="docutils literal"><span class="pre">checkbox</span></tt> フィールド</td>
 </tr>
-<tr class="row-even"><td>Options</td>
+<tr class="row-even"><td>オプション</td>
 <td><ul class="first last simple">
 <li><a class="reference internal" href="#value">value</a></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>Inherited
-options</td>
+<tr class="row-odd"><td>上書きされた
+オプション</td>
 <td><ul class="first last simple">
-<li><a class="reference internal" href="#required">required</a></li>
-<li><a class="reference internal" href="#label">label</a></li>
-<li><a class="reference internal" href="#read-only">read_only</a></li>
-<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
+<li><a class="reference internal" href="#compound">compound</a></li>
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td>Parent type</td>
-<td><a class="reference internal" href="field.html"><em>field</em></a></td>
+<tr class="row-even"><td>継承された
+オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#required">required</a></li>
+<li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#label-attr">label_attr</a></li>
+<li><a class="reference internal" href="#read-only">read_only</a></li>
+<li><a class="reference internal" href="#disabled">disabled</a></li>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+</ul>
+</td>
 </tr>
-<tr class="row-odd"><td>Class</td>
+<tr class="row-odd"><td>親タイプ</td>
+<td><a class="reference internal" href="form.html"><em>form</em></a></td>
+</tr>
+<tr class="row-even"><td>クラス</td>
 <td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\CheckboxType</span></tt></td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="example-usage">
-<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2>使用例<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;public&#39;</span><span class="p">,</span> <span class="s1">&#39;checkbox&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-    <span class="s1">&#39;label&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;Show this entry publicly?&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;label&#39;</span>     <span class="o">=&gt;</span> <span class="s1">&#39;このエントリーを公開しますか?&#39;</span><span class="p">,</span>
     <span class="s1">&#39;required&#39;</span>  <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
 <span class="p">));</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="field-options">
-<h2>Field Options<a class="headerlink" href="#field-options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>フィールドオプション<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="value">
 <h3>value<a class="headerlink" href="#value" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">mixed</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">1</span></tt></p>
-<p>The value that&#8217;s actually used as the value for the checkbox. This does
-not affect the value that&#8217;s set on your object.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">mixed</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">1</span></tt></p>
+<p>実際にチェックボックスやラジオボタンの値として使われていた値です。
+これはオブジェクトにセットする値には影響しません。</p>
+<div class="admonition caution">
+<p class="first admonition-title">Caution</p>
+<p class="last">デフォルトでチェックされたチェックチェックボックスやラジオボタンを作成するには、<a class="reference internal" href="#data">data</a> オプションを使用します。</p>
 </div>
 </div>
-<div class="section" id="inherited-options">
-<h2>Inherited options<a class="headerlink" href="#inherited-options" title="Permalink to this headline">¶</a></h2>
-<p>These options inherit from the <a class="reference internal" href="field.html"><em>field</em></a> type:</p>
+</div>
+<div class="section" id="id3">
+<h2>上書きされたオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="empty-data">
+<h3>empty_data<a class="headerlink" href="#empty-data" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">mixed</span></tt></p>
+<p>このオプションでは、<tt class="docutils literal"><span class="pre">empty_value</span></tt> 選択肢が選択されたときにどのような値を返すかを決定します。
+チェックボックスでは、<tt class="docutils literal"><span class="pre">empty_data</span></tt> の値はデータトランスフォーマー（参照 <a class="reference internal" href="../../../cookbook/form/data_transformers.html"><em>データトランスフォーマの使用</em></a>） によって返された値で上書きされます。</p>
+</div>
+<div class="section" id="compound">
+<h3>compound<a class="headerlink" href="#compound" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>このオプションは、フォームが合成物であるかを指定します。
+チェックボックスの場合は該当しないため、デフォルトの値を <tt class="docutils literal"><span class="pre">false</span></tt> で上書きします。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>継承されたオプション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています:</p>
+<div class="section" id="data">
+<h3>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: mixed <strong>デフォルト</strong>: 対応するオブジェクトのフィールド(一つであれば）</p>
+<p>フォームを作成したとき、各フィールドに表示する初期値は、フォームのドメインオブジェクトの対応するプロパティの値です（オブジェクトがフォームにバインドされている場合）。もしフォーム、または、単に個々のフィールドの初期値を上書きしたい場合は、<tt class="docutils literal"><span class="pre">data</span></tt> オプションで設定することが出来ます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームのフィールドのデフォルト値は、直接データ構造（例えば、エンティティまたは配列）から取得されます。
+<tt class="docutils literal"><span class="pre">data</span></tt> オプションはこのデフォルト値を上書きします。</p>
+</div>
+</div>
 <div class="section" id="required">
 <h3>required<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
@@ -226,10 +290,37 @@ not affect the value that&#8217;s set on your object.</p>
 </pre></div>
 </div>
 </div>
+<div class="section" id="label-attr">
+<h3>label_attr<a class="headerlink" href="#label-attr" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト値</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p>フィールドのラベルを表示する際、 <tt class="docutils literal"><span class="pre">&lt;label&gt;</span></tt> 要素に html 属性を設定します。それは HTML 属性をキーとした連想配列です。この属性は直接テンプレートの中に設定することも出来ます。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;あなたのお名前&#39;</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;label_attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;CUSTOM_LABEL_CLASS&#39;</span><span class="cp">}}</span><span class="x">) }}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;あなたのお名前&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;label_attr&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;CUSTOM_LABEL_CLASS&#39;</span><span class="p">))</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="read-only">
 <h3>read_only<a class="headerlink" href="#read-only" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
 <p>このオプションが <tt class="docutils literal"><span class="pre">true</span></tt> の場合、そのフィールドは <tt class="docutils literal"><span class="pre">readonly</span></tt> 属性付きでレンダリングされるため、編集する事が出来ません。</p>
+</div>
+<div class="section" id="disabled">
+<h3>disabled<a class="headerlink" href="#disabled" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt>  <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>ユーザにフィールドの値を変更させたくない場合は、
+<tt class="docutils literal"><span class="pre">disabled</span></tt> オプションを <tt class="docutils literal"><span class="pre">true</span></tt> にします。どんなサブミットされた値も無視されます。</p>
 </div>
 <div class="section" id="error-bubbling">
 <h3>error_bubbling<a class="headerlink" href="#error-bubbling" title="Permalink to this headline">¶</a></h3>
@@ -238,6 +329,60 @@ not affect the value that&#8217;s set on your object.</p>
 たとえば、通常のフィールドを <tt class="docutils literal"><span class="pre">true</span></tt> に設定した場合、フィールドに対するエラーは
 特定のフィールドではなくメインのフォームに付加されます。</p>
 </div>
+<div class="section" id="error-mapping">
+<h3>error_mapping<a class="headerlink" href="#error-mapping" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">empty</span></tt></p>
+<p>このオプションはバリデーションエラーの対象を編集することができます。</p>
+<p><tt class="docutils literal"><span class="pre">matchingCityAndZipCode</span></tt> という名前のメソッドを持っているとして、それが <tt class="docutils literal"><span class="pre">city</span></tt> および <tt class="docutils literal"><span class="pre">zip</span> <span class="pre">code</span></tt> が一致するかの検証をするとします。しかし残念なことに、 &#8220;matchingCityAndZipCode&#8221; フィールドがフォームに無いため、 Symfony ができるのはフォームの上部にエラーを表示することです。</p>
+<p>カスタマイズされたエラーマッピングを使うと、<tt class="docutils literal"><span class="pre">city</span></tt> フィールドの上にエラーを表示するように、より上手にエラーをマップできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;error_mapping&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;matchingCityAndZipCode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>こちらが左側、右側のマッピングするルールです:</p>
+<ul class="simple">
+<li>左側はプロパティパスを有します。</li>
+<li>クラスのプロパティまたはメソッドで違反が生成された場合、そのパスは単に &#8220;propertyName&#8221; です。</li>
+<li><tt class="docutils literal"><span class="pre">array</span></tt> または <tt class="docutils literal"><span class="pre">ArrayAccess</span></tt> オブジェクトで違反が生成された場合、プロパティパスは <tt class="docutils literal"><span class="pre">[indexName]</span></tt> です。</li>
+<li>ドットでプロパティを分離し、それらを連結して、ネストされたプロパティパスを作成することができます。たとえば <tt class="docutils literal"><span class="pre">addresses[work].matchingCityAndZipCode</span></tt> のように。</li>
+<li>左側のエラーマッピングは単一のドット <tt class="docutils literal"><span class="pre">.</span></tt> も認められます。それはフィールド自体をさしています。フィールドに追加されたエラーはネストされたフィールドの代わりに付与されたことを意味します。</li>
+<li>右側は単にフォームのフィールド名を有します。</li>
+</ul>
+</div>
+<div class="section" id="mapped">
+<h3>mapped<a class="headerlink" href="#mapped" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>オブジェクトを読み込んでいるまたは書き込んでいる間、フィールドが無視されるようにしたい場合は、
+<tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にしてください。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>フォーム変数<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="13%" />
+<col width="19%" />
+<col width="69%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">変数</th>
+<th class="head">データ型</th>
+<th class="head">使い方</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>checked</td>
+<td><tt class="docutils literal"><span class="pre">Boolean</span></tt></td>
+<td>現在の入力がチェックされているかどうか。</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

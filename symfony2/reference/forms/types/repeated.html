@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>repeated Field Type | Symfony2日本語ドキュメント</title>
+    <title>repeated フィールドタイプ | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../../static/configurationblock.css" type="text/css" />
@@ -75,22 +75,31 @@
         <div class="sphinxsidebarwrapper">
   <h3>このページのコンテンツ</h3>
   <ul>
-<li><a class="reference internal" href="#">repeated Field Type</a><ul>
-<li><a class="reference internal" href="#example-usage">Example Usage</a><ul>
+<li><a class="reference internal" href="#">repeated フィールドタイプ</a><ul>
+<li><a class="reference internal" href="#id1">使用例</a><ul>
+<li><a class="reference internal" href="#rendering">Rendering</a></li>
 <li><a class="reference internal" href="#validation">Validation</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#field-options">Field Options</a><ul>
+<li><a class="reference internal" href="#id2">フィールドオプション</a><ul>
 <li><a class="reference internal" href="#type">type</a></li>
 <li><a class="reference internal" href="#options">options</a></li>
+<li><a class="reference internal" href="#first-options">first_options</a></li>
+<li><a class="reference internal" href="#second-options">second_options</a></li>
 <li><a class="reference internal" href="#first-name">first_name</a></li>
 <li><a class="reference internal" href="#second-name">second_name</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#inherited-options">Inherited options</a><ul>
+<li><a class="reference internal" href="#id3">上書きされたオプション</a><ul>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">継承されたオプション</a><ul>
+<li><a class="reference internal" href="#data">data</a></li>
 <li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
 <li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
-<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
 </ul>
 </li>
 </ul>
@@ -154,109 +163,196 @@
 
 <p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/repeated.html">原文のページ</a>をご確認ください。</p>
 
-  <div class="section" id="repeated-field-type">
-<span id="index-0"></span><h1>repeated Field Type<a class="headerlink" href="#repeated-field-type" title="Permalink to this headline">¶</a></h1>
-<p>This is a special field &#8220;group&#8221;, that creates two identical fields whose
-values must match (or a validation error is thrown). The most common use
-is when you need the user to repeat his or her password or email to verify
-accuracy.</p>
+  <div class="admonition note" id="index-0">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.3+</li>
+<li>翻訳更新日：2014/05/24</li>
+</ul>
+</div>
+<div class="section" id="repeated">
+<h1>repeated フィールドタイプ<a class="headerlink" href="#repeated" title="Permalink to this headline">¶</a></h1>
+<p>これは特別なフィールド &#8220;グループ&#8221; です。値が一致しなくてはいけない（または、検証エラーがスローされる）二つの同一のフィールドです。
+ユーザーに検証のためパスワードや電子メールを繰り返し求めるのが最も一般的な使用法です。</p>
 <table border="1" class="docutils">
 <colgroup>
-<col width="15%" />
-<col width="85%" />
+<col width="20%" />
+<col width="80%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>Rendered as</td>
-<td>input <tt class="docutils literal"><span class="pre">text</span></tt> field by default, but see <a class="reference internal" href="#type">type</a> option</td>
+<tr class="row-odd"><td>対応するデータ型</td>
+<td><tt class="docutils literal"><span class="pre">text</span></tt> フィールドがデフォルト。 <a class="reference internal" href="#type">type</a> オプションを参照</td>
 </tr>
-<tr class="row-even"><td>Options</td>
+<tr class="row-even"><td>オプション</td>
 <td><ul class="first last simple">
 <li><a class="reference internal" href="#type">type</a></li>
 <li><a class="reference internal" href="#options">options</a></li>
+<li><a class="reference internal" href="#first-options">first_options</a></li>
+<li><a class="reference internal" href="#second-options">second_options</a></li>
 <li><a class="reference internal" href="#first-name">first_name</a></li>
 <li><a class="reference internal" href="#second-name">second_name</a></li>
 </ul>
 </td>
 </tr>
-<tr class="row-odd"><td>Inherited
-options</td>
+<tr class="row-odd"><td>上書きされた
+オプション</td>
 <td><ul class="first last simple">
-<li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
-<li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
 <li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
 </ul>
 </td>
 </tr>
-<tr class="row-even"><td>Parent type</td>
-<td><a class="reference internal" href="form.html"><em>field</em></a></td>
+<tr class="row-even"><td>継承された
+オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
+<li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+</ul>
+</td>
 </tr>
-<tr class="row-odd"><td>Class</td>
+<tr class="row-odd"><td>親タイプ</td>
+<td><a class="reference internal" href="form.html"><em>form</em></a></td>
+</tr>
+<tr class="row-even"><td>クラス</td>
 <td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\RepeatedType</span></tt></td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="example-usage">
-<h2>Example Usage<a class="headerlink" href="#example-usage" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2>使用例<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;repeated&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
     <span class="s1">&#39;type&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;password&#39;</span><span class="p">,</span>
     <span class="s1">&#39;invalid_message&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;The password fields must match.&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;options&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Password&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;options&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;attr&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;password-field&#39;</span><span class="p">)),</span>
+    <span class="s1">&#39;required&#39;</span> <span class="o">=&gt;</span> <span class="k">true</span><span class="p">,</span>
+    <span class="s1">&#39;first_options&#39;</span>  <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Password&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;second_options&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Repeat Password&#39;</span><span class="p">),</span>
 <span class="p">));</span>
 </pre></div>
 </div>
-<p>Upon a successful form submit, the value entered into both of the &#8220;password&#8221;
-fields becomes the data of the <tt class="docutils literal"><span class="pre">password</span></tt> key. In other words, even though
-two fields are actually rendered, the end data from the form is just the
-single value (usually a string) that you need.</p>
-<p>The most important option is <tt class="docutils literal"><span class="pre">type</span></tt>, which can be any field type and determines
-the actual type of the two underlying fields. The <tt class="docutils literal"><span class="pre">options</span></tt> option is passed
-to each of those individual fields, meaning - in this example - any option
-supported by the <tt class="docutils literal"><span class="pre">password</span></tt> type can be passed in this array.</p>
+<p>フォーム送信に成功したとき、 &#8220;password&#8221; フィールドの両方に入力された値は &#8220;password&#8221; キーのデータになります。
+つまり、実際に2つのフィールドが描画されていても、フォームからのエンドデータはあなたが必要とする単一の値（通常は文字列）です。</p>
+<p>最も重要なオプションは、<tt class="docutils literal"><span class="pre">type</span></tt> です。それは、任意のフィールドタイプを設定でき、2つの対応するフィールドの実際の型を決定します。
+<tt class="docutils literal"><span class="pre">options</span></tt> オプションは、それらの個々のフィールドにそれぞれに渡され、 - この例では - <tt class="docutils literal"><span class="pre">password</span></tt> タイプがサポートする任意のオプションをこの配列に渡すことができます。</p>
+<div class="section" id="rendering">
+<h3>Rendering<a class="headerlink" href="#rendering" title="Permalink to this headline">¶</a></h3>
+<p>繰り返されるフィールドタイプは、実際には二つのフィールドを、すべてを一度に、または個別にレンダリングすることができます。
+一度にすべてをレンダリングするには、以下のように使用します。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.password</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<p>個別に各フィールドをレンダリングするためには、このように使用します。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# .first and .second may vary in your use - see the note below #}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.password.first</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+<span class="cp">{{</span> <span class="nv">form_row</span><span class="o">(</span><span class="nv">form.password.second</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="o">&lt;?</span><span class="nx">php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">][</span><span class="s1">&#39;first&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+<span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">row</span><span class="p">(</span><span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;password&#39;</span><span class="p">][</span><span class="s1">&#39;second&#39;</span><span class="p">])</span> <span class="cp">?&gt;</span><span class="x"></span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last"><tt class="docutils literal"><span class="pre">first</span></tt> と <tt class="docutils literal"><span class="pre">second</span></tt> は二つのサブフィールドのデフォルトの名前です。
+しかし、これらの名前は <a class="reference internal" href="#first-name">first_name</a> と <a class="reference internal" href="#second-name">second_name</a> オプションを介して制御することができます。
+これらのオプションを設定している場合は、<tt class="docutils literal"><span class="pre">first</span></tt> と <tt class="docutils literal"><span class="pre">second</span></tt> をレンダリングするとき代わりにそれらの値を使用します。</p>
+</div>
+</div>
 <div class="section" id="validation">
 <h3>Validation<a class="headerlink" href="#validation" title="Permalink to this headline">¶</a></h3>
-<p>One of the key features of the <tt class="docutils literal"><span class="pre">repeated</span></tt> field is internal validation
-(you don&#8217;t need to do anything to set this up) that forces the two fields
-to have a matching value. If the two fields don&#8217;t match, an error will be
-shown to the user.</p>
-<p>The <tt class="docutils literal"><span class="pre">invalid_message</span></tt> is used to customize the error that will
-be displayed when the two fields do not match each other.</p>
+<p><tt class="docutils literal"><span class="pre">repeated</span></tt> フィールドの主な特徴の一つは（設定するために何もする必要がない）内部検証です。2つのフィールドが一致する値を持つように強制します。
+2つのフィールドが一致しない場合、ユーザにエラーが表示されます。</p>
+<p><tt class="docutils literal"><span class="pre">invalid_message</span></tt> は2つのフィールドが一致しないときに表示されるエラーをカスタマイズするために使用されます。</p>
 </div>
 </div>
-<div class="section" id="field-options">
-<h2>Field Options<a class="headerlink" href="#field-options" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>フィールドオプション<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="type">
 <h3>type<a class="headerlink" href="#type" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">text</span></tt></p>
-<p>The two underlying fields will be of this field type. For example, passing
-a type of <tt class="docutils literal"><span class="pre">password</span></tt> will render two password fields.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">text</span></tt></p>
+<p>その2つのフィールドはこのフィールドタイプになります。たとえば、<tt class="docutils literal"><span class="pre">password</span></tt> タイプを渡すと、二つの <tt class="docutils literal"><span class="pre">password</span></tt> フィールドをレンダリングします。</p>
 </div>
 <div class="section" id="options">
 <h3>options<a class="headerlink" href="#options" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
-<p>This options array will be passed to each of the two underlying fields. In
-other words, these are the options that customize the individual field types.
-For example, if the <tt class="docutils literal"><span class="pre">type</span></tt> option is set to <tt class="docutils literal"><span class="pre">password</span></tt>, this array might
-contain the options <tt class="docutils literal"><span class="pre">always_empty</span></tt> or <tt class="docutils literal"><span class="pre">required</span></tt> - both options that are
-supported by the <tt class="docutils literal"><span class="pre">password</span></tt> field type.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p>このオプションの配列は二つのフィールドにそれぞれに渡されます。換言すれば、これらは、個々のフィールドタイプをカスタマイズするオプションがあります。
+たとえば、<tt class="docutils literal"><span class="pre">type</span></tt> オプションに <tt class="docutils literal"><span class="pre">password</span></tt> を設定したとき、この配列には <tt class="docutils literal"><span class="pre">always_empty</span></tt> または <tt class="docutils literal"><span class="pre">required</span></tt> が含まれるでしょう。
+どちらのオプションも <tt class="docutils literal"><span class="pre">password</span></tt> フィールドタイプでサポートされています。</p>
+</div>
+<div class="section" id="first-options">
+<h3>first_options<a class="headerlink" href="#first-options" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p>第一フィールド <em>だけ</em> に渡されるべき追加オプション（ <cite>options</cite> にマージされます）です。
+これはラベルをカスタマイズする場合に特に便利です。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">,</span> <span class="s1">&#39;repeated&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;first_options&#39;</span>  <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Password&#39;</span><span class="p">),</span>
+    <span class="s1">&#39;second_options&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;label&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Repeat Password&#39;</span><span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="second-options">
+<h3>second_options<a class="headerlink" href="#second-options" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p>第二フィールド <em>だけ</em> に渡されるべき追加オプション（ <cite>options</cite> にマージされます）です。
+これはラベルをカスタマイズする場合に特に便利です。（参照 <a class="reference internal" href="#first-options">first_options</a> ）</p>
 </div>
 <div class="section" id="first-name">
 <h3>first_name<a class="headerlink" href="#first-name" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">first</span></tt></p>
-<p>This is the actual field name to be used for the first field. This is mostly
-meaningless, however, as the actual data entered into both of the fields will
-be available under the key assigned to the <tt class="docutils literal"><span class="pre">repeated</span></tt> field itself (e.g.
-<tt class="docutils literal"><span class="pre">password</span></tt>). However, if you don&#8217;t specify a label, this field name is used
-to &#8220;guess&#8221; the label for you.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">first</span></tt></p>
+<p>これは、第一フィールドのために使用される実際のフィールド名です。
+大部分には無意味ですが、両方のフィールドに入力された実際のデータは、<tt class="docutils literal"><span class="pre">repeated</span></tt> フィールド自体（例えば``password``）に
+割り当てられるそのキーで利用できるようになります。
+しかし、ラベルを指定しない場合はこのフィールド名はラベルを「推測」するために使用されます。</p>
 </div>
 <div class="section" id="second-name">
 <h3>second_name<a class="headerlink" href="#second-name" title="Permalink to this headline">¶</a></h3>
-<p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">second</span></tt></p>
-<p>The same as <tt class="docutils literal"><span class="pre">first_name</span></tt>, but for the second field.</p>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">second</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">first_name</span></tt> と同様ですが、第二フィールドのためのものです。</p>
 </div>
 </div>
-<div class="section" id="inherited-options">
-<h2>Inherited options<a class="headerlink" href="#inherited-options" title="Permalink to this headline">¶</a></h2>
-<p>These options inherit from the <a class="reference internal" href="field.html"><em>field</em></a> type:</p>
+<div class="section" id="id3">
+<h2>上書きされたオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="error-bubbling">
+<h3>error_bubbling<a class="headerlink" href="#error-bubbling" title="Permalink to this headline">¶</a></h3>
+<p><strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>継承されたオプション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>以下のオプションは <a class="reference internal" href="form.html"><em>form</em></a> タイプを継承しています:</p>
+<div class="section" id="data">
+<h3>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: mixed <strong>デフォルト</strong>: 対応するオブジェクトのフィールド(一つであれば）</p>
+<p>フォームを作成したとき、各フィールドに表示する初期値は、フォームのドメインオブジェクトの対応するプロパティの値です（オブジェクトがフォームにバインドされている場合）。もしフォーム、または、単に個々のフィールドの初期値を上書きしたい場合は、<tt class="docutils literal"><span class="pre">data</span></tt> オプションで設定することが出来ます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;data&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;abcdef&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームのフィールドのデフォルト値は、直接データ構造（例えば、エンティティまたは配列）から取得されます。
+<tt class="docutils literal"><span class="pre">data</span></tt> オプションはこのデフォルト値を上書きします。</p>
+</div>
+</div>
 <div class="section" id="invalid-message">
 <h3>invalid_message<a class="headerlink" href="#invalid-message" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">This</span> <span class="pre">value</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">valid</span></tt></p>
@@ -276,12 +372,37 @@ to &#8220;guess&#8221; the label for you.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="error-bubbling">
-<h3>error_bubbling<a class="headerlink" href="#error-bubbling" title="Permalink to this headline">¶</a></h3>
-<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt> フォームに限り  <tt class="docutils literal"><span class="pre">compound</span></tt></p>
-<p><tt class="docutils literal"><span class="pre">true</span></tt> の場合、このフィールドのエラーは親フィールドまたはフォームに渡されます。
-たとえば、通常のフィールドを <tt class="docutils literal"><span class="pre">true</span></tt> に設定した場合、フィールドに対するエラーは
-特定のフィールドではなくメインのフォームに付加されます。</p>
+<div class="section" id="mapped">
+<h3>mapped<a class="headerlink" href="#mapped" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
+<p>オブジェクトを読み込んでいるまたは書き込んでいる間、フィールドが無視されるようにしたい場合は、
+<tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にしてください。</p>
+</div>
+<div class="section" id="error-mapping">
+<h3>error_mapping<a class="headerlink" href="#error-mapping" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">empty</span></tt></p>
+<p>このオプションはバリデーションエラーの対象を編集することができます。</p>
+<p><tt class="docutils literal"><span class="pre">matchingCityAndZipCode</span></tt> という名前のメソッドを持っているとして、それが <tt class="docutils literal"><span class="pre">city</span></tt> および <tt class="docutils literal"><span class="pre">zip</span> <span class="pre">code</span></tt> が一致するかの検証をするとします。しかし残念なことに、 &#8220;matchingCityAndZipCode&#8221; フィールドがフォームに無いため、 Symfony ができるのはフォームの上部にエラーを表示することです。</p>
+<p>カスタマイズされたエラーマッピングを使うと、<tt class="docutils literal"><span class="pre">city</span></tt> フィールドの上にエラーを表示するように、より上手にエラーをマップできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;error_mapping&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;matchingCityAndZipCode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>こちらが左側、右側のマッピングするルールです:</p>
+<ul class="simple">
+<li>左側はプロパティパスを有します。</li>
+<li>クラスのプロパティまたはメソッドで違反が生成された場合、そのパスは単に &#8220;propertyName&#8221; です。</li>
+<li><tt class="docutils literal"><span class="pre">array</span></tt> または <tt class="docutils literal"><span class="pre">ArrayAccess</span></tt> オブジェクトで違反が生成された場合、プロパティパスは <tt class="docutils literal"><span class="pre">[indexName]</span></tt> です。</li>
+<li>ドットでプロパティを分離し、それらを連結して、ネストされたプロパティパスを作成することができます。たとえば <tt class="docutils literal"><span class="pre">addresses[work].matchingCityAndZipCode</span></tt> のように。</li>
+<li>左側のエラーマッピングは単一のドット <tt class="docutils literal"><span class="pre">.</span></tt> も認められます。それはフィールド自体をさしています。フィールドに追加されたエラーはネストされたフィールドの代わりに付与されたことを意味します。</li>
+<li>右側は単にフォームのフィールド名を有します。</li>
+</ul>
 </div>
 </div>
 </div>

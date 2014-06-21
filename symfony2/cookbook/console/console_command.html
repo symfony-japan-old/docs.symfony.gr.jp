@@ -129,9 +129,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/console/console_command.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -242,7 +239,7 @@
 </div>
 <div class="section" id="id4">
 <h2>サービスコンテナからサービスを取得する<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>作成するコマンドの基底クラスとして <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Console\Command\Command</span></tt> のかわりに <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand</span></tt> を使っているので、サービスコンテナに手軽にアクセスし、サービスを利用できます。
+<p>作成するコマンドの基底クラスとして <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Console/Command/Command.html" title="Symfony\Component\Console\Command\Command"><span class="pre">Command</span></a></tt> のかわりに <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Command/ContainerAwareCommand.html" title="Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand"><span class="pre">ContainerAwareCommand</span></a></tt> を使っているので、サービスコンテナに手軽にアクセスし、サービスを利用できます。
 たとえば、<tt class="docutils literal"><span class="pre">translator</span></tt> サービスを使ってコマンドのメッセージを翻訳に対応させるといったことが可能です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
 <span class="p">{</span>
@@ -259,7 +256,7 @@
 </div>
 <div class="section" id="id5">
 <h2>コマンドのテスト<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>コマンドを完全に機能するフレームワーク上でテストしたい場合、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Console\Application</span></tt> のかわりに <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Console\Application</span></tt> を使います。</p>
+<p>コマンドを完全に機能するフレームワーク上でテストしたい場合、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Console/Application.html" title="Symfony\Component\Console\Application"><span class="pre">Symfony\Component\Console\Application</span></a></tt> のかわりに <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Console/Application.html" title="Symfony\Bundle\FrameworkBundle\Console\Application"><span class="pre">Symfony\Bundle\FrameworkBundle\Console\Application</span></a></tt> を使います。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Console\Tester\CommandTester</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Console\Application</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Acme\DemoBundle\Command\GreetCommand</span><span class="p">;</span>
@@ -300,7 +297,7 @@
 Symfony 2.4 以降では、コマンド自身の名前が自動登録されるようになりました。
 <a class="reference external" href="https://github.com/symfony/symfony/pull/8626">[Console] pass command name automatically if required by the application</a></p>
 </div>
-<p>コンソールコマンドのテストで完全にセットアップされたサービスコンテナを利用したい場合は、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Test\WebTestCase</span></tt> を継承してテストクラスを作成してください。</p>
+<p>コンソールコマンドのテストで完全にセットアップされたサービスコンテナを利用したい場合は、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Test/WebTestCase.html" title="Symfony\Bundle\FrameworkBundle\Test\WebTestCase"><span class="pre">WebTestCase</span></a></tt> を継承してテストクラスを作成してください。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Console\Tester\CommandTester</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Console\Application</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Test\WebTestCase</span><span class="p">;</span>
@@ -341,11 +338,6 @@ Symfony 2.4 以降では、コマンド自身の名前が自動登録される�
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/console/console_command.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/console/console_command.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/console/console_command.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

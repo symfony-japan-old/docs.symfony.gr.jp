@@ -138,16 +138,13 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/security/voters.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="ip-voter">
 <span id="index-0"></span><h1>IPアドレスのブラックリストの独自 Voter の実装方法<a class="headerlink" href="#ip-voter" title="Permalink to this headline">¶</a></h1>
 <p>Symfony2 のセキュリティコンポーネントは、ユーザ認証のための複数のレイヤーを用意しています。 <cite>voter</cite> と呼ばれるレイヤーは、その１つです。 voter はユーザがアプリケーションに接続できる権利があるかのチェックを行うクラスです。例えば、 Symfony2 は、ユーザが完全に認証されているか、また、必要な権限を保持しているかといったことをチェックするレイヤーを提供します。</p>
 <p>フレームワークによる処理ではなく、特定のケースを処理するためのカスタム化された voter が役に立つこともあります。このセクションでは、 IP アドレスに基づきユーザをブラックリストに入れるための voter の作り方を学びましょう</p>
 <div class="section" id="voter">
 <h2>Voter インタフェース<a class="headerlink" href="#voter" title="Permalink to this headline">¶</a></h2>
-<p>カスタム Voter は、次の３つのメソッドを必要とする <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\Authorization\Voter\VoterInterface</span></tt> インタフェースを実装する必要があります:</p>
+<p>カスタム Voter は、次の３つのメソッドを必要とする <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/Authorization/Voter/VoterInterface.html" title="Symfony\Component\Security\Core\Authorization\Voter\VoterInterface"><span class="pre">VoterInterface</span></a></tt> インタフェースを実装する必要があります:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">interface</span> <span class="nx">VoterInterface</span>
 <span class="p">{</span>
     <span class="k">function</span> <span class="nf">supportsAttribute</span><span class="p">(</span><span class="nv">$attribute</span><span class="p">);</span>
@@ -293,11 +290,6 @@ services:
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/security/voters.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/security/voters.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/security/voters.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

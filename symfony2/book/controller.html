@@ -99,8 +99,8 @@
 </li>
 <li><a class="reference internal" href="#index-14">レスポンスオブジェクト</a></li>
 <li><a class="reference internal" href="#index-15">リクエストオブジェクト</a></li>
-<li><a class="reference internal" href="#id19">まとめ</a></li>
-<li><a class="reference internal" href="#id20">クックブックでより深く</a></li>
+<li><a class="reference internal" href="#id17">まとめ</a></li>
+<li><a class="reference internal" href="#id18">クックブックでより深く</a></li>
 </ul>
 </li>
 </ul>
@@ -159,9 +159,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/controller.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -442,11 +439,11 @@ Symfony 2.1 までは <tt class="docutils literal"><span class="pre">pattern</sp
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>この時点では特にコントローラーの処理が変わったわけではありません。次節では、基底コントローラークラスの存在により使用可能となるヘルパーメソッドを見ていきます。これらのメソッドは、単に Symfony2 の機能へのショートカットです。その機能自体は、基底 <tt class="docutils literal"><span class="pre">Controller</span></tt> クラスを通しても通さなくても利用可能です。実際のコア機能を参照するには、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt> を見るとよいでしょう。</p>
+<p>この時点では特にコントローラーの処理が変わったわけではありません。次節では、基底コントローラークラスの存在により使用可能となるヘルパーメソッドを見ていきます。これらのメソッドは、単に Symfony2 の機能へのショートカットです。その機能自体は、基底 <tt class="docutils literal"><span class="pre">Controller</span></tt> クラスを通しても通さなくても利用可能です。実際のコア機能を参照するには、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller/Controller.html" title="Symfony\Bundle\FrameworkBundle\Controller\Controller"><span class="pre">Controller</span></a></tt> を見るとよいでしょう。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">Symfony では、この基底クラスを継承するのは <em>オプション</em>です。便利なショートカットはありますが、強制ではありません。<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DependencyInjection\ContainerAware</span></tt> クラスを継承したり、
-PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DependencyInjection\ContainerAwareTrait</span></tt> トレイトを使うこともできます。
+<p class="last">Symfony では、この基底クラスを継承するのは <em>オプション</em>です。便利なショートカットはありますが、強制ではありません。<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DependencyInjection/ContainerAware.html" title="Symfony\Component\DependencyInjection\ContainerAware"><span class="pre">ContainerAware</span></a></tt> クラスを継承したり、
+PHP 5.4 以降であれば <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DependencyInjection/ContainerAwareTrait.html" title="Symfony\Component\DependencyInjection\ContainerAwareTrait"><span class="pre">ContainerAwareTrait</span></a></tt> トレイトを使うこともできます。
 こうすると <tt class="docutils literal"><span class="pre">container</span></tt> プロパティ経由でサービスコンテナにアクセスできます。</p>
 </div>
 <div class="versionadded">
@@ -490,7 +487,7 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 <div class="section" id="index-8">
 <span id="id9"></span><h3>フォワード<a class="headerlink" href="#index-8" title="Permalink to this headline">¶</a></h3>
-<p>内部的に別のコントローラーへフォワードさせることも簡単にできます。これには <a href="#id10"><span class="problematic" id="id11">:method:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller::forward`</span></a> メソッドを使用します。ブラウザにリダイレクトさせるのではなく、内部的なサブリクエストを作成し、指定されたコントローラーを呼び出します。<tt class="docutils literal"><span class="pre">forward()</span></tt> メソッドは、その呼び出されたコントローラーが作成する <tt class="docutils literal"><span class="pre">Resopnse</span></tt> オブジェクトを返します。</p>
+<p>内部的に別のコントローラーへフォワードさせることも簡単にできます。これには <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller/Controller.html#method_forward" title="Symfony\Bundle\FrameworkBundle\Controller\Controller::forward()"><span class="pre">forward()</span></a></tt> メソッドを使用します。ブラウザにリダイレクトさせるのではなく、内部的なサブリクエストを作成し、指定されたコントローラーを呼び出します。<tt class="docutils literal"><span class="pre">forward()</span></tt> メソッドは、その呼び出されたコントローラーが作成する <tt class="docutils literal"><span class="pre">Resopnse</span></tt> オブジェクトを返します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="nv">$response</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">forward</span><span class="p">(</span><span class="s1">&#39;AcmeHelloBundle:Hello:fancy&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
@@ -533,7 +530,7 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 </div>
 <div class="section" id="controller-rendering-templates">
-<span id="index-9"></span><span id="id12"></span><h3>テンプレートのレンダリング<a class="headerlink" href="#controller-rendering-templates" title="Permalink to this headline">¶</a></h3>
+<span id="index-9"></span><span id="id10"></span><h3>テンプレートのレンダリング<a class="headerlink" href="#controller-rendering-templates" title="Permalink to this headline">¶</a></h3>
 <p>必須条件ではないとしても、ほとんどのコントローラーでは HTML (もしくはその他のフォーマット) を生成するテンプレートのレンダリングを最終的に行うことになるでしょう。<tt class="docutils literal"><span class="pre">renderView()</span></tt> メソッドは、テンプレートをレンダリングし、コンテンツを返します。テンプレートからできたそのコンテンツは、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトの作成に使用されます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
 
@@ -584,7 +581,7 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 </div>
 <div class="section" id="index-10">
-<span id="id13"></span><h3>他のサービスへのアクセス<a class="headerlink" href="#index-10" title="Permalink to this headline">¶</a></h3>
+<span id="id11"></span><h3>他のサービスへのアクセス<a class="headerlink" href="#index-10" title="Permalink to this headline">¶</a></h3>
 <p>基底コントローラークラスを継承した場合は、<tt class="docutils literal"><span class="pre">get()</span></tt> メソッドを使用して、あらゆる Symfony2 サービスへのアクセスを行うことができます。一般的なサービスとしては、次のようなサービスが必要となるかもしれません。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$templating</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;templating&#39;</span><span class="p">);</span>
 
@@ -601,7 +598,7 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 </div>
 <div class="section" id="index-11">
-<span id="id14"></span><h2>エラーと 404<a class="headerlink" href="#index-11" title="Permalink to this headline">¶</a></h2>
+<span id="id12"></span><h2>エラーと 404<a class="headerlink" href="#index-11" title="Permalink to this headline">¶</a></h2>
 <p>&#8220;not found&#8221; になった場合は、HTTP プロトコルに沿うように 404 レスポンスを返すべきでしょう。このためには専用の例外をスローします。基底コントローラークラスを継承している場合は次のようにします。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
 <span class="p">{</span>
@@ -623,7 +620,7 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 <p>どの場合においても、エンドユーザーにはスタイルの整ったエラーページが表示され、(デバッグモードで見ている場合は)開発者にデバッグエラーページが表示されます。これらのエラーページは、両方ともカスタマイズが可能です。詳細は、クックブックの&#8221;<a class="reference internal" href="../cookbook/controller/error_pages.html"><em>エラーページのカスタマイズ方法</em></a>&#8220;レシピを参照してください。</p>
 </div>
 <div class="section" id="index-12">
-<span id="id15"></span><h2>セッション管理<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
+<span id="id13"></span><h2>セッション管理<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
 <p>Symfony2 は、使いやすいセッションオブジェクトを提供しています。セッションオブジェクトを使って、リクエスト間でユーザー (ブラウザを使用しているユーザーや、ボット、WEB サービスでも) の情報を保存しておくことができます。デフォルトでは、Symfony2 はネイティブな PHP セッションを使用して、属性をクッキーに保存します。</p>
 <p>セッションのストアと取得は、コントローラー内で容易に行うことができます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
@@ -645,7 +642,7 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 <p>これらの属性は、ユーザーのセッションが存続する間は保持されます。</p>
 <div class="section" id="index-13">
-<span id="id16"></span><h3>フラッシュメッセージ<a class="headerlink" href="#index-13" title="Permalink to this headline">¶</a></h3>
+<span id="id14"></span><h3>フラッシュメッセージ<a class="headerlink" href="#index-13" title="Permalink to this headline">¶</a></h3>
 <p>ユーザーの次のリクエストまでの間のみセッションに保持されるような、小さなメッセージを保存することもできます。これは、フォームを処理しているときに便利です。リクエストをリダイレクトし、<em>次の</em>リクエストで特別なメッセージを表示させたい時に使います。この種のメッセージは「フラッシュ」メッセージと呼ばれています。</p>
 <p>フォームの送信を処理する場合を考えてみましょう。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
@@ -697,8 +694,8 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 </div>
 <div class="section" id="index-14">
-<span id="id17"></span><h2>レスポンスオブジェクト<a class="headerlink" href="#index-14" title="Permalink to this headline">¶</a></h2>
-<p>コントローラーが満たさなければいけないただ 1 つの要件は、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返すことです。<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response</span></tt> クラスは、HTTP レスポンス (HTTP ヘッダーのテキストメッセージとクライアントに返されるべきコンテンツ) を、PHP によって抽象化しているクラスです。</p>
+<span id="id15"></span><h2>レスポンスオブジェクト<a class="headerlink" href="#index-14" title="Permalink to this headline">¶</a></h2>
+<p>コントローラーが満たさなければいけないただ 1 つの要件は、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返すことです。<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Response.html" title="Symfony\Component\HttpFoundation\Response"><span class="pre">Response</span></a></tt> クラスは、HTTP レスポンス (HTTP ヘッダーのテキストメッセージとクライアントに返されるべきコンテンツ) を、PHP によって抽象化しているクラスです。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
 
 <span class="c1">// ステータスコード 200(デフォルト)の Response を作成</span>
@@ -714,21 +711,21 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last"><tt class="docutils literal"><span class="pre">headers</span></tt> プロパティは、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\HeaderBag</span></tt> オブジェクトとなります。このオブジェクトには <tt class="docutils literal"><span class="pre">Resopnse</span></tt> のヘッダの読み込みと変更のための便利なメソッドがついています。ヘッダ名は正規化されるので、<tt class="docutils literal"><span class="pre">Content-Type</span></tt> は <tt class="docutils literal"><span class="pre">content-type</span></tt> や、さらに言えば <tt class="docutils literal"><span class="pre">content_type</span></tt> でも同等に使用できます。</p>
+<p class="last"><tt class="docutils literal"><span class="pre">headers</span></tt> プロパティは、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/HeaderBag.html" title="Symfony\Component\HttpFoundation\HeaderBag"><span class="pre">HeaderBag</span></a></tt> オブジェクトとなります。このオブジェクトには <tt class="docutils literal"><span class="pre">Resopnse</span></tt> のヘッダの読み込みと変更のための便利なメソッドがついています。ヘッダ名は正規化されるので、<tt class="docutils literal"><span class="pre">Content-Type</span></tt> は <tt class="docutils literal"><span class="pre">content-type</span></tt> や、さらに言えば <tt class="docutils literal"><span class="pre">content_type</span></tt> でも同等に使用できます。</p>
 </div>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p>特定のレスポンスを手軽に返すのに有用なクラスも用意されています。</p>
 <ul class="last simple">
-<li>JSON 用 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\JsonResponse</span></tt>
+<li>JSON 用 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/JsonResponse.html" title="Symfony\Component\HttpFoundation\JsonResponse"><span class="pre">JsonResponse</span></a></tt>
 <em class="xref std std-ref">component-http-foundation-json-response</em> を参照</li>
-<li>ファイル用 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\BinaryFileResponse</span></tt>
+<li>ファイル用 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/BinaryFileResponse.html" title="Symfony\Component\HttpFoundation\BinaryFileResponse"><span class="pre">BinaryFileResponse</span></a></tt>
 <em class="xref std std-ref">component-http-foundation-serving-files</em> を参照</li>
 </ul>
 </div>
 </div>
 <div class="section" id="index-15">
-<span id="id18"></span><h2>リクエストオブジェクト<a class="headerlink" href="#index-15" title="Permalink to this headline">¶</a></h2>
+<span id="id16"></span><h2>リクエストオブジェクト<a class="headerlink" href="#index-15" title="Permalink to this headline">¶</a></h2>
 <p>ルーティングのプレースホルダー値もそうですが、基底 <tt class="docutils literal"><span class="pre">Controller</span></tt> クラスを継承している場合、<tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトへのアクセスも可能です。
 コントローラーの引数に <cite>SymfonyComponentHttpFoundationRequest</cite> クラスのタイプヒントが指定されていれば、フレームワークにより自動的に <tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトが注入されます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
@@ -747,14 +744,14 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 <p><tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトと同様に、<tt class="docutils literal"><span class="pre">HeaderBag</span></tt> オブジェクト内にリクエストヘッダーの値が保存されており、容易にアクセスできます。</p>
 </div>
-<div class="section" id="id19">
-<h2>まとめ<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id17">
+<h2>まとめ<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h2>
 <p>ページを作成するのであれば、最終的にはそのページに対するロジックの入ったコードが必要となるでしょう。Symfony では、これをコントローラーと呼んでいます。コントローラーは、ユーザーに返される最終的な <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返すために必要なことがなんでもできる PHP 関数です。</p>
 <p>簡単にコントローラーを実装するために、基底 <tt class="docutils literal"><span class="pre">Controller</span></tt> クラスを継承することもできます。この基底クラスには、コントローラーでよく利用される処理のショートカットメソッドが多数用意されています。例えば、コントローラー内に HTML コードを書きたくはないでしょうから、<tt class="docutils literal"><span class="pre">render()</span></tt> メソッドを使って、テンプレートからコンテンツをレンダリングし、返してもらうことができます。</p>
 <p>データベースへの永続化やその取得、フォームの送信、キャッシュといったコントローラーの使い方は、他の章で説明しています。</p>
 </div>
-<div class="section" id="id20">
-<h2>クックブックでより深く<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h2>クックブックでより深く<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="../cookbook/controller/error_pages.html"><em>エラーページのカスタマイズ方法</em></a></li>
 <li><a class="reference internal" href="../cookbook/controller/service.html"><em>コントローラをサービスとして定義する方法</em></a></li>
@@ -769,11 +766,6 @@ PHP 5.4 以降であれば <tt class="xref php php-class docutils literal"><span
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/controller.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/controller.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/controller.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

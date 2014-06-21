@@ -98,7 +98,7 @@
 <li><a class="reference internal" href="#last-modified"><tt class="docutils literal"><span class="pre">Last-Modified</span></tt> ヘッダーを使った検証</a></li>
 <li><a class="reference internal" href="#optimizing-cache-validation">有効期限の検証を使ってコードを最適化する</a></li>
 <li><a class="reference internal" href="#varying-the-response">Varying the Response</a></li>
-<li><a class="reference internal" href="#id16">有効期限と期限の検証</a></li>
+<li><a class="reference internal" href="#id12">有効期限と期限の検証</a></li>
 <li><a class="reference internal" href="#response">Response の他のメソッド</a></li>
 </ul>
 </li>
@@ -167,9 +167,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/http_cache.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="http">
 <span id="index-0"></span><h1>HTTP キャッシュ<a class="headerlink" href="#http" title="Permalink to this headline">¶</a></h1>
 <p>リッチな Web アプリケーションの本質は、それが動的であるということでしょう。
@@ -583,7 +580,7 @@ doing so much work.</p>
 <p class="first admonition-title">Tip</p>
 <p class="last">Symfony2 also supports weak ETags by passing <tt class="docutils literal"><span class="pre">true</span></tt> as the second
 argument to the
-<a href="#id11"><span class="problematic" id="id12">:method:`Symfony\\Component\\HttpFoundation\\Response::setETag`</span></a> method.</p>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Response.html#method_setETag" title="Symfony\Component\HttpFoundation\Response::setETag()"><span class="pre">setETag()</span></a></tt> method.</p>
 </div>
 </div>
 <div class="section" id="last-modified">
@@ -626,7 +623,7 @@ whether or not the resource has been updated since it was cached.</p>
 </div>
 </div>
 <div class="section" id="optimizing-cache-validation">
-<span id="index-13"></span><span id="id13"></span><h3>有効期限の検証を使ってコードを最適化する<a class="headerlink" href="#optimizing-cache-validation" title="Permalink to this headline">¶</a></h3>
+<span id="index-13"></span><span id="id11"></span><h3>有効期限の検証を使ってコードを最適化する<a class="headerlink" href="#optimizing-cache-validation" title="Permalink to this headline">¶</a></h3>
 <p>The main goal of any caching strategy is to lighten the load on the application.
 Put another way, the less you do in your application to return a 304 response,
 the better. The <tt class="docutils literal"><span class="pre">Response::isNotModified()</span></tt> method does exactly that by
@@ -665,7 +662,7 @@ exposing a simple and efficient pattern:</p>
 <p>When the <tt class="docutils literal"><span class="pre">Response</span></tt> is not modified, the <tt class="docutils literal"><span class="pre">isNotModified()</span></tt> automatically sets
 the response status code to <tt class="docutils literal"><span class="pre">304</span></tt>, removes the content, and removes some
 headers that must not be present for <tt class="docutils literal"><span class="pre">304</span></tt> responses (see
-<a href="#id14"><span class="problematic" id="id15">:method:`Symfony\\Component\\HttpFoundation\\Response::setNotModified`</span></a>).</p>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Response.html#method_setNotModified" title="Symfony\Component\HttpFoundation\Response::setNotModified()"><span class="pre">setNotModified()</span></a></tt>).</p>
 </div>
 <div class="section" id="varying-the-response">
 <span id="index-14"></span><h3>Varying the Response<a class="headerlink" href="#varying-the-response" title="Permalink to this headline">¶</a></h3>
@@ -704,8 +701,8 @@ header:</p>
 <p>The <tt class="docutils literal"><span class="pre">setVary()</span></tt> method takes a header name or an array of header names for
 which the response varies.</p>
 </div>
-<div class="section" id="id16">
-<h3>有効期限と期限の検証<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>有効期限と期限の検証<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>You can of course use both validation and expiration within the same <tt class="docutils literal"><span class="pre">Response</span></tt>.
 As expiration wins over validation, you can easily benefit from the best of
 both worlds. In other words, by using both expiration and validation, you
@@ -739,7 +736,7 @@ the most useful ones:</p>
 </div>
 </div>
 <div class="section" id="edge-side-includes">
-<span id="index-16"></span><span id="id17"></span><h2>Edge Side Includes の使い方<a class="headerlink" href="#edge-side-includes" title="Permalink to this headline">¶</a></h2>
+<span id="index-16"></span><span id="id13"></span><h2>Edge Side Includes の使い方<a class="headerlink" href="#edge-side-includes" title="Permalink to this headline">¶</a></h2>
 <p>Gateway caches are a great way to make your website perform better. But they
 have one limitation: they can only cache whole pages. If you can&#8217;t cache
 whole pages or if parts of a page has &#8220;more&#8221; dynamic parts, you are out of
@@ -1004,11 +1001,6 @@ Varnish.</p>
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/http_cache.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/http_cache.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/http_cache.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

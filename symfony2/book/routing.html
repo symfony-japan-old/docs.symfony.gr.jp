@@ -101,11 +101,11 @@
 <li><a class="reference internal" href="#url">URL の生成</a><ul>
 <li><a class="reference internal" href="#index-12">絶対 URL の生成</a></li>
 <li><a class="reference internal" href="#index-13">クエリーストリング付き URL</a></li>
-<li><a class="reference internal" href="#id28">テンプレートにおける URL 生成</a></li>
+<li><a class="reference internal" href="#id20">テンプレートにおける URL 生成</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id29">まとめ</a></li>
-<li><a class="reference internal" href="#id30">クックブックでより深く</a></li>
+<li><a class="reference internal" href="#id21">まとめ</a></li>
+<li><a class="reference internal" href="#id22">クックブックでより深く</a></li>
 </ul>
 </li>
 </ul>
@@ -164,9 +164,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/routing.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -896,8 +893,8 @@
 上の例のルートでは、HTTP メソッドが GET または HEAD で、かつ、<tt class="docutils literal"><span class="pre">User-Agent</span></tt> ヘッダーに <tt class="docutils literal"><span class="pre">firefox</span></tt> が含まれる場合にのみルートにマッチします。</p>
 <p>式の中で次の 2 つの変数を使うことで、複雑な条件を組み立てることができます。</p>
 <ul class="simple">
-<li><tt class="docutils literal"><span class="pre">context</span></tt>: マッチしたルートに関する基礎的な情報を含む、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Routing\RequestContext</span></tt> クラスのインスタンス</li>
-<li><tt class="docutils literal"><span class="pre">request</span></tt>: Symfony の <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt>
+<li><tt class="docutils literal"><span class="pre">context</span></tt>: マッチしたルートに関する基礎的な情報を含む、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Routing/RequestContext.html" title="Symfony\Component\Routing\RequestContext"><span class="pre">RequestContext</span></a></tt> クラスのインスタンス</li>
+<li><tt class="docutils literal"><span class="pre">request</span></tt>: Symfony の <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html" title="Symfony\Component\HttpFoundation\Request"><span class="pre">Request</span></a></tt>
 オブジェクト (<em class="xref std std-ref">component-http-foundation-request</em> を参照)</li>
 </ul>
 <div class="admonition caution">
@@ -1250,7 +1247,7 @@ blog_show             ANY       /blog/{slug}
 </div>
 <div class="section" id="url">
 <span id="index-11"></span><h2>URL の生成<a class="headerlink" href="#url" title="Permalink to this headline">¶</a></h2>
-<p>ルーティングシステムは、URL を生成するためにも使用すべきです。ルーティングシステムは、URL とコントローラー/パラメーターをマッピングし、ルート/パラメーターから URL を生成する、双方向のシステムになっています。<a href="#id18"><span class="problematic" id="id19">:method:`Symfony\\Component\\Routing\\Router::match`</span></a> および、<a href="#id20"><span class="problematic" id="id21">:method:`Symfony\\Component\\Routing\\Router::generate`</span></a> がそれに当たります。先ほどの <tt class="docutils literal"><span class="pre">blog_show</span></tt> の例では、次のようになります。</p>
+<p>ルーティングシステムは、URL を生成するためにも使用すべきです。ルーティングシステムは、URL とコントローラー/パラメーターをマッピングし、ルート/パラメーターから URL を生成する、双方向のシステムになっています。<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Routing/Router.html#method_match" title="Symfony\Component\Routing\Router::match()"><span class="pre">match()</span></a></tt> および、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Routing/Router.html#method_generate" title="Symfony\Component\Routing\Router::generate()"><span class="pre">generate()</span></a></tt> がそれに当たります。先ほどの <tt class="docutils literal"><span class="pre">blog_show</span></tt> の例では、次のようになります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$params</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;router&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">match</span><span class="p">(</span><span class="s1">&#39;/blog/my-blog-post&#39;</span><span class="p">);</span>
 <span class="c1">// array(</span>
 <span class="c1">//     &#39;slug&#39;        =&gt; &#39;my-blog-post&#39;,</span>
@@ -1280,8 +1277,8 @@ blog_show             ANY       /blog/{slug}
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">上の例のように、Symfony の基底
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt> を継承したコントローラーでは、ルートの生成に <a href="#id22"><span class="problematic" id="id23">:method:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller::generateUrl`</span></a> メソッドを利用できます。
-このメソッドは、内部で router サービスの <a href="#id24"><span class="problematic" id="id25">:method:`Symfony\\Component\\Routing\\Router::generate`</span></a> メソッドを内部的に呼び出しています。</p>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller/Controller.html" title="Symfony\Bundle\FrameworkBundle\Controller\Controller"><span class="pre">Controller</span></a></tt> を継承したコントローラーでは、ルートの生成に <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller/Controller.html#method_generateUrl" title="Symfony\Bundle\FrameworkBundle\Controller\Controller::generateUrl()"><span class="pre">generateUrl()</span></a></tt> メソッドを利用できます。
+このメソッドは、内部で router サービスの <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Routing/Router.html#method_generate" title="Symfony\Component\Routing\Router::generate()"><span class="pre">generate()</span></a></tt> メソッドを内部的に呼び出しています。</p>
 </div>
 <p>次節では、テンプレート内から URL を生成する方法を見ていきます。</p>
 <div class="admonition tip">
@@ -1297,7 +1294,7 @@ blog_show             ANY       /blog/{slug}
 <p class="last">詳細は、バンドルに付属するドキュメントを参照してください。</p>
 </div>
 <div class="section" id="index-12">
-<span id="id26"></span><h3>絶対 URL の生成<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h3>
+<span id="id18"></span><h3>絶対 URL の生成<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h3>
 <p>デフォルトでは、ルーターは相対 URL を生成します (<tt class="docutils literal"><span class="pre">/blog</span></tt>) 。絶対 URL を生成する場合は、<tt class="docutils literal"><span class="pre">generate()</span></tt> メソッドの第 3 引数に <tt class="docutils literal"><span class="pre">true</span></tt> を渡します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;router&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;blog_show&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;slug&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;my-blog-post&#39;</span><span class="p">),</span> <span class="k">true</span><span class="p">);</span>
 <span class="c1">// http://www.example.com/blog/my-blog-post</span>
@@ -1312,15 +1309,15 @@ blog_show             ANY       /blog/{slug}
 </div>
 </div>
 <div class="section" id="index-13">
-<span id="id27"></span><h3>クエリーストリング付き URL<a class="headerlink" href="#index-13" title="Permalink to this headline">¶</a></h3>
+<span id="id19"></span><h3>クエリーストリング付き URL<a class="headerlink" href="#index-13" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">generate</span></tt> メソッドは、ワイルドカードの配列を引数に取りますが、ルートパラメーターに存在しないキーを渡すと、クエリーストリングとして URI に付加されます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;router&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;blog&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;page&#39;</span> <span class="o">=&gt;</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;category&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Symfony&#39;</span><span class="p">));</span>
 <span class="c1">// /blog/2?category=Symfony</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id28">
-<h3>テンプレートにおける URL 生成<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>テンプレートにおける URL 生成<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p>アプリケーションでページ間をリンクするために、テンプレートで URL を生成したい場合もあります。この場合は、前述のようにもできますが、テンプレートヘルパー関数を使用してもできます。</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1361,12 +1358,12 @@ blog_show             ANY       /blog/{slug}
 </div>
 </div>
 </div>
-<div class="section" id="id29">
-<h2>まとめ<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id21">
+<h2>まとめ<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
 <p>ルーティングは、リクエストされた URL を、そのリクエストが処理されるべきコントローラーにマッピングするシステムです。美しい URL を指定すること、アプリケーションの機能とその URL を疎にしておくことが可能です。また、ルーティングは 2 方向のメカニズムで、URL を生成する場合にも使用されます。</p>
 </div>
-<div class="section" id="id30">
-<h2>クックブックでより深く<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id22">
+<h2>クックブックでより深く<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="../cookbook/routing/scheme.html"><em>ルートで常に HTTPS を強制させる方法</em></a></li>
 </ul>
@@ -1380,11 +1377,6 @@ blog_show             ANY       /blog/{slug}
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/routing.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/routing.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/routing.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

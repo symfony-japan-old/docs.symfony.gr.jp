@@ -89,20 +89,20 @@
 </li>
 <li><a class="reference internal" href="#symfony2yaml">Symfony2のYAMLコンポーネントを使う</a><ul>
 <li><a class="reference internal" href="#id10">YAMLファイルを読み込む</a></li>
-<li><a class="reference internal" href="#id19">YAMLファイルを書く</a></li>
+<li><a class="reference internal" href="#id11">YAMLファイルを書く</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id26">YAMLフォーマット</a><ul>
-<li><a class="reference internal" href="#id27">スカラー</a><ul>
-<li><a class="reference internal" href="#id28">文字列</a></li>
-<li><a class="reference internal" href="#id29">数字</a></li>
+<li><a class="reference internal" href="#id12">YAMLフォーマット</a><ul>
+<li><a class="reference internal" href="#id13">スカラー</a><ul>
+<li><a class="reference internal" href="#id14">文字列</a></li>
+<li><a class="reference internal" href="#id15">数字</a></li>
 <li><a class="reference internal" href="#null">null</a></li>
-<li><a class="reference internal" href="#id30">ブール</a></li>
-<li><a class="reference internal" href="#id31">日付</a></li>
+<li><a class="reference internal" href="#id16">ブール</a></li>
+<li><a class="reference internal" href="#id17">日付</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id32">コレクション</a></li>
-<li><a class="reference internal" href="#id37">コメント</a></li>
+<li><a class="reference internal" href="#id18">コレクション</a></li>
+<li><a class="reference internal" href="#id23">コメント</a></li>
 </ul>
 </li>
 </ul>
@@ -163,9 +163,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/yaml.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="yaml">
 <h1>YAMLコンポーネント<a class="headerlink" href="#yaml" title="Permalink to this headline">¶</a></h1>
 <blockquote>
@@ -221,11 +218,11 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 <div class="section" id="symfony2yaml">
 <h2>Symfony2のYAMLコンポーネントを使う<a class="headerlink" href="#symfony2yaml" title="Permalink to this headline">¶</a></h2>
 <p>Symfony2のYAMLコンポーネントはとてもシンプルで、2つのクラスで構成されています。
-1つはYAML文字列をパースするクラス ( <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Yaml\Parser</span></tt> )で、もう1つはPHP配列からYAML文字列を書き出すクラス( <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Yaml\Dumper</span></tt> )です。</p>
-<p>2つのクラスの上位に <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Yaml\Yaml</span></tt> クラスがあり、一般的な使い方が簡単にできる薄いラッパーとして動作します。</p>
+1つはYAML文字列をパースするクラス ( <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Parser.html" title="Symfony\Component\Yaml\Parser"><span class="pre">Parser</span></a></tt> )で、もう1つはPHP配列からYAML文字列を書き出すクラス( <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Dumper.html" title="Symfony\Component\Yaml\Dumper"><span class="pre">Dumper</span></a></tt> )です。</p>
+<p>2つのクラスの上位に <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Yaml.html" title="Symfony\Component\Yaml\Yaml"><span class="pre">Yaml</span></a></tt> クラスがあり、一般的な使い方が簡単にできる薄いラッパーとして動作します。</p>
 <div class="section" id="id10">
 <h3>YAMLファイルを読み込む<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
-<p><a href="#id11"><span class="problematic" id="id12">:method:`Symfony\\Component\\Yaml\\Parser::parse`</span></a> メソッドはYAML文字列をパースしてPHP配列に変換します。:</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Parser.html#method_parse" title="Symfony\Component\Yaml\Parser::parse()"><span class="pre">parse()</span></a></tt> メソッドはYAML文字列をパースしてPHP配列に変換します。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Yaml\Parser</span><span class="p">;</span>
 
 <span class="nv">$yaml</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Parser</span><span class="p">();</span>
@@ -233,7 +230,7 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 <span class="nv">$value</span> <span class="o">=</span> <span class="nv">$yaml</span><span class="o">-&gt;</span><span class="na">parse</span><span class="p">(</span><span class="nb">file_get_contents</span><span class="p">(</span><span class="s1">&#39;/path/to/file.yml&#39;</span><span class="p">));</span>
 </pre></div>
 </div>
-<p>パース中にエラーが発生した時、パーサーはエラーの種類とエラーが発生したYAML文字列の行番号を示す <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Yaml\Exception\ParseException</span></tt> 例外を投げます。:</p>
+<p>パース中にエラーが発生した時、パーサーはエラーの種類とエラーが発生したYAML文字列の行番号を示す <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Exception/ParseException.html" title="Symfony\Component\Yaml\Exception\ParseException"><span class="pre">ParseException</span></a></tt> 例外を投げます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Yaml\Exception\ParseException</span><span class="p">;</span>
 
 <span class="k">try</span> <span class="p">{</span>
@@ -247,21 +244,21 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 <p class="first admonition-title">Tip</p>
 <p class="last">パーサーは再入可能なので、同じパーサーインスタンスを違うYAMLファイルを読み込むのに再利用することができます。</p>
 </div>
-<p>YAMLファイルを読み込む時、 <a href="#id13"><span class="problematic" id="id14">:method:`Symfony\\Component\\Yaml\\Yaml::parse`</span></a> ラッパーメソッドの方がより便利かもしれません。:</p>
+<p>YAMLファイルを読み込む時、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Yaml.html#method_parse" title="Symfony\Component\Yaml\Yaml::parse()"><span class="pre">parse()</span></a></tt> ラッパーメソッドの方がより便利かもしれません。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Yaml\Yaml</span><span class="p">;</span>
 
 <span class="nv">$loader</span> <span class="o">=</span> <span class="nx">Yaml</span><span class="o">::</span><span class="na">parse</span><span class="p">(</span><span class="s1">&#39;/path/to/file.yml&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p><a href="#id15"><span class="problematic" id="id16">:method:`Symfony\\Component\\Yaml\\Yaml::parse`</span></a> 静的メソッドはYAML文字列またはYAMLを含むファイルを引数に取ります。内部では <a href="#id17"><span class="problematic" id="id18">:method:`Symfony\\Component\\Yaml\\Parser::parse`</span></a> メソッドを呼びますが、いくつかおまけをつけてくれます。:</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Yaml.html#method_parse" title="Symfony\Component\Yaml\Yaml::parse()"><span class="pre">parse()</span></a></tt> 静的メソッドはYAML文字列またはYAMLを含むファイルを引数に取ります。内部では <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Parser.html#method_parse" title="Symfony\Component\Yaml\Parser::parse()"><span class="pre">parse()</span></a></tt> メソッドを呼びますが、いくつかおまけをつけてくれます。:</p>
 <ul class="simple">
 <li>YAMLファイルをPHPファイルとして扱うため、YAMLファイル内にPHPの処理を埋め込むことができます。</li>
 <li>あるファイルをパースできなかった時、エラーメッセージにファイル名を自動的に付け加えて、複数のYAMLファイルを読み込む時にデバッグしやすくします。</li>
 </ul>
 </div>
-<div class="section" id="id19">
-<h3>YAMLファイルを書く<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
-<p><a href="#id20"><span class="problematic" id="id21">:method:`Symfony\\Component\\Yaml\\Dumper::dump`</span></a> メソッドはどんなPHP配列でもYAML表現に書き出すことができます。 :</p>
+<div class="section" id="id11">
+<h3>YAMLファイルを書く<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Dumper.html#method_dump" title="Symfony\Component\Yaml\Dumper::dump()"><span class="pre">dump()</span></a></tt> メソッドはどんなPHP配列でもYAML表現に書き出すことができます。 :</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Yaml\Dumper</span><span class="p">;</span>
 
 <span class="nv">$array</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="s1">&#39;bar&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;baz&#39;</span><span class="p">));</span>
@@ -277,8 +274,8 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 <p class="first admonition-title">Note</p>
 <p class="last">当然のことながら、Symfony2のYAMLダンパーはリソース型を書き出すことはできません。同様に、PHPのオブジェクトを書き出すことができるとしても、サポートされていない機能と考えられます。</p>
 </div>
-<p>書き出し中にエラーが発生した場合、パーサーは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Yaml\Exception\DumpException</span></tt> 例外を投げます。</p>
-<p>1つの配列を書き出すだけなら、ショートカットとして <a href="#id22"><span class="problematic" id="id23">:method:`Symfony\\Component\\Yaml\\Yaml::dump`</span></a> 静的メソッドを使う事ができます。:</p>
+<p>書き出し中にエラーが発生した場合、パーサーは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Exception/DumpException.html" title="Symfony\Component\Yaml\Exception\DumpException"><span class="pre">DumpException</span></a></tt> 例外を投げます。</p>
+<p>1つの配列を書き出すだけなら、ショートカットとして <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Yaml.html#method_dump" title="Symfony\Component\Yaml\Yaml::dump()"><span class="pre">dump()</span></a></tt> 静的メソッドを使う事ができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Yaml\Yaml</span><span class="p">;</span>
 
 <span class="nv">$yaml</span> <span class="o">=</span> <span class="nx">Yaml</span><span class="o">::</span><span class="na">dump</span><span class="p">(</span><span class="nv">$array</span><span class="p">,</span> <span class="nv">$inline</span><span class="p">);</span>
@@ -288,7 +285,7 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 <div class="highlight-yaml"><div class="highlight"><pre><span class="p-Indicator">{</span> <span class="nv">foo</span><span class="p-Indicator">:</span> <span class="nv">bar</span><span class="p-Indicator">,</span> <span class="nv">bar</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">foo</span><span class="p-Indicator">:</span> <span class="nv">bar</span><span class="p-Indicator">,</span> <span class="nv">bar</span><span class="p-Indicator">:</span> <span class="nv">baz</span> <span class="p-Indicator">}</span> <span class="p-Indicator">}</span>
 </pre></div>
 </div>
-<p><a href="#id24"><span class="problematic" id="id25">:method:`Symfony\\Component\\Yaml\\Dumper::dump`</span></a> メソッドに第二引数を渡すと、配列の書き方を拡張形式からインライン形式に切り替えるレベルを変更することができます。:</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Yaml/Dumper.html#method_dump" title="Symfony\Component\Yaml\Dumper::dump()"><span class="pre">dump()</span></a></tt> メソッドに第二引数を渡すと、配列の書き方を拡張形式からインライン形式に切り替えるレベルを変更することができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$dumper</span><span class="o">-&gt;</span><span class="na">dump</span><span class="p">(</span><span class="nv">$array</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -307,16 +304,16 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 </div>
 </div>
 </div>
-<div class="section" id="id26">
-<h2>YAMLフォーマット<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2>YAMLフォーマット<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <p><a class="reference external" href="http://yaml.org/">YAML</a> 公式サイトによれば、YAMLは「人間が読みやすいように最適化された、すべてのプログラミング言語のための標準的なデータシリアライゼーション」です。</p>
 <p>複雑なネストのデータ構造も YAML であらわすことができますが、この章では、symfony の設定ファイルを扱うために、YAML について知っておかなければならない最小限の知識を説明します。</p>
 <p>YAML はデータを記述するためのシンプルな軽量マークアップ言語です。文字列、ブール値、浮動小数点数、整数のような単純なデータ型をあらわすための構文は PHP と似ています。PHP と異なる構文は配列 (シーケンス) とハッシュ (マッピング) です。</p>
-<div class="section" id="id27">
-<h3>スカラー<a class="headerlink" href="#id27" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>スカラー<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>スカラーの構文は PHP と似ています。</p>
-<div class="section" id="id28">
-<h4>文字列<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id14">
+<h4>文字列<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">A string in YAML</span>
 </pre></div>
 </div>
@@ -357,8 +354,8 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 <p class="last">上記の例では、それぞれの行頭にある2文字分のスペースにご注目ください。これらのスペースは出力結果の PHP 文字列にはあらわれません。</p>
 </div>
 </div>
-<div class="section" id="id29">
-<h4>数字<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id15">
+<h4>数字<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># 整数</span>
 <span class="l-Scalar-Plain">12</span>
 </pre></div>
@@ -388,12 +385,12 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 <h4>null<a class="headerlink" href="#null" title="Permalink to this headline">¶</a></h4>
 <p>ヌル (ナル) の値は <tt class="docutils literal"><span class="pre">null</span></tt> もしくはチルダ (<tt class="docutils literal"><span class="pre">~</span></tt>) であらわします。</p>
 </div>
-<div class="section" id="id30">
-<h4>ブール<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id16">
+<h4>ブール<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
 <p>ブール値は <tt class="docutils literal"><span class="pre">true</span></tt> と <tt class="docutils literal"><span class="pre">false</span></tt> であらわします。</p>
 </div>
-<div class="section" id="id31">
-<h4>日付<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id17">
+<h4>日付<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
 <p>日付のフォーマットは ISO-8601 標準に準拠します。</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">2001-12-14t21:59:43.10-05:00</span>
 </pre></div>
@@ -404,10 +401,10 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 </div>
 </div>
 </div>
-<div class="section" id="id32">
-<h3>コレクション<a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id18">
+<h3>コレクション<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
 <p>単純なスカラーをあらわすためだけに YAML ファイルを使うことはめったにありません。ほとんどの場合、コレクションをあらわすことになります。コレクションはシーケンスとマッピングのどちらかの要素になります。シーケンスとマッピングは両方とも PHP 配列に変換されます。</p>
-<p>シーケンスでは、ダッシュ (<a href="#id33"><span class="problematic" id="id34">``</span></a>- <a href="#id35"><span class="problematic" id="id36">``</span></a>) の直後にスペースを入れます。</p>
+<p>シーケンスでは、ダッシュ (<a href="#id19"><span class="problematic" id="id20">``</span></a>- <a href="#id21"><span class="problematic" id="id22">``</span></a>) の直後にスペースを入れます。</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="p-Indicator">-</span> <span class="l-Scalar-Plain">PHP</span>
 <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Perl</span>
 <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">Python</span>
@@ -488,8 +485,8 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 </pre></div>
 </div>
 </div>
-<div class="section" id="id37">
-<h3>コメント<a class="headerlink" href="#id37" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id23">
+<h3>コメント<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
 <p>文字列の行頭をハッシュ記号 (<tt class="docutils literal"><span class="pre">#</span></tt>)にすればコメントになります。</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># 行コメント</span>
 <span class="s">&quot;symfony</span><span class="nv"> </span><span class="s">1.0&quot;</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">PHP</span><span class="p-Indicator">:</span> <span class="nv">5.0</span><span class="p-Indicator">,</span> <span class="nv">Propel</span><span class="p-Indicator">:</span> <span class="nv">1.2</span> <span class="p-Indicator">}</span> <span class="c1"># Comment at the end of a line</span>
@@ -511,11 +508,6 @@ YAMLはXMLのように様々なデータを表現でき、INIファイルのよ�
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/yaml.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/yaml.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/yaml.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

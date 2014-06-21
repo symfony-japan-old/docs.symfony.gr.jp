@@ -76,11 +76,11 @@
 <li><a class="reference internal" href="#id1">インストール</a></li>
 <li><a class="reference internal" href="#id2">使い方</a></li>
 <li><a class="reference internal" href="#id3">オブジェクトをシリアライズする</a><ul>
-<li><a class="reference internal" href="#id6">シリアライズ時に属性を無視する</a></li>
+<li><a class="reference internal" href="#id4">シリアライズ時に属性を無視する</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id11">オブジェクトをデシリアライズする</a></li>
-<li><a class="reference internal" href="#id14">アンダースコア付きの属性にキャメルケース式のメソッド名を使う</a></li>
+<li><a class="reference internal" href="#id5">オブジェクトをデシリアライズする</a></li>
+<li><a class="reference internal" href="#id6">アンダースコア付きの属性にキャメルケース式のメソッド名を使う</a></li>
 <li><a class="reference internal" href="#jmsserializer">JMSSerializer</a></li>
 </ul>
 </li>
@@ -134,9 +134,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/serializer.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -163,7 +160,7 @@
 </div>
 <div class="section" id="id2">
 <h2>使い方<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>Serializer コンポーネントの使い方は、本当にシンプルです。利用できる Encoder と Normalizer を指定して <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Serializer</span></tt> を開始するだけです。:</p>
+<p>Serializer コンポーネントの使い方は、本当にシンプルです。利用できる Encoder と Normalizer を指定して <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Serializer.html" title="Symfony\Component\Serializer\Serializer"><span class="pre">Serializer</span></a></tt> を開始するだけです。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Serializer</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Encoder\XmlEncoder</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Encoder\JsonEncoder</span><span class="p">;</span>
@@ -222,15 +219,15 @@
 <span class="k">echo</span> <span class="nv">$jsonContent</span><span class="p">;</span> <span class="c1">// もしくは、Responseに渡すこともできます</span>
 </pre></div>
 </div>
-<p><a href="#id4"><span class="problematic" id="id5">:method:`Symfony\\Component\\Serializer\\Serializer::serialize`</span></a> メソッドの第一引数はシリアライズしたいオブジェクト、第二引数は使いたい encoder を指定するのに使います。
-encoder は、この例では <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Encoder\JsonEncoder</span></tt> です。</p>
-<div class="section" id="id6">
-<h3>シリアライズ時に属性を無視する<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Serializer.html#method_serialize" title="Symfony\Component\Serializer\Serializer::serialize()"><span class="pre">serialize()</span></a></tt> メソッドの第一引数はシリアライズしたいオブジェクト、第二引数は使いたい encoder を指定するのに使います。
+encoder は、この例では <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Encoder/JsonEncoder.html" title="Symfony\Component\Serializer\Encoder\JsonEncoder"><span class="pre">JsonEncoder</span></a></tt> です。</p>
+<div class="section" id="id4">
+<h3>シリアライズ時に属性を無視する<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
-<p><span>New in version 2.3: </span><a href="#id7"><span class="problematic" id="id8">:method:`GetSetMethodNormalizer::setIgnoredAttributes&lt;Symfony\\Component\\Serializer\\Normalizer\\GetSetMethodNormalizer::setIgnoredAttributes&gt;`</span></a> メソッドは Symfony 2.3 で追加されました。</p>
+<p><span>New in version 2.3: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setIgnoredAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setIgnoredAttributes()"><span class="pre">GetSetMethodNormalizer::setIgnoredAttributes</span></a></tt> メソッドは Symfony 2.3 で追加されました。</p>
 </div>
 <p>オプションとして、シリアライズ時に元のオブジェクトの属性を無視させることもできます。
-属性を無視させたいときは、 normalizer の定義時に <a href="#id9"><span class="problematic" id="id10">:method:`Symfony\\Component\\Serializer\\Normalizer\\GetSetMethodNormalizer::setIgnoredAttributes`</span></a>
+属性を無視させたいときは、 normalizer の定義時に <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setIgnoredAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setIgnoredAttributes()"><span class="pre">setIgnoredAttributes()</span></a></tt>
 を使います。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Serializer</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Serializer\Encoder\JsonEncoder</span><span class="p">;</span>
@@ -246,8 +243,8 @@ encoder は、この例では <tt class="xref php php-class docutils literal"><s
 </div>
 </div>
 </div>
-<div class="section" id="id11">
-<h2>オブジェクトをデシリアライズする<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id5">
+<h2>オブジェクトをデシリアライズする<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
 <p>今度はちょうど反対の処理を見てみましょう。
 <tt class="docutils literal"><span class="pre">Person</span></tt> クラスの情報は、 XML にエンコードされています。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$data</span> <span class="o">=</span> <span class="s">&lt;&lt;&lt;EOF</span>
@@ -260,21 +257,21 @@ encoder は、この例では <tt class="xref php php-class docutils literal"><s
 <span class="nv">$person</span> <span class="o">=</span> <span class="nv">$serializer</span><span class="o">-&gt;</span><span class="na">deserialize</span><span class="p">(</span><span class="nv">$data</span><span class="p">,</span><span class="s1">&#39;Acme\Person&#39;</span><span class="p">,</span><span class="s1">&#39;xml&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>この例では、 <a href="#id12"><span class="problematic" id="id13">:method:`Symfony\\Component\\Serializer\\Serializer::deserialize`</span></a> メソッドには3つの引数が必要です。</p>
+<p>この例では、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Serializer.html#method_deserialize" title="Symfony\Component\Serializer\Serializer::deserialize()"><span class="pre">deserialize()</span></a></tt> メソッドには3つの引数が必要です。</p>
 <ol class="arabic simple">
 <li>デコードする情報</li>
 <li>デコード先のクラスの名前</li>
 <li>情報を配列に変換するのに使う encoder</li>
 </ol>
 </div>
-<div class="section" id="id14">
-<h2>アンダースコア付きの属性にキャメルケース式のメソッド名を使う<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id6">
+<h2>アンダースコア付きの属性にキャメルケース式のメソッド名を使う<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
-<p><span>New in version 2.3: </span><a href="#id15"><span class="problematic" id="id16">:method:`GetSetMethodNormalizer::setCamelizedAttributes&lt;Symfony\\Component\\Serializer\\Normalizer\\GetSetMethodNormalizer::setCamelizedAttributes&gt;`</span></a>　は Symfony 2.3 で追加されました。</p>
+<p><span>New in version 2.3: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setCamelizedAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setCamelizedAttributes()"><span class="pre">GetSetMethodNormalizer::setCamelizedAttributes</span></a></tt>　は Symfony 2.3 で追加されました。</p>
 </div>
 <p>シリアライズ後の形式に含まれる属性名にアンダースコアがついていることがあります。（たとえば、 <tt class="docutils literal"><span class="pre">first_name</span></tt> のように）
 もし <tt class="docutils literal"><span class="pre">getFirstName</span></tt> のようなメソッド名を使いたいとしても、通常はアンダースコア付きの属性には <tt class="docutils literal"><span class="pre">getFirst_name</span></tt> のようなメソッド名でゲッター・セッターが使われてしまいます。
-そのような場合には、 normalizer を定義する時に <a href="#id17"><span class="problematic" id="id18">:method:`Symfony\\Component\\Serializer\\Normalizer\\GetSetMethodNormalizer::setCamelizedAttributes`</span></a> メソッドを使います。:</p>
+そのような場合には、 normalizer を定義する時に <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setCamelizedAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setCamelizedAttributes()"><span class="pre">setCamelizedAttributes()</span></a></tt> メソッドを使います。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$encoder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">JsonEncoder</span><span class="p">();</span>
 <span class="nv">$normalizer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GetSetMethodNormalizer</span><span class="p">();</span>
 <span class="nv">$normalizer</span><span class="o">-&gt;</span><span class="na">setCamelizedAttributes</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;first_name&#39;</span><span class="p">));</span>
@@ -306,11 +303,6 @@ encoder は、この例では <tt class="xref php php-class docutils literal"><s
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/serializer.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/serializer.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/serializer.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

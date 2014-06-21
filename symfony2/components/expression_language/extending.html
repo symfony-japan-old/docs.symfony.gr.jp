@@ -77,7 +77,7 @@
   <ul>
 <li><a class="reference internal" href="#">ExpressionLanguage の拡張</a><ul>
 <li><a class="reference internal" href="#id1">関数の登録</a></li>
-<li><a class="reference internal" href="#id4">新しい ExpressionLanguage クラスの定義</a></li>
+<li><a class="reference internal" href="#id2">新しい ExpressionLanguage クラスの定義</a></li>
 </ul>
 </li>
 </ul>
@@ -136,9 +136,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/expression_language/extending.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -160,7 +157,7 @@
 <p>関数を使うには、<tt class="docutils literal"><span class="pre">ExpressionLanguage</span></tt> インスタンスごとに関数を登録する必要があります。
 登録した関数は、<tt class="docutils literal"><span class="pre">ExpressionLanguage</span></tt> インスタンスで実行される任意の式で利用可能です。</p>
 <p>関数を登録するには、
-<a href="#id2"><span class="problematic" id="id3">:method:`Symfony\\Component\\ExpressionLanguage\\ExpressionLanguage::register``</span></a> メソッドを使います。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/ExpressionLanguage/ExpressionLanguage.html#method_register`" title="Symfony\Component\ExpressionLanguage\ExpressionLanguage::register`()"><span class="pre">register`()</span></a></tt> メソッドを使います。
 このメソッドには次の 3 つの引数があります:</p>
 <ul class="simple">
 <li><strong>name</strong> - 式の中で利用する関数の名前</li>
@@ -189,8 +186,8 @@
 </div>
 <p>このコードを実行すると <tt class="docutils literal"><span class="pre">hello</span></tt> と表示されます。</p>
 </div>
-<div class="section" id="id4">
-<h2>新しい ExpressionLanguage クラスの定義<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>新しい ExpressionLanguage クラスの定義<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>自分のライブラリ内で <tt class="docutils literal"><span class="pre">ExpressionLanguage</span></tt> クラスを使う場合、専用の <tt class="docutils literal"><span class="pre">ExpressionLanguage</span></tt> クラスを定義し、そこに関数を登録することをおすすめします。
 <tt class="docutils literal"><span class="pre">registerFunctions</span></tt> をオーバーライドし、使う関数を追加します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Acme\AwesomeLib\ExpressionLanguage</span><span class="p">;</span>
@@ -230,11 +227,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/expression_language/extending.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/expression_language/extending.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/expression_language/extending.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

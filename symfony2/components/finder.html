@@ -78,15 +78,15 @@
 <li><a class="reference internal" href="#">Finderコンポーネント</a><ul>
 <li><a class="reference internal" href="#id1">インストール</a></li>
 <li><a class="reference internal" href="#id2">使用方法</a></li>
-<li><a class="reference internal" href="#id9">条件</a><ul>
+<li><a class="reference internal" href="#id3">条件</a><ul>
 <li><a class="reference internal" href="#location">位置(Location)</a></li>
-<li><a class="reference internal" href="#id14">ファイルもしくはディレクトリ</a></li>
-<li><a class="reference internal" href="#id19">ソート</a></li>
-<li><a class="reference internal" href="#id20">ファイル名</a></li>
-<li><a class="reference internal" href="#id25">ファイルサイズ</a></li>
-<li><a class="reference internal" href="#id28">ファイルの日付</a></li>
-<li><a class="reference internal" href="#id31">ディレクトリの深さ</a></li>
-<li><a class="reference internal" href="#id34">カスタムフィルター</a></li>
+<li><a class="reference internal" href="#id4">ファイルもしくはディレクトリ</a></li>
+<li><a class="reference internal" href="#id5">ソート</a></li>
+<li><a class="reference internal" href="#id6">ファイル名</a></li>
+<li><a class="reference internal" href="#id9">ファイルサイズ</a></li>
+<li><a class="reference internal" href="#id10">ファイルの日付</a></li>
+<li><a class="reference internal" href="#id11">ディレクトリの深さ</a></li>
+<li><a class="reference internal" href="#id12">カスタムフィルター</a></li>
 </ul>
 </li>
 </ul>
@@ -147,9 +147,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/finder.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="finder">
 <span id="index-0"></span><h1>Finderコンポーネント<a class="headerlink" href="#finder" title="Permalink to this headline">¶</a></h1>
 <blockquote>
@@ -165,7 +162,7 @@
 </div>
 <div class="section" id="id2">
 <h2>使用方法<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Finder\Finder</span></tt> クラスは、ファイルやディレクトリ、またはその両方を見つけます。:</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html" title="Symfony\Component\Finder\Finder"><span class="pre">Finder</span></a></tt> クラスは、ファイルやディレクトリ、またはその両方を見つけます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Finder\Finder</span><span class="p">;</span>
 
 <span class="nv">$finder</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Finder</span><span class="p">();</span>
@@ -176,16 +173,16 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">$file</span></tt> は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Finder\SplFileInfo</span></tt> のインスタンスです。
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Finder\SplFileInfo</span></tt> は <a href="#id3"><span class="problematic" id="id4">:phpclass:`SplFileInfo`</span></a> を拡張して相対パスを扱うメソッドを提供するものです。</p>
+<p><tt class="docutils literal"><span class="pre">$file</span></tt> は <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/SplFileInfo.html" title="Symfony\Component\Finder\SplFileInfo"><span class="pre">SplFileInfo</span></a></tt> のインスタンスです。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/SplFileInfo.html" title="Symfony\Component\Finder\SplFileInfo"><span class="pre">SplFileInfo</span></a></tt> は <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.splfileinfo.php" title="SplFileInfo"><span class="pre">SplFileInfo</span></a></tt> を拡張して相対パスを扱うメソッドを提供するものです。</p>
 <p>上記のコードでは、再帰的に現在のディレクトリ内の全てのファイルの名前を出力します。 Finder クラスは、綺麗なインタフェースを使用しており、全てのメソッドは、 Finder のインスタンスを返します。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">Finder インスタンスは、PHPの <a class="reference external" href="http://www.php.net/manual/en/spl.iterators.php">Iterator</a> です。つまり、Finder をイテレーションする際に <tt class="docutils literal"><span class="pre">foreach</span></tt> を使用せずに、 <a href="#id5"><span class="problematic" id="id6">:phpfunction:`iterator_to_array`</span></a> メソッドを使って配列に変換できますし、 <a href="#id7"><span class="problematic" id="id8">:phpfunction:`iterator_count`</span></a> を使用して要素を数えることもできます。</p>
+<p class="last">Finder インスタンスは、PHPの <a class="reference external" href="http://www.php.net/manual/en/spl.iterators.php">Iterator</a> です。つまり、Finder をイテレーションする際に <tt class="docutils literal"><span class="pre">foreach</span></tt> を使用せずに、 <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/function.iterator-to-array.php" title="iterator_to_array"><span class="pre">iterator_to_array</span></a></tt> メソッドを使って配列に変換できますし、 <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/function.iterator-count.php" title="iterator_count"><span class="pre">iterator_count</span></a></tt> を使用して要素を数えることもできます。</p>
 </div>
 </div>
-<div class="section" id="id9">
-<h2>条件<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>条件<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="location">
 <h3>位置(Location)<a class="headerlink" href="#location" title="Permalink to this headline">¶</a></h3>
 <p>唯一の強制的な条件は、位置を指定することです。これは、 Finder にどのディレクトリを検索するのか伝えるのに必要です。:</p>
@@ -194,11 +191,11 @@
 <span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">in</span><span class="p">(</span><span class="nx">__DIR__</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>複数の位置を検索するには、 <a href="#id10"><span class="problematic" id="id11">:method:`Symfony\\Component\\Finder\\Finder::in`</span></a> メソッドをつなげてください。:</p>
+<p>複数の位置を検索するには、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_in" title="Symfony\Component\Finder\Finder::in()"><span class="pre">in()</span></a></tt> メソッドをつなげてください。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">files</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">in</span><span class="p">(</span><span class="nx">__DIR__</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">in</span><span class="p">(</span><span class="s1">&#39;/elsewhere&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p>特定のディレクトリを検索対象から外すには、 <a href="#id12"><span class="problematic" id="id13">:method:`Symfony\\Component\\Finder\\Finder::exclude`</span></a> メソッドを使用してください。:</p>
+<p>特定のディレクトリを検索対象から外すには、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_exclude" title="Symfony\Component\Finder\Finder::exclude()"><span class="pre">exclude()</span></a></tt> メソッドを使用してください。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">in</span><span class="p">(</span><span class="nx">__DIR__</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">exclude</span><span class="p">(</span><span class="s1">&#39;ruby&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -226,11 +223,11 @@
 <p class="last">自分自身でストリームを作成する際には、 <a class="reference external" href="http://www.php.net/streams">Streams</a> のドキュメントを参照してください。</p>
 </div>
 </div>
-<div class="section" id="id14">
-<h3>ファイルもしくはディレクトリ<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>ファイルもしくはディレクトリ<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>デフォルトでは、 Finder はファイルとディレクトリを返しますが、以下の指定の際は異なります。
-<a href="#id15"><span class="problematic" id="id16">:method:`Symfony\\Component\\Finder\\Finder::files`</span></a>
-<a href="#id17"><span class="problematic" id="id18">:method:`Symfony\\Component\\Finder\\Finder::directories`</span></a> methods control that:</p>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_files" title="Symfony\Component\Finder\Finder::files()"><span class="pre">files()</span></a></tt>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_directories" title="Symfony\Component\Finder\Finder::directories()"><span class="pre">directories()</span></a></tt> methods control that:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">files</span><span class="p">();</span>
 
 <span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">directories</span><span class="p">();</span>
@@ -245,8 +242,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id19">
-<h3>ソート<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>ソート<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>名前や種類(ディレクトリが先で、次にファイル)によるソート:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">sortByName</span><span class="p">();</span>
 
@@ -267,9 +264,9 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id20">
-<h3>ファイル名<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
-<p><a href="#id21"><span class="problematic" id="id22">:method:`Symfony\\Component\\Finder\\Finder::name`</span></a> メソッドを使用すれば、名前による絞り込みができます。:</p>
+<div class="section" id="id6">
+<h3>ファイル名<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_name" title="Symfony\Component\Finder\Finder::name()"><span class="pre">name()</span></a></tt> メソッドを使用すれば、名前による絞り込みができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">files</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">name</span><span class="p">(</span><span class="s1">&#39;*.php&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -279,11 +276,11 @@
 </div>
 <p><tt class="docutils literal"><span class="pre">notNames()</span></tt> メソッドは、パターンにマッチしたファイルを除外します。:</p>
 <blockquote>
-<div>$finder-&gt;files()-&gt;notName(&#8216;<a href="#id23"><span class="problematic" id="id24">*</span></a>.rb&#8217;);</div></blockquote>
+<div>$finder-&gt;files()-&gt;notName(&#8216;<a href="#id7"><span class="problematic" id="id8">*</span></a>.rb&#8217;);</div></blockquote>
 </div>
-<div class="section" id="id25">
-<h3>ファイルサイズ<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
-<p><a href="#id26"><span class="problematic" id="id27">:method:`Symfony\\Component\\Finder\\Finder::size`</span></a> メソッドを使用すれば、サイズによる絞り込みができます。:</p>
+<div class="section" id="id9">
+<h3>ファイルサイズ<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_size" title="Symfony\Component\Finder\Finder::size()"><span class="pre">size()</span></a></tt> メソッドを使用すれば、サイズによる絞り込みができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">files</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">size</span><span class="p">(</span><span class="s1">&#39;&lt; 1.5K&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
@@ -294,26 +291,26 @@
 <p>条件のオペレータは、次のものが使用可能です: <tt class="docutils literal"><span class="pre">&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&gt;=</span></tt>, <tt class="docutils literal"><span class="pre">&lt;</span></tt>, &#8216;&lt;=&#8217;, &#8216;==&#8217; 。</p>
 <p>対象となる値には、キロバイト(<tt class="docutils literal"><span class="pre">k</span></tt>, <tt class="docutils literal"><span class="pre">ki</span></tt>)、メガバイト(<tt class="docutils literal"><span class="pre">m</span></tt>, <tt class="docutils literal"><span class="pre">mi</span></tt>)、ギガバイト(<tt class="docutils literal"><span class="pre">g</span></tt>, <tt class="docutils literal"><span class="pre">gi</span></tt>)といった大きさを使用することができます。接尾辞の <tt class="docutils literal"><span class="pre">i</span></tt> があると、 <a class="reference external" href="http://physics.nist.gov/cuu/Units/binary.html">IEC standard</a> に一致している適切な <tt class="docutils literal"><span class="pre">2xxn</span></tt> バージョンを使用します。</p>
 </div>
-<div class="section" id="id28">
-<h3>ファイルの日付<a class="headerlink" href="#id28" title="Permalink to this headline">¶</a></h3>
-<p><a href="#id29"><span class="problematic" id="id30">:method:`Symfony\\Component\\Finder\\Finder::date`</span></a> メソッドを使用すれば、ファイルの更新日時による絞り込みができます。:</p>
+<div class="section" id="id10">
+<h3>ファイルの日付<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_date" title="Symfony\Component\Finder\Finder::date()"><span class="pre">date()</span></a></tt> メソッドを使用すれば、ファイルの更新日時による絞り込みができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">date</span><span class="p">(</span><span class="s1">&#39;since yesterday&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>条件オペレータは、次のものが使用できます: <tt class="docutils literal"><span class="pre">&gt;</span></tt>, <tt class="docutils literal"><span class="pre">&gt;=</span></tt>, <tt class="docutils literal"><span class="pre">&lt;</span></tt>, &#8216;&lt;=&#8217;,&#8217;==&#8217; 。 また、 <tt class="docutils literal"><span class="pre">since</span></tt> や <tt class="docutils literal"><span class="pre">after</span></tt> を、 <tt class="docutils literal"><span class="pre">&gt;</span></tt> のエイリアスとして使用できます。同様に、 <tt class="docutils literal"><span class="pre">until</span></tt> や <tt class="docutils literal"><span class="pre">before</span></tt> を、 <tt class="docutils literal"><span class="pre">&lt;</span></tt> のエイリアスとして使用できます。</p>
-<p>対象とする値は、 <a href="#id39"><span class="problematic" id="id40">`sttotime`_</span></a> 関数によってサポートされている日付なら大丈夫です。</p>
+<p>対象とする値は、 <a href="#id13"><span class="problematic" id="id14">`sttotime`_</span></a> 関数によってサポートされている日付なら大丈夫です。</p>
 </div>
-<div class="section" id="id31">
-<h3>ディレクトリの深さ<a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
-<p>デフォルトでは、 Finder はディレクトリを再帰的に調べます。 <a href="#id32"><span class="problematic" id="id33">:method:`Symfony\\Component\\Finder\\Finder::depth`</span></a> を使用すれば、調べる深さを制限することができます。:</p>
+<div class="section" id="id11">
+<h3>ディレクトリの深さ<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<p>デフォルトでは、 Finder はディレクトリを再帰的に調べます。 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_depth" title="Symfony\Component\Finder\Finder::depth()"><span class="pre">depth()</span></a></tt> を使用すれば、調べる深さを制限することができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">depth</span><span class="p">(</span><span class="s1">&#39;== 0&#39;</span><span class="p">);</span>
 <span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">depth</span><span class="p">(</span><span class="s1">&#39;&lt; 3&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="id34">
-<h3>カスタムフィルター<a class="headerlink" href="#id34" title="Permalink to this headline">¶</a></h3>
-<p><a href="#id35"><span class="problematic" id="id36">:method:`Symfony\\Component\\Finder\\Finder::filter`</span></a> メソッドを使用すれば、オリジナルの戦略でファイルの絞り込みができます。:</p>
+<div class="section" id="id12">
+<h3>カスタムフィルター<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Finder/Finder.html#method_filter" title="Symfony\Component\Finder\Finder::filter()"><span class="pre">filter()</span></a></tt> メソッドを使用すれば、オリジナルの戦略でファイルの絞り込みができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$filter</span> <span class="o">=</span> <span class="k">function</span> <span class="p">(</span><span class="nx">\SplFileInfo</span> <span class="nv">$file</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">if</span> <span class="p">(</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$file</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
@@ -324,7 +321,7 @@
 <span class="nv">$finder</span><span class="o">-&gt;</span><span class="na">files</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="nv">$filter</span><span class="p">);</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">filter()</span></tt> メソッドは、引数としてクロージャを受け取ります。マッチしたファイルは、 <a href="#id37"><span class="problematic" id="id38">:phpclass:`SplFileInfo`</span></a> のインスタンスとして扱うことができます。クロージャが <tt class="docutils literal"><span class="pre">false</span></tt> を返すと、 そのファイルは検索結果から除外されます。</p>
+<p><tt class="docutils literal"><span class="pre">filter()</span></tt> メソッドは、引数としてクロージャを受け取ります。マッチしたファイルは、 <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.splfileinfo.php" title="SplFileInfo"><span class="pre">SplFileInfo</span></a></tt> のインスタンスとして扱うことができます。クロージャが <tt class="docutils literal"><span class="pre">false</span></tt> を返すと、 そのファイルは検索結果から除外されます。</p>
 </div>
 </div>
 </div>
@@ -336,11 +333,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/finder.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/finder.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/finder.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

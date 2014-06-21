@@ -73,7 +73,7 @@
   <h3>このページのコンテンツ</h3>
   <ul>
 <li><a class="reference internal" href="#">submit フィールドタイプ</a><ul>
-<li><a class="reference internal" href="#id3">継承されたオプション</a><ul>
+<li><a class="reference internal" href="#id1">継承されたオプション</a><ul>
 <li><a class="reference internal" href="#attr">attr</a></li>
 <li><a class="reference internal" href="#disabled">disabled</a></li>
 <li><a class="reference internal" href="#label">label</a></li>
@@ -132,9 +132,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/submit.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -170,12 +167,12 @@
 <td><a class="reference internal" href="button.html"><em>button</em></a></td>
 </tr>
 <tr class="row-even"><td>クラス</td>
-<td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\SubmitType</span></tt></td>
+<td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Core/Type/SubmitType.html" title="Symfony\Component\Form\Extension\Core\Type\SubmitType"><span class="pre">SubmitType</span></a></tt></td>
 </tr>
 </tbody>
 </table>
 <p>Submit ボタンには
-<a href="#id1"><span class="problematic" id="id2">:method:`Symfony\\Component\\Form\\ClickableInterface::isClicked`</span></a> という付加的なメソッドがあります。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/ClickableInterface.html#method_isClicked" title="Symfony\Component\Form\ClickableInterface::isClicked()"><span class="pre">isClicked()</span></a></tt> という付加的なメソッドがあります。
 このメソッドでこのボタンがフォームのサブミットに利用されたかどうかをチェックできます。
 特に <em class="xref std std-ref">複数のサブミットボタンを持つフォームの場合</em> に便利です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;save&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">isClicked</span><span class="p">())</span> <span class="p">{</span>
@@ -183,8 +180,8 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<div class="section" id="id3">
-<h2>継承されたオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2>継承されたオプション<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="attr">
 <h3>attr<a class="headerlink" href="#attr" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: array <strong>デフォルト</strong>: Empty array</p>
@@ -233,11 +230,6 @@ cURL のようにブラウザを迂回して受動でリクエストを送信し
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/forms/types/submit.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types/submit.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types/submit.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

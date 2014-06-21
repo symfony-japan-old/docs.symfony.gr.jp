@@ -85,15 +85,15 @@
 <li><a class="reference internal" href="#php">PHP におけるリクエストとレスポンス</a></li>
 <li><a class="reference internal" href="#symfony">Symfony におけるリクエストとレスポンス</a></li>
 <li><a class="reference internal" href="#request-response">Request から Response ができるまで</a><ul>
-<li><a class="reference internal" href="#id9">フロントコントローラー</a></li>
-<li><a class="reference internal" href="#id10">整ったコードを保つ</a></li>
-<li><a class="reference internal" href="#id11">Symfony アプリケーションのフロー</a></li>
+<li><a class="reference internal" href="#id3">フロントコントローラー</a></li>
+<li><a class="reference internal" href="#id4">整ったコードを保つ</a></li>
+<li><a class="reference internal" href="#id5">Symfony アプリケーションのフロー</a></li>
 <li><a class="reference internal" href="#symfony-request">アクションにおける Symfony Request</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#symfony2">Symfony2: ツールではなく、自分のアプリケーションの関心事に取り組むために</a><ul>
 <li><a class="reference internal" href="#index-3">スタンドアロンなツール: Symfony2 <em>コンポーネント</em></a></li>
-<li><a class="reference internal" href="#id13">完全なソリューション: Symfony2 <em>フレームワーク</em></a></li>
+<li><a class="reference internal" href="#id7">完全なソリューション: Symfony2 <em>フレームワーク</em></a></li>
 </ul>
 </li>
 </ul>
@@ -154,9 +154,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/http_fundamentals.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -318,7 +315,7 @@ Content-Type: text/html
 <div class="section" id="symfony">
 <h2>Symfony におけるリクエストとレスポンス<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h2>
 <p>Symfony では、先ほど説明した PHP よる直接的なアプローチの代わりに、HTTP のリクエストとレスポンスを手軽に扱える 2 つのクラスを使います。
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt> クラスは、HTTP リクエストメッセージをシンプルなオブジェクト指向で表現したクラスです。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html" title="Symfony\Component\HttpFoundation\Request"><span class="pre">Request</span></a></tt> クラスは、HTTP リクエストメッセージをシンプルなオブジェクト指向で表現したクラスです。
 これを使えば、すべてのリクエスト情報が簡単に手に入ります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
 
@@ -354,10 +351,10 @@ Content-Type: text/html
 <div class="sidebar">
 <p class="first sidebar-title">ParameterBags と Request の属性</p>
 <p>上で見たように、<tt class="docutils literal"><span class="pre">$_GET</span></tt> と <tt class="docutils literal"><span class="pre">$_POST</span></tt> 変数には、それぞれ <tt class="docutils literal"><span class="pre">query</span></tt> および <tt class="docutils literal"><span class="pre">request</span></tt> というパブリックなプロパティでアクセスできます。
-これらはいずれも <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\ParameterBag</span></tt> オブジェクトで、
-<a href="#id3"><span class="problematic" id="id4">:method:`Symfony\\Component\\HttpFoundation\\ParameterBag::get`</span></a>、
-<a href="#id5"><span class="problematic" id="id6">:method:`Symfony\\Component\\HttpFoundation\\ParameterBag::has`</span></a>、
-<a href="#id7"><span class="problematic" id="id8">:method:`Symfony\\Component\\HttpFoundation\\ParameterBag::all`</span></a> などのメソッドを持っています。
+これらはいずれも <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/ParameterBag.html" title="Symfony\Component\HttpFoundation\ParameterBag"><span class="pre">ParameterBag</span></a></tt> オブジェクトで、
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/ParameterBag.html#method_get" title="Symfony\Component\HttpFoundation\ParameterBag::get()"><span class="pre">get()</span></a></tt>、
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/ParameterBag.html#method_has" title="Symfony\Component\HttpFoundation\ParameterBag::has()"><span class="pre">has()</span></a></tt>、
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/ParameterBag.html#method_all" title="Symfony\Component\HttpFoundation\ParameterBag::all()"><span class="pre">all()</span></a></tt> などのメソッドを持っています。
 上の例にあるパブリックプロパティも ParameterBag のインスタンスです。</p>
 <p class="last" id="book-fundamentals-attributes">Request クラスには <tt class="docutils literal"><span class="pre">attributes</span></tt> というパブリックプロパティもあります。
 このプロパティには、アプリケーションで内部的に利用される特殊なデータが格納されます。
@@ -397,8 +394,8 @@ Symfony 付属のスタンドアロンなコンポーネントに含まれてい
 アプリケーションを作る上で一番大変なのは、それらの「間」を実装することです。
 つまり、本来やるべき作業は、リクエストを解釈し、レスポンスを作成するコードを書くこと、ということなのです。</p>
 <p>アプリケーションは、時に、メールを送ったり、フォームの送信を受け付けたり、データベースに値を保存したり、HTML ページをレンダリングしたり、コンテンツをセキュアにしておいたりすることがありますが、これらを達成し、整ったコードを保ち、そして保守し続けることが可能なようにするにはどうしたら良いのでしょうか。</p>
-<div class="section" id="id9">
-<h3>フロントコントローラー<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>フロントコントローラー<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>従来、アプリケーションは、サイト内の各「ページ」に物理的なファイルを置くように作られてきました。</p>
 <div class="highlight-text"><div class="highlight"><pre>index.php
 contact.php
@@ -440,8 +437,8 @@ URL によって別々の PHP ファイルが実行されるのではなく、<e
 こうしておけば、先の 2 つの問題は解決されます。
 モダンな Web アプリケーションでは、ほとんどこのアプローチをとっていて、例えば WordPress のようなアプリケーションも同様です。</p>
 </div>
-<div class="section" id="id10">
-<h3>整ったコードを保つ<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>整ったコードを保つ<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>フロントコントローラーの中では、どのコードを実行し、どのコンテンツを返すのかを指示する必要があります。
 リクエストされた URI をチェックし、URI の値に応じたコードを実行するようにします。
 これを文字通りのコードにするのは簡単ですが、すぐに手を付けられないコードになることは明白です。</p>
@@ -464,8 +461,8 @@ URL によって別々の PHP ファイルが実行されるのではなく、<e
 </div>
 <p>Symfony による解決法を見ていきましょう。</p>
 </div>
-<div class="section" id="id11">
-<h3>Symfony アプリケーションのフロー<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>Symfony アプリケーションのフロー<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>Symfony がリクエストを扱えるようになれば、人生楽しくなります。
 Symfony はすべてのリクエストで、同じシンプルなパターンを踏みます。</p>
 <div class="figure align-center" id="request-flow-figure">
@@ -547,7 +544,7 @@ XML や PHP で記述することも可能です。</p>
 </pre></div>
 </div>
 <p>この例はとてもシンプルで、&#8221;&lt;h1&gt;Contact us!&lt;/h1&gt;&#8221; という HTML コードから
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response</span></tt> オブジェクトを作っています。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Response.html" title="Symfony\Component\HttpFoundation\Response"><span class="pre">Response</span></a></tt> オブジェクトを作っています。
 <a class="reference internal" href="controller.html"><em>コントローラーの章</em></a>では、コントローラーがどうやってテンプレートをレンダリングするのか、や、バラバラのテンプレートファイルから &#8220;presentation&#8221;  コード(つまり HTML を出力するもの)をどうやって作っているのか、などを説明しています。
 ということで、コントローラーでは、データベースとのやりとりや、送信されてきたデータの処理、メール送信といった肝心な部分だけを心配すればいいのです。</p>
 </div>
@@ -564,7 +561,7 @@ Symfony はフレームワークに、アプリケーションを作成するた
 Symfony2 を使えば、面倒な作業は必要ありません。
 Symfony フレームワークを使い倒すもよし、一部分だけを使うもよし、です。</p>
 <div class="section" id="index-3">
-<span id="id12"></span><h3>スタンドアロンなツール: Symfony2 <em>コンポーネント</em><a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3>スタンドアロンなツール: Symfony2 <em>コンポーネント</em><a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
 <p>結局のところ、Symfony2 とはいったい何なのでしょうか？
 Symfony2 は、独立した 20 以上のライブラリの集合体で、それらの一つ一つは <em>どんな</em> PHP プロジェクトでも使用可能です。
 それらを <em>Symfony2 コンポーネント</em>と呼んでいますが、どんな開発の場合でも、ほとんどすべてのシチュエーションで便利なものとなっています。
@@ -583,8 +580,8 @@ Symfony2 は、独立した 20 以上のライブラリの集合体で、それ�
 <p>すべてのコンポーネントは互いに独立していて、Symfony2 フレームワークを使っていようがいまいが、<em>どんな</em> PHP プロジェクトでも使用できます。
 すべて、必要があるときに使えばいいように作られていますし、必要であれば置き換えも可能です。</p>
 </div>
-<div class="section" id="id13">
-<h3>完全なソリューション: Symfony2 <em>フレームワーク</em><a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>完全なソリューション: Symfony2 <em>フレームワーク</em><a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p>では、Symfony2 <em>フレームワーク</em> と言ったときは、一体何を指すのでしょうか。
 <em>Symfony2 フレームワーク</em> は、PHPライブラリで、次の独立した 2 つのタスクを達成しています。</p>
 <ol class="arabic simple">
@@ -607,11 +604,6 @@ Symfony2 は、独立した 20 以上のライブラリの集合体で、それ�
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/http_fundamentals.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/http_fundamentals.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/http_fundamentals.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

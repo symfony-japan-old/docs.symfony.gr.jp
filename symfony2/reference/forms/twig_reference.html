@@ -152,9 +152,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/twig_reference.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="twig">
 <span id="index-0"></span><h1>Twig テンプレートのフォーム関数と変数<a class="headerlink" href="#twig" title="Permalink to this headline">¶</a></h1>
 <p>テンプレートでフォームを扱うとき、二つの強力な道具があります。</p>
@@ -336,7 +333,7 @@ hidden フィールドや、出力し忘れたフィールドを出力してく�
 <div class="section" id="reference-form-twig-variables">
 <span id="id5"></span><h3>Form 変数リファレンス<a class="headerlink" href="#reference-form-twig-variables" title="Permalink to this headline">¶</a></h3>
 <p>下の変数は全てのフィールドタイプに共通です。フィールドタイプの中にはもっと多くの変数があるものもあり、特定のフィールドのみに有効な変数もあります。</p>
-<p>テンプレートに <tt class="docutils literal"><span class="pre">form</span></tt> 変数が含まれていて <tt class="docutils literal"><span class="pre">name</span></tt> フィールドの変数にアクセスしたいとき、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\FormView</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">vars</span></tt> プロパティを使うことによりアクセスできます。</p>
+<p>テンプレートに <tt class="docutils literal"><span class="pre">form</span></tt> 変数が含まれていて <tt class="docutils literal"><span class="pre">name</span></tt> フィールドの変数にアクセスしたいとき、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/FormView.html" title="Symfony\Component\Form\FormView"><span class="pre">FormView</span></a></tt> オブジェクトの <tt class="docutils literal"><span class="pre">vars</span></tt> プロパティを使うことによりアクセスできます。</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>Twig</em><div class="highlight-html+jinja"><pre>&lt;label for="{{ form.name.vars.id }}"
@@ -462,11 +459,6 @@ hidden フィールドや、出力し忘れたフィールドを出力してく�
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/forms/twig_reference.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/twig_reference.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/twig_reference.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

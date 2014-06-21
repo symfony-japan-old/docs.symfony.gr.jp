@@ -135,9 +135,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/security/custom_authentication_provider.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>カスタム認証プロバイダの作成方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>ドキュメントの <a class="reference internal" href="../../book/security.html"><em>セキュリティ</em></a> の章を読めば、 Symfony2 では、セキュリティの実装における認証(authentication)と承認(authorization)の違いを理解することができます。この章では、認証プロセスに関するコアのクラス群を見ていきます。そして、カスタム認証プロバイダの実装方法を学びます。認証と承認は、異なるコンセプトのため、今回の拡張は、ユーザプロバイダ自体は特定化しておらず、メモリ上、データベース、他の格納場所などのユーザプロバイダと機能することができます。</p>
@@ -179,12 +176,12 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><tt class="docutils literal"><span class="pre">WsseUserToken</span></tt> クラスは、セキュリティコンポーネントで提供されるベースクラスで、トークンの基本機能が実装されている <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\Authentication\Token\AbstractToken</span></tt> を継承しています。トークンとして使用する全てのクラスは、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\Authentication\Token\TokenInterface</span></tt> を実装する必要があります。</p>
+<p class="last"><tt class="docutils literal"><span class="pre">WsseUserToken</span></tt> クラスは、セキュリティコンポーネントで提供されるベースクラスで、トークンの基本機能が実装されている <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/Authentication/Token/AbstractToken.html" title="Symfony\Component\Security\Core\Authentication\Token\AbstractToken"><span class="pre">AbstractToken</span></a></tt> を継承しています。トークンとして使用する全てのクラスは、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/Authentication/Token/TokenInterface.html" title="Symfony\Component\Security\Core\Authentication\Token\TokenInterface"><span class="pre">TokenInterface</span></a></tt> を実装する必要があります。</p>
 </div>
 </div>
 <div class="section" id="id3">
 <h2>リスナー<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>次に、セキュリティコンテキストをリッスンするリスナーが必要です。リスナーは、ファイアーウォールへのリクエストや認証プロバイダの呼び出しを受け止める役割を担います。リスナーは、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Http\Firewall\ListenerInterface</span></tt> を実装したクラスのインスタンスである必要があります。セキュリティリスナーは、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Event\GetResponseEvent</span></tt> イベントをリッスンし、成功時に認証されたトークンをセキュリティコンテキストにセットする必要があります。</p>
+<p>次に、セキュリティコンテキストをリッスンするリスナーが必要です。リスナーは、ファイアーウォールへのリクエストや認証プロバイダの呼び出しを受け止める役割を担います。リスナーは、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Http/Firewall/ListenerInterface.html" title="Symfony\Component\Security\Http\Firewall\ListenerInterface"><span class="pre">ListenerInterface</span></a></tt> を実装したクラスのインスタンスである必要があります。セキュリティリスナーは、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Event/GetResponseEvent.html" title="Symfony\Component\HttpKernel\Event\GetResponseEvent"><span class="pre">GetResponseEvent</span></a></tt> イベントをリッスンし、成功時に認証されたトークンをセキュリティコンテキストにセットする必要があります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Security/Firewall/WsseListener.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Security\Firewall</span><span class="p">;</span>
 
@@ -246,10 +243,10 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>このリスナーは、 <cite>X-WSSE</cite> ヘッダがあることを想定して、リクエストをチェックします。そして、返ってきた値と想定している WSSE 情報の照合をします。そして、その情報を使用してトークンを作成し、認証マネージャにトークンを渡します。その情報が適切でなければ、認証マネージャは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\Exception\AuthenticationException</span></tt> をスローするので、403 のレスポンスが返されます。</p>
+<p>このリスナーは、 <cite>X-WSSE</cite> ヘッダがあることを想定して、リクエストをチェックします。そして、返ってきた値と想定している WSSE 情報の照合をします。そして、その情報を使用してトークンを作成し、認証マネージャにトークンを渡します。その情報が適切でなければ、認証マネージャは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/Exception/AuthenticationException.html" title="Symfony\Component\Security\Core\Exception\AuthenticationException"><span class="pre">AuthenticationException</span></a></tt> をスローするので、403 のレスポンスが返されます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">上のコードでは使用していませんが、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Http\Firewall\AbstractAuthenticationListener</span></tt> はとても便利なベースクラスで、セキュリティ拡張でよく使われる機能を用意しています。このクラスは、セッションにトークンを維持したり、成功ハンドラ / 失敗ハンドラやログインフォームの URL を提供することができます。 WSSE は認証セッションの維持もログインフォームも必要ないので、ここでは使用しませんでした。</p>
+<p class="last">上のコードでは使用していませんが、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Http/Firewall/AbstractAuthenticationListener.html" title="Symfony\Component\Security\Http\Firewall\AbstractAuthenticationListener"><span class="pre">AbstractAuthenticationListener</span></a></tt> はとても便利なベースクラスで、セキュリティ拡張でよく使われる機能を用意しています。このクラスは、セッションにトークンを維持したり、成功ハンドラ / 失敗ハンドラやログインフォームの URL を提供することができます。 WSSE は認証セッションの維持もログインフォームも必要ないので、ここでは使用しませんでした。</p>
 </div>
 </div>
 <div class="section" id="id4">
@@ -318,12 +315,12 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface</span></tt> インタフェースは、 <tt class="docutils literal"><span class="pre">authenticate</span></tt> メソッドと、与えられたトークン <tt class="docutils literal"><span class="pre">supports</span></tt> メソッドを必要とします。 <tt class="docutils literal"><span class="pre">authenticate</span></tt> メソッドでは、 ユーザのトークンを渡し、 <tt class="docutils literal"><span class="pre">supports</span></tt> メソッドでは、認証マネージャにこのプロバイダに使用するか否かを指定します。複数のプロバイダを使用している際には、認証マネージャは、リスト内の次のプロバイダに移動します。</p>
+<p class="last"><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/Authentication/Provider/AuthenticationProviderInterface.html" title="Symfony\Component\Security\Core\Authentication\Provider\AuthenticationProviderInterface"><span class="pre">AuthenticationProviderInterface</span></a></tt> インタフェースは、 <tt class="docutils literal"><span class="pre">authenticate</span></tt> メソッドと、与えられたトークン <tt class="docutils literal"><span class="pre">supports</span></tt> メソッドを必要とします。 <tt class="docutils literal"><span class="pre">authenticate</span></tt> メソッドでは、 ユーザのトークンを渡し、 <tt class="docutils literal"><span class="pre">supports</span></tt> メソッドでは、認証マネージャにこのプロバイダに使用するか否かを指定します。複数のプロバイダを使用している際には、認証マネージャは、リスト内の次のプロバイダに移動します。</p>
 </div>
 </div>
 <div class="section" id="id5">
 <h2>ファクトリ<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>これまで、カスタムトークン、カスタムリスナー、カスタムプロバイダーを作成しました。次はこれらを全て繋げる必要があります。セキュリティコンフィギュレーションでプロバイダを使用可能にするには、 <tt class="docutils literal"><span class="pre">factory</span></tt> を使うことです。ファクトリは、プロバイダの名前と使用可能なコンフィギュレーションオプション全てを知らせて、セキュリティコンポーネントにフックさせる場所です。まず、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface</span></tt> を実装するクラスを作成する必要があります。</p>
+<p>これまで、カスタムトークン、カスタムリスナー、カスタムプロバイダーを作成しました。次はこれらを全て繋げる必要があります。セキュリティコンフィギュレーションでプロバイダを使用可能にするには、 <tt class="docutils literal"><span class="pre">factory</span></tt> を使うことです。ファクトリは、プロバイダの名前と使用可能なコンフィギュレーションオプション全てを知らせて、セキュリティコンポーネントにフックさせる場所です。まず、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/SecurityBundle/DependencyInjection/Security/Factory/SecurityFactoryInterface.html" title="Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface"><span class="pre">SecurityFactoryInterface</span></a></tt> を実装するクラスを作成する必要があります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/DependencyInjection/Security/Factory/WsseFactory.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\DemoBundle\DependencyInjection\Security\Factory</span><span class="p">;</span>
 
@@ -364,7 +361,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface</span></tt> インタフェースは次のメソッドを必要とします。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/SecurityBundle/DependencyInjection/Security/Factory/SecurityFactoryInterface.html" title="Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\SecurityFactoryInterface"><span class="pre">SecurityFactoryInterface</span></a></tt> インタフェースは次のメソッドを必要とします。</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">create</span></tt> メソッドは、適切なセキュリティコンテキストのため、リスナーと認証プロバイダを DI コンテナに追加します。</li>
 <li><tt class="docutils literal"><span class="pre">getPosition</span></tt> メソッドは、 <tt class="docutils literal"><span class="pre">pre_auth</span></tt>, <tt class="docutils literal"><span class="pre">form</span></tt>, <tt class="docutils literal"><span class="pre">http</span></tt>, <tt class="docutils literal"><span class="pre">remembr_me</span></tt> のタイプのどれかとなり、プロバイダが呼ばれる位置を定義します。</li>
@@ -373,7 +370,7 @@
 </ul>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この例では使われていませんが、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory</span></tt> はとても便利なベースクラスで、セキュリティファクトリでよく使われる機能を用意しています。特に異なるタイプの認証プロバイダを定義する際に便利です。</p>
+<p class="last">この例では使われていませんが、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/SecurityBundle/DependencyInjection/Security/Factory/AbstractFactory.html" title="Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory"><span class="pre">AbstractFactory</span></a></tt> はとても便利なベースクラスで、セキュリティファクトリでよく使われる機能を用意しています。特に異なるタイプの認証プロバイダを定義する際に便利です。</p>
 </div>
 <p>これで、ファクトリクラスを作成したので、 <tt class="docutils literal"><span class="pre">wsse</span></tt> キーは、セキュリティコンフィギュレーション内のファイアーウォールとして使用できます。</p>
 <div class="admonition note">
@@ -571,11 +568,6 @@ services:
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/security/custom_authentication_provider.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/security/custom_authentication_provider.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/security/custom_authentication_provider.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

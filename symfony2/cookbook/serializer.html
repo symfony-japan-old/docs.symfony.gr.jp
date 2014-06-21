@@ -127,9 +127,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/serializer.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -182,11 +179,11 @@ Symfony には <a class="reference internal" href="../components/serializer.html
 </div>
 <div class="section" id="normalizer-encoders">
 <h2>Normalizer や Encoders を追加する<a class="headerlink" href="#normalizer-encoders" title="Permalink to this headline">¶</a></h2>
-<p>有効化すると、 <tt class="docutils literal"><span class="pre">serializer</span></tt> サービスはコンテナから取得できるようになり、2つの <a class="reference internal" href="../components/serializer.html#component-serializer-encoders"><em>encoder</em></a> （ <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Encoder\JsonEncoder</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Encoder\XmlEncoder</span></tt> ）が利用できます。
+<p>有効化すると、 <tt class="docutils literal"><span class="pre">serializer</span></tt> サービスはコンテナから取得できるようになり、2つの <a class="reference internal" href="../components/serializer.html#component-serializer-encoders"><em>encoder</em></a> （ <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Encoder/JsonEncoder.html" title="Symfony\Component\Serializer\Encoder\JsonEncoder"><span class="pre">JsonEncoder</span></a></tt> と <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Encoder/XmlEncoder.html" title="Symfony\Component\Serializer\Encoder\XmlEncoder"><span class="pre">XmlEncoder</span></a></tt> ）が利用できます。
 しかし、 <a class="reference internal" href="../components/serializer.html#component-serializer-normalizers"><em>normalizer</em></a> はありません。 独自の normarilizer を追加する必要があります。</p>
 <p>normalizer や encoder は、 <a class="reference internal" href="../reference/dic_tags.html#reference-dic-tags-serializer-normalizer"><em>serializer.normalizer</em></a> タグと <a class="reference internal" href="../reference/dic_tags.html#reference-dic-tags-serializer-encoder"><em>serializer.encoder</em></a> タグをつけることにより追加することができます。
 マッチする順番を決められるように、タグに <tt class="docutils literal"><span class="pre">priority</span></tt> を設定することもできます。</p>
-<p>下記は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer</span></tt> サービスをシリアライザに追加する方法のサンプルです。</p>
+<p>下記は <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer"><span class="pre">GetSetMethodNormalizer</span></a></tt> サービスをシリアライザに追加する方法のサンプルです。</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
@@ -222,7 +219,7 @@ Symfony には <a class="reference internal" href="../components/serializer.html
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer</span></tt> はもとから壊れています。循環参照のあるオブジェクトを処理させると、ゲッターメソッドを呼び出した際に無限ループが発生します。
+<p class="last"><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer"><span class="pre">GetSetMethodNormalizer</span></a></tt> はもとから壊れています。循環参照のあるオブジェクトを処理させると、ゲッターメソッドを呼び出した際に無限ループが発生します。
 実際のユースケースにしたがって、独自の normalizer を作って利用してください。</p>
 </div>
 </div>
@@ -233,11 +230,6 @@ Symfony には <a class="reference internal" href="../components/serializer.html
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/serializer.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/serializer.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/serializer.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

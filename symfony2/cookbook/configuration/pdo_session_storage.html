@@ -140,13 +140,10 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/configuration/pdo_session_storage.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="pdosessionstorage">
 <span id="index-0"></span><h1>PdoSessionStorage を使用してデータベースにセッションを格納する方法<a class="headerlink" href="#pdosessionstorage" title="Permalink to this headline">¶</a></h1>
 <p>Symfony2 のデフォルトのセッションストレージは、ファイルにセッションの値を記録することでした。中規模から大規模なウェブサイトでは、セッションの値をファイルに格納するのではなく、データベースに格納をします。それは、データベースの方が簡単に扱うことができ、複数のウェブサーバの構成にスケールアウトすることができるからです。</p>
-<p>Symfony2 はセッションストレージにデータベースを使用するクラスをビルトインしています。クラス名は、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\SessionStorage\PdoSessionStorage</span></tt> です。このクラスを使用するには、 <tt class="docutils literal"><span class="pre">config.yml</span></tt> (もしくは選択したコンフィギュレーションのフォーマット)のパラメータを数個変更するだけです。</p>
+<p>Symfony2 はセッションストレージにデータベースを使用するクラスをビルトインしています。クラス名は、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/SessionStorage/PdoSessionStorage.html" title="Symfony\Component\HttpFoundation\SessionStorage\PdoSessionStorage"><span class="pre">PdoSessionStorage</span></a></tt> です。このクラスを使用するには、 <tt class="docutils literal"><span class="pre">config.yml</span></tt> (もしくは選択したコンフィギュレーションのフォーマット)のパラメータを数個変更するだけです。</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><pre># app/config/config.yml
@@ -317,11 +314,6 @@ services:
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/configuration/pdo_session_storage.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/configuration/pdo_session_storage.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/configuration/pdo_session_storage.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

@@ -179,9 +179,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/dic_tags.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -471,9 +468,9 @@
 <div class="section" id="form-type-extension">
 <h2>form.type_extension<a class="headerlink" href="#form-type-extension" title="Permalink to this headline">¶</a></h2>
 <p><strong>目的</strong>: カスタムフォームエクステンションを追加します</p>
-<p>フォームタイプエクステンションを使うと、フォームのすべての項目の作成時にホックすることができます。たとえば、 CSRF トークンの追加は、あるフォームタイプエクステンションを使って行われています。 (<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Csrf\Type\FormTypeCsrfExtension</span></tt>).</p>
-<p>フォームタイプエクステンションは、フォームの中のどの項目のどの部分でも動作を変更することができます。フォームタイプエクステンションを作るには、まず <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\FormTypeExtensionInterface</span></tt> を実装したクラスを作ります。
-より簡単に、インターフェースではなく <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\AbstractTypeExtension</span></tt> を継承することもできます。:</p>
+<p>フォームタイプエクステンションを使うと、フォームのすべての項目の作成時にホックすることができます。たとえば、 CSRF トークンの追加は、あるフォームタイプエクステンションを使って行われています。 (<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Csrf/Type/FormTypeCsrfExtension.html" title="Symfony\Component\Form\Extension\Csrf\Type\FormTypeCsrfExtension"><span class="pre">FormTypeCsrfExtension</span></a></tt>).</p>
+<p>フォームタイプエクステンションは、フォームの中のどの項目のどの部分でも動作を変更することができます。フォームタイプエクステンションを作るには、まず <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/FormTypeExtensionInterface.html" title="Symfony\Component\Form\FormTypeExtensionInterface"><span class="pre">FormTypeExtensionInterface</span></a></tt> を実装したクラスを作ります。
+より簡単に、インターフェースではなく <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/AbstractTypeExtension.html" title="Symfony\Component\Form\AbstractTypeExtension"><span class="pre">AbstractTypeExtension</span></a></tt> を継承することもできます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/MainBundle/Form/Type/MyFormTypeExtension.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\MainBundle\Form\Type</span><span class="p">;</span>
 
@@ -519,7 +516,7 @@
 <p><strong>目的</strong>: 独自のフォームタイプ推測器を追加する</p>
 <p>このタグを使うと <a class="reference internal" href="../book/forms.html#book-forms-field-guessing"><em>Form Guessing</em></a> に独自のロジックを追加することができます。
 デフォルトでは、フォームタイプの推測はバリデーションメタデータとDoctrineのメタデータ（Doctrineを使用している場合）に基づいて行われます。</p>
-<p>独自のフォームタイプ推測器を追加するには、まず、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\FormTypeGuesserInterface</span></tt> を実装したクラスを作成します。
+<p>独自のフォームタイプ推測器を追加するには、まず、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/FormTypeGuesserInterface.html" title="Symfony\Component\Form\FormTypeGuesserInterface"><span class="pre">FormTypeGuesserInterface</span></a></tt> を実装したクラスを作成します。
 次に、そのサービスに <tt class="docutils literal"><span class="pre">form.type_guesser</span></tt> タグ（オプションはありません）をつけます。</p>
 <p>フォームタイプ推測器の書き方の例を知りたければ、 <tt class="docutils literal"><span class="pre">Form</span></tt> コンポーネントの <tt class="docutils literal"><span class="pre">ValidatorTypeGuesser</span></tt> を見てください。</p>
 </div>
@@ -575,7 +572,7 @@
 <p><strong>目的</strong>: キャッシュウォームアップ時に呼び出すサービスを追加する</p>
 <p>キャッシュウォームアップは <tt class="docutils literal"><span class="pre">cache:warmup</span></tt> コマンドまたは <tt class="docutils literal"><span class="pre">cache:clear</span></tt> コマンドを実行すると行われます（ <tt class="docutils literal"><span class="pre">cache:clear</span></tt> に <tt class="docutils literal"><span class="pre">--no-warmup</span></tt> オプションを付けなかったときに限る）。
 アプリケーションの動作に必要なキャッシュを初期化し、最初にアクセスしたユーザーがキャッシュを自動的に生成する際の重い動作に悩まされるのを防止するのが目的です。</p>
-<p>独自のキャッシュウォーマーを登録するには、まず、 the <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface</span></tt> を実装するサービスを作成します。:</p>
+<p>独自のキャッシュウォーマーを登録するには、まず、 the <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/CacheWarmer/CacheWarmerInterface.html" title="Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerInterface"><span class="pre">CacheWarmerInterface</span></a></tt> を実装するサービスを作成します。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/MainBundle/Cache/MyCustomWarmer.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\MainBundle\Cache</span><span class="p">;</span>
 
@@ -652,22 +649,22 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <tr class="row-odd"><td>リスナーのクラス名</td>
 <td>優先度</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ProfilerListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/ProfilerListener.html" title="Symfony\Component\HttpKernel\EventListener\ProfilerListener"><span class="pre">ProfilerListener</span></a></tt></td>
 <td>1024</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\EventListener\TestSessionListener</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/EventListener/TestSessionListener.html" title="Symfony\Bundle\FrameworkBundle\EventListener\TestSessionListener"><span class="pre">TestSessionListener</span></a></tt></td>
 <td>192</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\EventListener\SessionListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/EventListener/SessionListener.html" title="Symfony\Bundle\FrameworkBundle\EventListener\SessionListener"><span class="pre">SessionListener</span></a></tt></td>
 <td>128</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\RouterListener</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/RouterListener.html" title="Symfony\Component\HttpKernel\EventListener\RouterListener"><span class="pre">RouterListener</span></a></tt></td>
 <td>32</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\LocaleListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/LocaleListener.html" title="Symfony\Component\HttpKernel\EventListener\LocaleListener"><span class="pre">LocaleListener</span></a></tt></td>
 <td>16</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Http\Firewall</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Http/Firewall.html" title="Symfony\Component\Security\Http\Firewall"><span class="pre">Firewall</span></a></tt></td>
 <td>8</td>
 </tr>
 </tbody>
@@ -684,7 +681,7 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <tr class="row-odd"><td>リスナーのクラス名</td>
 <td>優先度</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\DataCollector\RequestDataCollector</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/DataCollector/RequestDataCollector.html" title="Symfony\Bundle\FrameworkBundle\DataCollector\RequestDataCollector"><span class="pre">RequestDataCollector</span></a></tt></td>
 <td>0</td>
 </tr>
 </tbody>
@@ -701,25 +698,25 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <tr class="row-odd"><td>リスナーのクラス名</td>
 <td>優先度</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\EsiListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/EsiListener.html" title="Symfony\Component\HttpKernel\EventListener\EsiListener"><span class="pre">EsiListener</span></a></tt></td>
 <td>0</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ResponseListener</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/ResponseListener.html" title="Symfony\Component\HttpKernel\EventListener\ResponseListener"><span class="pre">ResponseListener</span></a></tt></td>
 <td>0</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SecurityBundle\EventListener\ResponseListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/SecurityBundle/EventListener/ResponseListener.html" title="Symfony\Bundle\SecurityBundle\EventListener\ResponseListener"><span class="pre">ResponseListener</span></a></tt></td>
 <td>0</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ProfilerListener</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/ProfilerListener.html" title="Symfony\Component\HttpKernel\EventListener\ProfilerListener"><span class="pre">ProfilerListener</span></a></tt></td>
 <td>-100</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\EventListener\TestSessionListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/EventListener/TestSessionListener.html" title="Symfony\Bundle\FrameworkBundle\EventListener\TestSessionListener"><span class="pre">TestSessionListener</span></a></tt></td>
 <td>-128</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.html" title="Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener"><span class="pre">WebDebugToolbarListener</span></a></tt></td>
 <td>-128</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\StreamedResponseListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/StreamedResponseListener.html" title="Symfony\Component\HttpKernel\EventListener\StreamedResponseListener"><span class="pre">StreamedResponseListener</span></a></tt></td>
 <td>-1024</td>
 </tr>
 </tbody>
@@ -736,10 +733,10 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <tr class="row-odd"><td>リスナーのクラス名</td>
 <td>優先度</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ProfilerListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/ProfilerListener.html" title="Symfony\Component\HttpKernel\EventListener\ProfilerListener"><span class="pre">ProfilerListener</span></a></tt></td>
 <td>0</td>
 </tr>
-<tr class="row-odd"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ExceptionListener</span></tt></td>
+<tr class="row-odd"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/ExceptionListener.html" title="Symfony\Component\HttpKernel\EventListener\ExceptionListener"><span class="pre">ExceptionListener</span></a></tt></td>
 <td>-128</td>
 </tr>
 </tbody>
@@ -756,7 +753,7 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <tr class="row-odd"><td>リスナーのクラス名</td>
 <td>優先度</td>
 </tr>
-<tr class="row-even"><td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SwiftmailerBundle\EventListener\EmailSenderListener</span></tt></td>
+<tr class="row-even"><td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/SwiftmailerBundle/EventListener/EmailSenderListener.html" title="Symfony\Bundle\SwiftmailerBundle\EventListener\EmailSenderListener"><span class="pre">EmailSenderListener</span></a></tt></td>
 <td>0</td>
 </tr>
 </tbody>
@@ -795,7 +792,7 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">イベントサブスクライバとして登録するサービスは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\EventDispatcher\EventSubscriberInterface</span></tt> を実装しなければなりません。</p>
+<p class="last">イベントサブスクライバとして登録するサービスは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/EventDispatcher/EventSubscriberInterface.html" title="Symfony\Component\EventDispatcher\EventSubscriberInterface"><span class="pre">EventSubscriberInterface</span></a></tt> を実装しなければなりません。</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -805,7 +802,7 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <div class="section" id="kernel-fragment-renderer">
 <h2>kernel.fragment_renderer<a class="headerlink" href="#kernel-fragment-renderer" title="Permalink to this headline">¶</a></h2>
 <p><strong>目的</strong>: 新しいHTMLレンダリング方法を追加します</p>
-<p><tt class="docutils literal"><span class="pre">EsiFragmentRenderer</span></tt>  のようなコアのレンダリング方法に加えて、新しいレンダリング方法を追加するには、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface</span></tt> を実装したクラスを作成して、サービスとして登録し、 <tt class="docutils literal"><span class="pre">kernel.fragment_renderer</span></tt> タグをつけます。</p>
+<p><tt class="docutils literal"><span class="pre">EsiFragmentRenderer</span></tt>  のようなコアのレンダリング方法に加えて、新しいレンダリング方法を追加するには、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Fragment/FragmentRendererInterface.html" title="Symfony\Component\HttpKernel\Fragment\FragmentRendererInterface"><span class="pre">FragmentRendererInterface</span></a></tt> を実装したクラスを作成して、サービスとして登録し、 <tt class="docutils literal"><span class="pre">kernel.fragment_renderer</span></tt> タグをつけます。</p>
 </div>
 <div class="section" id="monolog-logger">
 <span id="dic-tags-monolog"></span><h2>monolog.logger<a class="headerlink" href="#monolog-logger" title="Permalink to this headline">¶</a></h2>
@@ -967,7 +964,7 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <p><strong>目的</strong>: 次回から自動ログイン機能を使う</p>
 <p>このタグは、次回から自動ログイン機能を動作させるために内部的に使われています。
 アプリケーションに次回から自動ログイン機能を使う独自の認証方法があるなら、このタグを使う必要があるでしょう。</p>
-<p>カスタムの認証ファクトリが <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory</span></tt> を継承していて、認証リスナーが <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Http\Firewall\AbstractAuthenticationListener</span></tt> を継承しているなら、その認証には既にこのタグが付けられており、自動的に動作するでしょう。</p>
+<p>カスタムの認証ファクトリが <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/SecurityBundle/DependencyInjection/Security/Factory/AbstractFactory.html" title="Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory"><span class="pre">AbstractFactory</span></a></tt> を継承していて、認証リスナーが <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Http/Firewall/AbstractAuthenticationListener.html" title="Symfony\Component\Security\Http\Firewall\AbstractAuthenticationListener"><span class="pre">AbstractAuthenticationListener</span></a></tt> を継承しているなら、その認証には既にこのタグが付けられており、自動的に動作するでしょう。</p>
 </div>
 <div class="section" id="security-voter">
 <h2>security.voter<a class="headerlink" href="#security-voter" title="Permalink to this headline">¶</a></h2>
@@ -979,13 +976,13 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <div class="section" id="serializer-encoder">
 <span id="reference-dic-tags-serializer-encoder"></span><h2>serializer.encoder<a class="headerlink" href="#serializer-encoder" title="Permalink to this headline">¶</a></h2>
 <p><strong>目的</strong>: <tt class="docutils literal"><span class="pre">serializer</span></tt> サービスに独自のエンコーダーを追加します</p>
-<p>このタグをつけるクラスは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Encoder\EncoderInterface</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Encoder\DecoderInterface</span></tt> を実装している必要があります。</p>
+<p>このタグをつけるクラスは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Encoder/EncoderInterface.html" title="Symfony\Component\Serializer\Encoder\EncoderInterface"><span class="pre">EncoderInterface</span></a></tt> と <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Encoder/DecoderInterface.html" title="Symfony\Component\Serializer\Encoder\DecoderInterface"><span class="pre">DecoderInterface</span></a></tt> を実装している必要があります。</p>
 <p>詳細は <a class="reference internal" href="../cookbook/serializer.html"><em>Serializerの使い方</em></a> を参照してください。</p>
 </div>
 <div class="section" id="serializer-normalizer">
 <span id="reference-dic-tags-serializer-normalizer"></span><h2>serializer.normalizer<a class="headerlink" href="#serializer-normalizer" title="Permalink to this headline">¶</a></h2>
 <p><strong>目的</strong>: <tt class="docutils literal"><span class="pre">serializer</span></tt> サービスに独自のノーマライザーを追加します</p>
-<p>このタグをつけるクラスは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Normalizer\NormalizerInterface</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Serializer\Normalizer\DenormalizerInterface</span></tt> を実装している必要があります。</p>
+<p>このタグをつけるクラスは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/NormalizerInterface.html" title="Symfony\Component\Serializer\Normalizer\NormalizerInterface"><span class="pre">NormalizerInterface</span></a></tt> と <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/DenormalizerInterface.html" title="Symfony\Component\Serializer\Normalizer\DenormalizerInterface"><span class="pre">DenormalizerInterface</span></a></tt> を実装している必要があります。</p>
 <p>詳細は <a class="reference internal" href="../cookbook/serializer.html"><em>Serializerの使い方</em></a> を参照してください。</p>
 </div>
 <div class="section" id="swiftmailer-plugin">
@@ -1030,7 +1027,7 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <span id="dic-tags-translation-loader"></span><h2>translation.loader<a class="headerlink" href="#translation-loader" title="Permalink to this headline">¶</a></h2>
 <p><strong>目的</strong>: 独自の翻訳ローダーを追加します</p>
 <p>翻訳は通常、ファイルシステムから様々な形式（YAML, XLIFF, PHPなど）で読み込まれます。
-他のソースから翻訳を読み込ませたい場合は、まず <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Loader\LoaderInterface</span></tt> を実装したクラスを作成します。:</p>
+他のソースから翻訳を読み込ませたい場合は、まず <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Loader/LoaderInterface.html" title="Symfony\Component\Translation\Loader\LoaderInterface"><span class="pre">LoaderInterface</span></a></tt> を実装したクラスを作成します。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/MainBundle/Translation/MyCustomLoader.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\MainBundle\Translation</span><span class="p">;</span>
 
@@ -1051,7 +1048,7 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>カスタムローダーの <tt class="docutils literal"><span class="pre">load</span></tt> メソッドは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\MessageCatalogue</span></tt> を返す必要があります。</p>
+<p>カスタムローダーの <tt class="docutils literal"><span class="pre">load</span></tt> メソッドは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/MessageCatalogue.html" title="Symfony\Component\Translation\MessageCatalogue"><span class="pre">MessageCatalogue</span></a></tt> を返す必要があります。</p>
 <p>次に、サービスとして登録し、 <tt class="docutils literal"><span class="pre">translation.loader</span></tt> タグをつけてください。</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1090,8 +1087,8 @@ Symfony 2.0 では、オプションのウォーマーは isOptional() の返り
 <h2>translation.extractor<a class="headerlink" href="#translation-extractor" title="Permalink to this headline">¶</a></h2>
 <p><strong>目的</strong>: テンプレートファイルから翻訳が必要なメッセージを展開する独自サービスを追加します</p>
 <p><tt class="docutils literal"><span class="pre">translation:update</span></tt> コマンドを実行したとき、ファイルから翻訳が必要なメッセージを展開するのにextractorが使われます。
-Symfony2 フレームワークは通常、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Twig\Translation\TwigExtractor</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Translation\PhpExtractor</span></tt> を使用して Twig テンプレートや PHP ファイルから翻訳が必要なメッセージを抽出して展開しています。</p>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Extractor\ExtractorInterface</span></tt> を実装したクラスを作成し、 <tt class="docutils literal"><span class="pre">translation.extractor</span></tt> タグをつけることで独自のextractorを作成することができます。タグには <tt class="docutils literal"><span class="pre">alias</span></tt> オプションが必要で、extractorの名前として使われます。:</p>
+Symfony2 フレームワークは通常、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bridge/Twig/Translation/TwigExtractor.html" title="Symfony\Bridge\Twig\Translation\TwigExtractor"><span class="pre">TwigExtractor</span></a></tt> と <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Translation/PhpExtractor.html" title="Symfony\Bundle\FrameworkBundle\Translation\PhpExtractor"><span class="pre">PhpExtractor</span></a></tt> を使用して Twig テンプレートや PHP ファイルから翻訳が必要なメッセージを抽出して展開しています。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Extractor/ExtractorInterface.html" title="Symfony\Component\Translation\Extractor\ExtractorInterface"><span class="pre">ExtractorInterface</span></a></tt> を実装したクラスを作成し、 <tt class="docutils literal"><span class="pre">translation.extractor</span></tt> タグをつけることで独自のextractorを作成することができます。タグには <tt class="docutils literal"><span class="pre">alias</span></tt> オプションが必要で、extractorの名前として使われます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Translation/FooExtractor.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Translation</span><span class="p">;</span>
 
@@ -1154,16 +1151,16 @@ Symfony2 フレームワークは通常、 <tt class="xref php php-class docutil
 <p><a class="reference external" href="translation.extractor">Extractor</a> がテンプレートからすべてのメッセージを展開し終わった後、特別なフォーマットで翻訳メッセージをダンプするためにdumperが実行されます。</p>
 <p>Symfony2 には既にたくさんのdumperが含まれています。</p>
 <ul class="simple">
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\CsvFileDumper</span></tt></li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\IcuResFileDumper</span></tt></li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\IniFileDumper</span></tt></li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\MoFileDumper</span></tt></li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\PoFileDumper</span></tt></li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\QtFileDumper</span></tt></li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\XliffFileDumper</span></tt></li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\YamlFileDumper</span></tt></li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/CsvFileDumper.html" title="Symfony\Component\Translation\Dumper\CsvFileDumper"><span class="pre">CsvFileDumper</span></a></tt></li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/IcuResFileDumper.html" title="Symfony\Component\Translation\Dumper\IcuResFileDumper"><span class="pre">IcuResFileDumper</span></a></tt></li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/IniFileDumper.html" title="Symfony\Component\Translation\Dumper\IniFileDumper"><span class="pre">IniFileDumper</span></a></tt></li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/MoFileDumper.html" title="Symfony\Component\Translation\Dumper\MoFileDumper"><span class="pre">MoFileDumper</span></a></tt></li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/PoFileDumper.html" title="Symfony\Component\Translation\Dumper\PoFileDumper"><span class="pre">PoFileDumper</span></a></tt></li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/QtFileDumper.html" title="Symfony\Component\Translation\Dumper\QtFileDumper"><span class="pre">QtFileDumper</span></a></tt></li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/XliffFileDumper.html" title="Symfony\Component\Translation\Dumper\XliffFileDumper"><span class="pre">XliffFileDumper</span></a></tt></li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/YamlFileDumper.html" title="Symfony\Component\Translation\Dumper\YamlFileDumper"><span class="pre">YamlFileDumper</span></a></tt></li>
 </ul>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\FileDumper</span></tt> を継承するか、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Dumper\DumperInterface</span></tt> を実装して <tt class="docutils literal"><span class="pre">translation.dumper</span></tt> タグをつけることで dumper を追加することができます。 <tt class="docutils literal"><span class="pre">alias</span></tt> は必須のオプションで、この名前はどの dumper を使うべきか決定する際に使用されます。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/FileDumper.html" title="Symfony\Component\Translation\Dumper\FileDumper"><span class="pre">FileDumper</span></a></tt> を継承するか、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Dumper/DumperInterface.html" title="Symfony\Component\Translation\Dumper\DumperInterface"><span class="pre">DumperInterface</span></a></tt> を実装して <tt class="docutils literal"><span class="pre">translation.dumper</span></tt> タグをつけることで dumper を追加することができます。 <tt class="docutils literal"><span class="pre">alias</span></tt> は必須のオプションで、この名前はどの dumper を使うべきか決定する際に使用されます。</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
@@ -1254,7 +1251,7 @@ Twig の公式エクステンションであっても、通常通りサービス
 <div class="section" id="twig-loader">
 <h2>twig.loader<a class="headerlink" href="#twig-loader" title="Permalink to this headline">¶</a></h2>
 <p><strong>目的</strong>: Twig テンプレートを読み込む独自サービスを追加します</p>
-<p>Symfony は通常、 <a class="reference external" href="http://twig.sensiolabs.org/doc/api.html#loaders">Twig Loader</a> つまり <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\TwigBundle\Loader\FilesystemLoader</span></tt> だけを使います。
+<p>Symfony は通常、 <a class="reference external" href="http://twig.sensiolabs.org/doc/api.html#loaders">Twig Loader</a> つまり <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/TwigBundle/Loader/FilesystemLoader.html" title="Symfony\Bundle\TwigBundle\Loader\FilesystemLoader"><span class="pre">FilesystemLoader</span></a></tt> だけを使います。
 他のリソースからテンプレートを読み込ませる必要がある場合は、新しいローダーを作成して <tt class="docutils literal"><span class="pre">twig.loader</span></tt> タグをつけてください。</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1294,7 +1291,7 @@ Twig の公式エクステンションであっても、通常通りサービス
 <p>このタグを使うと、バリデーションの直前に何かの処理を加えるという極めて稀な挙動を追加することができます。
 たとえば、 Doctrine はこの機能を使って、遅延ロードすべきデータをバリデーション前のオブジェクトに追加しています。
 initializerがなければ、 Doctrine のエンティティに含まれるデータが現実には存在していても、バリデーション時には存在しないように見えてしまいます。</p>
-<p>本当にこの機能が必要なら、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Validator\ObjectInitializerInterface</span></tt> を実装してクラスを作成し、 <tt class="docutils literal"><span class="pre">validator.initializer</span></tt> タグをつけてください。このタグにオプションはありません。</p>
+<p>本当にこの機能が必要なら、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Validator/ObjectInitializerInterface.html" title="Symfony\Component\Validator\ObjectInitializerInterface"><span class="pre">ObjectInitializerInterface</span></a></tt> を実装してクラスを作成し、 <tt class="docutils literal"><span class="pre">validator.initializer</span></tt> タグをつけてください。このタグにオプションはありません。</p>
 <p>一例として、Doctrine Bridge に含まれる <tt class="docutils literal"><span class="pre">EntityInitializer</span></tt> クラスがあります。</p>
 </div>
 </div>
@@ -1306,11 +1303,6 @@ initializerがなければ、 Doctrine のエンティティに含まれるデ�
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/dic_tags.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/dic_tags.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/dic_tags.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

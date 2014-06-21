@@ -93,17 +93,17 @@
 <li><a class="reference internal" href="#page-creation-bundles">バンドルシステム</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id11">バンドルの作成</a></li>
-<li><a class="reference internal" href="#id12">バンドルのディレクトリ構造</a><ul>
-<li><a class="reference internal" href="#id13">アプリケーション設定</a></li>
+<li><a class="reference internal" href="#id9">バンドルの作成</a></li>
+<li><a class="reference internal" href="#id10">バンドルのディレクトリ構造</a><ul>
+<li><a class="reference internal" href="#id11">アプリケーション設定</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id14">コンフィギュレーションのデフォルト値をダンプする</a><ul>
+<li><a class="reference internal" href="#id12">コンフィギュレーションのデフォルト値をダンプする</a><ul>
 <li><a class="reference internal" href="#environments-summary">環境</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#index-5">環境設定</a><ul>
-<li><a class="reference internal" href="#id17">まとめ</a></li>
+<li><a class="reference internal" href="#id15">まとめ</a></li>
 </ul>
 </li>
 </ul>
@@ -164,9 +164,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/page_creation.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -399,8 +396,8 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a href="#id6"><span class="problematic" id="id7">:method:`Symfony\\Bundle\\FrameworkBundle\\Controller\\Controller::render`</span></a> メソッドを使うために、コントローラーは
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt> クラスを拡張する必要があります。
+<p class="last"><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller/Controller.html#method_render" title="Symfony\Bundle\FrameworkBundle\Controller\Controller::render()"><span class="pre">render()</span></a></tt> メソッドを使うために、コントローラーは
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller/Controller.html" title="Symfony\Bundle\FrameworkBundle\Controller\Controller"><span class="pre">Controller</span></a></tt> クラスを拡張する必要があります。
 このクラスは、コントローラーの中でよく使われる動作のショートカットを追加しています。
 上のサンプルでは実装済みで、4 行目に <tt class="docutils literal"><span class="pre">use</span></tt> 文を追加して、6 行目でクラスを拡張しています。</p>
 </div>
@@ -486,7 +483,7 @@ Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="
 <p>テンプレートはページのコンテンツを描画し整理するための強力な方法です。テンプレートは HTML マークアップから CSS コード、あるいはコントローラーが返したいあらゆるものを描画できます。</p>
 <p>リクエストのライフサイクルにおいて、テンプレートエンジンは単なるオプションツールです。各コントローラーの最終目標を思い出すと <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返却することです。テンプレートは <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトのコンテンツを作成するための強力で、しかしオプションの、ツールです。</p>
 <div class="section" id="index-3">
-<span id="id8"></span><h3>ディレクトリ構造<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3>ディレクトリ構造<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
 <p>ほんのいくつかの節を経たことで、 Symfony2 においてページを作り描画する作業の裏側にある哲学をもう理解できました。また Symfony2 のプロジェクトがどのように構造化され整理されているかも分かり始めてきたでしょう。この節の終わりまでには様々なファイルがどこにあり、どこに置き、なぜそこに置くのかがわかるでしょう。</p>
 <p>あらゆることに柔軟に対応できるのですが、標準では Symfony の <a class="reference internal" href="../glossary.html#term-2"><em class="xref std std-term">アプリケーション</em></a> は共通の基本的なディレクトリ構造を持っていて、この構造は推奨されています。</p>
 <ul class="simple">
@@ -498,7 +495,7 @@ Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="
 </div>
 </div>
 <div class="section" id="the-web-directory">
-<span id="id9"></span><h2>ウェブディレクトリ<a class="headerlink" href="#the-web-directory" title="Permalink to this headline">¶</a></h2>
+<span id="id7"></span><h2>ウェブディレクトリ<a class="headerlink" href="#the-web-directory" title="Permalink to this headline">¶</a></h2>
 <p>ウェブルートディレクトリは公開する静的なファイルすべてを置く場所です。画像やスタイルシート、そして JavaScript も含みます。また次のような<em class="xref std std-term">フロントコントローラー</em>を置く場所でもあります:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// web/app.php</span>
 <span class="k">require_once</span> <span class="nx">__DIR__</span><span class="o">.</span><span class="s1">&#39;/../app/bootstrap.php.cache&#39;</span><span class="p">;</span>
@@ -523,7 +520,7 @@ Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="
 </pre></div>
 </div>
 </div>
-<p>フロントコントローラーはすべてのリクエストの扱いにおいての重要なポイントではありますが、修正することはほとんどなく、開発中に意識する必要はありません。フロントコントローラーについていは <a class="reference internal" href="#id15">環境</a> 節で再び説明します。</p>
+<p>フロントコントローラーはすべてのリクエストの扱いにおいての重要なポイントではありますが、修正することはほとんどなく、開発中に意識する必要はありません。フロントコントローラーについていは <a class="reference internal" href="#id13">環境</a> 節で再び説明します。</p>
 </div>
 <div class="section" id="app">
 <h2>アプリケーション (<tt class="docutils literal"><span class="pre">app</span></tt>) ディレクトリ<a class="headerlink" href="#app" title="Permalink to this headline">¶</a></h2>
@@ -533,9 +530,9 @@ Hello <span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="
 <li><tt class="docutils literal"><span class="pre">registerBundles()</span></tt>: アプリケーションで実行する必要があるバンドルの配列を返します。
 (<a class="reference internal" href="#page-creation-bundles"><em>バンドルシステム</em></a> を参照)</li>
 <li><tt class="docutils literal"><span class="pre">registerContainerConfiguration()</span></tt>: メインアプリケーションのリソースファイルを読み込みます。
-(<a class="reference internal" href="#id13">アプリケーション設定</a>の節を参照)</li>
+(<a class="reference internal" href="#id11">アプリケーション設定</a>の節を参照)</li>
 </ul>
-<p>日常的な開発においては、<tt class="docutils literal"><span class="pre">app/config/</span></tt> ディレクトリの中の設定やルーティングファイルを編集するために <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリをよく使うでしょう(<a class="reference internal" href="#id13">アプリケーション設定</a>を参照)。また <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリは、アプリケーションキャッシュディレクトリ(<tt class="docutils literal"><span class="pre">app/cache</span></tt>)やログディレクトリ(<tt class="docutils literal"><span class="pre">app/logs</span></tt>)、そしてテンプレート(<tt class="docutils literal"><span class="pre">app/Resources</span></tt>)などのアプリケーションレベルのリソースファイルなども含みます。これらのディレクトリについては後の章でより詳しく学べるでしょう。</p>
+<p>日常的な開発においては、<tt class="docutils literal"><span class="pre">app/config/</span></tt> ディレクトリの中の設定やルーティングファイルを編集するために <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリをよく使うでしょう(<a class="reference internal" href="#id11">アプリケーション設定</a>を参照)。また <tt class="docutils literal"><span class="pre">app/</span></tt> ディレクトリは、アプリケーションキャッシュディレクトリ(<tt class="docutils literal"><span class="pre">app/cache</span></tt>)やログディレクトリ(<tt class="docutils literal"><span class="pre">app/logs</span></tt>)、そしてテンプレート(<tt class="docutils literal"><span class="pre">app/Resources</span></tt>)などのアプリケーションレベルのリソースファイルなども含みます。これらのディレクトリについては後の章でより詳しく学べるでしょう。</p>
 <div class="sidebar" id="autoloading-introduction-sidebar">
 <p class="first sidebar-title">自動読み込み(オートローディング)</p>
 <p>Symfony がロードされるとき、<tt class="docutils literal"><span class="pre">vendor/autoload.php</span></tt> という特別なファイルが読み込まれます。このファイルは Composer により作成され、<tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリからアプリケーションのファイルを、<tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリからサードパーティのライブラリをオートロードできるようにします。</p>
@@ -554,7 +551,7 @@ Path:
 <p>簡単にいえば、<tt class="docutils literal"><span class="pre">src/</span></tt> ディレクトリは、アプリケーションを動かすために<em>あなたが書いた</em>実際のコードすべてを含んでいます。例えば、PHP コード、テンプレート、設定ファイル、スタイルシートなどを含んでいます。開発するとき、ほとんどの作業は、このディレクトリに作った 1 つ以上のバンドルの中で完結しています。</p>
 <p>では、<a class="reference internal" href="../glossary.html#term-3"><em class="xref std std-term">バンドル</em></a>とは何でしょうか？</p>
 <div class="section" id="page-creation-bundles">
-<span id="id10"></span><h3>バンドルシステム<a class="headerlink" href="#page-creation-bundles" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3>バンドルシステム<a class="headerlink" href="#page-creation-bundles" title="Permalink to this headline">¶</a></h3>
 <p>バンドルは他のソフトウェアでいうプラグインに似ていますが、それよりもずっと素晴らしいものです。重要な違いは Symfony2 では<em>すべて</em>がバンドルであることです。これにはコアフレームワークの機能もアプリケーションのために書いたコードも含みます。バンドルは Symfony2 において第一級市民なのです。これによって、<a class="reference external" href="http://knpbundles.com">サードパーティのバンドル</a>に構築された機能を使ったり、バンドルを配布したりすることが柔軟にできます。バンドルによってアプリケーションの中で有効にする機能を選択したり思うがままに最適化することが簡単にできます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -594,8 +591,8 @@ Path:
 </div>
 </div>
 </div>
-<div class="section" id="id11">
-<h2>バンドルの作成<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>バンドルの作成<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <p>Symfony Standard Edition には、バンドルのスケルトンを作成するためのコマンドがあります。バンドルを手動で作ることはとても簡単です。</p>
 <p>バンドルシステムがどれほどシンプルかをお見せするために、<tt class="docutils literal"><span class="pre">AcmeTestBundle</span></tt> という名前で新しいバンドルを作り、有効化してみます。</p>
 <div class="admonition tip">
@@ -644,8 +641,8 @@ Path:
 <p class="last">新しいバンドルを作成したりサードパーティのバンドルを使うときは、いつも <tt class="docutils literal"><span class="pre">registerBundles()</span></tt> で有効にしなければなりません。<tt class="docutils literal"><span class="pre">generate:bundle</span></tt> コマンドを使う場合は、有効化してくれます。</p>
 </div>
 </div>
-<div class="section" id="id12">
-<h2>バンドルのディレクトリ構造<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id10">
+<h2>バンドルのディレクトリ構造<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
 <p>バンドルのディレクトリ構造は簡単で柔軟性があります。標準では、バンドルシステムは、すべての Symfony2 バンドルの間でコードの一貫性を保ちやすいような規約に従っています。<tt class="docutils literal"><span class="pre">AcmeHelloBundle</span></tt> を見てみてください。バンドルの最も一般的な要素で構成されています。</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">Controller/</span></tt> はバンドルのコントローラーを含んでいます(例えば <tt class="docutils literal"><span class="pre">HelloController.php</span></tt>)。</li>
@@ -657,8 +654,8 @@ Path:
 </ul>
 <p>バンドルは実装する機能によって小さくなったり大きくなったりします。バンドルは必要とするファイルだけを含んでいるので、それ以外は含みません。</p>
 <p>後の章で、データベースにオブジェクトを永続化する方法やフォームを作り検証する方法、アプリケーションで翻訳データを作る方法やテストの書き方など、より多くを学ぶでしょう。バンドルには、それぞれの役割を持ったディレクトリを作りそこにクラスを配置していきます。</p>
-<div class="section" id="id13">
-<h3>アプリケーション設定<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>アプリケーション設定<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>あるアプリケーションは、そのアプリケーションのすべての機能を表すバンドルの集合で構成されます。それぞれのバンドルは YAML や XML、PHP などで書かれた設定ファイルによってカスタマイズできます。標準では、メインの設定ファイルは <tt class="docutils literal"><span class="pre">app/config/</span></tt> ディレクトリにあり、選択した形式によって <tt class="docutils literal"><span class="pre">config.yml</span></tt>、<tt class="docutils literal"><span class="pre">config.xml</span></tt>、<tt class="docutils literal"><span class="pre">config.php</span></tt> というファイルになります。</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -735,7 +732,7 @@ Path:
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">それぞれのファイル・形式をどうやって読み込むのかは次の <a class="reference internal" href="#id15">環境</a> の節で解説します。</p>
+<p class="last">それぞれのファイル・形式をどうやって読み込むのかは次の <a class="reference internal" href="#id13">環境</a> の節で解説します。</p>
 </div>
 <p><tt class="docutils literal"><span class="pre">framework</span></tt> や <tt class="docutils literal"><span class="pre">twig</span></tt> のようなトップレベルのエントリは、それぞれ特定のバンドルのための設定に対応します。例えば、<tt class="docutils literal"><span class="pre">framework</span></tt> キーは Symfony の FrameworkBundle のための設定を定義していて、ルーティング、テンプレートやその他のコアシステムの設定を含んでいます。</p>
 <p>さしあたっては、それそれの節において、特定の設定オプションについて心配する必要はありません。Standard Edition の設定ファイルはデフォルトで実用的な設定になっています。Symfony2 の各部分を読んだり探検したりするにつれて、それらの機能の設定オプションについて学べるでしょう。</p>
@@ -750,8 +747,8 @@ Path:
 </div>
 </div>
 </div>
-<div class="section" id="id14">
-<h2>コンフィギュレーションのデフォルト値をダンプする<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id12">
+<h2>コンフィギュレーションのデフォルト値をダンプする<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h2>
 <p>コンソールの <tt class="docutils literal"><span class="pre">config:dump-reference</span></tt> コマンドを使うと、バンドルのデフォルトコンフィギュレーションを YAML 形式でダンプできます。FrameworkBundle のデフォルトコンフィギュレーションをダンプする例を次に示します。</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>app/console config:dump-reference FrameworkBundle
 </pre></div>
@@ -765,7 +762,7 @@ Path:
 <p class="last">自分のバンドルにコンフィギュレーションを追加する方法については、<a class="reference internal" href="../cookbook/bundles/extension.html"><em>バンドルのセマンティックコンフィギュレーション</em></a>を参照してください。</p>
 </div>
 <div class="section" id="environments-summary">
-<span id="index-4"></span><span id="id15"></span><h3>環境<a class="headerlink" href="#environments-summary" title="Permalink to this headline">¶</a></h3>
+<span id="index-4"></span><span id="id13"></span><h3>環境<a class="headerlink" href="#environments-summary" title="Permalink to this headline">¶</a></h3>
 <p>アプリケーションは様々な環境で実行することができます。環境が異なっていも同じ PHP コードを共有していますが(フロントコントローラーは別ですが)、別の設定を使います。
 例えば、<tt class="docutils literal"><span class="pre">dev</span></tt> 環境は警告やエラーをログにかき込みますが、一方で <tt class="docutils literal"><span class="pre">prod</span></tt> 環境はエラーだけをログに書き込みます。<tt class="docutils literal"><span class="pre">dev</span></tt> 環境では(開発者の利便性を考慮して)リクエストごとに同じファイルを再構築しますが、<tt class="docutils literal"><span class="pre">prod</span></tt> 環境ではキャッシュされます。すべての環境は同じサーバーに共存して同じアプリケーションを実行します。</p>
 <p>Symfony2 のプロジェクトは一般的には３つの環境(<tt class="docutils literal"><span class="pre">dev</span></tt>、<tt class="docutils literal"><span class="pre">test</span></tt>、<tt class="docutils literal"><span class="pre">prod</span></tt>)で始まりますが、新しい環境を作ることも簡単です。
@@ -796,7 +793,7 @@ Path:
 </div>
 </div>
 <div class="section" id="index-5">
-<span id="id16"></span><h2>環境設定<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h2>
+<span id="id14"></span><h2>環境設定<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h2>
 <p><tt class="docutils literal"><span class="pre">AppKernel</span></tt> クラスは、選択した設定ファイルを実際に読み込むことに責任があります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/AppKernel.php</span>
 <span class="k">public</span> <span class="k">function</span> <span class="nf">registerContainerConfiguration</span><span class="p">(</span><span class="nx">LoaderInterface</span> <span class="nv">$loader</span><span class="p">)</span>
@@ -864,8 +861,8 @@ Path:
 <p><tt class="docutils literal"><span class="pre">imports</span></tt> キーは PHP の <tt class="docutils literal"><span class="pre">include</span></tt> 文と似たようなもので、メインの設定ファイル(<tt class="docutils literal"><span class="pre">config.yml</span></tt>)が最初に読み込まれることを保証しています。ファイルの残りの部分は、ログを増やしたり開発環境の助けとなる他の設定のために標準設定を微修正しています。</p>
 <p><tt class="docutils literal"><span class="pre">prod</span></tt> と <tt class="docutils literal"><span class="pre">test</span></tt> 環境はいずれも次のようなルールに従っています:
 それぞれの環境でベースとなる設定をインポートし、その後それぞれの環境に合わせて設定値を上書きします。これはある意味規約ではあるものの、ほとんどの設定を使いまわせて、環境間のちょっとした違いをカスタマイズするのに便利です。</p>
-<div class="section" id="id17">
-<h3>まとめ<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>まとめ<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>Symfony2 の様々な基本的な側面を見てきましたが、それらがいかに簡単で柔軟にできることが分かっていただけたでしょう。ここまでに<em>たくさんの</em>機能がありましたが、次の基本的なポイントについて心にとどめておいてください:</p>
 <ul class="simple">
 <li>ページの作成は 3 つの手順からなり、<strong>ルート</strong>、<strong>コントローラー</strong> 、そして(オプションですが)<strong>テンプレート</strong> を含みます。</li>
@@ -888,11 +885,6 @@ Path:
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/page_creation.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/page_creation.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/page_creation.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

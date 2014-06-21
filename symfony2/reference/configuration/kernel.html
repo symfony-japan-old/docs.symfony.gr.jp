@@ -75,10 +75,10 @@
 <li><a class="reference internal" href="#">カーネルの設定(例えば AppKernel)</a><ul>
 <li><a class="reference internal" href="#id1">設定</a><ul>
 <li><a class="reference internal" href="#id2">キャラクタセット</a></li>
-<li><a class="reference internal" href="#id5">カーネル名</a></li>
-<li><a class="reference internal" href="#id8">ルートディレクトリ</a></li>
-<li><a class="reference internal" href="#id11">キャッシュディレクトリ</a></li>
-<li><a class="reference internal" href="#id14">ログディレクトリ</a></li>
+<li><a class="reference internal" href="#id3">カーネル名</a></li>
+<li><a class="reference internal" href="#id4">ルートディレクトリ</a></li>
+<li><a class="reference internal" href="#id5">キャッシュディレクトリ</a></li>
+<li><a class="reference internal" href="#id6">ログディレクトリ</a></li>
 </ul>
 </li>
 </ul>
@@ -133,9 +133,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/configuration/kernel.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -145,20 +142,20 @@
 </div>
 <div class="section" id="appkernel">
 <h1>カーネルの設定(例えば AppKernel)<a class="headerlink" href="#appkernel" title="Permalink to this headline">¶</a></h1>
-<p>設定の中にはカーネルクラス自体によって行うことができるものもあります。（カーネルクラスは通常 <tt class="docutils literal"><span class="pre">app/AppKernel.php</span></tt> にあります） 設定のカスタマイズは、継承元の <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Kernel</span></tt> クラスの特定のメソッドをオーバーライドすることで実現できます。</p>
+<p>設定の中にはカーネルクラス自体によって行うことができるものもあります。（カーネルクラスは通常 <tt class="docutils literal"><span class="pre">app/AppKernel.php</span></tt> にあります） 設定のカスタマイズは、継承元の <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Kernel.html" title="Symfony\Component\HttpKernel\Kernel"><span class="pre">Kernel</span></a></tt> クラスの特定のメソッドをオーバーライドすることで実現できます。</p>
 <div class="section" id="id1">
 <h2>設定<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="#id2">キャラクタセット</a></li>
-<li><a class="reference internal" href="#id5">カーネル名</a></li>
-<li><a class="reference internal" href="#id8">ルートディレクトリ</a></li>
-<li><a class="reference internal" href="#id11">キャッシュディレクトリ</a></li>
-<li><a class="reference internal" href="#id14">ログディレクトリ</a></li>
+<li><a class="reference internal" href="#id3">カーネル名</a></li>
+<li><a class="reference internal" href="#id4">ルートディレクトリ</a></li>
+<li><a class="reference internal" href="#id5">キャッシュディレクトリ</a></li>
+<li><a class="reference internal" href="#id6">ログディレクトリ</a></li>
 </ul>
 <div class="section" id="id2">
 <h3>キャラクタセット<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">UTF-8</span></tt></p>
-<p>アプリケーションで使用されるキャラクタセットです。キャラクタセットを変更するには、 <a href="#id3"><span class="problematic" id="id4">:method:`Symfony\\Component\\HttpKernel\\Kernel::getCharset`</span></a> メソッドをオーバーライドし、別のキャラクタセットを返すように変更します。たとえば下記のようにします。:</p>
+<p>アプリケーションで使用されるキャラクタセットです。キャラクタセットを変更するには、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Kernel.html#method_getCharset" title="Symfony\Component\HttpKernel\Kernel::getCharset()"><span class="pre">getCharset()</span></a></tt> メソッドをオーバーライドし、別のキャラクタセットを返すように変更します。たとえば下記のようにします。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/AppKernel.php</span>
 
 <span class="c1">// ...</span>
@@ -172,19 +169,19 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id5">
-<h3>カーネル名<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>カーネル名<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">app</span></tt> (カーネルクラスが配置されているディレクトリ名)</p>
-<p>設定を変更するには、 <a href="#id6"><span class="problematic" id="id7">:method:`Symfony\\Component\\HttpKernel\\Kernel::getName`</span></a> メソッドをオーバーライドしてください。或いは、カーネルクラスを他のディレクトリに移動しても良いです。
+<p>設定を変更するには、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Kernel.html#method_getName" title="Symfony\Component\HttpKernel\Kernel::getName()"><span class="pre">getName()</span></a></tt> メソッドをオーバーライドしてください。或いは、カーネルクラスを他のディレクトリに移動しても良いです。
 たとえば、カーネルを <tt class="docutils literal"><span class="pre">app</span></tt> から <tt class="docutils literal"><span class="pre">foo</span></tt> ディレクトリに移動すると、カーネル名は <tt class="docutils literal"><span class="pre">foo</span></tt> になります。</p>
 <p>カーネル名は、通常は直接問題になることはありません。キャッシュファイルの生成に使われるだけだからです。
 カーネルを複数使用するアプリケーションを作る場合、一番簡単な方法は <tt class="docutils literal"><span class="pre">app</span></tt> ディレクトリをコピーしてディレクトリ名を変更することです。（ <tt class="docutils literal"><span class="pre">foo</span></tt> のようなディレクトリ名に）</p>
 </div>
-<div class="section" id="id8">
-<h3>ルートディレクトリ<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>ルートディレクトリ<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">AppKernel</span></tt> のディレクトリ</p>
 <p>カーネルのルートディレクトリを返します。 Symfony Standard edition の場合、ルートディレクトリは <tt class="docutils literal"><span class="pre">app</span></tt> ディレクトリを指しています。</p>
-<p>設定を変更するには、 <a href="#id9"><span class="problematic" id="id10">:method:`Symfony\\Component\\HttpKernel\\Kernel::getRootDir`</span></a> メソッドをオーバーライドします。:</p>
+<p>設定を変更するには、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Kernel.html#method_getRootDir" title="Symfony\Component\HttpKernel\Kernel::getRootDir()"><span class="pre">getRootDir()</span></a></tt> メソッドをオーバーライドします。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/AppKernel.php</span>
 
 <span class="c1">// ...</span>
@@ -200,16 +197,16 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id11">
-<h3>キャッシュディレクトリ<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>キャッシュディレクトリ<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">$this-&gt;rootDir/cache/$this-&gt;environment</span></tt></p>
-<p>キャッシュディレクトリのパスを返します。設定を変更するには、 <a href="#id12"><span class="problematic" id="id13">:method:`Symfony\\Component\\HttpKernel\\Kernel::getCacheDir`</span></a> メソッドをオーバーライドしてください。
+<p>キャッシュディレクトリのパスを返します。設定を変更するには、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Kernel.html#method_getCacheDir" title="Symfony\Component\HttpKernel\Kernel::getCacheDir()"><span class="pre">getCacheDir()</span></a></tt> メソッドをオーバーライドしてください。
 詳しくは、 &#8220;<a class="reference internal" href="../../cookbook/configuration/override_dir_structure.html#override-cache-dir"><em>cache ディレクトリを変更する</em></a>&#8221; を参照してください。</p>
 </div>
-<div class="section" id="id14">
-<h3>ログディレクトリ<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>ログディレクトリ<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p><strong>type</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>default</strong>: <tt class="docutils literal"><span class="pre">$this-&gt;rootDir/logs</span></tt></p>
-<p>ログディレクトリのパスを返します。設定を変更するには、 <a href="#id15"><span class="problematic" id="id16">:method:`Symfony\\Component\\HttpKernel\\Kernel::getLogDir`</span></a> メソッドをオーバーライドしてください。
+<p>ログディレクトリのパスを返します。設定を変更するには、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Kernel.html#method_getLogDir" title="Symfony\Component\HttpKernel\Kernel::getLogDir()"><span class="pre">getLogDir()</span></a></tt> メソッドをオーバーライドしてください。
 詳しくは &#8220;<a class="reference internal" href="../../cookbook/configuration/override_dir_structure.html#override-logs-dir"><em>logs ディレクトリを変更する</em></a>&#8221; を参照してください。</p>
 </div>
 </div>
@@ -220,11 +217,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/configuration/kernel.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/configuration/kernel.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/configuration/kernel.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

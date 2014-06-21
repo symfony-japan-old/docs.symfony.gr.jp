@@ -93,7 +93,7 @@
 <li><a class="reference internal" href="#isabsolutepath">isAbsolutePath</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id33">エラー処理</a></li>
+<li><a class="reference internal" href="#id3">エラー処理</a></li>
 </ul>
 </li>
 </ul>
@@ -152,9 +152,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/filesystem.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -179,7 +176,7 @@
 </div>
 <div class="section" id="id2">
 <h2>使い方<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Filesystem\Filesystem</span></tt> クラスはファイル操作の唯一のエンドポイントです:</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html" title="Symfony\Component\Filesystem\Filesystem"><span class="pre">Filesystem</span></a></tt> クラスはファイル操作の唯一のエンドポイントです:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Filesystem\Filesystem</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Filesystem\Exception\IOException</span><span class="p">;</span>
 
@@ -194,13 +191,13 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last"><a href="#id3"><span class="problematic" id="id4">:method:`Symfony\\Component\\Filesystem\\Filesystem::mkdir`</span></a>,
-<a href="#id5"><span class="problematic" id="id6">:method:`Symfony\\Component\\Filesystem\\Filesystem::exists`</span></a>,
-<a href="#id7"><span class="problematic" id="id8">:method:`Symfony\\Component\\Filesystem\\Filesystem::touch`</span></a>,
-<a href="#id9"><span class="problematic" id="id10">:method:`Symfony\\Component\\Filesystem\\Filesystem::remove`</span></a>,
-<a href="#id11"><span class="problematic" id="id12">:method:`Symfony\\Component\\Filesystem\\Filesystem::chmod`</span></a>,
-<a href="#id13"><span class="problematic" id="id14">:method:`Symfony\\Component\\Filesystem\\Filesystem::chown`</span></a>,
-<a href="#id15"><span class="problematic" id="id16">:method:`Symfony\\Component\\Filesystem\\Filesystem::chgrp`</span></a> の各メソッドは引数として文字列、配列、または <a href="#id17"><span class="problematic" id="id18">:phpclass:`Traversable`</span></a> を実装したオブジェクトを取ることができます。</p>
+<p class="last"><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html#method_mkdir" title="Symfony\Component\Filesystem\Filesystem::mkdir()"><span class="pre">mkdir()</span></a></tt>,
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html#method_exists" title="Symfony\Component\Filesystem\Filesystem::exists()"><span class="pre">exists()</span></a></tt>,
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html#method_touch" title="Symfony\Component\Filesystem\Filesystem::touch()"><span class="pre">touch()</span></a></tt>,
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html#method_remove" title="Symfony\Component\Filesystem\Filesystem::remove()"><span class="pre">remove()</span></a></tt>,
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html#method_chmod" title="Symfony\Component\Filesystem\Filesystem::chmod()"><span class="pre">chmod()</span></a></tt>,
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html#method_chown" title="Symfony\Component\Filesystem\Filesystem::chown()"><span class="pre">chown()</span></a></tt>,
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html#method_chgrp" title="Symfony\Component\Filesystem\Filesystem::chgrp()"><span class="pre">chgrp()</span></a></tt> の各メソッドは引数として文字列、配列、または <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.traversable.php" title="Traversable"><span class="pre">Traversable</span></a></tt> を実装したオブジェクトを取ることができます。</p>
 </div>
 <div class="section" id="mkdir">
 <h3>Mkdir<a class="headerlink" href="#mkdir" title="Permalink to this headline">¶</a></h3>
@@ -210,7 +207,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">第一引数には配列や <a href="#id19"><span class="problematic" id="id20">:phpclass:`Traversable`</span></a> オブジェクトも使用できます。</p>
+<p class="last">第一引数には配列や <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.traversable.php" title="Traversable"><span class="pre">Traversable</span></a></tt> オブジェクトも使用できます。</p>
 </div>
 </div>
 <div class="section" id="exists">
@@ -225,7 +222,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">第一引数には配列や <a href="#id21"><span class="problematic" id="id22">:phpclass:`Traversable`</span></a> オブジェクトも使用できます。</p>
+<p class="last">第一引数には配列や <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.traversable.php" title="Traversable"><span class="pre">Traversable</span></a></tt> オブジェクトも使用できます。</p>
 </div>
 </div>
 <div class="section" id="copy">
@@ -252,7 +249,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">第一引数には配列や <a href="#id23"><span class="problematic" id="id24">:phpclass:`Traversable`</span></a> オブジェクトも使用できます。</p>
+<p class="last">第一引数には配列や <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.traversable.php" title="Traversable"><span class="pre">Traversable</span></a></tt> オブジェクトも使用できます。</p>
 </div>
 </div>
 <div class="section" id="chown">
@@ -266,7 +263,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">第一引数には配列や <a href="#id25"><span class="problematic" id="id26">:phpclass:`Traversable`</span></a> オブジェクトも使用できます。</p>
+<p class="last">第一引数には配列や <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.traversable.php" title="Traversable"><span class="pre">Traversable</span></a></tt> オブジェクトも使用できます。</p>
 </div>
 </div>
 <div class="section" id="chgrp">
@@ -280,7 +277,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">第一引数には配列や <a href="#id27"><span class="problematic" id="id28">:phpclass:`Traversable`</span></a> オブジェクトも使用できます。</p>
+<p class="last">第一引数には配列や <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.traversable.php" title="Traversable"><span class="pre">Traversable</span></a></tt> オブジェクトも使用できます。</p>
 </div>
 </div>
 <div class="section" id="chmod">
@@ -294,7 +291,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">第一引数には配列や <a href="#id29"><span class="problematic" id="id30">:phpclass:`Traversable`</span></a> オブジェクトも使用できます。</p>
+<p class="last">第一引数には配列や <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.traversable.php" title="Traversable"><span class="pre">Traversable</span></a></tt> オブジェクトも使用できます。</p>
 </div>
 </div>
 <div class="section" id="remove">
@@ -305,7 +302,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">第一引数には配列や <a href="#id31"><span class="problematic" id="id32">:phpclass:`Traversable`</span></a> オブジェクトも使用できます。</p>
+<p class="last">第一引数には配列や <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.traversable.php" title="Traversable"><span class="pre">Traversable</span></a></tt> オブジェクトも使用できます。</p>
 </div>
 </div>
 <div class="section" id="rename">
@@ -364,12 +361,12 @@
 </div>
 </div>
 </div>
-<div class="section" id="id33">
-<h2>エラー処理<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h2>
-<p>何かエラーが発生したときは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Filesystem\Exception\ExceptionInterface</span></tt> を実装した例外がスローされます。</p>
+<div class="section" id="id3">
+<h2>エラー処理<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>何かエラーが発生したときは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Exception/ExceptionInterface.html" title="Symfony\Component\Filesystem\Exception\ExceptionInterface"><span class="pre">ExceptionInterface</span></a></tt> を実装した例外がスローされます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">2.1より前のバージョンでは <a href="#id34"><span class="problematic" id="id35">:method:`Symfony\\Component\\Filesystem\\Filesystem::mkdir`</span></a> はbooleanを返し、例外をスローしませんでした。2.1以降ではディレクトリの作成に失敗した場合 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Filesystem\Exception\IOException</span></tt> がスローされます。</p>
+<p class="last">2.1より前のバージョンでは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Filesystem.html#method_mkdir" title="Symfony\Component\Filesystem\Filesystem::mkdir()"><span class="pre">mkdir()</span></a></tt> はbooleanを返し、例外をスローしませんでした。2.1以降ではディレクトリの作成に失敗した場合 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Filesystem/Exception/IOException.html" title="Symfony\Component\Filesystem\Exception\IOException"><span class="pre">IOException</span></a></tt> がスローされます。</p>
 </div>
 </div>
 </div>
@@ -381,11 +378,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/filesystem.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/filesystem.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/filesystem.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

@@ -128,9 +128,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/service_container/scopes.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="id1">
 <h1>スコープの使用方法<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <p>このエントリは全て <a class="reference internal" href="../../book/service_container.html"><em>サービスコンテナ</em></a> に関連する高度なトピックであるスコープに関してになります。このエントリは次の２つのケースで役に立ちます。まず、サービスの作成時に &#8220;scopes&#8221; を言及しているエラーに遭遇したときです。次に <cite>request</cite> サービスに依存するサービスを作成する必要があったときです。</p>
@@ -143,7 +140,7 @@
 <li><cite>prototype</cite>: サービスを呼び出す度に、新しいインスタンスが作成されます。</li>
 </ul>
 <p>FrameworkBundle も３つ目のスコープである <cite>request</cite> を定義しています。 <cite>request</cite> スコープは、リクエストに関係しており、サブリクエスト毎に新しいインスタンスが作成されます。また、このスコープは CLI などリクエスト以外からの利用は不可能になっています。</p>
-<p>スコープは、サービスの依存に制約を追加します。サービスはより狭いスコープのサービスに依存することはできません。例えば、一般的な <cite>my_foo</cite> サービスを作成して、 <cite>request</cite> コンポーネントに注入(inject)を試みると、コンテナのコンパイル時に <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DependencyInjection\Exception\ScopeWideningInjectionException</span></tt> 例外が投げられます。詳細は、下のサイドバーの情報を読んでください。</p>
+<p>スコープは、サービスの依存に制約を追加します。サービスはより狭いスコープのサービスに依存することはできません。例えば、一般的な <cite>my_foo</cite> サービスを作成して、 <cite>request</cite> コンポーネントに注入(inject)を試みると、コンテナのコンパイル時に <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DependencyInjection/Exception/ScopeWideningInjectionException.html" title="Symfony\Component\DependencyInjection\Exception\ScopeWideningInjectionException"><span class="pre">ScopeWideningInjectionException</span></a></tt> 例外が投げられます。詳細は、下のサイドバーの情報を読んでください。</p>
 <div class="sidebar">
 <p class="first sidebar-title">Scopes and Dependencies</p>
 <p><cite>my_mailer</cite> サービスを設定していることを想像してください。サービスのスコープはまだ設定していないので、デフォルトの <cite>container</cite> になります。つまり、 <cite>my_mailer</cite> サービスについてコンテナに問いかける際は常に同じオブジェクトを受け取ることになります。ほとんどの場合は、これが必要な処理なので問題はありません。</p>
@@ -284,11 +281,6 @@ services:
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/service_container/scopes.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/service_container/scopes.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/service_container/scopes.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

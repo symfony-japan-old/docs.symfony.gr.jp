@@ -84,8 +84,8 @@
 <li><a class="reference internal" href="#id5">コマンドのオプションの使用方法</a></li>
 <li><a class="reference internal" href="#id6">ユーザに情報を尋ねる</a></li>
 <li><a class="reference internal" href="#id7">コマンドのテスト</a></li>
-<li><a class="reference internal" href="#id10">サービスコンテナからサービスを取得する</a></li>
-<li><a class="reference internal" href="#id11">すでにあるコマンドの呼び出し</a></li>
+<li><a class="reference internal" href="#id8">サービスコンテナからサービスを取得する</a></li>
+<li><a class="reference internal" href="#id9">すでにあるコマンドの呼び出し</a></li>
 </ul>
 </li>
 </ul>
@@ -144,9 +144,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/console.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>コンソール/コマンドラインツールとしてのコマンドの作成方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>Symfony2 はコマンドラインツールとしてのコマンドを作成することのできるコンソールコンポーネントが付いてきます。コンソールコマンドは、cronジョブやインポートなどのバッチジョブなどの自動更新タスクに使用されます。</p>
@@ -330,7 +327,7 @@ app/console demo:greet Fabien --yell --iterations<span class="o">=</span>5
 </div>
 <div class="section" id="id7">
 <h2>コマンドのテスト<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
-<p>Symfony2 はコマンドを容易にテストできるようになるツールをいくつか用意しています。最も便利なものは、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Console\Tester\CommandTester</span></tt> クラスです。このクラスは、実際のコンソール無しでテストができるように、特別な入力と出力のクラスを使用します。</p>
+<p>Symfony2 はコマンドを容易にテストできるようになるツールをいくつか用意しています。最も便利なものは、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Console/Tester/CommandTester.html" title="Symfony\Component\Console\Tester\CommandTester"><span class="pre">CommandTester</span></a></tt> クラスです。このクラスは、実際のコンソール無しでテストができるように、特別な入力と出力のクラスを使用します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Console\Tester\CommandTester</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Bundle\FrameworkBundle\Console\Application</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Acme\DemoBundle\Command\GreetCommand</span><span class="o">.</span><span class="nx">php</span><span class="p">;</span>
@@ -354,15 +351,15 @@ app/console demo:greet Fabien --yell --iterations<span class="o">=</span>5
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><a href="#id8"><span class="problematic" id="id9">:method:`Symfony\\Component\\Console\\Tester\\CommandTester::getDisplay`</span></a> メソッドは、コンソールからのコマンド実行で、表示されるはずの結果を返します。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Console/Tester/CommandTester.html#method_getDisplay" title="Symfony\Component\Console\Tester\CommandTester::getDisplay()"><span class="pre">getDisplay()</span></a></tt> メソッドは、コンソールからのコマンド実行で、表示されるはずの結果を返します。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last"><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Console\Tester\ApplicationTester</span></tt> クラスを使用すれば、全てのコンソールアプリケーションのテストもできます。</p>
+<p class="last"><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Console/Tester/ApplicationTester.html" title="Symfony\Component\Console\Tester\ApplicationTester"><span class="pre">ApplicationTester</span></a></tt> クラスを使用すれば、全てのコンソールアプリケーションのテストもできます。</p>
 </div>
 </div>
-<div class="section" id="id10">
-<h2>サービスコンテナからサービスを取得する<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<p>コマンドのベースクラスに <tt class="xref php php-class docutils literal"><span class="pre">SymfonyComponentConsoleCommandCommand</span></tt> ではなく、 <tt class="xref php php-class docutils literal"><span class="pre">SymfonyBundleFrameworkBundleCommandContainerAwareCommand</span></tt> を使用すれば、サービスコンテナへのアクセスもできるようになります。 つまり、設定された全てのサービスにアクセスができるのです。例えば次のように、簡単にタスクを拡張して、翻訳可能にもできます。</p>
+<div class="section" id="id8">
+<h2>サービスコンテナからサービスを取得する<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>コマンドのベースクラスに <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/SymfonyComponentConsoleCommandCommand.html" title="SymfonyComponentConsoleCommandCommand"><span class="pre">SymfonyComponentConsoleCommandCommand</span></a></tt> ではなく、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/SymfonyBundleFrameworkBundleCommandContainerAwareCommand.html" title="SymfonyBundleFrameworkBundleCommandContainerAwareCommand"><span class="pre">SymfonyBundleFrameworkBundleCommandContainerAwareCommand</span></a></tt> を使用すれば、サービスコンテナへのアクセスもできるようになります。 つまり、設定された全てのサービスにアクセスができるのです。例えば次のように、簡単にタスクを拡張して、翻訳可能にもできます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="nv">$name</span> <span class="o">=</span> <span class="nv">$input</span><span class="o">-&gt;</span><span class="na">getArgument</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">);</span>
@@ -376,8 +373,8 @@ app/console demo:greet Fabien --yell --iterations<span class="o">=</span>5
 </pre></div>
 </div>
 </div>
-<div class="section" id="id11">
-<h2>すでにあるコマンドの呼び出し<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id9">
+<h2>すでにあるコマンドの呼び出し<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h2>
 <p>あるコマンドを実行する前に、他のコマンドを既に実行し終わっていないと、いけないという順番の管理が必要なときもあるでしょう。実行の順番をユーザに覚えてもらうのではなく、あなた自身で直接管理することができます。たくさんのコマンドをまとめて実行する &#8220;meta&#8221; コマンドを作成する際に便利です。 &#8220;meta&#8221; コマンドとは、例えば本番サーバのプロジェクトのコードを変更した際に、実行すべき全てのコードをまとめたものです。キャッシュのクリア、 Doctrine2 のプロクシの生成、 Assetic アセットのダンプなどなど。</p>
 <p>コマンドから他のコマンドを呼ぶのは簡単で、次のようできます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">protected</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nx">InputInterface</span> <span class="nv">$input</span><span class="p">,</span> <span class="nx">OutputInterface</span> <span class="nv">$output</span><span class="p">)</span>
@@ -397,8 +394,8 @@ app/console demo:greet Fabien --yell --iterations<span class="o">=</span>5
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>まず、 <a href="#id12"><span class="problematic" id="id13">:method:`Symfony\\Component\\Console\\Command\\Command::find`</span></a> メソッドにコマンド名を渡し、実行したいコマンドを探します。</p>
-<p>そして、指定したい引数とオプションを渡し <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Console\Input\ArrayInput</span></tt> クラスを新しく作成します。</p>
+<p>まず、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Console/Command/Command.html#method_find" title="Symfony\Component\Console\Command\Command::find()"><span class="pre">find()</span></a></tt> メソッドにコマンド名を渡し、実行したいコマンドを探します。</p>
+<p>そして、指定したい引数とオプションを渡し <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Console/Input/ArrayInput.html" title="Symfony\Component\Console\Input\ArrayInput"><span class="pre">ArrayInput</span></a></tt> クラスを新しく作成します。</p>
 <p>最後に、 <tt class="docutils literal"><span class="pre">run()</span></tt> メソッドを呼んで、実際にコマンドを実行し、そのコマンドの返り値を返します。全てうまく行けば <tt class="docutils literal"><span class="pre">0</span></tt> が返ってきますし、何か問題があれば、他の整数値が返ってきます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -414,11 +411,6 @@ app/console demo:greet Fabien --yell --iterations<span class="o">=</span>5
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/console.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/console.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/console.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

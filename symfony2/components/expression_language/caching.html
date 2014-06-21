@@ -76,8 +76,8 @@
   <h3>このページのコンテンツ</h3>
   <ul>
 <li><a class="reference internal" href="#">パーサーキャッシュによる式のキャッシュ</a><ul>
-<li><a class="reference internal" href="#id4">ワークフロー</a></li>
-<li><a class="reference internal" href="#id7">パース済みのシリアライズされた式の使用</a></li>
+<li><a class="reference internal" href="#id2">ワークフロー</a></li>
+<li><a class="reference internal" href="#id3">パース済みのシリアライズされた式の使用</a></li>
 </ul>
 </li>
 </ul>
@@ -136,9 +136,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/expression_language/caching.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -148,24 +145,24 @@
 </div>
 <div class="section" id="id1">
 <h1>パーサーキャッシュによる式のキャッシュ<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
-<p>ExpressionLanguage コンポーネントでは、<a href="#id2"><span class="problematic" id="id3">:method:`Symfony\\Component\\ExpressionLanguage\\ExpressionLanguage::compile`</span></a>
+<p>ExpressionLanguage コンポーネントでは、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/ExpressionLanguage/ExpressionLanguage.html#method_compile" title="Symfony\Component\ExpressionLanguage\ExpressionLanguage::compile()"><span class="pre">compile()</span></a></tt>
 メソッドを使ってプレーン PHP にコンパイルされた式をキャッシュできます。
 しかし、コンポーネント内部でもパース済みの式のキャッシュが行われるので、同じ式の 2 度目以降のコンパイルや評価は高速になります。</p>
-<div class="section" id="id4">
-<h2>ワークフロー<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>ワークフロー<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>式の <tt class="docutils literal"><span class="pre">evaluate</span></tt> および <tt class="docutils literal"><span class="pre">compile</span></tt> において、結果の値を得るには何らかの前処理が必要です。
 この 2 つのうち、<tt class="docutils literal"><span class="pre">evaluate</span></tt> はより多くのコストがかかります。</p>
 <p>どちらのメソッドでも、式に対する字句解析と構文解析が行われます。この処理は
-<a href="#id5"><span class="problematic" id="id6">:method:`Symfony\\Component\\ExpressionLanguage\\ExpressionLanguage::parse`</span></a>
-メソッドで行われ、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\ExpressionLanguage\ParsedExpression</span></tt> のインスタンスが返されます。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/ExpressionLanguage/ExpressionLanguage.html#method_parse" title="Symfony\Component\ExpressionLanguage\ExpressionLanguage::parse()"><span class="pre">parse()</span></a></tt>
+メソッドで行われ、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/ExpressionLanguage/ParsedExpression.html" title="Symfony\Component\ExpressionLanguage\ParsedExpression"><span class="pre">ParsedExpression</span></a></tt> のインスタンスが返されます。
 <tt class="docutils literal"><span class="pre">compile</span></tt> メソッドでは、このオブジェクトの文字列表現が単純に返されます。
 <tt class="docutils literal"><span class="pre">evaluate</span></tt> メソッドでは、&#8221;ノード&#8221; (<tt class="docutils literal"><span class="pre">ParsedExpression</span></tt> インスタンスに保存された式の断片) をループしてその場で評価が行われます。</p>
 <p>処理時間を短縮するために、<tt class="docutils literal"><span class="pre">ExpressionLanguage</span></tt> コンポーネントでは <tt class="docutils literal"><span class="pre">ParsedExpression</span></tt> インスタンスがキャッシュされます。
 これにより、同一の式に対する 2 度目以降の字句解析と構文解析がスキップされます。
 キャッシュには
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\ExpressionLanguage\ParserCache\ParserCacheInterface</span></tt>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/ExpressionLanguage/ParserCache/ParserCacheInterface.html" title="Symfony\Component\ExpressionLanguage\ParserCache\ParserCacheInterface"><span class="pre">ParserCacheInterface</span></a></tt>
 インターフェイスを実装するクラス、デフォルトでは
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\ExpressionLanguage\ParserCache\ArrayParserCache</span></tt> が使われます。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/ExpressionLanguage/ParserCache/ArrayParserCache.html" title="Symfony\Component\ExpressionLanguage\ParserCache\ArrayParserCache"><span class="pre">ArrayParserCache</span></a></tt> が使われます。
 キャッシュ戦略をカスタマイズするには、独自の <tt class="docutils literal"><span class="pre">ParserCache</span></tt> を定義して <tt class="docutils literal"><span class="pre">ExpressionLanguage</span></tt> オブジェクトへ注入します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\ExpressionLanguage\ExpressionLanguage</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Acme\ExpressionLanguage\ParserCache\MyDatabaseParserCache</span><span class="p">;</span>
@@ -180,8 +177,8 @@
 このライブラリでは、Apc やファイルシステムといった様々なキャッシュ戦略が提供されています。</p>
 </div>
 </div>
-<div class="section" id="id7">
-<h2>パース済みのシリアライズされた式の使用<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>パース済みのシリアライズされた式の使用<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p><tt class="docutils literal"><span class="pre">evaluate</span></tt> および <tt class="docutils literal"><span class="pre">compile</span></tt> では、<tt class="docutils literal"><span class="pre">ParsedExpression</span></tt> と <tt class="docutils literal"><span class="pre">SerializedParsedExpression</span></tt> の両方を扱えます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\ExpressionLanguage\ParsedExpression</span><span class="p">;</span>
 <span class="c1">// ...</span>
@@ -209,11 +206,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/expression_language/caching.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/expression_language/caching.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/expression_language/caching.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

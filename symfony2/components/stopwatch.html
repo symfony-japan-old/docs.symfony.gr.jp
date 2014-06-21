@@ -76,7 +76,7 @@
 <li><a class="reference internal" href="#id1">インストール</a></li>
 <li><a class="reference internal" href="#id2">使い方</a></li>
 <li><a class="reference internal" href="#id3">ピリオド</a></li>
-<li><a class="reference internal" href="#id6">セクション</a></li>
+<li><a class="reference internal" href="#id4">セクション</a></li>
 </ul>
 </li>
 </ul>
@@ -129,9 +129,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/stopwatch.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -156,7 +153,7 @@
 </div>
 <div class="section" id="id2">
 <h2>使い方<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>Stopwatchコンポーネントは任意のコードの実行時間を測る簡単で一貫性のある方法を提供します。もうマイクロ秒を自力で解析する必要はないのです。 代わりに、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Stopwatch\Stopwatch</span></tt> クラスを使ってください。:</p>
+<p>Stopwatchコンポーネントは任意のコードの実行時間を測る簡単で一貫性のある方法を提供します。もうマイクロ秒を自力で解析する必要はないのです。 代わりに、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Stopwatch/Stopwatch.html" title="Symfony\Component\Stopwatch\Stopwatch"><span class="pre">Stopwatch</span></a></tt> クラスを使ってください。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Stopwatch\Stopwatch</span><span class="p">;</span>
 
 <span class="nv">$stopwatch</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stopwatch</span><span class="p">();</span>
@@ -175,7 +172,7 @@
 <div class="section" id="id3">
 <h2>ピリオド<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>現実の世界と同じように、ストップウォッチには2つのボタンがあります。ストップウォッチをスタート・ストップするボタンと、ラップタイムを測るボタンです。
-ちょうど <a href="#id4"><span class="problematic" id="id5">:method:`Symfony\\Component\\Stopwatch\\Stopwatch::lap``</span></a> メソッドの動作と同じです。:</p>
+ちょうど <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Stopwatch/Stopwatch.html#method_lap`" title="Symfony\Component\Stopwatch\Stopwatch::lap`()"><span class="pre">lap`()</span></a></tt> メソッドの動作と同じです。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$stopwatch</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stopwatch</span><span class="p">();</span>
 <span class="c1">// &#39;foo&#39;というイベントを開始</span>
 <span class="nv">$stopwatch</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span><span class="p">);</span>
@@ -203,8 +200,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id6">
-<h2>セクション<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h2>セクション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
 <p>セクションではタイムラインを論理的にグループ分けすることができます。Symfony Profilter toolを見ると、Symfonyがフレームワークのライフサイクルを視覚化するのにセクションをうまく利用していることがわかります。下記は基本的なセクションの使い方です。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$stopwatch</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Stopwatch</span><span class="p">();</span>
 
@@ -215,7 +212,7 @@
 <span class="nv">$events</span> <span class="o">=</span> <span class="nv">$stopwatch</span><span class="o">-&gt;</span><span class="na">getSectionEvents</span><span class="p">(</span><span class="s1">&#39;routing&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-<p><a href="#id7"><span class="problematic" id="id8">:method:`Symfony\\Component\\Stopwatch\\Stopwatch::openSection``</span></a> メソッドを使うと、一度閉じたセクションを指定して再度開くことができます。:</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Stopwatch/Stopwatch.html#method_openSection`" title="Symfony\Component\Stopwatch\Stopwatch::openSection`()"><span class="pre">openSection`()</span></a></tt> メソッドを使うと、一度閉じたセクションを指定して再度開くことができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$stopwatch</span><span class="o">-&gt;</span><span class="na">openSection</span><span class="p">(</span><span class="s1">&#39;routing&#39;</span><span class="p">);</span>
 <span class="nv">$stopwatch</span><span class="o">-&gt;</span><span class="na">start</span><span class="p">(</span><span class="s1">&#39;building_config_tree&#39;</span><span class="p">);</span>
 <span class="nv">$stopwatch</span><span class="o">-&gt;</span><span class="na">stopSection</span><span class="p">(</span><span class="s1">&#39;routing&#39;</span><span class="p">);</span>
@@ -229,11 +226,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/stopwatch.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/stopwatch.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/stopwatch.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

@@ -131,21 +131,18 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/security/entity_provider.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>データベースからセキュリティユーザをロードする方法(エンティティプロバイダ)<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>Symfony の最もスマートツールの１つは、セキュリティレイヤーです。セキュリティレイヤーは、認証と承認のプロセスを処理します。内部的の動作を理解することは難しそうに見えます。しかし、セキュリティシステムはとても柔軟で、アクティブディレクトリ、OAuth認証、データベース認証などいろんな認証を統合することができるようになっています。</p>
 <div class="section" id="id2">
 <h2>イントロダクション<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>この記事では、 Doctrine のエンティティクラスによるデータベーステーブルに対するユーザ認証にフォーカスを当ててみます。このレシピの内容は、３つに別れています。まず第１のパートでは、 Doctrine <tt class="docutils literal"><span class="pre">User</span></tt> エンティティクラスを設計して、 Symfony のセキュリティレイヤーで利用可能にすることに関して説明します。第２のパートでは、 Doctrine の <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Doctrine\Security\User\EntityUserProvider</span></tt> オブジェクトとそのコンフィギュレーションを使用して、簡単にユーザ認証を行う方法を説明します。最後のパートでは、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Doctrine\Security\User\EntityUserProvider</span></tt> のカスタムクラスを作成し、カスタム化した条件でデータベースからユーザを検索する方法を説明します。</p>
+<p>この記事では、 Doctrine のエンティティクラスによるデータベーステーブルに対するユーザ認証にフォーカスを当ててみます。このレシピの内容は、３つに別れています。まず第１のパートでは、 Doctrine <tt class="docutils literal"><span class="pre">User</span></tt> エンティティクラスを設計して、 Symfony のセキュリティレイヤーで利用可能にすることに関して説明します。第２のパートでは、 Doctrine の <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bridge/Doctrine/Security/User/EntityUserProvider.html" title="Symfony\Bridge\Doctrine\Security\User\EntityUserProvider"><span class="pre">EntityUserProvider</span></a></tt> オブジェクトとそのコンフィギュレーションを使用して、簡単にユーザ認証を行う方法を説明します。最後のパートでは、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bridge/Doctrine/Security/User/EntityUserProvider.html" title="Symfony\Bridge\Doctrine\Security\User\EntityUserProvider"><span class="pre">EntityUserProvider</span></a></tt> のカスタムクラスを作成し、カスタム化した条件でデータベースからユーザを検索する方法を説明します。</p>
 <p>このチュートリアルでは、アプリケーションカーネルで <tt class="docutils literal"><span class="pre">Acme\UserBundle</span></tt> バンドルをブートストラップしロードしてあることを想定います。</p>
 </div>
 <div class="section" id="id3">
 <h2>データモデル<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>このレシピの目的のために、 <tt class="docutils literal"><span class="pre">AcmeUserBundle</span></tt> バンドルが <tt class="docutils literal"><span class="pre">User</span></tt> エンティティクラスを含んでおり、 <tt class="docutils literal"><span class="pre">User</span></tt> エンティティには、 <tt class="docutils literal"><span class="pre">id</span></tt>, <tt class="docutils literal"><span class="pre">username</span></tt>, <tt class="docutils literal"><span class="pre">salt</span></tt>, <tt class="docutils literal"><span class="pre">password</span></tt>, <tt class="docutils literal"><span class="pre">email</span></tt>, <tt class="docutils literal"><span class="pre">isActive</span></tt> フィールドを持つようにしてください。 <tt class="docutils literal"><span class="pre">isActive</span></tt> フィールドはユーザアカウントが有効化どうかのフラグです。</p>
-<p>短くするために、ゲッターメソッドとセッターメソッドを削除して、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserInterface</span></tt> インタフェースの重要なメソッドにフォーカスしています。</p>
+<p>短くするために、ゲッターメソッドとセッターメソッドを削除して、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserInterface.html" title="Symfony\Component\Security\Core\User\UserInterface"><span class="pre">UserInterface</span></a></tt> インタフェースの重要なメソッドにフォーカスしています。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/UserBundle/Entity/User.php</span>
 
 <span class="k">namespace</span> <span class="nx">Acme\UserBundle\Entity</span><span class="p">;</span>
@@ -230,7 +227,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Symfony のセキュリティレイヤーで <tt class="docutils literal"><span class="pre">AcmeUserBundle:User</span></tt> クラスのインスタンスを利用するために、エンティティクラスは、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserInterface</span></tt> インタフェースを実装する必要があります。このインタフェースは、次の６つのメソッドを実装を強制します。それは、 <tt class="docutils literal"><span class="pre">getRolls()</span></tt>, <tt class="docutils literal"><span class="pre">getPassword()</span></tt>, <tt class="docutils literal"><span class="pre">getSalt()</span></tt>, <tt class="docutils literal"><span class="pre">getUsername()</span></tt>, <tt class="docutils literal"><span class="pre">eraseCredentials()</span></tt>, <tt class="docutils literal"><span class="pre">equals()</span></tt> です。それぞれのメソッドの詳細は、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserInterface</span></tt> を参照してください。</p>
+<p>Symfony のセキュリティレイヤーで <tt class="docutils literal"><span class="pre">AcmeUserBundle:User</span></tt> クラスのインスタンスを利用するために、エンティティクラスは、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserInterface.html" title="Symfony\Component\Security\Core\User\UserInterface"><span class="pre">UserInterface</span></a></tt> インタフェースを実装する必要があります。このインタフェースは、次の６つのメソッドを実装を強制します。それは、 <tt class="docutils literal"><span class="pre">getRolls()</span></tt>, <tt class="docutils literal"><span class="pre">getPassword()</span></tt>, <tt class="docutils literal"><span class="pre">getSalt()</span></tt>, <tt class="docutils literal"><span class="pre">getUsername()</span></tt>, <tt class="docutils literal"><span class="pre">eraseCredentials()</span></tt>, <tt class="docutils literal"><span class="pre">equals()</span></tt> です。それぞれのメソッドの詳細は、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserInterface.html" title="Symfony\Component\Security\Core\User\UserInterface"><span class="pre">UserInterface</span></a></tt> を参照してください。</p>
 <p>説明を簡単にするために、 <tt class="docutils literal"><span class="pre">equals()</span></tt> メソッドでは、 <tt class="docutils literal"><span class="pre">username</span></tt> フィールドを比較するのみにしています。しかし、もちろんあなたのデータモデルの複雑性に応じて、より多くチェックすることもできます。 <tt class="docutils literal"><span class="pre">eraseCredentials()</span></tt> メソッドでは、この記事では、重要でないため空のままとしています。</p>
 <p>以下が、 MySQL の <tt class="docutils literal"><span class="pre">User</span></tt> テーブルの内容の一例です。ユーザレコードの作成やパスワードのエンコードの方法の詳細は、  <a class="reference internal" href="../../book/security.html#book-security-encoding-user-password"><em>ユーザパスワードのエンコーディング</em></a> を参照してください。</p>
 <div class="highlight-text"><div class="highlight"><pre>mysql&gt; select * from user;
@@ -283,8 +280,8 @@
 </div>
 <div class="section" id="id5">
 <h2>無効なユーザを拒否する<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p>無効なユーザを除外する最も簡単な方法は、ユーザアカウントの状態をチェックする <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\AdvancedUserInterface</span></tt> インタフェースを実装することです。  <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\AdvancedUserInterface</span></tt> インタフェースは、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserInterface</span></tt> インタフェースを拡張しているので、 <tt class="docutils literal"><span class="pre">AcmeUserBundle:User</span></tt> エンティティクラス内で新しいインタフェースをスイッチするだけでシンプルで高度な認証の仕組みの恩恵を受けることができます。</p>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\AdvancedUserInterface</span></tt> インタフェースは、アカウントの状態をバリデートするために、次の４つのメソッドを追加しています。</p>
+<p>無効なユーザを除外する最も簡単な方法は、ユーザアカウントの状態をチェックする <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/AdvancedUserInterface.html" title="Symfony\Component\Security\Core\User\AdvancedUserInterface"><span class="pre">AdvancedUserInterface</span></a></tt> インタフェースを実装することです。  <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/AdvancedUserInterface.html" title="Symfony\Component\Security\Core\User\AdvancedUserInterface"><span class="pre">AdvancedUserInterface</span></a></tt> インタフェースは、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserInterface.html" title="Symfony\Component\Security\Core\User\UserInterface"><span class="pre">UserInterface</span></a></tt> インタフェースを拡張しているので、 <tt class="docutils literal"><span class="pre">AcmeUserBundle:User</span></tt> エンティティクラス内で新しいインタフェースをスイッチするだけでシンプルで高度な認証の仕組みの恩恵を受けることができます。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/AdvancedUserInterface.html" title="Symfony\Component\Security\Core\User\AdvancedUserInterface"><span class="pre">AdvancedUserInterface</span></a></tt> インタフェースは、アカウントの状態をバリデートするために、次の４つのメソッドを追加しています。</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">isAccountNonExpired()</span></tt> ユーザアカウントが期限切れになっているかチェックします</li>
 <li><tt class="docutils literal"><span class="pre">isAccountNonLocked()</span></tt> ユーザがロックされているかチェックします</li>
@@ -330,8 +327,8 @@
 <div class="section" id="id6">
 <h2>カスタムエンティティプロバイダで認証を行う<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <p>次のステップは、データベース内でユニークである username や email でユーザを認証させます。残念ながらネイティブのエンティティプロバイダは、データベースからユーザを取り出す際に、１つのプロパティしか処理することができません。</p>
-<p>これを実現するために、サブミットされたログイン username が username <em>もしくは</em> email フィールドがマッチするかをチェックするカスタムエンティティプロバイダを作成します。幸いなことに、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserProviderInterface</span></tt>. インタフェースを実装すれば、 Doctrine リポジトリオブジェクトは、エンティティユーザプロバイダとして振る舞うことができます。このインタフェースでは次の３つのメソッドを強制します。 <tt class="docutils literal"><span class="pre">loadUserByUsername($username)</span></tt>, <tt class="docutils literal"><span class="pre">refreshUser(UserInterface</span> <span class="pre">$user)</span></tt>, <tt class="docutils literal"><span class="pre">supportsClass($class)</span></tt> です。詳細は、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserProviderInterface</span></tt> を参照してください。</p>
-<p>以下のコードは、 <tt class="docutils literal"><span class="pre">UserRepository</span></tt> クラス内の <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserProviderInterface</span></tt> の実装になります。</p>
+<p>これを実現するために、サブミットされたログイン username が username <em>もしくは</em> email フィールドがマッチするかをチェックするカスタムエンティティプロバイダを作成します。幸いなことに、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserProviderInterface.html" title="Symfony\Component\Security\Core\User\UserProviderInterface"><span class="pre">UserProviderInterface</span></a></tt>. インタフェースを実装すれば、 Doctrine リポジトリオブジェクトは、エンティティユーザプロバイダとして振る舞うことができます。このインタフェースでは次の３つのメソッドを強制します。 <tt class="docutils literal"><span class="pre">loadUserByUsername($username)</span></tt>, <tt class="docutils literal"><span class="pre">refreshUser(UserInterface</span> <span class="pre">$user)</span></tt>, <tt class="docutils literal"><span class="pre">supportsClass($class)</span></tt> です。詳細は、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserProviderInterface.html" title="Symfony\Component\Security\Core\User\UserProviderInterface"><span class="pre">UserProviderInterface</span></a></tt> を参照してください。</p>
+<p>以下のコードは、 <tt class="docutils literal"><span class="pre">UserRepository</span></tt> クラス内の <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserProviderInterface.html" title="Symfony\Component\Security\Core\User\UserProviderInterface"><span class="pre">UserProviderInterface</span></a></tt> の実装になります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/UserBundle/Entity/UserRepository.php</span>
 
 <span class="k">namespace</span> <span class="nx">Acme\UserBundle\Entity</span><span class="p">;</span>
@@ -440,7 +437,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">AcmeUserBundle:Group</span></tt> エンティティクラスは、３つのテーブルフィールドを定義しています(<tt class="docutils literal"><span class="pre">id</span></tt>, <tt class="docutils literal"><span class="pre">name</span></tt>, <tt class="docutils literal"><span class="pre">role</span></tt>)。ユニークな <tt class="docutils literal"><span class="pre">role</span></tt> フィールドは、 Symfony アプリケーションのセキュアな部分への セキュリティレイヤーによって使用される権限の名前を含んでいます。最も重要なことは、 <tt class="docutils literal"><span class="pre">AcmeUserBundle:Group</span></tt> エンティティクラスが  <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\Role\RoleInterface</span></tt> インタフェースを実装しており、 <tt class="docutils literal"><span class="pre">getRole()</span></tt> メソッドが強制となっていることです。</p>
+<p><tt class="docutils literal"><span class="pre">AcmeUserBundle:Group</span></tt> エンティティクラスは、３つのテーブルフィールドを定義しています(<tt class="docutils literal"><span class="pre">id</span></tt>, <tt class="docutils literal"><span class="pre">name</span></tt>, <tt class="docutils literal"><span class="pre">role</span></tt>)。ユニークな <tt class="docutils literal"><span class="pre">role</span></tt> フィールドは、 Symfony アプリケーションのセキュアな部分への セキュリティレイヤーによって使用される権限の名前を含んでいます。最も重要なことは、 <tt class="docutils literal"><span class="pre">AcmeUserBundle:Group</span></tt> エンティティクラスが  <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/Role/RoleInterface.html" title="Symfony\Component\Security\Core\Role\RoleInterface"><span class="pre">RoleInterface</span></a></tt> インタフェースを実装しており、 <tt class="docutils literal"><span class="pre">getRole()</span></tt> メソッドが強制となっていることです。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Acme\Bundle\UserBundle\Entity</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Symfony\Component\Security\Core\Role\RoleInterface</span><span class="p">;</span>
@@ -521,11 +518,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/security/entity_provider.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/security/entity_provider.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/security/entity_provider.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

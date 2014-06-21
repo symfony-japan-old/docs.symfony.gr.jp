@@ -76,18 +76,40 @@
   <h3>このページのコンテンツ</h3>
   <ul>
 <li><a class="reference internal" href="#">form フィールドタイプ</a><ul>
+<li><a class="reference internal" href="#id1">フィールドオプション</a><ul>
 <li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#data-class">data_class</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
+<li><a class="reference internal" href="#compound">compound</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
+<li><a class="reference internal" href="#label-attr">label_attr</a></li>
 <li><a class="reference internal" href="#constraints">constraints</a></li>
 <li><a class="reference internal" href="#cascade-validation">cascade_validation</a></li>
 <li><a class="reference internal" href="#read-only">read_only</a></li>
-<li><a class="reference internal" href="#disabled">disabled</a></li>
 <li><a class="reference internal" href="#trim">trim</a></li>
 <li><a class="reference internal" href="#mapped">mapped</a></li>
+<li><a class="reference internal" href="#property-path">property_path</a></li>
+<li><a class="reference internal" href="#max-length">max_length</a></li>
+<li><a class="reference internal" href="#by-reference">by_reference</a></li>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#inherit-data">inherit_data</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+<li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
+<li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
+<li><a class="reference internal" href="#extra-fields-message">extra_fields_message</a></li>
+<li><a class="reference internal" href="#post-max-size-message">post_max_size_message</a></li>
+<li><a class="reference internal" href="#pattern">pattern</a></li>
+<li><a class="reference internal" href="#action">action</a></li>
+<li><a class="reference internal" href="#method">method</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">継承されたオプション</a><ul>
+<li><a class="reference internal" href="#block-name">block_name</a></li>
+<li><a class="reference internal" href="#disabled">disabled</a></li>
+<li><a class="reference internal" href="#label">label</a></li>
 <li><a class="reference internal" href="#attr">attr</a></li>
 <li><a class="reference internal" href="#translation-domain">translation_domain</a></li>
-<li><a class="reference internal" href="#block-name">block_name</a><ul>
-<li><a class="reference internal" href="#inherit-data">inherit_data</a></li>
+<li><a class="reference internal" href="#auto-initialize">auto_initialize</a></li>
 </ul>
 </li>
 </ul>
@@ -148,22 +170,75 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/form.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
-<li>対象バージョン：2.3</li>
-<li>翻訳更新日：2013/11/24</li>
+<li>対象バージョン：2.3+</li>
+<li>翻訳更新日：2014/06/20</li>
 </ul>
 </div>
 <div class="section" id="form">
 <h1>form フィールドタイプ<a class="headerlink" href="#form" title="Permalink to this headline">¶</a></h1>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\FormType</span></tt> を参照してください。</p>
-<p><tt class="docutils literal"><span class="pre">form</span></tt> タイプはすべてのフィールドで利用可能となるいくつかのオプションをあらかじめ定義します。</p>
+<p><tt class="docutils literal"><span class="pre">form</span></tt> タイプを親タイプにもつすべてのタイプで利用可能なオプションを事前にいくつか定義しています。</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="14%" />
+<col width="86%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#data-class">data_class</a></li>
+<li><a class="reference internal" href="#empty-data">empty_data</a></li>
+<li><a class="reference internal" href="#compound">compound</a></li>
+<li><a class="reference internal" href="#required">required</a></li>
+<li><a class="reference internal" href="#label-attr">label_attr</a></li>
+<li><a class="reference internal" href="#constraints">constraints</a></li>
+<li><a class="reference internal" href="#cascade-validation">cascade_validation</a></li>
+<li><a class="reference internal" href="#read-only">read_only</a></li>
+<li><a class="reference internal" href="#trim">trim</a></li>
+<li><a class="reference internal" href="#mapped">mapped</a></li>
+<li><a class="reference internal" href="#property-path">property_path</a></li>
+<li><a class="reference internal" href="#max-length">max_length</a> (2.5 で非推奨)</li>
+<li><a class="reference internal" href="#by-reference">by_reference</a></li>
+<li><a class="reference internal" href="#error-bubbling">error_bubbling</a></li>
+<li><a class="reference internal" href="#inherit-data">inherit_data</a></li>
+<li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
+<li><a class="reference internal" href="#invalid-message">invalid_message</a></li>
+<li><a class="reference internal" href="#invalid-message-parameters">invalid_message_parameters</a></li>
+<li><a class="reference internal" href="#extra-fields-message">extra_fields_message</a></li>
+<li><a class="reference internal" href="#post-max-size-message">post_max_size_message</a></li>
+<li><a class="reference internal" href="#pattern">pattern</a> (2.5 で非推奨)</li>
+<li><a class="reference internal" href="#action">action</a></li>
+<li><a class="reference internal" href="#method">method</a></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>継承された
+オプション</td>
+<td><ul class="first last simple">
+<li><a class="reference internal" href="#block-name">block_name</a></li>
+<li><a class="reference internal" href="#disabled">disabled</a></li>
+<li><a class="reference internal" href="#label">label</a></li>
+<li><a class="reference internal" href="#attr">attr</a></li>
+<li><a class="reference internal" href="#translation-domain">translation_domain</a></li>
+<li><a class="reference internal" href="#auto-initialize">auto_initialize</a></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>親クラス</td>
+<td>none</td>
+</tr>
+<tr class="row-even"><td>クラス</td>
+<td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Core/Type/FormType.html" title="Symfony\Component\Form\Extension\Core\Type\FormType"><span class="pre">FormType</span></a></tt></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="id1">
+<h2>フィールドオプション<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="data">
-<h2>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h2>
+<h3>data<a class="headerlink" href="#data" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: mixed <strong>デフォルト</strong>: 対応するオブジェクトのフィールド(一つであれば）</p>
 <p>フォームを作成したとき、各フィールドに表示する初期値は、フォームのドメインオブジェクトの対応するプロパティの値です（オブジェクトがフォームにバインドされている場合）。もしフォーム、または、単に個々のフィールドの初期値を上書きしたい場合は、<tt class="docutils literal"><span class="pre">data</span></tt> オプションで設定することが出来ます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;hidden&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
@@ -177,8 +252,54 @@
 <tt class="docutils literal"><span class="pre">data</span></tt> オプションはこのデフォルト値を上書きします。</p>
 </div>
 </div>
+<div class="section" id="data-class">
+<h3>data_class<a class="headerlink" href="#data-class" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt></p>
+<p>このオプションは、フォームで使用する適切なデータ·マッパーを設定するために使われます。
+オブジェクトを必要とする任意のフィールドタイプに使用することができます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;media&#39;</span><span class="p">,</span> <span class="s1">&#39;sonata_media_type&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Acme\DemoBundle\Entity\Media&#39;</span><span class="p">,</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="empty-data">
+<h3>empty_data<a class="headerlink" href="#empty-data" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">mixed</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">multiple</span></tt> 又は <tt class="docutils literal"><span class="pre">expanded</span></tt> の場合 <tt class="docutils literal"><span class="pre">array()</span></tt> それ以外 <tt class="docutils literal"><span class="pre">''</span></tt></p>
+<p>このオプションは <tt class="docutils literal"><span class="pre">empty_value</span></tt> の選択肢が選ばれた時に、どのような値を返すかを決定します。</p>
+<p>このオプションのデフォルト値はフィールドオプションによって異なります。:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定され <tt class="docutils literal"><span class="pre">required</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、 <tt class="docutils literal"><span class="pre">new</span> <span class="pre">$data_class()</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定され <tt class="docutils literal"><span class="pre">required</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、 <tt class="docutils literal"><span class="pre">null</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定されず <tt class="docutils literal"><span class="pre">compound</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、 <tt class="docutils literal"><span class="pre">array()</span></tt>;</li>
+<li><tt class="docutils literal"><span class="pre">data_class</span></tt> が設定されず <tt class="docutils literal"><span class="pre">compound</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、 <tt class="docutils literal"><span class="pre">null</span></tt>.</li>
+</ul>
+<p>しかし、必要に応じてこれを変更することができます。例えば、値が選択されていないとき <tt class="docutils literal"><span class="pre">gender</span></tt> フィールドを明示的に <tt class="docutils literal"><span class="pre">null</span></tt> に設定したいとすると、このようにできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;gender&#39;</span><span class="p">,</span> <span class="s1">&#39;choice&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="s1">&#39;choices&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;m&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Male&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;f&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Female&#39;</span>
+    <span class="p">),</span>
+    <span class="s1">&#39;required&#39;</span>    <span class="o">=&gt;</span> <span class="k">false</span><span class="p">,</span>
+    <span class="s1">&#39;empty_value&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Choose your gender&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;empty_data&#39;</span>  <span class="o">=&gt;</span> <span class="k">null</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">フォームクラス全体に <tt class="docutils literal"><span class="pre">empty_data</span></tt> オプションをセットしたい場合はクックブックの記事( <tt class="xref doc docutils literal"><span class="pre">/cookbook/form/use_empty_data</span></tt> )を参照してください。</p>
+</div>
+</div>
+<div class="section" id="compound">
+<h3>compound<a class="headerlink" href="#compound" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+<p>フォームが合成物である場合は、このオプションが指定されます。
+これは、フォームが実際に子要素を持っているかどうかとは無関係です。
+フォームが合成物である時は子要素をまったく持つことができません（例えば、空のコレクション型）。</p>
+</div>
 <div class="section" id="required">
-<h2>required<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h2>
+<span id="reference-form-option-required"></span><h3>required<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
 <p>trueの場合は <a class="reference external" href="http://diveintohtml5.info/forms.html">HTML5 の required 属性</a> がレンダリングされます。
 対応する <tt class="docutils literal"><span class="pre">label</span></tt> もまた <tt class="docutils literal"><span class="pre">required</span></tt> クラスをレンダリングします。</p>
@@ -186,15 +307,36 @@
 フィールドタイプを推測することを許可する場合は、
 このオプションの値はバリデーションの情報から推測されるのが理想的でしょう。</p>
 </div>
+<div class="section" id="label-attr">
+<h3>label_attr<a class="headerlink" href="#label-attr" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト値</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p>フィールドのラベルを表示する際、 <tt class="docutils literal"><span class="pre">&lt;label&gt;</span></tt> 要素に html 属性を設定します。それは HTML 属性をキーとした連想配列です。この属性は直接テンプレートの中に設定することも出来ます。:</p>
+<div class="configuration-block">
+<ul class="simple">
+<li><em>Twig</em><div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">form_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;あなたのお名前&#39;</span><span class="o">,</span> <span class="o">{</span><span class="s1">&#39;label_attr&#39;</span><span class="o">:</span> <span class="o">{</span><span class="s1">&#39;class&#39;</span><span class="o">:</span> <span class="s1">&#39;CUSTOM_LABEL_CLASS&#39;</span><span class="cp">}}</span><span class="x">) }}</span>
+</pre></div>
+</div>
+</li>
+<li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">label</span><span class="p">(</span>
+    <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;あなたのお名前&#39;</span><span class="p">,</span>
+    <span class="k">array</span><span class="p">(</span><span class="s1">&#39;label_attr&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;CUSTOM_LABEL_CLASS&#39;</span><span class="p">))</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div>
+</div>
 <div class="section" id="constraints">
-<h2>constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h2>
-<p><strong>データ型</strong>: array または <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Validator\Constraint</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">null</span></tt></p>
+<h3>constraints<a class="headerlink" href="#constraints" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: array または <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Validator/Constraint.html" title="Symfony\Component\Validator\Constraint"><span class="pre">Constraint</span></a></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">null</span></tt></p>
 <p>特定のフィールドに1つ以上の検証制約を設定することができます。
 より詳しくはこちらを参照 <em class="xref std std-ref">Adding Validation</em> 。
-このオプションはフォーム拡張の <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension</span></tt> に追加されます。</p>
+このオプションはフォーム拡張の <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Validator/Type/FormTypeValidatorExtension.html" title="Symfony\Component\Form\Extension\Validator\Type\FormTypeValidatorExtension"><span class="pre">FormTypeValidatorExtension</span></a></tt> に追加されます。</p>
 </div>
 <div class="section" id="cascade-validation">
-<h2>cascade_validation<a class="headerlink" href="#cascade-validation" title="Permalink to this headline">¶</a></h2>
+<h3>cascade_validation<a class="headerlink" href="#cascade-validation" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: Boolean <strong>デフォルト</strong>: false</p>
 <p>埋め込んだフォームタイプの検証を強制するためにこのオプションを <tt class="docutils literal"><span class="pre">true</span></tt> にします。
 例えば、 <tt class="docutils literal"><span class="pre">ProductType</span></tt> に <tt class="docutils literal"><span class="pre">CategoryType</span></tt> を埋め込んで持つ場合、 <tt class="docutils literal"><span class="pre">ProductType</span></tt> の <tt class="docutils literal"><span class="pre">cascade_validation</span></tt> を <tt class="docutils literal"><span class="pre">true</span></tt> にすることで、 検証されるべき <tt class="docutils literal"><span class="pre">CategoryType</span></tt> からもデータが発生します。</p>
@@ -206,39 +348,208 @@
 </div>
 </div>
 <div class="section" id="read-only">
-<h2>read_only<a class="headerlink" href="#read-only" title="Permalink to this headline">¶</a></h2>
+<h3>read_only<a class="headerlink" href="#read-only" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
 <p>このオプションが <tt class="docutils literal"><span class="pre">true</span></tt> の場合、そのフィールドは <tt class="docutils literal"><span class="pre">readonly</span></tt> 属性付きでレンダリングされるため、編集する事が出来ません。</p>
 </div>
-<div class="section" id="disabled">
-<h2>disabled<a class="headerlink" href="#disabled" title="Permalink to this headline">¶</a></h2>
-<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt>  <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
-<p>ユーザにフィールドの値を変更させたくない場合は、
-<tt class="docutils literal"><span class="pre">disabled</span></tt> オプションを <tt class="docutils literal"><span class="pre">true</span></tt> にします。どんなサブミットされた値も無視されます。</p>
-</div>
 <div class="section" id="trim">
-<h2>trim<a class="headerlink" href="#trim" title="Permalink to this headline">¶</a></h2>
+<h3>trim<a class="headerlink" href="#trim" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
 <p>trueの場合、サブミットされた文字列の値に含まれる空白は <tt class="docutils literal"><span class="pre">trim()</span></tt> で取り去られます。
 余分な空白とともにサブミットされた値の場合、その値が下位のオブジェクトに取り込まれる前に取り除かれます。</p>
 </div>
 <div class="section" id="mapped">
-<h2>mapped<a class="headerlink" href="#mapped" title="Permalink to this headline">¶</a></h2>
+<h3>mapped<a class="headerlink" href="#mapped" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt></p>
 <p>オブジェクトを読み込んでいるまたは書き込んでいる間、フィールドが無視されるようにしたい場合は、
 <tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にしてください。</p>
-<ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">property_path</span></tt> [type: any, default: the field&#8217;s value]
-Fields display a property value of the form&#8217;s domain object by default. When
-the form is submitted, the submitted value is written back into the object.</p>
-<p>If you want to override the property that a field reads from and writes to,
-you can set the <tt class="docutils literal"><span class="pre">property_path</span></tt> option. Its default value is the field&#8217;s
-name.</p>
-</li>
+</div>
+<div class="section" id="property-path">
+<h3>property_path<a class="headerlink" href="#property-path" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">any</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">the</span> <span class="pre">field's</span> <span class="pre">name</span></tt></p>
+<p>フィールドには、デフォルトで、フォームのドメインオブジェクトのプロパティの値を表示します。フォームの送信時に、送信された値はオブジェクトに書き込まれます。</p>
+<p>フィールドの読み取りと書き込みのプロパティを上書きしたい場合は、 <tt class="docutils literal"><span class="pre">property_path</span></tt> オプションを設定することでできます。そのデフォルト値は、フィールドの名前です。</p>
+<p>オブジェクトの読み込み、書き込み時にそのフィールドを無視したい場合は、<tt class="docutils literal"><span class="pre">property_path</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にすることで出来ます。しかし、その目的での <tt class="docutils literal"><span class="pre">property_path</span></tt> の使用は推奨されません。
+<tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを使用する必要があります。</p>
+</div>
+<div class="section" id="max-length">
+<span id="reference-form-option-max-length"></span><h3>max_length<a class="headerlink" href="#max-length" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">integer</span></tt></p>
+<p>このオプションは <tt class="docutils literal"><span class="pre">maxlength</span></tt> 属性を追加する際に使用します。
+いくつかのブラウザでは、フィールド内のテキストの長さを制限するために使用されています。</p>
+</div>
+<div class="section" id="by-reference">
+<h3>by_reference<a class="headerlink" href="#by-reference" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型type</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+<p>下層にあるオブジェクトに <tt class="docutils literal"><span class="pre">name</span></tt> フィールドを持つとして、ほとんどの場合、<tt class="docutils literal"><span class="pre">setName</span></tt> が呼ばれることを期待します。
+しかし、場合によっては <tt class="docutils literal"><span class="pre">setName</span></tt> が呼ばれ <em>ない</em> ことがあります。<tt class="docutils literal"><span class="pre">by_reference</span></tt> をセットすることですべての場合にセッターが呼ばれることを確実にします。</p>
+<p>さらに説明するため、簡単な例がこちらです。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$article</span><span class="p">);</span>
+<span class="nv">$builder</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+    <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span>
+        <span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">create</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="s1">&#39;form&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;by_reference&#39;</span> <span class="o">=&gt;</span> <span class="o">?</span><span class="p">))</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">)</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">by_reference</span></tt> が <tt class="docutils literal"><span class="pre">true</span></tt> の場合、フォームの <tt class="docutils literal"><span class="pre">submit</span></tt> （または <tt class="docutils literal"><span class="pre">handleRequest</span></tt> ）が呼ばれたとき、次のように裏側では処理されます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$article</span><span class="o">-&gt;</span><span class="na">setTitle</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getAuthor</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getAuthor</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">setEmail</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">setAuthor</span></tt> が呼び出されないことに注意して下さい。その <tt class="docutils literal"><span class="pre">author</span></tt> はリファレンスにより変更されます。</p>
+<p><tt class="docutils literal"><span class="pre">by_reference</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> の場合、送信時の処理はこのようになります。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$article</span><span class="o">-&gt;</span><span class="na">setTitle</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$author</span> <span class="o">=</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getAuthor</span><span class="p">();</span>
+<span class="nv">$author</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$author</span><span class="o">-&gt;</span><span class="na">setEmail</span><span class="p">(</span><span class="s1">&#39;...&#39;</span><span class="p">);</span>
+<span class="nv">$article</span><span class="o">-&gt;</span><span class="na">setAuthor</span><span class="p">(</span><span class="nv">$author</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>このように <tt class="docutils literal"><span class="pre">by_reference=false</span></tt> が実際にすることは、親オブジェクトでセッターを呼ぶことをフレームワークに強制することです。</p>
+<p>同様に、下層にあるコレクションに <a class="reference internal" href="collection.html"><em>collection</em></a> フォームタイプを利用している場合、データは（ Doctrine の <tt class="docutils literal"><span class="pre">ArrayCollection</span></tt> のように）オブジェクトです。そして、（例えば <tt class="docutils literal"><span class="pre">setAuthors</span></tt> のように）セッターが呼ばれる必要があるときは、<tt class="docutils literal"><span class="pre">by_reference</span></tt> は <tt class="docutils literal"><span class="pre">false</span></tt> に設定されるべきです。</p>
+</div>
+<div class="section" id="error-bubbling">
+<h3>error_bubbling<a class="headerlink" href="#error-bubbling" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt> フォームに限り  <tt class="docutils literal"><span class="pre">compound</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">true</span></tt> の場合、このフィールドのエラーは親フィールドまたはフォームに渡されます。
+たとえば、通常のフィールドを <tt class="docutils literal"><span class="pre">true</span></tt> に設定した場合、フィールドに対するエラーは
+特定のフィールドではなくメインのフォームに付加されます。</p>
+</div>
+<div class="section" id="inherit-data">
+<h3>inherit_data<a class="headerlink" href="#inherit-data" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span>New in version 2.3: </span>このオプションは Symfony 2.3 より前は <tt class="docutils literal"><span class="pre">virtual</span></tt> として知られていました。</p>
+</div>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>フォームが親フォームからデータを継承する場合は、このオプションで決定します。複数のフォーム間で重複しているフィールドのセットを持っている場合に役立ちます。参照 <a class="reference internal" href="../../../cookbook/form/inherit_data_option.html"><em>&#8220;inherit_data&#8221;オプションを使用してコードの重複を減らす</em></a> 。</p>
+</div>
+<div class="section" id="error-mapping">
+<h3>error_mapping<a class="headerlink" href="#error-mapping" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">empty</span></tt></p>
+<p>このオプションはバリデーションエラーの対象を編集することができます。</p>
+<p><tt class="docutils literal"><span class="pre">matchingCityAndZipCode</span></tt> という名前のメソッドを持っているとして、それが <tt class="docutils literal"><span class="pre">city</span></tt> および <tt class="docutils literal"><span class="pre">zip</span> <span class="pre">code</span></tt> が一致するかの検証をするとします。しかし残念なことに、 &#8220;matchingCityAndZipCode&#8221; フィールドがフォームに無いため、 Symfony ができるのはフォームの上部にエラーを表示することです。</p>
+<p>カスタマイズされたエラーマッピングを使うと、<tt class="docutils literal"><span class="pre">city</span></tt> フィールドの上にエラーを表示するように、より上手にエラーをマップできます。:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+        <span class="s1">&#39;error_mapping&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span>
+            <span class="s1">&#39;matchingCityAndZipCode&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">));</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>こちらが左側、右側のマッピングするルールです:</p>
+<ul class="simple">
+<li>左側はプロパティパスを有します。</li>
+<li>クラスのプロパティまたはメソッドで違反が生成された場合、そのパスは単に &#8220;propertyName&#8221; です。</li>
+<li><tt class="docutils literal"><span class="pre">array</span></tt> または <tt class="docutils literal"><span class="pre">ArrayAccess</span></tt> オブジェクトで違反が生成された場合、プロパティパスは <tt class="docutils literal"><span class="pre">[indexName]</span></tt> です。</li>
+<li>ドットでプロパティを分離し、それらを連結して、ネストされたプロパティパスを作成することができます。たとえば <tt class="docutils literal"><span class="pre">addresses[work].matchingCityAndZipCode</span></tt> のように。</li>
+<li>左側のエラーマッピングは単一のドット <tt class="docutils literal"><span class="pre">.</span></tt> も認められます。それはフィールド自体をさしています。フィールドに追加されたエラーはネストされたフィールドの代わりに付与されたことを意味します。</li>
+<li>右側は単にフォームのフィールド名を有します。</li>
 </ul>
 </div>
+<div class="section" id="invalid-message">
+<h3>invalid_message<a class="headerlink" href="#invalid-message" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">This</span> <span class="pre">value</span> <span class="pre">is</span> <span class="pre">not</span> <span class="pre">valid</span></tt></p>
+<p>フィールドに入力されたデータが意味を成さない（すなわち、バリデーション失敗の）場合に使われるバリデーションエラーのメッセージです。</p>
+<p>たとえば、時間に変換される <a class="reference internal" href="time.html"><em>time</em></a> フィールドに無意味な文字を入れたときに、または、 <tt class="docutils literal"><span class="pre">number</span></tt> フィールドに文字列（例、 <tt class="docutils literal"><span class="pre">apple</span></tt> ）を入れたときにおきます。</p>
+<p>通常の（最小の文字数をセットするような）(ビジネスロジック)バリデーションはバリデーションメッセージをバリデーションルール( <a class="reference internal" href="../../../book/validation.html#book-validation-constraint-configuration"><em>reference</em></a> )とあわせて設定すべきです。</p>
+</div>
+<div class="section" id="invalid-message-parameters">
+<h3>invalid_message_parameters<a class="headerlink" href="#invalid-message-parameters" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">array</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">array()</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">invalid_message</span></tt> オプションをセットする場合、文字列にいくつかの変数を取り込む必要があるかもしれません。プレースホルダーをそのオプションに加え、変数をこのオプションに含めることで可能です:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;some_field&#39;</span><span class="p">,</span> <span class="s1">&#39;some_type&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
+    <span class="c1">// ...</span>
+    <span class="s1">&#39;invalid_message&#39;</span>            <span class="o">=&gt;</span> <span class="s1">&#39;You entered an invalid value - it should include %num% letters&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;invalid_message_parameters&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;%num%&#39;</span> <span class="o">=&gt;</span> <span class="mi">6</span><span class="p">),</span>
+<span class="p">));</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="extra-fields-message">
+<h3>extra_fields_message<a class="headerlink" href="#extra-fields-message" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">This</span> <span class="pre">form</span> <span class="pre">should</span> <span class="pre">not</span> <span class="pre">contain</span> <span class="pre">extra</span> <span class="pre">fields.</span></tt></p>
+<p>これは検証エラーメッセージです。送信されたフォームデータに、フォーム定義の一部ではないフィールドが1つ以上含まれている場合に使われます。
+プレースホルダ <tt class="docutils literal"><span class="pre">{{extra_fields}}</span></tt> は、送信された余分なフィールド名を、カンマ区切りのリストで表示することができます。</p>
+</div>
+<div class="section" id="post-max-size-message">
+<h3>post_max_size_message<a class="headerlink" href="#post-max-size-message" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">The</span> <span class="pre">uploaded</span> <span class="pre">file</span> <span class="pre">was</span> <span class="pre">too</span> <span class="pre">large.</span> <span class="pre">Please</span> <span class="pre">try</span> <span class="pre">to</span> <span class="pre">upload</span> <span class="pre">a</span> <span class="pre">smaller</span> <span class="pre">file.</span></tt></p>
+<p>これは送信されたPOSTデータが <tt class="docutils literal"><span class="pre">php.ini</span></tt> の <tt class="docutils literal"><span class="pre">post_max_size</span></tt> ディレクティブを超えた場合に使われる検証エラーメッセージです。
+<tt class="docutils literal"><span class="pre">{{</span> <span class="pre">max</span> <span class="pre">}}</span></tt> プレースホルダは、許可されたサイズを表示するために使用することができます。</p>
+<div class="admonition caution" id="reference-form-option-pattern">
+<p class="first admonition-title">Caution</p>
+<p class="last"><tt class="docutils literal"><span class="pre">pattern</span></tt> オプションは非推奨となり、3.0で削除されます。
+その代わりに、<tt class="docutils literal"><span class="pre">attr</span></tt> オプションに <tt class="docutils literal"><span class="pre">pattern</span></tt> キーを持つ配列を設定し使用して下さい。</p>
+</div>
+</div>
+<div class="section" id="pattern">
+<h3>pattern<a class="headerlink" href="#pattern" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">null</span></tt></p>
+<p>これは HTML5 <tt class="docutils literal"><span class="pre">pattern</span></tt> 属性に指定した正規表現によるフィールド入力の制限を追加します。</p>
+</div>
+<div class="section" id="action">
+<h3>action<a class="headerlink" href="#action" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span>New in version 2.3: </span><tt class="docutils literal"><span class="pre">action</span></tt> オプションは Symfony 2.3 から追加されました。</p>
+</div>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: empty string</p>
+<p>このオプションは、どこにフォームのデータを送信するかを指定します（通常はURI）。
+その値は <tt class="docutils literal"><span class="pre">form</span></tt> 要素の <tt class="docutils literal"><span class="pre">action</span></tt> 属性としてレンダリングされます。
+空の値は、同じドキュメント参照と見なされます。つまり、フォームは、レンダリングしたフォームと同じURIに送信されます。</p>
+</div>
+<div class="section" id="method">
+<h3>method<a class="headerlink" href="#method" title="Permalink to this headline">¶</a></h3>
+<div class="versionadded">
+<p><span>New in version 2.3: </span><tt class="docutils literal"><span class="pre">method</span></tt> オプションは Symfony 2.3 から追加されました。</p>
+</div>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">POST</span></tt></p>
+<p>このオプションでは、フォームのデータを送信するために使用されるHTTPメソッドを指定します。
+その値は <tt class="docutils literal"><span class="pre">form</span></tt> 要素の <tt class="docutils literal"><span class="pre">method</span></tt> 属性として表示されます。
+また、送信後の <tt class="docutils literal"><span class="pre">handleRequest()</span></tt> メソッドの中で、フォームの送信をどう処理するかを決定するために使用されています。
+可能な値は次のとおりです。</p>
+<ul class="simple">
+<li>POST</li>
+<li>GET</li>
+<li>PUT</li>
+<li>DELETE</li>
+<li>PATCH</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>継承されたオプション<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>以下のオプションは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Core/Type/BaseType.html" title="Symfony\Component\Form\Extension\Core\Type\BaseType"><span class="pre">BaseType</span></a></tt> クラスで定義されています。
+<tt class="docutils literal"><span class="pre">BaseType</span></tt> クラスは <tt class="docutils literal"><span class="pre">form</span></tt> タイプと <a class="reference internal" href="button.html"><em>button type</em></a> の両方の親クラスですが、フォームタイプツリーの一部ではありません（すなわち、それ自身はフォームタイプとして利用できません）。</p>
+<div class="section" id="block-name">
+<h3>block_name<a class="headerlink" href="#block-name" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: そのフォームの名前 (参照 <a class="reference internal" href="../../../cookbook/form/form_customization.html#cookbook-form-customization-sidebar"><em>Knowing which block to customize</em></a>)</p>
+<p>フォームタイプをレンダリングするために使用されるブロック名を上書きすることができます。
+同じフォームの複数のインスタンスがあり、レンダリングを個別にパーソナライズする必要がある場合に便利です。</p>
+</div>
+<div class="section" id="disabled">
+<h3>disabled<a class="headerlink" href="#disabled" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt>  <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">false</span></tt></p>
+<p>ユーザにフィールドの値を変更させたくない場合は、
+<tt class="docutils literal"><span class="pre">disabled</span></tt> オプションを <tt class="docutils literal"><span class="pre">true</span></tt> にします。どんなサブミットされた値も無視されます。</p>
+</div>
+<div class="section" id="label">
+<h3>label<a class="headerlink" href="#label" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: フィールド名から推測されたものです。</p>
+<p>フィールドがレンダリングされる際にラベルが設定されます。<tt class="docutils literal"><span class="pre">false</span></tt> が設定されるとラベルは表示されません。
+ラベルはテンプレート内部で設定することもできます。</p>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">render_label</span><span class="o">(</span><span class="nv">form.name</span><span class="o">,</span> <span class="s1">&#39;Your name&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
+</pre></div>
+</div>
+</div>
 <div class="section" id="attr">
-<h2>attr<a class="headerlink" href="#attr" title="Permalink to this headline">¶</a></h2>
+<h3>attr<a class="headerlink" href="#attr" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: array <strong>デフォルト値</strong>: Empty array</p>
 <p>HTML フィールドの表現に追加属性を加えたい場合、<tt class="docutils literal"><span class="pre">attr</span></tt> オプションを使うことが出来ます。これは HTML 属性をキーとした連想配列です。ウィジェットにカスタムクラスを設定する必要があるときに便利です。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$builder</span><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">,</span> <span class="s1">&#39;textarea&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
@@ -248,18 +559,16 @@ name.</p>
 </div>
 </div>
 <div class="section" id="translation-domain">
-<h2>translation_domain<a class="headerlink" href="#translation-domain" title="Permalink to this headline">¶</a></h2>
+<h3>translation_domain<a class="headerlink" href="#translation-domain" title="Permalink to this headline">¶</a></h3>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">messages</span></tt></p>
 <p>このフィールドのラベルまたはオプションの表示に使用されるに翻訳ドメインです。</p>
 </div>
-<div class="section" id="block-name">
-<h2>block_name<a class="headerlink" href="#block-name" title="Permalink to this headline">¶</a></h2>
-<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">string</span></tt> <strong>デフォルト</strong>: そのフォームの名前 (参照 <a class="reference internal" href="../../../cookbook/form/form_customization.html#cookbook-form-customization-sidebar"><em>Knowing which block to customize</em></a>)</p>
-<p>フォームタイプをレンダリングするために使用されるブロック名を上書きすることができます。
-同じフォームの複数のインスタンスがあり、レンダリングを個別にパーソナライズする必要がある場合に便利です。</p>
-<div class="section" id="inherit-data">
-<h3>inherit_data<a class="headerlink" href="#inherit-data" title="Permalink to this headline">¶</a></h3>
-<p><a class="reference internal" href="../../../cookbook/form/inherit_data_option.html"><em>&#8220;inherit_data&#8221;オプションを使用してコードの重複を減らす</em></a> を参照してください。</p>
+<div class="section" id="auto-initialize">
+<h3>auto_initialize<a class="headerlink" href="#auto-initialize" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">boolean</span></tt>  <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
+<p>内部オプション：フォームを自動的に初期化されるべきかどうかを設定します。
+このオプションはすべてのフィールドでルートフォームに対しては <tt class="docutils literal"><span class="pre">true</span></tt> のみであるべきです。
+このオプションを変更する必要はありませんし、おそらくそれを心配する必要もありません。</p>
 </div>
 </div>
 </div>
@@ -271,11 +580,6 @@ name.</p>
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/forms/types/form.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types/form.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types/form.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

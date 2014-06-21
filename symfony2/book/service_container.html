@@ -158,9 +158,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/service_container.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -790,7 +787,7 @@ Symfony2 のコアサービスは読み込まれません。
 <p>Symfony2 組み込みのサービスは、どれもほとんど同じように振る舞います。コンテナにより単一のインスタンスが作成され、get時や他のサービスへの注入時には同一のインスタンスが返されます。
 標準的な Symfony2 アプリケーションで唯一異なるのが、<tt class="docutils literal"><span class="pre">request</span></tt> サービスです。</p>
 <p><tt class="docutils literal"><span class="pre">request</span></tt> をサービスへ注入しようとすると、
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DependencyInjection\Exception\ScopeWideningInjectionException</span></tt>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DependencyInjection/Exception/ScopeWideningInjectionException.html" title="Symfony\Component\DependencyInjection\Exception\ScopeWideningInjectionException"><span class="pre">ScopeWideningInjectionException</span></a></tt>
 例外がスローされます。1つのコンテナインスタンスにおいてサブリクエストが生成されることもあり、コンテナのライフタイム中に <tt class="docutils literal"><span class="pre">request</span></tt> が<strong>変更されうる</strong>からです。</p>
 <p>Symfony 2.4 からは、<tt class="docutils literal"><span class="pre">request</span></tt> サービスを注入する代わりに <tt class="docutils literal"><span class="pre">request_stack</span></tt> サービスを注入するようにし、サービスの <tt class="docutils literal"><span class="pre">getCurrentRequest()</span></tt> メソッドを使って Request オブジェクトにアクセスしてください。
 以前のバージョンを使っている場合や、この問題について詳しく知りたい場合は、クックブックの記事 <a class="reference internal" href="../cookbook/service_container/scopes.html"><em>スコープの使用方法</em></a> を参照してください。</p>
@@ -1059,11 +1056,6 @@ Symfony2 は <tt class="docutils literal"><span class="pre">session</span></tt> 
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/service_container.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/service_container.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/service_container.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

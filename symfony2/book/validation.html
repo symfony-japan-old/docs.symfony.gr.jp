@@ -153,9 +153,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/validation.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>バリデーション<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>バリデーションは、WEB アプリケーションでとてもよく使われるタスクです。フォームに入力されたデータは、バリデートする必要があります。また、データベースに書かれる前や、WEB サービスに渡す前にもバリデーションが必要です。</p>
@@ -237,7 +234,7 @@
 </div>
 <div class="section" id="validator">
 <span id="index-1"></span><h3><tt class="docutils literal"><span class="pre">validator</span></tt> サービスを使用する<a class="headerlink" href="#validator" title="Permalink to this headline">¶</a></h3>
-<p>続いて <tt class="docutils literal"><span class="pre">Author</span></tt> オブジェクトを実際にバリデートしてみます。これは <tt class="docutils literal"><span class="pre">validator</span></tt> サービス(<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Validator\Validator</span></tt>)の <tt class="docutils literal"><span class="pre">validate</span></tt> メソッドを使用します。<tt class="docutils literal"><span class="pre">validator</span></tt> が行う仕事は簡単なものです。クラスの制約(ルール)を読み込んで、そのオブジェクトのデータがその制約を満たしているかどうか、を検証することです。バリデーションが失敗すれば、エラー配列が返ってきます。では、単純なコントローラの例を見てみましょう。</p>
+<p>続いて <tt class="docutils literal"><span class="pre">Author</span></tt> オブジェクトを実際にバリデートしてみます。これは <tt class="docutils literal"><span class="pre">validator</span></tt> サービス(<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Validator/Validator.html" title="Symfony\Component\Validator\Validator"><span class="pre">Validator</span></a></tt>)の <tt class="docutils literal"><span class="pre">validate</span></tt> メソッドを使用します。<tt class="docutils literal"><span class="pre">validator</span></tt> が行う仕事は簡単なものです。クラスの制約(ルール)を読み込んで、そのオブジェクトのデータがその制約を満たしているかどうか、を検証することです。バリデーションが失敗すれば、エラー配列が返ってきます。では、単純なコントローラの例を見てみましょう。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Response</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Acme\BlogBundle\Entity\Author</span><span class="p">;</span>
 <span class="c1">// ...</span>
@@ -307,7 +304,7 @@
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">各バリデーションエラー(「制約違反」と呼ぶ) は、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Validator\ConstraintViolation</span></tt> オブジェクトで表現されています。</p>
+<p class="last">各バリデーションエラー(「制約違反」と呼ぶ) は、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Validator/ConstraintViolation.html" title="Symfony\Component\Validator\ConstraintViolation"><span class="pre">ConstraintViolation</span></a></tt> オブジェクトで表現されています。</p>
 </div>
 </div>
 <div class="section" id="book-validation-forms">
@@ -789,11 +786,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/validation.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/validation.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/validation.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

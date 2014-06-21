@@ -137,15 +137,12 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/profiler/data_collector.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>カスタムデータコレクタの作成方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>Symfony2 の  <tt class="xref doc docutils literal"><span class="pre">Profiler</span></tt> はデータの収集をデータコレクタに移譲します。 Symfony2 にはいくつかデータコレクタが付属していますが、簡単に自分自身で作成することもできます。</p>
 <div class="section" id="id2">
 <h2>カスタムデータコレクタを作成する<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>カスタムデータコレクタを作成するのは、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface</span></tt> を実装するだけで、非常に簡単です。</p>
+<p>カスタムデータコレクタを作成するのは、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/DataCollector/DataCollectorInterface.html" title="Symfony\Component\HttpKernel\DataCollector\DataCollectorInterface"><span class="pre">DataCollectorInterface</span></a></tt> を実装するだけで、非常に簡単です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">interface</span> <span class="nx">DataCollectorInterface</span>
 <span class="p">{</span>
     <span class="sd">/**</span>
@@ -172,7 +169,7 @@
 <p class="first admonition-title">Caution</p>
 <p class="last">プロファイラは、データコレクタのインスタンスをシリアライズするので、 PDO オブジェクトのようなシリアライズができないオブジェクトを格納すべきではありません。もし、そのような際には、自分で <tt class="docutils literal"><span class="pre">serialize()</span></tt> メソッドを用意する必要があります。</p>
 </div>
-<p>ほとんどの場合において <tt class="docutils literal"><span class="pre">$this-&gt;data</span></tt> プロパティのシリアライズを面倒みてくれる <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\DataCollector\DataCollector</span></tt> を拡張して、 <tt class="docutils literal"><span class="pre">$this-&gt;data</span></tt> プロパティに追加することができるので便利です。</p>
+<p>ほとんどの場合において <tt class="docutils literal"><span class="pre">$this-&gt;data</span></tt> プロパティのシリアライズを面倒みてくれる <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/DataCollector/DataCollector.html" title="Symfony\Component\HttpKernel\DataCollector\DataCollector"><span class="pre">DataCollector</span></a></tt> を拡張して、 <tt class="docutils literal"><span class="pre">$this-&gt;data</span></tt> プロパティに追加することができるので便利です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">class</span> <span class="nc">MemoryDataCollector</span> <span class="k">extends</span> <span class="nx">DataCollector</span>
 <span class="p">{</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">collect</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nx">Response</span> <span class="nv">$response</span><span class="p">,</span> <span class="nx">\Exception</span> <span class="nv">$exception</span> <span class="o">=</span> <span class="k">null</span><span class="p">)</span>
@@ -288,11 +285,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/profiler/data_collector.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/profiler/data_collector.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/profiler/data_collector.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

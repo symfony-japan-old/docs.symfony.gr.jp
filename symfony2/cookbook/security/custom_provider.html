@@ -129,9 +129,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/security/custom_provider.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>カスタムユーザプロバイダの作成方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>Part of Symfony&#8217;s standard authentication process depends on &#8220;user providers&#8221;.
@@ -148,7 +145,7 @@ or - as we show in this example - a web service.</p>
 <p>First, regardless of <em>where</em> your user data is coming from, you&#8217;ll need to
 create a <tt class="docutils literal"><span class="pre">User</span></tt> class that represents that data. The <tt class="docutils literal"><span class="pre">User</span></tt> can look
 however you want and contain any data. The only requirement is that the
-class implements <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserInterface</span></tt>.
+class implements <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserInterface.html" title="Symfony\Component\Security\Core\User\UserInterface"><span class="pre">UserInterface</span></a></tt>.
 The methods in this interface should therefore be defined in the custom user
 class: <tt class="docutils literal"><span class="pre">getRoles()</span></tt>, <tt class="docutils literal"><span class="pre">getPassword()</span></tt>, <tt class="docutils literal"><span class="pre">getSalt()</span></tt>, <tt class="docutils literal"><span class="pre">getUsername()</span></tt>,
 <tt class="docutils literal"><span class="pre">eraseCredentials()</span></tt>, <tt class="docutils literal"><span class="pre">equals()</span></tt>.</p>
@@ -222,7 +219,7 @@ class: <tt class="docutils literal"><span class="pre">getRoles()</span></tt>, <t
 </div>
 <p>If you have more information about your users - like a &#8220;first name&#8221; - then
 you can add a <tt class="docutils literal"><span class="pre">firstName</span></tt> field to hold that data.</p>
-<p>For more details on each of the methods, see <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserInterface</span></tt>.</p>
+<p>For more details on each of the methods, see <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserInterface.html" title="Symfony\Component\Security\Core\User\UserInterface"><span class="pre">UserInterface</span></a></tt>.</p>
 </div>
 <div class="section" id="create-a-user-provider">
 <h2>Create a User Provider<a class="headerlink" href="#create-a-user-provider" title="Permalink to this headline">¶</a></h2>
@@ -230,10 +227,10 @@ you can add a <tt class="docutils literal"><span class="pre">firstName</span></t
 grab user information from some web service, create a <tt class="docutils literal"><span class="pre">WebserviceUser</span></tt> object,
 and populate it with data.</p>
 <p>The user provider is just a plain PHP class that has to implement the
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserProviderInterface</span></tt>,
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserProviderInterface.html" title="Symfony\Component\Security\Core\User\UserProviderInterface"><span class="pre">UserProviderInterface</span></a></tt>,
 which requires three methods to be defined: <tt class="docutils literal"><span class="pre">loadUserByUsername($username)</span></tt>,
 <tt class="docutils literal"><span class="pre">refreshUser(UserInterface</span> <span class="pre">$user)</span></tt>, and <tt class="docutils literal"><span class="pre">supportsClass($class)</span></tt>. For
-more details, see <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserProviderInterface</span></tt>.</p>
+more details, see <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserProviderInterface.html" title="Symfony\Component\Security\Core\User\UserProviderInterface"><span class="pre">UserProviderInterface</span></a></tt>.</p>
 <p>Here&#8217;s an example of how this might look:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/WebserviceUserBundle/Security/User/WebserviceUserProvider.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\WebserviceUserBundle\Security\User</span><span class="p">;</span>
@@ -373,11 +370,6 @@ method.</p>
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/security/custom_provider.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/security/custom_provider.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/security/custom_provider.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

@@ -127,12 +127,9 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/controller/service.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>コントローラをサービスとして定義する方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
-<p>Symfony のガイドブックでは、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Controller\Controller</span></tt> クラスを拡張したコントローラの利便性を学んできました。もちろんこれでも十分ですが、コントローラはサービスとしても指定することができます。</p>
+<p>Symfony のガイドブックでは、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller/Controller.html" title="Symfony\Bundle\FrameworkBundle\Controller\Controller"><span class="pre">Controller</span></a></tt> クラスを拡張したコントローラの利便性を学んできました。もちろんこれでも十分ですが、コントローラはサービスとしても指定することができます。</p>
 <p>サービスとして定義されたコントローラを問い合わせるには、シングルコロン(:)表記法を使用します。例えば、 <tt class="docutils literal"><span class="pre">my_controller</span></tt> というサービスを定義したとします。そして、そのサービスの <tt class="docutils literal"><span class="pre">indexAction()</span></tt> メソッドへフォワードしたいとします。その際には次のようにします。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">forward</span><span class="p">(</span><span class="s1">&#39;my_controller:indexAction&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;foo&#39;</span> <span class="o">=&gt;</span> <span class="nv">$bar</span><span class="p">));</span>
 </pre></div>
@@ -158,11 +155,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/controller/service.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/controller/service.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/controller/service.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

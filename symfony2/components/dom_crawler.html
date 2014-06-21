@@ -78,13 +78,13 @@
 <li><a class="reference internal" href="#">DomCrawlerコンポーネント</a><ul>
 <li><a class="reference internal" href="#id1">インストール</a></li>
 <li><a class="reference internal" href="#id2">使い方</a><ul>
-<li><a class="reference internal" href="#id5">ノードのフィルタリング</a></li>
-<li><a class="reference internal" href="#id6">ノードの走査</a></li>
-<li><a class="reference internal" href="#id7">ノードの値の取得</a></li>
-<li><a class="reference internal" href="#id10">コンテンツの追加</a></li>
-<li><a class="reference internal" href="#id29">リンク</a></li>
-<li><a class="reference internal" href="#id30">フォーム</a><ul>
-<li><a class="reference internal" href="#id33">フォームのデータを利用する</a></li>
+<li><a class="reference internal" href="#id3">ノードのフィルタリング</a></li>
+<li><a class="reference internal" href="#id4">ノードの走査</a></li>
+<li><a class="reference internal" href="#id5">ノードの値の取得</a></li>
+<li><a class="reference internal" href="#id6">コンテンツの追加</a></li>
+<li><a class="reference internal" href="#id7">リンク</a></li>
+<li><a class="reference internal" href="#id8">フォーム</a><ul>
+<li><a class="reference internal" href="#id9">フォームのデータを利用する</a></li>
 <li><a class="reference internal" href="#components-dom-crawler-invalid">選択フィールドに不正な値をセットする</a></li>
 </ul>
 </li>
@@ -148,9 +148,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/dom_crawler.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -176,8 +173,8 @@
 </div>
 <div class="section" id="id2">
 <h2>使い方<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Crawler</span></tt> クラスはHTML/XML文書のフィルタリングやDOM操作をするメソッドを提供します。</p>
-<p>Crawlerインスタンスは、DOMの要素を表す <a href="#id3"><span class="problematic" id="id4">:phpclass:`DOMElement`</span></a> クラスのインスタンスの集合です。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Crawler.html" title="Symfony\Component\DomCrawler\Crawler"><span class="pre">Crawler</span></a></tt> クラスはHTML/XML文書のフィルタリングやDOM操作をするメソッドを提供します。</p>
+<p>Crawlerインスタンスは、DOMの要素を表す <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domelement.php" title="DOMElement"><span class="pre">DOMElement</span></a></tt> クラスのインスタンスの集合です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\DomCrawler\Crawler</span><span class="p">;</span>
 
 <span class="nv">$html</span> <span class="o">=</span> <span class="s">&lt;&lt;&lt;&#39;HTML&#39;</span>
@@ -197,7 +194,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Link</span></tt> クラス、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Form</span></tt> クラスは、それぞれHTMLのリンク、フォームを表す特別なクラスです。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Link.html" title="Symfony\Component\DomCrawler\Link"><span class="pre">Link</span></a></tt> クラス、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Form.html" title="Symfony\Component\DomCrawler\Form"><span class="pre">Form</span></a></tt> クラスは、それぞれHTMLのリンク、フォームを表す特別なクラスです。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">DomCrawlerはHTML構造中の間違いを自動的に補正して、仕様にマッチさせようとします。
@@ -205,8 +202,8 @@
 これはHTML5の仕様に従った正しい動作ですが、予期せぬ問題を引き起こす可能性もあります。
 DomCrawler本来の用途ではありませんが、DomCrawlerが解釈した<a class="reference internal" href="#component-dom-crawler-dumping"><em>DOM構造をHTMLとしてダンプ</em></a>して、問題の原因を調べることが出来ます。</p>
 </div>
-<div class="section" id="id5">
-<h3>ノードのフィルタリング<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id3">
+<h3>ノードのフィルタリング<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>XPathによるフィルタリングは非常に簡単です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filterXPath</span><span class="p">(</span><span class="s1">&#39;descendant-or-self::body/p&#39;</span><span class="p">);</span>
 </pre></div>
@@ -233,11 +230,11 @@ jQuery風のセレクタでDOMを走査することが出来ます。</p>
 <p>無名関数がfalseを返すことで、ノードをフィルタすることが出来ます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">どのフィルタリングメソッドも、ノードをフィルタした新しい <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Crawler</span></tt> インスタンスを生成して返します。</p>
+<p class="last">どのフィルタリングメソッドも、ノードをフィルタした新しい <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Crawler.html" title="Symfony\Component\DomCrawler\Crawler"><span class="pre">Crawler</span></a></tt> インスタンスを生成して返します。</p>
 </div>
 </div>
-<div class="section" id="id6">
-<h3>ノードの走査<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>ノードの走査<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>選択済みのノード中の位置を指定してノードを選択</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="s1">&#39;body &gt; p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">eq</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
@@ -263,11 +260,11 @@ jQuery風のセレクタでDOMを走査することが出来ます。</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">どの走査メソッドも、新しい <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Crawler</span></tt> インスタンスを生成して返します。</p>
+<p class="last">どの走査メソッドも、新しい <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Crawler.html" title="Symfony\Component\DomCrawler\Crawler"><span class="pre">Crawler</span></a></tt> インスタンスを生成して返します。</p>
 </div>
 </div>
-<div class="section" id="id7">
-<h3>ノードの値の取得<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>ノードの値の取得<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>選択済みのノードのうち最初のノードの内包するテキストを取得</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$message</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">filterXPath</span><span class="p">(</span><span class="s1">&#39;//body/p&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">text</span><span class="p">();</span>
 </pre></div>
@@ -298,13 +295,13 @@ jQuery風のセレクタでDOMを走査することが出来ます。</p>
 </div>
 <div class="versionadded">
 <p><span>New in version 2.3: </span>Symfony 2.3 では、 <tt class="docutils literal"><span class="pre">each</span></tt>, <tt class="docutils literal"><span class="pre">reduce</span></tt> メソッドに渡す無名関数は第1引数として <tt class="docutils literal"><span class="pre">Crawler</span></tt>
-オブジェクトを受け取ります。以前のバージョンでは第1引数は <a href="#id8"><span class="problematic" id="id9">:phpclass:`DOMNode`</span></a> でした。</p>
+オブジェクトを受け取ります。以前のバージョンでは第1引数は <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domnode.php" title="DOMNode"><span class="pre">DOMNode</span></a></tt> でした。</p>
 </div>
 <p>無名関数は引数として <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトと、ノードリスト中の位置を受け取ります。
 無名関数が返す値の配列が <tt class="docutils literal"><span class="pre">each</span></tt> メソッドの返り値になります。</p>
 </div>
-<div class="section" id="id10">
-<h3>コンテンツの追加<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id6">
+<h3>コンテンツの追加<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
 <p>Crawlerはノードにコンテンツを追加する様々な方法をサポートします。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$crawler</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Crawler</span><span class="p">(</span><span class="s1">&#39;&lt;html&gt;&lt;body /&gt;&lt;/html&gt;&#39;</span><span class="p">);</span>
 
@@ -322,11 +319,11 @@ jQuery風のセレクタでDOMを走査することが出来ます。</p>
 <p class="first admonition-title">Note</p>
 <p class="last">ISO-8859-1 以外の文字コードを扱う場合は、
 HTMLコンテンツを追加するには
-<a href="#id11"><span class="problematic" id="id12">:method:`Symfony\\Component\\DomCrawler\\Crawler::addHTMLContent`</span></a>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Crawler.html#method_addHTMLContent" title="Symfony\Component\DomCrawler\Crawler::addHTMLContent()"><span class="pre">addHTMLContent()</span></a></tt>
 メソッドの第2引数に文字コードを指定して使います。</p>
 </div>
 <p>CrawlerはDOM拡張として実装されているため、
-<a href="#id13"><span class="problematic" id="id14">:phpclass:`DOMDocument`</span></a>, <a href="#id15"><span class="problematic" id="id16">:phpclass:`DOMNodeList`</span></a>, <a href="#id17"><span class="problematic" id="id18">:phpclass:`DOMNode`</span></a> の各インスタンスを利用することも出来ます。</p>
+<tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domdocument.php" title="DOMDocument"><span class="pre">DOMDocument</span></a></tt>, <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domnodelist.php" title="DOMNodeList"><span class="pre">DOMNodeList</span></a></tt>, <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domnode.php" title="DOMNode"><span class="pre">DOMNode</span></a></tt> の各インスタンスを利用することも出来ます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$document</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DOMDocument</span><span class="p">();</span>
 <span class="nv">$document</span><span class="o">-&gt;</span><span class="na">loadXml</span><span class="p">(</span><span class="s1">&#39;&lt;root&gt;&lt;node /&gt;&lt;node /&gt;&lt;/root&gt;&#39;</span><span class="p">);</span>
 <span class="nv">$nodeList</span> <span class="o">=</span> <span class="nv">$document</span><span class="o">-&gt;</span><span class="na">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;node&#39;</span><span class="p">);</span>
@@ -342,8 +339,8 @@ HTMLコンテンツを追加するには
 <div class="sidebar" id="component-dom-crawler-dumping">
 <p class="first sidebar-title">Manipulating and Dumping a <tt class="docutils literal"><span class="pre">Crawler</span></tt></p>
 <p>これら <tt class="docutils literal"><span class="pre">Crawler</span></tt> のメソッドは複雑なDOM操作を目的として作られたわけではありません。
-しかし <tt class="docutils literal"><span class="pre">Crawler</span></tt> は <a href="#id19"><span class="problematic" id="id20">:phpclass:`DOMElement`</span></a> クラスのインスタンスの集合であるため、
-<a href="#id21"><span class="problematic" id="id22">:phpclass:`DOMElement`</span></a>, <a href="#id23"><span class="problematic" id="id24">:phpclass:`DOMNode`</span></a>, <a href="#id25"><span class="problematic" id="id26">:phpclass:`DOMDocument`</span></a> などのメソッドやプロパティを利用出来ます。
+しかし <tt class="docutils literal"><span class="pre">Crawler</span></tt> は <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domelement.php" title="DOMElement"><span class="pre">DOMElement</span></a></tt> クラスのインスタンスの集合であるため、
+<tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domelement.php" title="DOMElement"><span class="pre">DOMElement</span></a></tt>, <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domnode.php" title="DOMNode"><span class="pre">DOMNode</span></a></tt>, <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domdocument.php" title="DOMDocument"><span class="pre">DOMDocument</span></a></tt> などのメソッドやプロパティを利用出来ます。
 例えばこのようにして、 <tt class="docutils literal"><span class="pre">Crawler</span></tt> にHTMLをダンプさせることも可能です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$html</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
 
@@ -352,18 +349,18 @@ HTMLコンテンツを追加するには
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>もしくは <a href="#id27"><span class="problematic" id="id28">:method:`Symfony\\Component\\DomCrawler\\Crawler::html`</span></a> メソッドを使ってHTMLを取得出来ます。</p>
+<p>もしくは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Crawler.html#method_html" title="Symfony\Component\DomCrawler\Crawler::html()"><span class="pre">html()</span></a></tt> メソッドを使ってHTMLを取得出来ます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$html</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">html</span><span class="p">();</span>
 </pre></div>
 </div>
 <p class="last"><tt class="docutils literal"><span class="pre">html</span></tt> メソッドは Symfony 2.3 で導入されました。</p>
 </div>
 </div>
-<div class="section" id="id29">
-<h3>リンク<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id7">
+<h3>リンク<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">Crawler</span></tt> の <tt class="docutils literal"><span class="pre">selectLink</span></tt> メソッドを使って、テキストリンクの文字列を指定して（もしくは画像リンクのalt属性の文字列を指定して）リンクを取得することが出来ます。
 このメソッドはリンクのノードを含む <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトを返します。
-この <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">link()</span></tt> メソッドを呼ぶことで、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Link</span></tt> のオブジェクトを取得出来ます。</p>
+この <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">link()</span></tt> メソッドを呼ぶことで、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Link.html" title="Symfony\Component\DomCrawler\Link"><span class="pre">Link</span></a></tt> のオブジェクトを取得出来ます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$linksCrawler</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Go elsewhere...&#39;</span><span class="p">);</span>
 <span class="nv">$link</span> <span class="o">=</span> <span class="nv">$linksCrawler</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
 
@@ -371,7 +368,7 @@ HTMLコンテンツを追加するには
 <span class="nv">$link</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectLink</span><span class="p">(</span><span class="s1">&#39;Go elsewhere...&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">link</span><span class="p">();</span>
 </pre></div>
 </div>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Link</span></tt> オブジェクトのメソッドを使って、リンクの情報を取得出来ます。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Link.html" title="Symfony\Component\DomCrawler\Link"><span class="pre">Link</span></a></tt> オブジェクトのメソッドを使って、リンクの情報を取得出来ます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// リンクのURIを返す</span>
 <span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$link</span><span class="o">-&gt;</span><span class="na">getUri</span><span class="p">();</span>
 </pre></div>
@@ -382,11 +379,11 @@ HTMLコンテンツを追加するには
 例えば <tt class="docutils literal"><span class="pre">href=&quot;#foo&quot;</span></tt> のようなリンクであれば、現在のURIの末尾に <tt class="docutils literal"><span class="pre">#foo</span></tt> を付加した完全なURIを返します。</p>
 </div>
 </div>
-<div class="section" id="id30">
-<h3>フォーム<a class="headerlink" href="#id30" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>フォーム<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <p>フォーム要素を便利に扱うための特別なメソッドが用意されています。
 <tt class="docutils literal"><span class="pre">Crawler</span></tt> の <tt class="docutils literal"><span class="pre">selectButton()</span></tt> メソッドで、ボタンのテキストを指定してボタン要素 (<tt class="docutils literal"><span class="pre">input[type=submit]</span></tt>, <tt class="docutils literal"><span class="pre">input[type=image]</span></tt>, <tt class="docutils literal"><span class="pre">button</span></tt>) の <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトを取得出来ます。
-この <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトから、フォーム要素を表す <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Form</span></tt> オブジェクトが取得出来ます。</p>
+この <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトから、フォーム要素を表す <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Form.html" title="Symfony\Component\DomCrawler\Form"><span class="pre">Form</span></a></tt> オブジェクトが取得出来ます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$crawler</span><span class="o">-&gt;</span><span class="na">selectButton</span><span class="p">(</span><span class="s1">&#39;validate&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">form</span><span class="p">();</span>
 
 <span class="c1">// フォームのフィールドにデータを入力する</span>
@@ -395,13 +392,13 @@ HTMLコンテンツを追加するには
 <span class="p">));</span>
 </pre></div>
 </div>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\DomCrawler\Form</span></tt> オブジェクトには多くの便利なメソッドが用意されています。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Form.html" title="Symfony\Component\DomCrawler\Form"><span class="pre">Form</span></a></tt> オブジェクトには多くの便利なメソッドが用意されています。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$uri</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getUri</span><span class="p">();</span>
 
 <span class="nv">$method</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">();</span>
 </pre></div>
 </div>
-<p><a href="#id31"><span class="problematic" id="id32">:method:`Symfony\\Component\\DomCrawler\\Form::getUri`</span></a> メソッドは単に <tt class="docutils literal"><span class="pre">action</span></tt> 属性の値を返すだけではありません。
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Form.html#method_getUri" title="Symfony\Component\DomCrawler\Form::getUri()"><span class="pre">getUri()</span></a></tt> メソッドは単に <tt class="docutils literal"><span class="pre">action</span></tt> 属性の値を返すだけではありません。
 GETメソッドの場合は、フォームの入力値に基づいたクエリ文字列を付加したURIを返してくれます。</p>
 <p>フォームに仮想的に値を入力したり取得したり出来ます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// 値を入力</span>
@@ -454,8 +451,8 @@ GETメソッドの場合は、フォームの入力値に基づいたクエリ�
 <span class="nv">$form</span><span class="p">[</span><span class="s1">&#39;registration[photo]&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">upload</span><span class="p">(</span><span class="s1">&#39;/path/to/lucas.jpg&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
-<div class="section" id="id33">
-<h4>フォームのデータを利用する<a class="headerlink" href="#id33" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id9">
+<h4>フォームのデータを利用する<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
 <p>こうしてデータを入力した <tt class="docutils literal"><span class="pre">Form</span></tt> オブジェクトから、フォームを実際に送信した際にアプリケーションが受け取るデータを取得することが出来ます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$values</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getPhpValues</span><span class="p">();</span>
 <span class="nv">$files</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getPhpFiles</span><span class="p">();</span>
@@ -489,9 +486,9 @@ Goutte は Symfony の Crawler を直接受け取り、フォームを送信す�
 </div>
 </div>
 <div class="section" id="components-dom-crawler-invalid">
-<span id="id34"></span><h4>選択フィールドに不正な値をセットする<a class="headerlink" href="#components-dom-crawler-invalid" title="Permalink to this headline">¶</a></h4>
+<span id="id10"></span><h4>選択フィールドに不正な値をセットする<a class="headerlink" href="#components-dom-crawler-invalid" title="Permalink to this headline">¶</a></h4>
 <div class="versionadded">
-<p><span>New in version 2.4: </span><a href="#id35"><span class="problematic" id="id36">:method:`Symfony\\Component\\DomCrawler\\Form::disableValidation`</span></a> メソッドは Symfony 2.4 で追加されました。</p>
+<p><span>New in version 2.4: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Form.html#method_disableValidation" title="Symfony\Component\DomCrawler\Form::disableValidation()"><span class="pre">disableValidation()</span></a></tt> メソッドは Symfony 2.4 で追加されました。</p>
 </div>
 <p>選択フィールド (select, radio) では、不正な値がセット出来ないようバリデーションが有効になっています。
 フォーム全体か単一のフィールドに対して <tt class="docutils literal"><span class="pre">disableValidation()</span></tt> メソッドを呼ぶことで、このバリデーションを無効にして不正な値をセットすることが出来ます。</p>
@@ -515,11 +512,6 @@ Goutte は Symfony の Crawler を直接受け取り、フォームを送信す�
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/dom_crawler.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/dom_crawler.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/dom_crawler.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

@@ -82,12 +82,12 @@
 <li><a class="reference internal" href="#csrf">CSRFプロテクション</a></li>
 <li><a class="reference internal" href="#twig">Twigテンプレーティング</a></li>
 <li><a class="reference internal" href="#component-form-intro-install-translation">翻訳</a></li>
-<li><a class="reference internal" href="#id8">バリデーション</a></li>
-<li><a class="reference internal" href="#id9">フォームファクトリへのアクセス</a></li>
+<li><a class="reference internal" href="#id4">バリデーション</a></li>
+<li><a class="reference internal" href="#id5">フォームファクトリへのアクセス</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#component-form-intro-create-simple-form">シンプルなフォームの作成</a><ul>
-<li><a class="reference internal" href="#id15">デフォルト値の設定</a></li>
+<li><a class="reference internal" href="#id9">デフォルト値の設定</a></li>
 <li><a class="reference internal" href="#component-form-intro-rendering-form">フォームのレンダリング</a></li>
 <li><a class="reference internal" href="#component-form-intro-handling-submission">送信データの取り扱い</a></li>
 <li><a class="reference internal" href="#component-form-intro-validation">バリデーション</a></li>
@@ -151,9 +151,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/form/introduction.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -207,9 +204,9 @@ Translation、Validatorコンポーネントですが、これらは自分で選
 <div class="section" id="request">
 <h3>Requestハンドリング<a class="headerlink" href="#request" title="Permalink to this headline">¶</a></h3>
 <p>フォームのデータを処理するには、リクエストされた情報（通常は <tt class="docutils literal"><span class="pre">$_POST</span></tt>）を補足し、
-<a href="#id3"><span class="problematic" id="id4">:method:`Symfony\\Component\\Form\\Form::bind`</span></a> メソッドに送信された配列データを渡す必要があります。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Form.html#method_bind" title="Symfony\Component\Form\Form::bind()"><span class="pre">bind()</span></a></tt> メソッドに送信された配列データを渡す必要があります。
 Formコンポーネントはこれをより簡単にするためにSymfonyの <tt class="xref doc docutils literal"><span class="pre">HttpFoundation</span></tt> コンポーネントとの連携が可能です。</p>
-<p>HttpFoundationコンポーネントと連携するにはフォームファクトリに <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension</span></tt> を追加する必要があります:</p>
+<p>HttpFoundationコンポーネントと連携するにはフォームファクトリに <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/HttpFoundation/HttpFoundationExtension.html" title="Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension"><span class="pre">HttpFoundationExtension</span></a></tt> を追加する必要があります:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Form\Forms</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Form\Extension\HttpFoundation\HttpFoundationExtension</span><span class="p">;</span>
 
@@ -218,8 +215,8 @@ Formコンポーネントはこれをより簡単にするためにSymfonyの <t
     <span class="o">-&gt;</span><span class="na">getFormFactory</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>これでデータを処理する際、配列の代わりに <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt> オブジェクトを
-<a href="#id5"><span class="problematic" id="id6">:method:`Symfony\\Component\\Form\\Form::bind`</span></a> に渡すことができるようになります。</p>
+<p>これでデータを処理する際、配列の代わりに <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html" title="Symfony\Component\HttpFoundation\Request"><span class="pre">Request</span></a></tt> オブジェクトを
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Form.html#method_bind" title="Symfony\Component\Form\Form::bind()"><span class="pre">bind()</span></a></tt> に渡すことができるようになります。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last"><tt class="docutils literal"><span class="pre">HttpFoundation</span></tt> コンポーネントの詳細、インストール方法などについては <tt class="xref doc docutils literal"><span class="pre">/components/http_foundation/introduction</span></tt> をご覧ください。</p>
@@ -253,7 +250,7 @@ Formコンポーネントはこれをより簡単にするためにSymfonyの <t
 <p>内部では、このエクステンションはすべてのフォームに値が自動生成された状態のhiddenフィールド（デフォルト名は <tt class="docutils literal"><span class="pre">__token</span></tt>）を自動で追加し、データをバインドする際に検証されます。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p>HttpFoundationコンポーネントを使用していない場合は、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider</span></tt> を代わりに使用して下さい。
+<p>HttpFoundationコンポーネントを使用していない場合は、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Csrf/CsrfProvider/DefaultCsrfProvider.html" title="Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider"><span class="pre">DefaultCsrfProvider</span></a></tt> を代わりに使用して下さい。
 これはPHPのネイティブのセッションを使います:</p>
 <div class="last highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider</span><span class="p">;</span>
 
@@ -277,7 +274,7 @@ Composerを使用している場合、<tt class="docutils literal"><span class="
 </div>
 <p>TwigBridgeを使うと、各フィールド（およびそれに付随する物）のためのHTMLウィジェット、ラベル、フィールドのエラーのレンダリングに役立つ様々な
 <a class="reference internal" href="../../reference/forms/twig_reference.html"><em>Twig Functions</em></a> が有効になります。連携にはTwigのインスタンスを初期化または取得し、
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Twig\Extension\FormExtension</span></tt> を追加する必要があります:</p>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bridge/Twig/Extension/FormExtension.html" title="Symfony\Bridge\Twig\Extension\FormExtension"><span class="pre">FormExtension</span></a></tt> を追加する必要があります:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Form\Forms</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Bridge\Twig\Extension\FormExtension</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Bridge\Twig\Form\TwigRenderer</span><span class="p">;</span>
@@ -308,9 +305,9 @@ Composerを使用している場合、<tt class="docutils literal"><span class="
     <span class="o">-&gt;</span><span class="na">getFormFactory</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>厳密には <a class="reference external" href="http://twig.sensiolabs.org/doc/intro.html">Twig Configuration</a> の詳細は異なるでしょうが、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Twig\Extension\FormExtension</span></tt>
+<p>厳密には <a class="reference external" href="http://twig.sensiolabs.org/doc/intro.html">Twig Configuration</a> の詳細は異なるでしょうが、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bridge/Twig/Extension/FormExtension.html" title="Symfony\Bridge\Twig\Extension\FormExtension"><span class="pre">FormExtension</span></a></tt>
 をTwigに追加するという点は共通です。そのためにはまず、あなたの <a class="reference internal" href="../../cookbook/form/form_customization.html#cookbook-form-customization-form-themes"><em>form themes</em></a>
-（つまり、フォームのHTMLマークアップを定義する resources/files）を定義する <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Twig\Form\TwigRendererEngine</span></tt> を作る必要があります。</p>
+（つまり、フォームのHTMLマークアップを定義する resources/files）を定義する <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bridge/Twig/Form/TwigRendererEngine.html" title="Symfony\Bridge\Twig\Form\TwigRendererEngine"><span class="pre">TwigRendererEngine</span></a></tt> を作る必要があります。</p>
 <p>一般的なフォームのレンダリングについては <a class="reference internal" href="../../cookbook/form/form_customization.html"><em>フォームのレンダリングのカスタマイズ方法</em></a> を参照のこと。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -318,10 +315,10 @@ Composerを使用している場合、<tt class="docutils literal"><span class="
 </div>
 </div>
 <div class="section" id="component-form-intro-install-translation">
-<span id="id7"></span><h3>翻訳<a class="headerlink" href="#component-form-intro-install-translation" title="Permalink to this headline">¶</a></h3>
+<span id="id3"></span><h3>翻訳<a class="headerlink" href="#component-form-intro-install-translation" title="Permalink to this headline">¶</a></h3>
 <p>Twigのデフォルトのフォームテーマのいずれかを (例えば<tt class="docutils literal"><span class="pre">form_div_layout.html.twig</span></tt>) 使用していれば、
 フォームラベルやエラーメッセージ、オプションテキストなどの翻訳に2つのTwigフィルタが利用できます。（<tt class="docutils literal"><span class="pre">trans</span></tt>、<tt class="docutils literal"><span class="pre">transChoice</span></tt>）</p>
-<p>これらのTwigフィルタを使うには、Symfonyの <tt class="docutils literal"><span class="pre">Translation</span></tt> コンポーネントとの連携を実現した <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Twig\Extension\TranslationExtension</span></tt>
+<p>これらのTwigフィルタを使うには、Symfonyの <tt class="docutils literal"><span class="pre">Translation</span></tt> コンポーネントとの連携を実現した <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bridge/Twig/Extension/TranslationExtension.html" title="Symfony\Bridge\Twig\Extension\TranslationExtension"><span class="pre">TranslationExtension</span></a></tt>
 を使用するか、自作のTwigエクステンションから2つのTwigフィルタを自分で追加することです。</p>
 <p><tt class="docutils literal"><span class="pre">TranslationExtension</span></tt> を使用するには、プロジェクトにSymfonyの <tt class="docutils literal"><span class="pre">Translation</span></tt> コンポーネントと <tt class="xref doc docutils literal"><span class="pre">Config</span></tt>
 コンポーネントがインストールされていることを確認してください。Composerを使用してれば、<tt class="docutils literal"><span class="pre">composer.json</span></tt> に以下を追加することで最新のバージョン2.3をインストールすることができます。:</p>
@@ -333,7 +330,7 @@ Composerを使用している場合、<tt class="docutils literal"><span class="
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>次に、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bridge\Twig\Extension\TranslationExtension</span></tt> を <tt class="docutils literal"><span class="pre">Twig_Environment</span></tt> インスタンスに追加します:</p>
+<p>次に、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bridge/Twig/Extension/TranslationExtension.html" title="Symfony\Bridge\Twig\Extension\TranslationExtension"><span class="pre">TranslationExtension</span></a></tt> を <tt class="docutils literal"><span class="pre">Twig_Environment</span></tt> インスタンスに追加します:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Form\Forms</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Translation\Translator</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Translation\Loader\XliffFileLoader</span><span class="p">;</span>
@@ -360,8 +357,8 @@ Composerを使用している場合、<tt class="docutils literal"><span class="
 <p>これで、上記の翻訳ソースにフィールドラベルなどの文字列のキーと対応する翻訳を追加することができるようになりました。</p>
 <p>翻訳についてさらに詳しい詳細は <a class="reference internal" href="../../book/translation.html"><em>翻訳</em></a> をご覧ください。</p>
 </div>
-<div class="section" id="id8">
-<h3>バリデーション<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>バリデーション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>FormコンポーネントはSymfonyのValidatorコンポーネントと連携して検証を行うことができますが、既にある独自の検証システムを活用することもできます。
 単にフォームにバインドされたデータ（配列またはオブジェクト）を取り、独自の検証システムに通すだけです。</p>
 <p>SymfonyのValidatorコンポーネントを使用する場合は、まずプロジェクトにValidatorコンポーネントがインストールされている事を確認してください。
@@ -374,7 +371,7 @@ Composerを使用していれば、<tt class="docutils literal"><span class="pre
 </pre></div>
 </div>
 <p>Validatorコンポーネントに慣れていなければ <a class="reference internal" href="../../book/validation.html"><em>バリデーション</em></a> を参照して下さい。Formコンポーネントは
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Validator\ValidatorExtension</span></tt> を使用して自動的にバインドされたデータを検証し、エラーがあれば正しいフィールドにマップされた上でレンダリングします。</p>
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Validator/ValidatorExtension.html" title="Symfony\Component\Form\Extension\Validator\ValidatorExtension"><span class="pre">ValidatorExtension</span></a></tt> を使用して自動的にバインドされたデータを検証し、エラーがあれば正しいフィールドにマップされた上でレンダリングします。</p>
 <p>Validatorコンポーネントとの連携は次のようにして行います:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Form\Forms</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Form\Extension\Validator\ValidatorExtension</span><span class="p">;</span>
@@ -409,8 +406,8 @@ Composerを使用していれば、<tt class="docutils literal"><span class="pre
 </div>
 <p>更に詳しい情報は <a class="reference internal" href="#component-form-intro-validation"><em>バリデーション</em></a> セクションに記載されています。</p>
 </div>
-<div class="section" id="id9">
-<h3>フォームファクトリへのアクセス<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id5">
+<h3>フォームファクトリへのアクセス<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>フォームファクトリはアプリケーション中で1つだけ保持し、すべてのフォームはそこから構築されるべきです。
 つまり、フォームの生成に必要な時にいつでもアクセスできるよう、フォームファクトリはアプリケーションのブートストラップ部分で生成しなければならないことを意味します。</p>
 <div class="admonition note">
@@ -423,14 +420,14 @@ Composerを使用していれば、<tt class="docutils literal"><span class="pre
 </div>
 </div>
 <div class="section" id="component-form-intro-create-simple-form">
-<span id="id10"></span><h2>シンプルなフォームの作成<a class="headerlink" href="#component-form-intro-create-simple-form" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2>シンプルなフォームの作成<a class="headerlink" href="#component-form-intro-create-simple-form" title="Permalink to this headline">¶</a></h2>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">Symfony2フレームワークを使用していれば、フォームファクトリはサービス名 <tt class="docutils literal"><span class="pre">form.factory</span></tt> として登録されています。
-また、デフォルトのコントローラクラスは <a href="#id11"><span class="problematic" id="id12">:method:`Symfony\\Bundle\\FrameworkBundle\\Controller::createFormBuilder`</span></a> メソッドを持っています。
-これはフォームファクトリを取得し、<a href="#id13"><span class="problematic" id="id14">``</span></a>createBuilder``を実行するショートカットです。</p>
+また、デフォルトのコントローラクラスは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Controller.html#method_createFormBuilder" title="Symfony\Bundle\FrameworkBundle\Controller::createFormBuilder()"><span class="pre">createFormBuilder()</span></a></tt> メソッドを持っています。
+これはフォームファクトリを取得し、<a href="#id7"><span class="problematic" id="id8">``</span></a>createBuilder``を実行するショートカットです。</p>
 </div>
-<p>フォームの作成は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\FormBuilder</span></tt> を介して行われ、そこで各種フィールドの構築や設定を行います。フォームビルダは、フォームファクトリによって作られます。</p>
+<p>フォームの作成は <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/FormBuilder.html" title="Symfony\Component\Form\FormBuilder"><span class="pre">FormBuilder</span></a></tt> を介して行われ、そこで各種フィールドの構築や設定を行います。フォームビルダは、フォームファクトリによって作られます。</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$formFactory</span><span class="o">-&gt;</span><span class="na">createBuilder</span><span class="p">()</span>
@@ -475,8 +472,8 @@ Composerを使用していれば、<tt class="docutils literal"><span class="pre
 第1引数にはフィールド名、第2引数にはフィールドの「タイプ」を指定します。Formコンポーネントには多数の <a class="reference internal" href="../../reference/forms/types.html"><em>ビルトインタイプ</em></a> が付属されています。</p>
 <p>フォームが構築できたので、 <a class="reference internal" href="#component-form-intro-rendering-form"><em>レンダリング</em></a> し、
 <a class="reference internal" href="#component-form-intro-handling-submission"><em>送信データを処理</em></a> する方法を解説します。</p>
-<div class="section" id="id15">
-<h3>デフォルト値の設定<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>デフォルト値の設定<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <p>フォームには（編集フォームなど）デフォルト値が必要なケースがあります。
 フォームビルダの作成時にデフォルト値を設定することが可能です。</p>
 <div class="configuration-block">
@@ -512,7 +509,7 @@ Composerを使用していれば、<tt class="docutils literal"><span class="pre
 </div>
 </div>
 <div class="section" id="component-form-intro-rendering-form">
-<span id="id16"></span><h3>フォームのレンダリング<a class="headerlink" href="#component-form-intro-rendering-form" title="Permalink to this headline">¶</a></h3>
+<span id="id10"></span><h3>フォームのレンダリング<a class="headerlink" href="#component-form-intro-rendering-form" title="Permalink to this headline">¶</a></h3>
 <p>フォームが完成したので、次はこれをレンダリングしてみましょう。
 これは、テンプレートに特殊なフォーム「view」オブジェクトを渡し（上記のコントローラの $form-&gt;createView() の部分に注目してください）、フォームヘルパー関数のセットを使用して行われます。</p>
 <div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">&quot;#&quot;</span> <span class="na">method=</span><span class="s">&quot;post&quot;</span> <span class="cp">{{</span> <span class="nv">form_enctype</span><span class="o">(</span><span class="nv">form</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&gt;</span>
@@ -528,8 +525,8 @@ Composerを使用していれば、<tt class="docutils literal"><span class="pre
 その方法については &#8220;<a class="reference internal" href="../../book/forms.html#form-rendering-template"><em>フォームのレンダリング</em></a>&#8221; セクションをご覧ください。</p>
 </div>
 <div class="section" id="component-form-intro-handling-submission">
-<span id="id17"></span><h3>送信データの取り扱い<a class="headerlink" href="#component-form-intro-handling-submission" title="Permalink to this headline">¶</a></h3>
-<p>送信データを取り扱うには <a href="#id18"><span class="problematic" id="id19">:method:`Symfony\\Component\\Form\\Form::bind`</span></a> を使用します。</p>
+<span id="id11"></span><h3>送信データの取り扱い<a class="headerlink" href="#component-form-intro-handling-submission" title="Permalink to this headline">¶</a></h3>
+<p>送信データを取り扱うには <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Form.html#method_bind" title="Symfony\Component\Form\Form::bind()"><span class="pre">bind()</span></a></tt> を使用します。</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\HttpFoundation\Request</span><span class="p">;</span>
@@ -613,7 +610,7 @@ Composerを使用していれば、<tt class="docutils literal"><span class="pre
 </div>
 </div>
 <div class="section" id="component-form-intro-validation">
-<span id="id20"></span><h3>バリデーション<a class="headerlink" href="#component-form-intro-validation" title="Permalink to this headline">¶</a></h3>
+<span id="id12"></span><h3>バリデーション<a class="headerlink" href="#component-form-intro-validation" title="Permalink to this headline">¶</a></h3>
 <p>各フィールドを構築する際、フォームに検証を追加する最も簡単な方法は、<tt class="docutils literal"><span class="pre">constraints</span></tt> オプションを使用することです:</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -670,11 +667,6 @@ Composerを使用していれば、<tt class="docutils literal"><span class="pre
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/form/introduction.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/form/introduction.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/form/introduction.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

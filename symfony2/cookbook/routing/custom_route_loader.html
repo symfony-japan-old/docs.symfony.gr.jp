@@ -74,11 +74,11 @@
   <ul>
 <li><a class="reference internal" href="#">カスタムルートローダーの作り方</a><ul>
 <li><a class="reference internal" href="#id2">ルーティング設定を読み込む</a></li>
-<li><a class="reference internal" href="#id11">カスタムローダーを作成する</a><ul>
-<li><a class="reference internal" href="#id12">カスタムローダーを使う</a></li>
+<li><a class="reference internal" href="#id3">カスタムローダーを作成する</a><ul>
+<li><a class="reference internal" href="#id4">カスタムローダーを使う</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id13">より高度なローダー</a></li>
+<li><a class="reference internal" href="#id5">より高度なローダー</a></li>
 </ul>
 </li>
 </ul>
@@ -131,9 +131,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/routing/custom_route_loader.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -154,10 +151,10 @@
 </div>
 <div class="section" id="id2">
 <h2>ルーティング設定を読み込む<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>Symfony アプリケーションのルーティング設定は、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader</span></tt> を使って読み込まれています。
+<p>Symfony アプリケーションのルーティング設定は、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Routing/DelegatingLoader.html" title="Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader"><span class="pre">DelegatingLoader</span></a></tt> を使って読み込まれています。
 このローダーは複数の違うローダーを使って（デリゲートして）、さまざまな種類のリソースから読み込みます。たとえば Yaml ファイルや、コントローラのファイル内の <tt class="docutils literal"><span class="pre">&#64;Route</span></tt> ・ <tt class="docutils literal"><span class="pre">&#64;Method</span></tt> アノテーションなどです。
-特別のローダーは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Config\Loader\LoaderInterface</span></tt> を実装し、2つの重要なメソッドを備えています。
-<a href="#id3"><span class="problematic" id="id4">:method:`Symfony\\Component\\Config\\Loader\\LoaderInterface::supports`</span></a> メソッドと <a href="#id5"><span class="problematic" id="id6">:method:`Symfony\\Component\\Config\\Loader\\LoaderInterface::load`</span></a> メソッドです。</p>
+特別のローダーは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html" title="Symfony\Component\Config\Loader\LoaderInterface"><span class="pre">LoaderInterface</span></a></tt> を実装し、2つの重要なメソッドを備えています。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html#method_supports" title="Symfony\Component\Config\Loader\LoaderInterface::supports()"><span class="pre">supports()</span></a></tt> メソッドと <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html#method_load" title="Symfony\Component\Config\Loader\LoaderInterface::load()"><span class="pre">load()</span></a></tt> メソッドです。</p>
 <p>Symfony standard edition の AcmeDemoBundle の <tt class="docutils literal"><span class="pre">routing.yml</span></tt> にあるこの記述を見てください。</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># src/Acme/DemoBundle/Resources/config/routing.yml</span>
 <span class="l-Scalar-Plain">_demo</span><span class="p-Indicator">:</span>
@@ -166,13 +163,13 @@
     <span class="l-Scalar-Plain">prefix</span><span class="p-Indicator">:</span>   <span class="l-Scalar-Plain">/demo</span>
 </pre></div>
 </div>
-<p>メインのローダーがこの記述をパースすると、与えられたリソース（ <tt class="docutils literal"><span class="pre">&#64;AcmeDemoBundle/Controller/DemoController.php</span></tt> ）とタイプ（ <tt class="docutils literal"><span class="pre">annotation</span></tt> ）についてすべてのローダーの <a href="#id7"><span class="problematic" id="id8">:method:`Symfony\\Component\\Config\\Loader\\LoaderInterface::supports`</span></a> メソッドを呼び出します。
-ローダーのどれかが <tt class="docutils literal"><span class="pre">true</span></tt> を返すと、そのローダーの <a href="#id9"><span class="problematic" id="id10">:method:`Symfony\\Component\\Config\\Loader\\LoaderInterface::load`</span></a> メソッドが呼び出され、 :<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Routing\Route</span></tt> を含む class:<cite>Symfony\Component\Routing\RouteCollection</cite> が返されます。</p>
+<p>メインのローダーがこの記述をパースすると、与えられたリソース（ <tt class="docutils literal"><span class="pre">&#64;AcmeDemoBundle/Controller/DemoController.php</span></tt> ）とタイプ（ <tt class="docutils literal"><span class="pre">annotation</span></tt> ）についてすべてのローダーの <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html#method_supports" title="Symfony\Component\Config\Loader\LoaderInterface::supports()"><span class="pre">supports()</span></a></tt> メソッドを呼び出します。
+ローダーのどれかが <tt class="docutils literal"><span class="pre">true</span></tt> を返すと、そのローダーの <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html#method_load" title="Symfony\Component\Config\Loader\LoaderInterface::load()"><span class="pre">load()</span></a></tt> メソッドが呼び出され、 :<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Routing/Route.html" title="Symfony\Component\Routing\Route"><span class="pre">Route</span></a></tt> を含む class:<cite>Symfony\Component\Routing\RouteCollection</cite> が返されます。</p>
 </div>
-<div class="section" id="id11">
-<h2>カスタムローダーを作成する<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h2>カスタムローダーを作成する<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>ルーティング設定を独自のリソース（たとえば、アノテーション・ Yaml ファイル・ XML ファイル以外）から読み込ませるためには、カスタムルートローダーを作成する必要があります。
-カスタムルートローダーは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Config\Loader\LoaderInterface</span></tt> を実装している必要があります。</p>
+カスタムルートローダーは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html" title="Symfony\Component\Config\Loader\LoaderInterface"><span class="pre">LoaderInterface</span></a></tt> を実装している必要があります。</p>
 <p>下記のサンプルローダーは、 <tt class="docutils literal"><span class="pre">extra</span></tt> という種類のルーティングリソースからのルーティング設定読み込みをサポートしています。
 <tt class="docutils literal"><span class="pre">extra</span></tt> という種類は重要ではありません。好きなリソースを命名して使うことができます。リソース名自体はサンプルの中では使われていません。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Routing</span><span class="p">;</span>
@@ -274,9 +271,9 @@
 </li>
 </ul>
 </div>
-<p><tt class="docutils literal"><span class="pre">routing.loader</span></tt> タグが使われています。このタグがついているすべてのサービスはルートローダーとして認識され、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader</span></tt> にカスタムルートローダーとして登録されます。</p>
-<div class="section" id="id12">
-<h3>カスタムローダーを使う<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<p><tt class="docutils literal"><span class="pre">routing.loader</span></tt> タグが使われています。このタグがついているすべてのサービスはルートローダーとして認識され、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Routing/DelegatingLoader.html" title="Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader"><span class="pre">DelegatingLoader</span></a></tt> にカスタムルートローダーとして登録されます。</p>
+<div class="section" id="id4">
+<h3>カスタムローダーを使う<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>他に何もしなければ、カスタムルートローダーは <em>呼び出されることはありません。</em>
 カスタムローダーを呼び出したければ、ルーティング設定に数行の設定を追加する必要があります。</p>
 <div class="configuration-block">
@@ -319,11 +316,11 @@
 </div>
 </div>
 </div>
-<div class="section" id="id13">
-<h2>より高度なローダー<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h2>
-<p>ほとんどの場合、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Config\Loader\LoaderInterface</span></tt> を実装するより  <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Config\Loader\Loader</span></tt> を継承したほうが便利です。
-Loader クラスは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Config\Loader\LoaderResolver</span></tt> を使ってルーティングリソースを読み込む方法が組み込まれているからです。</p>
-<p>と言っても <a href="#id14"><span class="problematic" id="id15">:method:`Symfony\\Component\\Config\\Loader\\LoaderInterface::supports`</span></a> メソッドと <a href="#id16"><span class="problematic" id="id17">:method:`Symfony\\Component\\Config\\Loader\\LoaderInterface::load`</span></a> メソッドは実装しなくてはいけませんが、他のリソース（たとえば Yaml のルーティング設定ファイル）を読み込みたいときに、 <a href="#id18"><span class="problematic" id="id19">:method:`Symfony\\Component\\Config\\Loader\\Loader::import`</span></a> メソッドを利用することができます。:</p>
+<div class="section" id="id5">
+<h2>より高度なローダー<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>ほとんどの場合、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html" title="Symfony\Component\Config\Loader\LoaderInterface"><span class="pre">LoaderInterface</span></a></tt> を実装するより  <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/Loader.html" title="Symfony\Component\Config\Loader\Loader"><span class="pre">Loader</span></a></tt> を継承したほうが便利です。
+Loader クラスは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderResolver.html" title="Symfony\Component\Config\Loader\LoaderResolver"><span class="pre">LoaderResolver</span></a></tt> を使ってルーティングリソースを読み込む方法が組み込まれているからです。</p>
+<p>と言っても <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html#method_supports" title="Symfony\Component\Config\Loader\LoaderInterface::supports()"><span class="pre">supports()</span></a></tt> メソッドと <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/LoaderInterface.html#method_load" title="Symfony\Component\Config\Loader\LoaderInterface::load()"><span class="pre">load()</span></a></tt> メソッドは実装しなくてはいけませんが、他のリソース（たとえば Yaml のルーティング設定ファイル）を読み込みたいときに、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Config/Loader/Loader.html#method_import" title="Symfony\Component\Config\Loader\Loader::import()"><span class="pre">import()</span></a></tt> メソッドを利用することができます。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Routing</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nx">Symfony\Component\Config\Loader\Loader</span><span class="p">;</span>
@@ -364,11 +361,6 @@ Loader クラスは <tt class="xref php php-class docutils literal"><span class=
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/routing/custom_route_loader.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/routing/custom_route_loader.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/routing/custom_route_loader.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

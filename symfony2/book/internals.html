@@ -103,15 +103,15 @@
 <li><a class="reference internal" href="#index-14">イベント名とイベントオブジェクト</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id22">ディスパッチャー</a></li>
+<li><a class="reference internal" href="#id12">ディスパッチャー</a></li>
 <li><a class="reference internal" href="#index-15">リスナーの接続</a></li>
 <li><a class="reference internal" href="#index-16">イベントの作成とディスパッチ</a><ul>
 <li><a class="reference internal" href="#events">静的な <tt class="docutils literal"><span class="pre">Events</span></tt> クラス</a></li>
-<li><a class="reference internal" href="#id25">イベントオブジェクトの作成</a></li>
-<li><a class="reference internal" href="#id26">イベントのディスパッチ</a></li>
+<li><a class="reference internal" href="#id15">イベントオブジェクトの作成</a></li>
+<li><a class="reference internal" href="#id16">イベントのディスパッチ</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id29">イベントディスパッチャーオブジェクトを伝える</a></li>
+<li><a class="reference internal" href="#id17">イベントディスパッチャーオブジェクトを伝える</a></li>
 <li><a class="reference internal" href="#index-17">イベントサブスクライバを使う</a></li>
 <li><a class="reference internal" href="#event-dispatcher-event-propagation">イベントの流れ/伝播を停める</a></li>
 </ul>
@@ -119,14 +119,14 @@
 <li><a class="reference internal" href="#index-19">プロファイラ</a><ul>
 <li><a class="reference internal" href="#index-20">プロファイリングデータの視覚化</a><ul>
 <li><a class="reference internal" href="#web">Web デバッグツールバーを使う</a></li>
-<li><a class="reference internal" href="#id38">Web プロファイラを使ったプロファイルデータの解析</a></li>
+<li><a class="reference internal" href="#id22">Web プロファイラを使ったプロファイルデータの解析</a></li>
 <li><a class="reference internal" href="#index-21">プロファイル情報へのアクセス</a></li>
 <li><a class="reference internal" href="#index-22">設定</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id41">クックブックでさらに学ぶ</a></li>
+<li><a class="reference internal" href="#id25">クックブックでさらに学ぶ</a></li>
 </ul>
 </li>
 </ul>
@@ -185,9 +185,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/internals.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>内部構造<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>Symfony2 内部の動作や拡張方法について、さらに知りたいと思ったのではないでしょうか。
@@ -203,23 +200,23 @@
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">オートロードは、フレームワークでは直接管理されていません。
-フレームワークとは独立し、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\ClassLoader\UniversalClassLoader</span></tt> クラスと <tt class="docutils literal"><span class="pre">src/autoload.php</span></tt> ファイルを使ってオートロードが行われます。
+フレームワークとは独立し、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/ClassLoader/UniversalClassLoader.html" title="Symfony\Component\ClassLoader\UniversalClassLoader"><span class="pre">UniversalClassLoader</span></a></tt> クラスと <tt class="docutils literal"><span class="pre">src/autoload.php</span></tt> ファイルを使ってオートロードが行われます。
 オートロードに関する詳細は、<a class="reference internal" href="../cookbook/tools/autoloader.html"><em>オートローダーの章</em></a>を参照してください。</p>
 </div>
 <div class="section" id="httpfoundation">
 <h3><tt class="docutils literal"><span class="pre">HttpFoundation</span></tt> コンポーネント<a class="headerlink" href="#httpfoundation" title="Permalink to this headline">¶</a></h3>
-<p>最も最下層に位置するのが、<a href="#id3"><span class="problematic" id="id4">:namespace:`Symfony\\Component\\HttpFoundation`</span></a> コンポーネントです。
+<p>最も最下層に位置するのが、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation.html" title="Symfony\Component\HttpFoundation"><span class="pre">HttpFoundation</span></a></tt> コンポーネントです。
 HttpFoundation には、HTTP を扱うのに必要なオブジェクトがあります。
 これらは、PHP のネイティブ関数や変数のいくつかをオブジェクト指向で抽象化したものです。</p>
 <ul class="simple">
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt> クラスは、PHP の主要なグローバル変数である <tt class="docutils literal"><span class="pre">$_GET</span></tt>、<tt class="docutils literal"><span class="pre">$_POST</span></tt>、<tt class="docutils literal"><span class="pre">$_COOKIE</span></tt>、<tt class="docutils literal"><span class="pre">$_FILES</span></tt>、<tt class="docutils literal"><span class="pre">$_SERVER</span></tt> を抽象化しています。</li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response</span></tt> クラスは、<tt class="docutils literal"><span class="pre">header()</span></tt> 、<tt class="docutils literal"><span class="pre">setcookie()</span></tt>、<tt class="docutils literal"><span class="pre">echo</span></tt> などの PHP 関数を抽象化しています。</li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Session</span></tt> クラスと <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\SessionStorage\SessionStorageInterface</span></tt> インタフェースは、セッションを管理するための <tt class="docutils literal"><span class="pre">session_*()</span></tt> 関数などを抽象化しています。</li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html" title="Symfony\Component\HttpFoundation\Request"><span class="pre">Request</span></a></tt> クラスは、PHP の主要なグローバル変数である <tt class="docutils literal"><span class="pre">$_GET</span></tt>、<tt class="docutils literal"><span class="pre">$_POST</span></tt>、<tt class="docutils literal"><span class="pre">$_COOKIE</span></tt>、<tt class="docutils literal"><span class="pre">$_FILES</span></tt>、<tt class="docutils literal"><span class="pre">$_SERVER</span></tt> を抽象化しています。</li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Response.html" title="Symfony\Component\HttpFoundation\Response"><span class="pre">Response</span></a></tt> クラスは、<tt class="docutils literal"><span class="pre">header()</span></tt> 、<tt class="docutils literal"><span class="pre">setcookie()</span></tt>、<tt class="docutils literal"><span class="pre">echo</span></tt> などの PHP 関数を抽象化しています。</li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Session.html" title="Symfony\Component\HttpFoundation\Session"><span class="pre">Session</span></a></tt> クラスと <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/SessionStorage/SessionStorageInterface.html" title="Symfony\Component\HttpFoundation\SessionStorage\SessionStorageInterface"><span class="pre">SessionStorageInterface</span></a></tt> インタフェースは、セッションを管理するための <tt class="docutils literal"><span class="pre">session_*()</span></tt> 関数などを抽象化しています。</li>
 </ul>
 </div>
 <div class="section" id="httpkernel">
 <h3><tt class="docutils literal"><span class="pre">HttpKernel</span></tt> コンポーネント<a class="headerlink" href="#httpkernel" title="Permalink to this headline">¶</a></h3>
-<p>HttpFoundation の上のレイヤーは、<a href="#id5"><span class="problematic" id="id6">:namespace:`Symfony\\Component\\HttpKernel`</span></a> コンポーネントです。
+<p>HttpFoundation の上のレイヤーは、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel.html" title="Symfony\Component\HttpKernel"><span class="pre">HttpKernel</span></a></tt> コンポーネントです。
 HttpKernel HTTP の動的な機能を担当します。
 Request クラスや Response クラスの薄いラッパーで、リクエストの標準的な処理方法を提供します。
 また、オーバーヘッドの少ない Web フレームワークを作成するための、拡張ポイントやツールもこのレイヤーで提供されています。</p>
@@ -233,36 +230,36 @@ Request クラスや Response クラスの薄いラッパーで、リクエス�
 </div>
 <div class="section" id="frameworkbundle">
 <h3><tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> バンドル<a class="headerlink" href="#frameworkbundle" title="Permalink to this headline">¶</a></h3>
-<p><a href="#id7"><span class="problematic" id="id8">:namespace:`Symfony\\Bundle\\FrameworkBundle`</span></a> バンドルは、主要なコンポーネントやライブラリを結びつけ、軽量で高速な MVC フレームワークとしてまとめあげたものです。
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle.html" title="Symfony\Bundle\FrameworkBundle"><span class="pre">FrameworkBundle</span></a></tt> バンドルは、主要なコンポーネントやライブラリを結びつけ、軽量で高速な MVC フレームワークとしてまとめあげたものです。
 デフォルトの設定や規約は実用的なので、とてもスムーズに習得することができます。</p>
 </div>
 </div>
 <div class="section" id="index-1">
-<span id="id9"></span><h2>カーネル<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\HttpKernel</span></tt> クラスは Symfony2 の中心となるクラスで、クライアントからのリクエストの処理を担当します。
-この処理の主な内容は、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt> オブジェクトをを受け取り、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response</span></tt> オブジェクトに変換することです。</p>
-<p>Symfony2 のカーネルクラスは、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\HttpKernelInterface</span></tt> インターフェイスを実装する必要があります。</p>
+<span id="id3"></span><h2>カーネル<a class="headerlink" href="#index-1" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/HttpKernel.html" title="Symfony\Component\HttpKernel\HttpKernel"><span class="pre">HttpKernel</span></a></tt> クラスは Symfony2 の中心となるクラスで、クライアントからのリクエストの処理を担当します。
+この処理の主な内容は、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html" title="Symfony\Component\HttpFoundation\Request"><span class="pre">Request</span></a></tt> オブジェクトをを受け取り、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Response.html" title="Symfony\Component\HttpFoundation\Response"><span class="pre">Response</span></a></tt> オブジェクトに変換することです。</p>
+<p>Symfony2 のカーネルクラスは、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/HttpKernelInterface.html" title="Symfony\Component\HttpKernel\HttpKernelInterface"><span class="pre">HttpKernelInterface</span></a></tt> インターフェイスを実装する必要があります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">function</span> <span class="nf">handle</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nv">$type</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">MASTER_REQUEST</span><span class="p">,</span> <span class="nv">$catch</span> <span class="o">=</span> <span class="k">true</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="index-2">
-<span id="id10"></span><h3>コントローラ<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
+<span id="id4"></span><h3>コントローラ<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h3>
 <p>Request を Response に変換するために、カーネルは &#8220;コントローラ&#8221; を利用します。
 コントローラには、PHP の関数としてコール可能な任意の構造を利用できます。</p>
-<p>カーネルは、実行するべきコントローラを見つける処理を、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Controller\ControllerResolverInterface</span></tt> の実装クラスへ委譲します。</p>
+<p>カーネルは、実行するべきコントローラを見つける処理を、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Controller/ControllerResolverInterface.html" title="Symfony\Component\HttpKernel\Controller\ControllerResolverInterface"><span class="pre">ControllerResolverInterface</span></a></tt> の実装クラスへ委譲します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">getController</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">);</span>
 
 <span class="k">public</span> <span class="k">function</span> <span class="nf">getArguments</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">,</span> <span class="nv">$controller</span><span class="p">);</span>
 </pre></div>
 </div>
-<p><a href="#id11"><span class="problematic" id="id12">:method:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface::getController`</span></a> メソッドは、特定の Request オブジェクトに対応するコントローラ (呼び出し可能な PHP コード) を返します。
-このメソッドのデフォルトの実装 (<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Controller\ControllerResolver</span></tt>)では、リクエストの属性に設定された <tt class="docutils literal"><span class="pre">_controller</span></tt>を元にコントローラを特定します。この属性には、<tt class="docutils literal"><span class="pre">Bundle\BlogBundle\PostController:indexAction</span></tt> のように &#8220;クラス::メソッド&#8221; という形式の文字列で、コントローラ名が格納されています。
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Controller/ControllerResolverInterface.html#method_getController" title="Symfony\Component\HttpKernel\Controller\ControllerResolverInterface::getController()"><span class="pre">getController()</span></a></tt> メソッドは、特定の Request オブジェクトに対応するコントローラ (呼び出し可能な PHP コード) を返します。
+このメソッドのデフォルトの実装 (<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Controller/ControllerResolver.html" title="Symfony\Component\HttpKernel\Controller\ControllerResolver"><span class="pre">ControllerResolver</span></a></tt>)では、リクエストの属性に設定された <tt class="docutils literal"><span class="pre">_controller</span></tt>を元にコントローラを特定します。この属性には、<tt class="docutils literal"><span class="pre">Bundle\BlogBundle\PostController:indexAction</span></tt> のように &#8220;クラス::メソッド&#8221; という形式の文字列で、コントローラ名が格納されています。
 ).</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">デフォルトの実装では、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\EventListener\RouterListener</span></tt>を使って Request オブジェクトの <tt class="docutils literal"><span class="pre">_controller</span></tt> 属性を定義しています (<a class="reference internal" href="#kernel-core-request"><em>kernel.request イベント</em></a> も参照してください)。</p>
+<p class="last">デフォルトの実装では、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/EventListener/RouterListener.html" title="Symfony\Bundle\FrameworkBundle\EventListener\RouterListener"><span class="pre">RouterListener</span></a></tt>を使って Request オブジェクトの <tt class="docutils literal"><span class="pre">_controller</span></tt> 属性を定義しています (<a class="reference internal" href="#kernel-core-request"><em>kernel.request イベント</em></a> も参照してください)。</p>
 </div>
-<p><a href="#id13"><span class="problematic" id="id14">:method:`Symfony\\Component\\HttpKernel\\Controller\\ControllerResolverInterface::getArguments`</span></a> メソッドは、コール可能な PHP コードであるコントローラへ渡す、引数の配列を返します。
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Controller/ControllerResolverInterface.html#method_getArguments" title="Symfony\Component\HttpKernel\Controller\ControllerResolverInterface::getArguments()"><span class="pre">getArguments()</span></a></tt> メソッドは、コール可能な PHP コードであるコントローラへ渡す、引数の配列を返します。
 このメソッドのデフォルトの実装では、Request オブジェクトの属性を基に、対象となるメソッドの引数が自動的に解決されます。</p>
 <div class="sidebar">
 <p class="first sidebar-title">コントローラメソッドの引数と Request オブジェクトの属性のマッチング</p>
@@ -279,7 +276,7 @@ Request クラスや Response クラスの薄いラッパーで、リクエス�
 </div>
 </div>
 <div class="section" id="index-3">
-<span id="id15"></span><h3>リクエストの処理<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
+<span id="id5"></span><h3>リクエストの処理<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">handle()</span></tt> メソッドは <tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトを引数にとり、戻り値で必ず <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返します。
 <tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトを変換するために、<tt class="docutils literal"><span class="pre">handle()</span></tt> メソッドは、Resolver オブジェクトと、順序付けられたイベント通知のチェーンを利用します (各イベントに関する詳細は、後の節を参照してください):</p>
 <ol class="arabic simple">
@@ -300,7 +297,7 @@ Request クラスや Response クラスの薄いラッパーで、リクエス�
 <p>たとえば埋め込みリクエストを使っている場合に例外をキャッチされないようにするには、<tt class="docutils literal"><span class="pre">handle()</span></tt>メソッドの 3 番目の引数に <tt class="docutils literal"><span class="pre">false</span></tt> を指定して、<tt class="docutils literal"><span class="pre">kernel.exception</span></tt> イベントを無効にしてください。</p>
 </div>
 <div class="section" id="index-4">
-<span id="id16"></span><h3>内部リクエスト<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
+<span id="id6"></span><h3>内部リクエスト<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h3>
 <p>&#8216;マスター&#8217;リクエストを処理する際は、サブリクエストを処理することもできます。
 <tt class="docutils literal"><span class="pre">handle()</span></tt> メソッドの 2 番目の引数に、次のようなリクエストの種類を指定します:</p>
 <ul class="simple">
@@ -311,8 +308,8 @@ Request クラスや Response クラスの薄いラッパーで、リクエス�
 たとえば、マスターリクエストの場合にのみ処理を実行したい場合などに役に立ちます。</p>
 </div>
 <div class="section" id="index-5">
-<span id="id17"></span><h3>イベント<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h3>
-<p>Kernel によってスローされるイベントは、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Event\KernelEvent</span></tt>のサブクラスです。
+<span id="id7"></span><h3>イベント<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h3>
+<p>Kernel によってスローされるイベントは、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Event/KernelEvent.html" title="Symfony\Component\HttpKernel\Event\KernelEvent"><span class="pre">KernelEvent</span></a></tt>のサブクラスです。
 つまり、各イベントでは次のような共通の情報にアクセスできます:</p>
 <ul class="simple">
 <li><tt class="docutils literal"><span class="pre">getRequestType()</span></tt> - リクエストの<em>種類</em> (<tt class="docutils literal"><span class="pre">HttpKernelInterface::MASTER_REQUEST</span></tt> または <tt class="docutils literal"><span class="pre">HttpKernelInterface::SUB_REQUEST</span></tt>) を返します。</li>
@@ -338,16 +335,16 @@ Request クラスや Response クラスの薄いラッパーで、リクエス�
 </div>
 <div class="section" id="kernel-request">
 <span id="kernel-core-request"></span><span id="index-6"></span><h4><tt class="docutils literal"><span class="pre">kernel.request</span></tt> イベント<a class="headerlink" href="#kernel-request" title="Permalink to this headline">¶</a></h4>
-<p><em>イベントクラス</em>: <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Event\GetResponseEvent</span></tt></p>
+<p><em>イベントクラス</em>: <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Event/GetResponseEvent.html" title="Symfony\Component\HttpKernel\Event\GetResponseEvent"><span class="pre">GetResponseEvent</span></a></tt></p>
 <p>このイベントは、ただちに <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを返すか、イベントの後に呼び出されるコントローラへ渡す変数をセットアップします。
 どのリスナーも、イベントオブジェクトの <tt class="docutils literal"><span class="pre">setResponse()</span></tt> メソッドを使って <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクト返すことができます。
 Response オブジェクトが返された場合、他のすべてのリスナーは呼び出されません。</p>
-<p>このイベントは、<tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> で <tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">_controller</span></tt> 属性の値を設定するときに、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\FrameworkBundle\EventListener\RouterListener</span></tt> で使われます。
-RequestListener では、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Routing\RouterInterface</span></tt> インタフェースを実装したオブジェクトを使って <tt class="docutils literal"><span class="pre">Request</span></tt> のマッチングが行われ、コントローラ名が決定され、<tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">_controller</span></tt> 属性に保存されます。</p>
+<p>このイベントは、<tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> で <tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">_controller</span></tt> 属性の値を設定するときに、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/EventListener/RouterListener.html" title="Symfony\Bundle\FrameworkBundle\EventListener\RouterListener"><span class="pre">RouterListener</span></a></tt> で使われます。
+RequestListener では、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Routing/RouterInterface.html" title="Symfony\Component\Routing\RouterInterface"><span class="pre">RouterInterface</span></a></tt> インタフェースを実装したオブジェクトを使って <tt class="docutils literal"><span class="pre">Request</span></tt> のマッチングが行われ、コントローラ名が決定され、<tt class="docutils literal"><span class="pre">Request</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">_controller</span></tt> 属性に保存されます。</p>
 </div>
 <div class="section" id="kernel-controller">
 <span id="index-7"></span><h4><tt class="docutils literal"><span class="pre">kernel.controller</span></tt> イベント<a class="headerlink" href="#kernel-controller" title="Permalink to this headline">¶</a></h4>
-<p><em>イベントクラス</em>: <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Event\FilterControllerEvent</span></tt></p>
+<p><em>イベントクラス</em>: <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Event/FilterControllerEvent.html" title="Symfony\Component\HttpKernel\Event\FilterControllerEvent"><span class="pre">FilterControllerEvent</span></a></tt></p>
 <p>このイベントは、<tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> では使われていません。
 実行するコントローラを変更したい場合のエントリポイントとして、このイベントを使用できます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\Event\FilterControllerEvent</span><span class="p">;</span>
@@ -365,7 +362,7 @@ RequestListener では、<tt class="xref php php-class docutils literal"><span c
 </div>
 <div class="section" id="kernel-view">
 <span id="index-8"></span><h4><tt class="docutils literal"><span class="pre">kernel.view</span></tt> イベント<a class="headerlink" href="#kernel-view" title="Permalink to this headline">¶</a></h4>
-<p><em>イベントクラス</em>: <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent</span></tt></p>
+<p><em>イベントクラス</em>: <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Event/GetResponseForControllerResultEvent.html" title="Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent"><span class="pre">GetResponseForControllerResultEvent</span></a></tt></p>
 <p>このイベントは、<tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> では使われていません。
 ビューサブシステムを実装したい場合に、このイベントを使用できます。
 このイベントは、コントローラから <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトが <em>返されなかった場合にのみ</em> 呼び出されます。
@@ -387,7 +384,7 @@ RequestListener では、<tt class="xref php php-class docutils literal"><span c
 </div>
 <div class="section" id="kernel-response">
 <span id="index-9"></span><h4><tt class="docutils literal"><span class="pre">kernel.response</span></tt> イベント<a class="headerlink" href="#kernel-response" title="Permalink to this headline">¶</a></h4>
-<p><em>イベントクラス</em>: <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Event\FilterResponseEvent</span></tt></p>
+<p><em>イベントクラス</em>: <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Event/FilterResponseEvent.html" title="Symfony\Component\HttpKernel\Event\FilterResponseEvent"><span class="pre">FilterResponseEvent</span></a></tt></p>
 <p>このイベントの目的は、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトが作られた後で、そのオブジェクトを他のシステムから変更または置き換えできるようにすることです。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">onKernelResponse</span><span class="p">(</span><span class="nx">FilterResponseEvent</span> <span class="nv">$event</span><span class="p">)</span>
 <span class="p">{</span>
@@ -398,18 +395,18 @@ RequestListener では、<tt class="xref php php-class docutils literal"><span c
 </div>
 <p><tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> では、いくつかのリスナーが登録されます。</p>
 <ul class="simple">
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ProfilerListener</span></tt>:
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/ProfilerListener.html" title="Symfony\Component\HttpKernel\EventListener\ProfilerListener"><span class="pre">ProfilerListener</span></a></tt>:
 現在のリクエストのデータを収集します。</li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener</span></tt>:
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/WebProfilerBundle/EventListener/WebDebugToolbarListener.html" title="Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener"><span class="pre">WebDebugToolbarListener</span></a></tt>:
 Web デバッグツールバーを挿入します。</li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ResponseListener</span></tt>: Response オブジェクトの <tt class="docutils literal"><span class="pre">Content-Type</span></tt> を、リクエストのフォーマットに基づいて修正します。</li>
-<li><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\EsiListener</span></tt>: Response で ESI タグのパースが必要な場合に <tt class="docutils literal"><span class="pre">Surrogate-Control</span></tt> HTTP ヘッダーを追加します。</li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/ResponseListener.html" title="Symfony\Component\HttpKernel\EventListener\ResponseListener"><span class="pre">ResponseListener</span></a></tt>: Response オブジェクトの <tt class="docutils literal"><span class="pre">Content-Type</span></tt> を、リクエストのフォーマットに基づいて修正します。</li>
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/EsiListener.html" title="Symfony\Component\HttpKernel\EventListener\EsiListener"><span class="pre">EsiListener</span></a></tt>: Response で ESI タグのパースが必要な場合に <tt class="docutils literal"><span class="pre">Surrogate-Control</span></tt> HTTP ヘッダーを追加します。</li>
 </ul>
 </div>
 <div class="section" id="kernel-exception">
 <span id="kernel-kernel-exception"></span><span id="index-10"></span><h4><tt class="docutils literal"><span class="pre">kernel.exception</span></tt> イベント<a class="headerlink" href="#kernel-exception" title="Permalink to this headline">¶</a></h4>
-<p><em>イベントクラス</em>: <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent</span></tt></p>
-<p><tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> では <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\EventListener\ExceptionListener</span></tt> が登録されています。
+<p><em>イベントクラス</em>: <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Event/GetResponseForExceptionEvent.html" title="Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent"><span class="pre">GetResponseForExceptionEvent</span></a></tt></p>
+<p><tt class="docutils literal"><span class="pre">FrameworkBundle</span></tt> では <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/EventListener/ExceptionListener.html" title="Symfony\Component\HttpKernel\EventListener\ExceptionListener"><span class="pre">ExceptionListener</span></a></tt> が登録されています。
 このリスナーでは、例外がスローされた場合に、指定されたコントローラへ <tt class="docutils literal"><span class="pre">Request</span></tt> をフォワードします。コントローラは <tt class="docutils literal"><span class="pre">exception_listener.controller</span></tt> パラメータに、<tt class="docutils literal"><span class="pre">class::method</span></tt> 形式で指定します。</p>
 <p>このイベントのリスナーでは、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを作成して設定するか、新しい <tt class="docutils literal"><span class="pre">Exception</span></tt> オブジェクトを作成するか、または何もしません。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent</span><span class="p">;</span>
@@ -432,7 +429,7 @@ Web デバッグツールバーを挿入します。</li>
 </div>
 </div>
 <div class="section" id="index-11">
-<span id="id18"></span><h2>イベントディスパッチャー<a class="headerlink" href="#index-11" title="Permalink to this headline">¶</a></h2>
+<span id="id8"></span><h2>イベントディスパッチャー<a class="headerlink" href="#index-11" title="Permalink to this headline">¶</a></h2>
 <p>オブジェクト指向でコードを記述することは、長い間コードの拡張性を高める手法とされてきました。
 責務が明確に定義されたクラスを作成することで、コードは柔軟になり、開発者がサブクラスを作成して振る舞いを変更しやすくなります。
 しかし、もし開発者が自分の作成したサブクラスを、同様にサブクラスを開発した他の開発者と共有したい場合に、コードの継承には問題がでてきます。</p>
@@ -452,12 +449,12 @@ Web デバッグツールバーを挿入します。</li>
 通知されたリスナー側では、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを任意に変更できます。</li>
 </ul>
 <div class="section" id="event-dispatcher">
-<span id="index-12"></span><span id="id19"></span><h3>イベント<a class="headerlink" href="#event-dispatcher" title="Permalink to this headline">¶</a></h3>
+<span id="index-12"></span><span id="id9"></span><h3>イベント<a class="headerlink" href="#event-dispatcher" title="Permalink to this headline">¶</a></h3>
 <p>イベントが通知される時、イベントを監視しているリスナーの数に関わらず、イベントは <tt class="docutils literal"><span class="pre">kernel.response</span></tt> のようなユニークな名前で識別されます。
-<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\EventDispatcher\Event</span></tt> インスタンスが作成され、すべてのリスナーに渡されます。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/EventDispatcher/Event.html" title="Symfony\Component\EventDispatcher\Event"><span class="pre">Event</span></a></tt> インスタンスが作成され、すべてのリスナーに渡されます。
 後の節で見ていきますが、<tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトには、通知されるイベントに関するデータが含まれています。</p>
 <div class="section" id="index-13">
-<span id="id20"></span><h4>命名規約<a class="headerlink" href="#index-13" title="Permalink to this headline">¶</a></h4>
+<span id="id10"></span><h4>命名規約<a class="headerlink" href="#index-13" title="Permalink to this headline">¶</a></h4>
 <p>ユニークなイベント名には任意の文字列を使えますが、次のような簡単な命名規約に従うことが推奨されています:</p>
 <ul class="simple">
 <li>小文字、数字、ドット (<tt class="docutils literal"><span class="pre">.</span></tt>) およびアンダースコア (<tt class="docutils literal"><span class="pre">_</span></tt>) のみを使うようにしてください。</li>
@@ -471,18 +468,18 @@ Web デバッグツールバーを挿入します。</li>
 </ul>
 </div>
 <div class="section" id="index-14">
-<span id="id21"></span><h4>イベント名とイベントオブジェクト<a class="headerlink" href="#index-14" title="Permalink to this headline">¶</a></h4>
+<span id="id11"></span><h4>イベント名とイベントオブジェクト<a class="headerlink" href="#index-14" title="Permalink to this headline">¶</a></h4>
 <p>ディスパッチャーがリスナーへ通知する時、実際の <tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトがリスナーへ渡されます。
 基底の <tt class="docutils literal"><span class="pre">Event</span></tt> クラスはとても単純で、<a class="reference internal" href="#event-dispatcher-event-propagation"><em>イベントの伝播</em></a>を停止するメソッドしかありません。</p>
 <p>通常は、特定のイベントに対するリスナーで必要とされるデータは、<tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトとともにリスナーへ渡します。
-<tt class="docutils literal"><span class="pre">kernel.response</span></tt> イベントの場合、作成され各リスナーへ渡される <tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトは、基底の <tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトのサブクラスである <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpKernel\Event\FilterResponseEvent</span></tt> のインスタンスです。
+<tt class="docutils literal"><span class="pre">kernel.response</span></tt> イベントの場合、作成され各リスナーへ渡される <tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトは、基底の <tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトのサブクラスである <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Event/FilterResponseEvent.html" title="Symfony\Component\HttpKernel\Event\FilterResponseEvent"><span class="pre">FilterResponseEvent</span></a></tt> のインスタンスです。
 このクラスには <tt class="docutils literal"><span class="pre">getResponse</span></tt> や <tt class="docutils literal"><span class="pre">setResponse</span></tt> といったメソッドがあり、<tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトを取得したり置き換えたりできます。</p>
 <p>通常のストーリーは次のようになります。
 イベントに対するリスナーを作成する時、リスナーへ渡される <tt class="docutils literal"><span class="pre">Event</span></tt> オブジェクトは専用のサブクラスで、イベントから情報を取得したり、イベントに情報を返すための追加のメソッドを持っています。</p>
 </div>
 </div>
-<div class="section" id="id22">
-<h3>ディスパッチャー<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>ディスパッチャー<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <p>ディスパッチャーは、イベントディスパッチャーシステムの中心となるオブジェクトです。
 一般的には、ディスパッチャーオブジェクトが 1 つだけ作られ、リスナーの登録を管理します。
 ディスパッチャーからイベントがディスパッチされると、そのイベントに登録されているすべてのリスナーへイベントが通知されます。</p>
@@ -493,7 +490,7 @@ Web デバッグツールバーを挿入します。</li>
 </div>
 </div>
 <div class="section" id="index-15">
-<span id="id23"></span><h3>リスナーの接続<a class="headerlink" href="#index-15" title="Permalink to this headline">¶</a></h3>
+<span id="id13"></span><h3>リスナーの接続<a class="headerlink" href="#index-15" title="Permalink to this headline">¶</a></h3>
 <p>既存のイベントを利用するには、リスナーをディスパッチャーへ接続しておきます。
 こうすると、対象のイベントがディスパッチされた時に通知されるようになります。
 ディスパッチャーの <tt class="docutils literal"><span class="pre">addListener()</span></tt> メソッドを呼び出して、関数としてコール可能な任意の PHP コードをイベントに関連付けることができます。</p>
@@ -558,7 +555,7 @@ Web デバッグツールバーを挿入します。</li>
 </div>
 <span class="target" id="event-dispatcher-closures-as-listeners"></span></div>
 <div class="section" id="index-16">
-<span id="id24"></span><h3>イベントの作成とディスパッチ<a class="headerlink" href="#index-16" title="Permalink to this headline">¶</a></h3>
+<span id="id14"></span><h3>イベントの作成とディスパッチ<a class="headerlink" href="#index-16" title="Permalink to this headline">¶</a></h3>
 <p>既存のイベントに対してリスナーを登録するだけでなく、独自のイベントを作成して通知することもできます。サードパーティライブラリを作ったり、システム内のさまざまなコンポーネントを柔軟で疎結合に保ちたい場合に役に立ちます。</p>
 <div class="section" id="events">
 <h4>静的な <tt class="docutils literal"><span class="pre">Events</span></tt> クラス<a class="headerlink" href="#events" title="Permalink to this headline">¶</a></h4>
@@ -584,8 +581,8 @@ Web デバッグツールバーを挿入します。</li>
 <tt class="docutils literal"><span class="pre">StoreEvents</span></tt> クラスの目的は、共通イベントに関する情報を集中管理することです。
 このイベントに対する各リスナーには、特別な <tt class="docutils literal"><span class="pre">FilterOrderEvent</span></tt> クラスのオブジェクトも渡されます。</p>
 </div>
-<div class="section" id="id25">
-<h4>イベントオブジェクトの作成<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id15">
+<h4>イベントオブジェクトの作成<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
 <p>次に、この新しいイベントをディスパッチする時、<tt class="docutils literal"><span class="pre">Event</span></tt> インスタンスを作成してディスパッチャーへ渡します。
 ディスパッチャーは渡された Event インスタンスを、イベントの各リスナーへ渡します。
 リスナーに何も情報を渡す必要がない場合は、デフォルトの <tt class="docutils literal"><span class="pre">Symfony\Component\EventDispatcher\Event</span></tt> クラスをそのまま使えます。
@@ -616,9 +613,9 @@ Web デバッグツールバーを挿入します。</li>
 </div>
 <p>各リスナーは、イベントオブジェクトの <tt class="docutils literal"><span class="pre">getOrder</span></tt> メソッドを使って <tt class="docutils literal"><span class="pre">Order</span></tt> オブジェクトにアクセスできます。</p>
 </div>
-<div class="section" id="id26">
-<h4>イベントのディスパッチ<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
-<p><a href="#id27"><span class="problematic" id="id28">:method:`Symfony\\Component\\EventDispatcher\\EventDispatcher::dispatch`</span></a> メソッドを呼び出すと、指定されたイベントのすべてのリスナーに対して通知します。
+<div class="section" id="id16">
+<h4>イベントのディスパッチ<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/EventDispatcher/EventDispatcher.html#method_dispatch" title="Symfony\Component\EventDispatcher\EventDispatcher::dispatch()"><span class="pre">dispatch()</span></a></tt> メソッドを呼び出すと、指定されたイベントのすべてのリスナーに対して通知します。
 このメソッドは、次の 2 つの引数をとります。ディスパッチするイベントの名前と、イベントのリスナーに渡される <tt class="docutils literal"><span class="pre">Event</span></tt> インスタンスです。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Acme\StoreBundle\StoreEvents</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Acme\StoreBundle\Order</span><span class="p">;</span>
@@ -647,8 +644,8 @@ Web デバッグツールバーを挿入します。</li>
 </div>
 </div>
 </div>
-<div class="section" id="id29">
-<h3>イベントディスパッチャーオブジェクトを伝える<a class="headerlink" href="#id29" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>イベントディスパッチャーオブジェクトを伝える<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">EventDispatcher</span></tt> クラスのソースコードを読むと、シングルトンではないことに気づくでしょう (<tt class="docutils literal"><span class="pre">getInstance()</span></tt> スタティックメソッドは定義されていません)。
 これは設計者の意図で、単一の PHP リクエストの処理中に複数のイベントディスパッチャーを同時に実行したい場合に役立ちます。
 その代わりに、イベントへの接続や通知を行う必要があるオブジェクトへ、ディスパッチャーオブジェクトを渡す必要があります。</p>
@@ -686,12 +683,12 @@ Web デバッグツールバーを挿入します。</li>
 </div>
 </div>
 <div class="section" id="index-17">
-<span id="id30"></span><h3>イベントサブスクライバを使う<a class="headerlink" href="#index-17" title="Permalink to this headline">¶</a></h3>
+<span id="id18"></span><h3>イベントサブスクライバを使う<a class="headerlink" href="#index-17" title="Permalink to this headline">¶</a></h3>
 <p>イベントを監視する最も一般的な方法は、<em>イベントリスナー</em>をディスパッチャーに登録することです。
 リスナーは 1 つ以上のイベントを監視でき、イベントがディスパッチされるたびに通知されます。</p>
 <p>イベントを監視するもう 1 つの方法が、<em>イベントサブスクライバ</em> です。
 イベントサブスクライバは PHP のクラスで、ディスパッチャーに対してどのイベントが監視されるのかを、サブスクライバクラス自身が通知します。
-サブスクライバクラスは <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\EventDispatcher\EventSubscriberInterface</span></tt> インタフェース、および <tt class="docutils literal"><span class="pre">getSubscribedEvents</span></tt> というスタティックメソッドを実装します。
+サブスクライバクラスは <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/EventDispatcher/EventSubscriberInterface.html" title="Symfony\Component\EventDispatcher\EventSubscriberInterface"><span class="pre">EventSubscriberInterface</span></a></tt> インタフェース、および <tt class="docutils literal"><span class="pre">getSubscribedEvents</span></tt> というスタティックメソッドを実装します。
 次に示すサブスクライバクラスの例では、<tt class="docutils literal"><span class="pre">kernel.response</span></tt> イベントと <tt class="docutils literal"><span class="pre">store.order</span></tt> イベントを監視します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">Acme\StoreBundle\Event</span><span class="p">;</span>
 
@@ -721,7 +718,7 @@ Web デバッグツールバーを挿入します。</li>
 </pre></div>
 </div>
 <p>これはリスナークラスとよく似ていますが、監視するイベントの種類をクラス自身がディスパッチャーに対して通知できる点が異なります。
-ディスパッチャーにサブスクライバを登録するには、<a href="#id31"><span class="problematic" id="id32">:method:`Symfony\\Component\\EventDispatcher\\EventDispatcher::addSubscriber`</span></a> メソッドを使います。</p>
+ディスパッチャーにサブスクライバを登録するには、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/EventDispatcher/EventDispatcher.html#method_addSubscriber" title="Symfony\Component\EventDispatcher\EventDispatcher::addSubscriber()"><span class="pre">addSubscriber()</span></a></tt> メソッドを使います。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Acme\StoreBundle\Event\StoreSubscriber</span><span class="p">;</span>
 
 <span class="nv">$subscriber</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">StoreSubscriber</span><span class="p">();</span>
@@ -732,10 +729,10 @@ Web デバッグツールバーを挿入します。</li>
 リスナーと同様に、<tt class="docutils literal"><span class="pre">addSubscriber</span></tt> メソッドには任意で指定できる 2 つ目の引数があり、イベントへ渡す優先度を指定できます。</p>
 </div>
 <div class="section" id="event-dispatcher-event-propagation">
-<span id="index-18"></span><span id="id33"></span><h3>イベントの流れ/伝播を停める<a class="headerlink" href="#event-dispatcher-event-propagation" title="Permalink to this headline">¶</a></h3>
+<span id="index-18"></span><span id="id19"></span><h3>イベントの流れ/伝播を停める<a class="headerlink" href="#event-dispatcher-event-propagation" title="Permalink to this headline">¶</a></h3>
 <p>リスナーの処理後に、他のリスナーが呼び出されないようにしたい場合もあります。
 つまり、リスナーからディスパッチャーに対して、以降のリスナーへのイベントの伝播を停止する (これ以上リスナーへ通知を行わない) よう要求できるようにしたいのです。
-このような場合は、リスナーから <a href="#id34"><span class="problematic" id="id35">:method:`Symfony\\Component\\EventDispatcher\\Event::stopPropagation`</span></a> method: メソッドを呼び出します。</p>
+このような場合は、リスナーから <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/EventDispatcher/Event.html#method_stopPropagation" title="Symfony\Component\EventDispatcher\Event::stopPropagation()"><span class="pre">stopPropagation()</span></a></tt> method: メソッドを呼び出します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Acme\StoreBundle\Event\FilterOrderEvent</span><span class="p">;</span>
 
 <span class="k">public</span> <span class="k">function</span> <span class="nf">onStoreOrder</span><span class="p">(</span><span class="nx">FilterOrderEvent</span> <span class="nv">$event</span><span class="p">)</span>
@@ -750,7 +747,7 @@ Web デバッグツールバーを挿入します。</li>
 </div>
 </div>
 <div class="section" id="index-19">
-<span id="id36"></span><h2>プロファイラ<a class="headerlink" href="#index-19" title="Permalink to this headline">¶</a></h2>
+<span id="id20"></span><h2>プロファイラ<a class="headerlink" href="#index-19" title="Permalink to this headline">¶</a></h2>
 <p>Symfony2 のプロファイラを有効にすると、アプリケーションに対してリクエストがあるたびに、リクエストに関する有益な情報を収集し、後で解析できるように保存します。
 開発環境でプロファイラを使うことで、コードのデバッグやパフォーマンス改善が容易になります。
 運用環境でプロファイラを使うと、問題が発生した場合の状況の把握などに役立ちます。</p>
@@ -762,7 +759,7 @@ Symfony2 Standard Edition を使っている場合、プロファイラ、Web �
 リクエストとレスポンスの組み合わせ 1 つについて 1 つのプロファイリングデータが生成されるため、1 つの URL に対して複数のプロファイリングデータが生成される場合もあります。</p>
 </div>
 <div class="section" id="index-20">
-<span id="id37"></span><h3>プロファイリングデータの視覚化<a class="headerlink" href="#index-20" title="Permalink to this headline">¶</a></h3>
+<span id="id21"></span><h3>プロファイリングデータの視覚化<a class="headerlink" href="#index-20" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="web">
 <h4>Web デバッグツールバーを使う<a class="headerlink" href="#web" title="Permalink to this headline">¶</a></h4>
 <p>開発環境では、すべてのページの下部に Web デバッグツールバーが表示されます。
@@ -774,14 +771,14 @@ Web デバッグツールバーにはプロファイリングデータの要約�
 次の節でプロファイラの設定を確認してください。</p>
 </div>
 </div>
-<div class="section" id="id38">
-<h4>Web プロファイラを使ったプロファイルデータの解析<a class="headerlink" href="#id38" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id22">
+<h4>Web プロファイラを使ったプロファイルデータの解析<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
 <p>Web プロファイラは、開発環境でコードのデバッグとパフォーマンスの改善に使えるプロファイリングデータの視覚化ツールです。
 運用環境で問題を発見する目的で使うこともできます。
 Web プロファイラを使うと、プロファイラが収集したすべての情報を Web インタフェースで閲覧することができます。</p>
 </div>
 <div class="section" id="index-21">
-<span id="id39"></span><h4>プロファイル情報へのアクセス<a class="headerlink" href="#index-21" title="Permalink to this headline">¶</a></h4>
+<span id="id23"></span><h4>プロファイル情報へのアクセス<a class="headerlink" href="#index-21" title="Permalink to this headline">¶</a></h4>
 <p>Symfony2 のプロファイリングデータは、デフォルトの視覚化ツール (Web プロファイラ) 以外のツールからもアクセスできます。
 では、どうやって特定のリクエストに関するプロファイリングデータを抽出すればよいのでしょうか。
 プロファイラは、リクエストのプロファイルデータを保存する際、そのデータに関連付けられたトークンも保存します。
@@ -818,7 +815,7 @@ Firebug などのツールを使って <tt class="docutils literal"><span class=
 </div>
 </div>
 <div class="section" id="index-22">
-<span id="id40"></span><h4>設定<a class="headerlink" href="#index-22" title="Permalink to this headline">¶</a></h4>
+<span id="id24"></span><h4>設定<a class="headerlink" href="#index-22" title="Permalink to this headline">¶</a></h4>
 <p>Symfony2 にはデフォルトで、プロファイラ、Web デバッグツールバー、Web プロファイラの実用的な設定が組み込まれています。
 開発環境向けの設定は、次のようになっています。</p>
 <div class="configuration-block">
@@ -983,8 +980,8 @@ Firebug などのツールを使って <tt class="docutils literal"><span class=
 </div>
 </div>
 </div>
-<div class="section" id="id41">
-<h2>クックブックでさらに学ぶ<a class="headerlink" href="#id41" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id25">
+<h2>クックブックでさらに学ぶ<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="../cookbook/testing/profiling.html"><em>ファンクショナルテストでプロファイラを使用する方法</em></a></li>
 <li><a class="reference internal" href="../cookbook/profiler/data_collector.html"><em>カスタムデータコレクタの作成方法</em></a></li>
@@ -1001,11 +998,6 @@ Firebug などのツールを使って <tt class="docutils literal"><span class=
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/internals.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/internals.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/internals.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

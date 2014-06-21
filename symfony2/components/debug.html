@@ -78,8 +78,8 @@
 <li><a class="reference internal" href="#">Debugコンポーネント</a><ul>
 <li><a class="reference internal" href="#id1">インストール</a></li>
 <li><a class="reference internal" href="#id2">使い方</a></li>
-<li><a class="reference internal" href="#id5">エラーハンドラを有効にする</a></li>
-<li><a class="reference internal" href="#id6">例外ハンドラを有効にする</a></li>
+<li><a class="reference internal" href="#id3">エラーハンドラを有効にする</a></li>
+<li><a class="reference internal" href="#id4">例外ハンドラを有効にする</a></li>
 </ul>
 </li>
 </ul>
@@ -138,9 +138,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/debug.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -169,7 +166,7 @@
 <span class="nx">Debug</span><span class="o">::</span><span class="na">enable</span><span class="p">();</span>
 </pre></div>
 </div>
-<p><a href="#id3"><span class="problematic" id="id4">:method:`Symfony\\Component\\Debug\\Debug::enable`</span></a> メソッドはPHPのエラーおよび例外を処理します。
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Debug/Debug.html#method_enable" title="Symfony\Component\Debug\Debug::enable()"><span class="pre">enable()</span></a></tt> メソッドはPHPのエラーおよび例外を処理します。
 プロジェクトで <a class="reference internal" href="class_loader.html"><em>ClassLoaderコンポーネント</em></a> を使用している場合、これらもデバッグモードとして動作するようになります。</p>
 <p>各ツールの詳細については次のセクションをご覧ください。</p>
 <div class="admonition caution">
@@ -177,9 +174,9 @@
 <p class="last">デバッグツールはサイトへの攻撃の手助けにも繋がるため、運用環境で使用するべきではありません。</p>
 </div>
 </div>
-<div class="section" id="id5">
-<h2>エラーハンドラを有効にする<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Debug\ErrorHandler</span></tt> クラスは、PHPのエラーを検出し、例外に変換してスローします。(<tt class="xref php php-class docutils literal"><span class="pre">ContextErrorException</span></tt>、Fatalエラーの場合は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Debug\Exception\FatalErrorException</span></tt>)
+<div class="section" id="id3">
+<h2>エラーハンドラを有効にする<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Debug/ErrorHandler.html" title="Symfony\Component\Debug\ErrorHandler"><span class="pre">ErrorHandler</span></a></tt> クラスは、PHPのエラーを検出し、例外に変換してスローします。(<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/ContextErrorException.html" title="ContextErrorException"><span class="pre">ContextErrorException</span></a></tt>、Fatalエラーの場合は <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Debug/Exception/FatalErrorException.html" title="Symfony\Component\Debug\Exception\FatalErrorException"><span class="pre">FatalErrorException</span></a></tt>)
 有効にするには次のコードを実行します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Debug\ErrorHandler</span><span class="p">;</span>
 
@@ -187,9 +184,9 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id6">
-<h2>例外ハンドラを有効にする<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Debug\ExceptionHandler</span></tt> クラスは、捕捉されなかった例外を検出し、デフォルトやXDebugよりも見やすく、役立つデバッグの情報を画面に表示します。
+<div class="section" id="id4">
+<h2>例外ハンドラを有効にする<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Debug/ExceptionHandler.html" title="Symfony\Component\Debug\ExceptionHandler"><span class="pre">ExceptionHandler</span></a></tt> クラスは、捕捉されなかった例外を検出し、デフォルトやXDebugよりも見やすく、役立つデバッグの情報を画面に表示します。
 有効にするには次のコードを実行します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\Debug\ExceptionHandler</span><span class="p">;</span>
 
@@ -207,11 +204,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/components/debug.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/components/debug.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/components/debug.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

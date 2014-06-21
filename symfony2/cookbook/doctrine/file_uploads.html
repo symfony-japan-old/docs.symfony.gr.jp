@@ -128,9 +128,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/doctrine/file_uploads.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="doctrine">
 <h1>Doctrine でファイルアップロードを扱う方法<a class="headerlink" href="#doctrine" title="Permalink to this headline">¶</a></h1>
 <p>Doctrine のエンティティでファイルアップロードを扱う方法は、他のファイルアップロードと違いはありません。つまり、同じようにフォーム情報を受け取った後にコントローラでファイルを移動できます。この例は、 <a class="reference internal" href="../../reference/forms/types/file.html"><em>file type reference</em></a> ページを見て、その方法を学ぶことができます。</p>
@@ -295,7 +292,7 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><tt class="docutils literal"><span class="pre">upload()</span></tt> メソッドは、 <tt class="docutils literal"><span class="pre">file</span></tt> フィールドを受け取った後に返される <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\File\UploadedFile</span></tt> オブジェクトを使用します。このクラスを使用することでアドバンテージを享受できます。</p>
+<p><tt class="docutils literal"><span class="pre">upload()</span></tt> メソッドは、 <tt class="docutils literal"><span class="pre">file</span></tt> フィールドを受け取った後に返される <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/File/UploadedFile.html" title="Symfony\Component\HttpFoundation\File\UploadedFile"><span class="pre">UploadedFile</span></a></tt> オブジェクトを使用します。このクラスを使用することでアドバンテージを享受できます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">upload</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="c1">// フィールドが必須でなければ、ファイルプロパティが空でも受け付けます</span>
@@ -457,11 +454,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/doctrine/file_uploads.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/doctrine/file_uploads.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/doctrine/file_uploads.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

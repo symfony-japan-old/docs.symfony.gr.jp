@@ -150,9 +150,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/from_flat_php_to_symfony2.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="symfony2-vs-php">
 <h1>Symfony2 vs フラットなPHP<a class="headerlink" href="#symfony2-vs-php" title="Permalink to this headline">¶</a></h1>
 <p><strong>なぜ Symfony2 は単にファイルを開いてフラットな PHP を書くよりも良いのでしょうか？</strong></p>
@@ -470,7 +467,7 @@ index.php をフロントコントローラとして使用した場合
 </pre></div>
 </div>
 <p>このファイルは、オートローダーに <tt class="docutils literal"><span class="pre">Symfony</span></tt> クラスがどこにあるかを知らせます。これにより、Symfony クラスを含むファイルで <tt class="docutils literal"><span class="pre">require</span></tt> ステートメントを使わずに、Symfony クラスを使い始めることができます。</p>
-<p>Symfony の哲学の核は、アプリケーションの主なジョブはそれぞれのリクエストを解釈し、レスポンスを返すことであるという考え方です。この目的のために、Symfony2 は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Request</span></tt> と <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\HttpFoundation\Response</span></tt> という2つのクラスを提供しています。これらのクラスは、処理されるべき生の HTTP リクエストと、返される HTTP レスポンスのオブジェクト指向での実装になっています。ブログを改善するために、これらを使いましょう。</p>
+<p>Symfony の哲学の核は、アプリケーションの主なジョブはそれぞれのリクエストを解釈し、レスポンスを返すことであるという考え方です。この目的のために、Symfony2 は <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html" title="Symfony\Component\HttpFoundation\Request"><span class="pre">Request</span></a></tt> と <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Response.html" title="Symfony\Component\HttpFoundation\Response"><span class="pre">Response</span></a></tt> という2つのクラスを提供しています。これらのクラスは、処理されるべき生の HTTP リクエストと、返される HTTP レスポンスのオブジェクト指向での実装になっています。ブログを改善するために、これらを使いましょう。</p>
 <div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
 <span class="c1">// index.php</span>
 <span class="k">require_once</span> <span class="s1">&#39;app/bootstrap.php&#39;</span><span class="p">;</span>
@@ -695,11 +692,6 @@ index.php をフロントコントローラとして使用した場合
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/from_flat_php_to_symfony2.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/from_flat_php_to_symfony2.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/from_flat_php_to_symfony2.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

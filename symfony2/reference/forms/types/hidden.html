@@ -83,6 +83,7 @@
 </li>
 <li><a class="reference internal" href="#id2">継承されたオプション</a><ul>
 <li><a class="reference internal" href="#data">data</a></li>
+<li><a class="reference internal" href="#property-path">property_path</a></li>
 <li><a class="reference internal" href="#mapped">mapped</a></li>
 <li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
 </ul>
@@ -145,9 +146,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/hidden.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -179,7 +177,7 @@
 オプション</td>
 <td><ul class="first last simple">
 <li><a class="reference internal" href="#data">data</a></li>
-<li><a href="#id3"><span class="problematic" id="id4">`property_path`_</span></a></li>
+<li><a class="reference internal" href="#property-path">property_path</a></li>
 <li><a class="reference internal" href="#mapped">mapped</a></li>
 <li><a class="reference internal" href="#error-mapping">error_mapping</a></li>
 </ul>
@@ -189,7 +187,7 @@
 <td><a class="reference internal" href="form.html"><em>form</em></a></td>
 </tr>
 <tr class="row-odd"><td>クラス</td>
-<td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\HiddenType</span></tt></td>
+<td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Core/Type/HiddenType.html" title="Symfony\Component\Form\Extension\Core\Type\HiddenType"><span class="pre">HiddenType</span></a></tt></td>
 </tr>
 </tbody>
 </table>
@@ -223,15 +221,14 @@
 <p class="last">フォームのフィールドのデフォルト値は、直接データ構造（例えば、エンティティまたは配列）から取得されます。
 <tt class="docutils literal"><span class="pre">data</span></tt> オプションはこのデフォルト値を上書きします。</p>
 </div>
-<ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">property_path</span></tt> [type: any, default: the field&#8217;s value]
-Fields display a property value of the form&#8217;s domain object by default. When
-the form is submitted, the submitted value is written back into the object.</p>
-<p>If you want to override the property that a field reads from and writes to,
-you can set the <tt class="docutils literal"><span class="pre">property_path</span></tt> option. Its default value is the field&#8217;s
-name.</p>
-</li>
-</ul>
+</div>
+<div class="section" id="property-path">
+<h3>property_path<a class="headerlink" href="#property-path" title="Permalink to this headline">¶</a></h3>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">any</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">the</span> <span class="pre">field's</span> <span class="pre">name</span></tt></p>
+<p>フィールドには、デフォルトで、フォームのドメインオブジェクトのプロパティの値を表示します。フォームの送信時に、送信された値はオブジェクトに書き込まれます。</p>
+<p>フィールドの読み取りと書き込みのプロパティを上書きしたい場合は、 <tt class="docutils literal"><span class="pre">property_path</span></tt> オプションを設定することでできます。そのデフォルト値は、フィールドの名前です。</p>
+<p>オブジェクトの読み込み、書き込み時にそのフィールドを無視したい場合は、<tt class="docutils literal"><span class="pre">property_path</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にすることで出来ます。しかし、その目的での <tt class="docutils literal"><span class="pre">property_path</span></tt> の使用は推奨されません。
+<tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを使用する必要があります。</p>
 </div>
 <div class="section" id="mapped">
 <h3>mapped<a class="headerlink" href="#mapped" title="Permalink to this headline">¶</a></h3>
@@ -275,11 +272,6 @@ name.</p>
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/forms/types/hidden.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types/hidden.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types/hidden.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

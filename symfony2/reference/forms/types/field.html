@@ -80,6 +80,7 @@
 <li><a class="reference internal" href="#required">required</a></li>
 <li><a class="reference internal" href="#disabled">disabled</a></li>
 <li><a class="reference internal" href="#trim">trim</a></li>
+<li><a class="reference internal" href="#property-path">property_path</a></li>
 </ul>
 </li>
 </ul>
@@ -138,9 +139,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/field.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="field">
 <span id="index-0"></span><h1>抽象的な「field」タイプ<a class="headerlink" href="#field" title="Permalink to this headline">¶</a></h1>
 <p><tt class="docutils literal"><span class="pre">field</span></tt> は単体で用いられるフォームタイプではありません。
@@ -181,15 +179,14 @@
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
 <p>trueの場合、サブミットされた文字列の値に含まれる空白は <tt class="docutils literal"><span class="pre">trim()</span></tt> で取り去られます。
 余分な空白とともにサブミットされた値の場合、その値が下位のオブジェクトに取り込まれる前に取り除かれます。</p>
-<ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">property_path</span></tt> [type: any, default: the field&#8217;s value]
-Fields display a property value of the form&#8217;s domain object by default. When
-the form is submitted, the submitted value is written back into the object.</p>
-<p>If you want to override the property that a field reads from and writes to,
-you can set the <tt class="docutils literal"><span class="pre">property_path</span></tt> option. Its default value is the field&#8217;s
-name.</p>
-</li>
-</ul>
+</div>
+<div class="section" id="property-path">
+<h2>property_path<a class="headerlink" href="#property-path" title="Permalink to this headline">¶</a></h2>
+<p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">any</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">the</span> <span class="pre">field's</span> <span class="pre">name</span></tt></p>
+<p>フィールドには、デフォルトで、フォームのドメインオブジェクトのプロパティの値を表示します。フォームの送信時に、送信された値はオブジェクトに書き込まれます。</p>
+<p>フィールドの読み取りと書き込みのプロパティを上書きしたい場合は、 <tt class="docutils literal"><span class="pre">property_path</span></tt> オプションを設定することでできます。そのデフォルト値は、フィールドの名前です。</p>
+<p>オブジェクトの読み込み、書き込み時にそのフィールドを無視したい場合は、<tt class="docutils literal"><span class="pre">property_path</span></tt> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> にすることで出来ます。しかし、その目的での <tt class="docutils literal"><span class="pre">property_path</span></tt> の使用は推奨されません。
+<tt class="docutils literal"><span class="pre">mapped</span></tt> オプションを使用する必要があります。</p>
 </div>
 </div>
 
@@ -200,11 +197,6 @@ name.</p>
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/forms/types/field.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types/field.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types/field.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

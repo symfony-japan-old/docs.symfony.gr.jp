@@ -100,20 +100,20 @@
 </li>
 <li><a class="reference internal" href="#book-security-encoding-user-password">ユーザパスワードのエンコーディング</a></li>
 <li><a class="reference internal" href="#user">User オブジェクトの読み出し</a></li>
-<li><a class="reference internal" href="#id17">複数のユーザプロバイダの使用</a></li>
+<li><a class="reference internal" href="#id15">複数のユーザプロバイダの使用</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id18">権限</a><ul>
-<li><a class="reference internal" href="#id19">階層的な権限</a></li>
+<li><a class="reference internal" href="#id16">権限</a><ul>
+<li><a class="reference internal" href="#id17">階層的な権限</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id20">ログアウト</a></li>
+<li><a class="reference internal" href="#id18">ログアウト</a></li>
 <li><a class="reference internal" href="#book-security-template">テンプレートにおけるアクセス制御</a></li>
-<li><a class="reference internal" href="#id22">コントローラにおけるアクセス制御</a></li>
-<li><a class="reference internal" href="#id23">他のユーザになりすます</a></li>
-<li><a class="reference internal" href="#id24">ステートレス認証</a></li>
-<li><a class="reference internal" href="#id25">最後に</a></li>
-<li><a class="reference internal" href="#id26">クックブック でもっと学ぶ</a></li>
+<li><a class="reference internal" href="#id20">コントローラにおけるアクセス制御</a></li>
+<li><a class="reference internal" href="#id21">他のユーザになりすます</a></li>
+<li><a class="reference internal" href="#id22">ステートレス認証</a></li>
+<li><a class="reference internal" href="#id23">最後に</a></li>
+<li><a class="reference internal" href="#id24">クックブック でもっと学ぶ</a></li>
 </ul>
 </li>
 </ul>
@@ -172,9 +172,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/security.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>セキュリティ<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>セキュリティは、特定のリソースに対するアクセス権限を持たないユーザからのアクセスを制御するために、２つのステップを行います。</p>
@@ -456,7 +453,7 @@
 <p class="last">ファイアーウォールが <tt class="docutils literal"><span class="pre">/login_check</span></tt> URL へのフォーム送信を自動的に見つけて処理するので、この URL のコントローラを実装する必要は <em>ありません</em> 。</p>
 </div>
 <div class="versionadded">
-<p><span>New in version 2.1: </span>Symfony 2.1 では、<tt class="docutils literal"><span class="pre">login_path</span></tt> <tt class="docutils literal"><span class="pre">check_path</span></tt> <tt class="docutils literal"><span class="pre">logout</span></tt> の URL を、それぞれ  <tt class="docutils literal"><span class="pre">/login</span></tt> 、 <tt class="docutils literal"><span class="pre">/login_check</span></tt> 、 <tt class="docutils literal"><span class="pre">/logout</span></tt> (- <a href="#id27"><span class="problematic" id="id28">`Logging Out`_</span></a> を参照してください) のようにルートを設定する <em>必要があります</em> 。</p>
+<p><span>New in version 2.1: </span>Symfony 2.1 では、<tt class="docutils literal"><span class="pre">login_path</span></tt> <tt class="docutils literal"><span class="pre">check_path</span></tt> <tt class="docutils literal"><span class="pre">logout</span></tt> の URL を、それぞれ  <tt class="docutils literal"><span class="pre">/login</span></tt> 、 <tt class="docutils literal"><span class="pre">/login_check</span></tt> 、 <tt class="docutils literal"><span class="pre">/logout</span></tt> (- <a href="#id25"><span class="problematic" id="id26">`Logging Out`_</span></a> を参照してください) のようにルートを設定する <em>必要があります</em> 。</p>
 </div>
 <p><tt class="docutils literal"><span class="pre">login</span></tt> ルートの名前は重要ではありません。セキュリティシステムがログインが必要なユーザにリダイレクトするので、重要なのは(<tt class="docutils literal"><span class="pre">/login</span></tt>)ルートの URL が <tt class="docutils literal"><span class="pre">login_path</span></tt> の設定値にマッチすることです。</p>
 <p>次はログインフォームを表示するコントローラを作成します:</p>
@@ -542,7 +539,7 @@
 </div>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">テンプレートに渡される <tt class="docutils literal"><span class="pre">error</span></tt> 変数は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\Exception\AuthenticationException</span></tt> のインスタンスです。 <tt class="docutils literal"><span class="pre">error</span></tt> 変数は、認証失敗に関する機密な情報など、たくさんの情報を保持していますので、賢く使ってください。</p>
+<p class="last">テンプレートに渡される <tt class="docutils literal"><span class="pre">error</span></tt> 変数は <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/Exception/AuthenticationException.html" title="Symfony\Component\Security\Core\Exception\AuthenticationException"><span class="pre">AuthenticationException</span></a></tt> のインスタンスです。 <tt class="docutils literal"><span class="pre">error</span></tt> 変数は、認証失敗に関する機密な情報など、たくさんの情報を保持していますので、賢く使ってください。</p>
 </div>
 <p>このフォームには、必須条件はほとんどありません。まず <tt class="docutils literal"><span class="pre">login_check</span></tt> ルートに基づき、<tt class="docutils literal"><span class="pre">/login_check</span></tt> にフォームが送信されます。セキュリティシステムがフォーム送信値をインターセプトして、自動的にフォームを処理します。次に、セキュリティシステムは <tt class="docutils literal"><span class="pre">_username</span></tt> と <tt class="docutils literal"><span class="pre">_password</span></tt> で指定されているフィールド(これらのフィールド名については <a class="reference internal" href="../reference/configuration/security.html#reference-security-firewall-form-login"><em>configured</em></a> を参照してください)が送信されていることを想定します。</p>
 <p>これでできました。フォームを送信すると、セキュリティシステムは自動的にユーザの証明を行い、ユーザの認証を行います、また、認証に失敗した際には、エラーを表示して再びログインフォームを返します。</p>
@@ -705,7 +702,7 @@
 <p class="first admonition-title">Tip</p>
 <p class="last"><tt class="docutils literal"><span class="pre">^</span></tt> をパスの先頭に追加することは、そのパターンから<em>始まる</em> URL にのみマッチすることを保証します。例えば、<tt class="docutils literal"><span class="pre">^</span></tt> の無い単なる <tt class="docutils literal"><span class="pre">/admin</span></tt> パスは <tt class="docutils literal"><span class="pre">/admin/foo</span></tt> にマッチしますし、<tt class="docutils literal"><span class="pre">/foo/admin</span></tt> にもマッチしてしまいます。</p>
 </div>
-<p>Symfony2 は、受け取る全てのリクエストに対し、アクセス制御ルールへのマッチを探そうと試みます(最初にマッチしたものが優先されます)。ユーザが認証されていなければ、ユーザにログインする機会が与えられ、認証処理が始まります。しかし、ユーザが<em>認証されている</em>が、必要な権限がない場合は <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\Exception\AccessDeniedException</span></tt> 例外が投げられます。そして、&#8221;access denied&#8221; のエラーページをユーザに返します。エラーページの詳細は、<a class="reference internal" href="../cookbook/controller/error_pages.html"><em>エラーページのカスタマイズ方法</em></a> を参照してください。</p>
+<p>Symfony2 は、受け取る全てのリクエストに対し、アクセス制御ルールへのマッチを探そうと試みます(最初にマッチしたものが優先されます)。ユーザが認証されていなければ、ユーザにログインする機会が与えられ、認証処理が始まります。しかし、ユーザが<em>認証されている</em>が、必要な権限がない場合は <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/Exception/AccessDeniedException.html" title="Symfony\Component\Security\Core\Exception\AccessDeniedException"><span class="pre">AccessDeniedException</span></a></tt> 例外が投げられます。そして、&#8221;access denied&#8221; のエラーページをユーザに返します。エラーページの詳細は、<a class="reference internal" href="../cookbook/controller/error_pages.html"><em>エラーページのカスタマイズ方法</em></a> を参照してください。</p>
 <p>Symfony は最初にマッチしたアクセス制御ルールを使用するので、<tt class="docutils literal"><span class="pre">/admin/users/new</span></tt> のような URL は <tt class="docutils literal"><span class="pre">ROLE_SUPER_ADMIN</span></tt> 権限を必要とする最初のルールにマッチします。<tt class="docutils literal"><span class="pre">/admin/blog</span></tt> のような全ての URL は <tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt> を必要とする２番目のルールにマッチします。</p>
 </div>
 <div class="section" id="ip">
@@ -858,7 +855,7 @@
 </li>
 </ul>
 </div>
-<p>このユーザプロバイダは、ユーザ情報がデータベースに保管されていないので、&#8221;in-memory&#8221; ユーザプロバイダと呼ばれます。実際のユーザオブジェクトは Symfony によって提供されます(<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\User</span></tt>)。</p>
+<p>このユーザプロバイダは、ユーザ情報がデータベースに保管されていないので、&#8221;in-memory&#8221; ユーザプロバイダと呼ばれます。実際のユーザオブジェクトは Symfony によって提供されます(<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/User.html" title="Symfony\Component\Security\Core\User\User"><span class="pre">User</span></a></tt>)。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">全てのユーザプロバイダは、<tt class="docutils literal"><span class="pre">users</span></tt> 設定値にユーザをリスト化して特定化することにより、コンフィギュレーションから直接ユーザをロードすることができます。</p>
@@ -902,9 +899,9 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>セキュリティシステムを考慮する限り、独自に作成するカスタムユーザクラスの唯一の必須条件は、<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\UserInterface</span></tt> インタフェースを実装することです。つまり、このインタフェースさえ実装すれば&#8221;user&#8221;はどんなものでも構いません。</p>
+<p>セキュリティシステムを考慮する限り、独自に作成するカスタムユーザクラスの唯一の必須条件は、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/UserInterface.html" title="Symfony\Component\Security\Core\User\UserInterface"><span class="pre">UserInterface</span></a></tt> インタフェースを実装することです。つまり、このインタフェースさえ実装すれば&#8221;user&#8221;はどんなものでも構いません。</p>
 <div class="versionadded">
-<p><span>New in version 2.1: </span>Symfony 2.1 では、 <tt class="docutils literal"><span class="pre">equals</span></tt> メソッドが <tt class="docutils literal"><span class="pre">UserInterface</span></tt> から取り除かれました。デフォルトの比較のロジックの実装をオーバーライドする必要がある際には、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Security\Core\User\EquatableInterface</span></tt> インタフェースを実装してください。</p>
+<p><span>New in version 2.1: </span>Symfony 2.1 では、 <tt class="docutils literal"><span class="pre">equals</span></tt> メソッドが <tt class="docutils literal"><span class="pre">UserInterface</span></tt> から取り除かれました。デフォルトの比較のロジックの実装をオーバーライドする必要がある際には、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Security/Core/User/EquatableInterface.html" title="Symfony\Component\Security\Core\User\EquatableInterface"><span class="pre">EquatableInterface</span></a></tt> インタフェースを実装してください。</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -1076,7 +1073,7 @@
 <p class="first admonition-title">Note</p>
 <p class="last">匿名ユーザは、表向きには、匿名ユーザのオブジェクトの <tt class="docutils literal"><span class="pre">isAuthenticated()</span></tt> メソッドが true を返すので認証されます。ユーザが実際に認証されたかを確認するには、<tt class="docutils literal"><span class="pre">IS_AUTHENTICATED_ANONYMOUSLY</span></tt> 権限をチェックしてください。</p>
 </div>
-<p>Twig のテンプレートでは、このオブジェクトは、 <tt class="docutils literal"><span class="pre">app.user</span></tt> キーで参照可能です。 <tt class="docutils literal"><span class="pre">app.user</span></tt> は、内部的には、 <a href="#id15"><span class="problematic" id="id16">:method:`GlobalVariables::getUser()&lt;Symfony\\Bundle\\FrameworkBundle\\Templating\\GlobalVariables::getUser&gt;`</span></a>  メソッドを呼んでいます:</p>
+<p>Twig のテンプレートでは、このオブジェクトは、 <tt class="docutils literal"><span class="pre">app.user</span></tt> キーで参照可能です。 <tt class="docutils literal"><span class="pre">app.user</span></tt> は、内部的には、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Bundle/FrameworkBundle/Templating/GlobalVariables.html#method_getUser" title="Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables::getUser()"><span class="pre">GlobalVariables::getUser()</span></a></tt>  メソッドを呼んでいます:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span>Username: <span class="cp">{{</span> <span class="nv">app.user.username</span> <span class="cp">}}</span><span class="nt">&lt;/p&gt;</span>
@@ -1086,8 +1083,8 @@
 </ul>
 </div>
 </div>
-<div class="section" id="id17">
-<h3>複数のユーザプロバイダの使用<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id15">
+<h3>複数のユーザプロバイダの使用<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
 <p>HTTP 認証やフォームログインなどの全ての認証メカニズムは、厳密に１つのユーザプロバイダを使用し、デフォルトとして最初に宣言されたユーザプロバイダを使用します。しかし、特定のユーザはコンフィギュレーションファイルから、残りのユーザはデータベースから認証したいときはどうでしょう？これは、２つ一緒につなげる新しいプロバイダを作成することにより可能になります:</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1244,16 +1241,16 @@
 <p>ユーザプロバイダとファイアーウォールの設定に関する詳細は、<a class="reference internal" href="../reference/configuration/security.html"><em>SecurityBundle 設定 (&#8220;security&#8221;)</em></a> を参照してください。</p>
 </div>
 </div>
-<div class="section" id="id18">
-<h2>権限<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id16">
+<h2>権限<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h2>
 <p>&#8220;role&#8221; のアイデアは、認証処理のキーとなります。それぞれのユーザは権限のセットを割り当てられ、それぞれのリソースは１つ、またはそれ以上の権限を必要とします。ユーザが必要な権限を持っていれば、アクセスは可能となり、そうでなければ拒否されます。</p>
 <p>権限はとてもシンプルで、必要であれば独自に作り、使うことができるように、基本的にひと続きになっています。例えば、ウェブサイトのブログ管理のセクションへのアクセスを制限する必要があったとします。その際には、<tt class="docutils literal"><span class="pre">ROLE_BLOG_ADMIN</span></tt> 権限を使用しそのセクションを保護することができます。この権限は、どこでも定義することができます。これからだって使うことができます。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">すべての権限は、Symfony2 によって管理されるため、<tt class="docutils literal"><span class="pre">ROLE_</span></tt> 接頭辞から始めなければなりません。より高度な <tt class="docutils literal"><span class="pre">Role</span></tt> 専用のクラスを定義する際には、<tt class="docutils literal"><span class="pre">ROLE_</span></tt> 接頭辞は使用しないでください。</p>
 </div>
-<div class="section" id="id19">
-<h3>階層的な権限<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>階層的な権限<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>ユーザにたくさんの権限を結びつける代わりに、権限の階層を作成し、権限の継承ルールを定義することができます:</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1290,8 +1287,8 @@
 <p>上記の設定では、<tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt> 権限を持つユーザは、<tt class="docutils literal"><span class="pre">ROLE_USER</span></tt> 権限をも持つことになります。<tt class="docutils literal"><span class="pre">ROLE_SUPER_ADMIN</span></tt> 権限は、<tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt>,<tt class="docutils literal"><span class="pre">ROLE_ALLOWED_TO_SWITCH</span></tt>, そして <tt class="docutils literal"><span class="pre">ROLE_USER</span></tt> を持つことになります。</p>
 </div>
 </div>
-<div class="section" id="id20">
-<h2>ログアウト<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id18">
+<h2>ログアウト<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h2>
 <p>ほとんどの場合、ユーザにログアウトもできるようにさせたいでしょう。幸いにも、<tt class="docutils literal"><span class="pre">logout</span></tt> の設定値を有効化することにより、ファイアーウォールはログアウトを自動的に処理することができます:</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1392,7 +1389,7 @@
 <p>ユーザが一旦ログアウトすると、そのユーザは、上記の <tt class="docutils literal"><span class="pre">target</span></tt> の値によって定義されたパス(<tt class="docutils literal"><span class="pre">homepage</span></tt> など)にリダイレクトされます。ログアウトの設定に関する詳細は <a class="reference internal" href="../reference/configuration/security.html"><em>Security Configuration Reference</em></a> を参照してください。</p>
 </div>
 <div class="section" id="book-security-template">
-<span id="id21"></span><h2>テンプレートにおけるアクセス制御<a class="headerlink" href="#book-security-template" title="Permalink to this headline">¶</a></h2>
+<span id="id19"></span><h2>テンプレートにおけるアクセス制御<a class="headerlink" href="#book-security-template" title="Permalink to this headline">¶</a></h2>
 <p>テンプレートの中で、現在のユーザが権限を持っているかを調べるには、ビルトインヘルパー関数を使用します:</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1415,8 +1412,8 @@
 <p class="last">ファイアーウォールが有効でない URL で、この関数を使用すると例外が投げられます。くどいようですが、この章で見られるように、全ての URL をカバーするメインのファイアーウォールはほとんど場合において、良いアイデアです。</p>
 </div>
 </div>
-<div class="section" id="id22">
-<h2>コントローラにおけるアクセス制御<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h2>コントローラにおけるアクセス制御<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
 <p>コントローラから、現在のユーザが権限を持っているか調べるには、セキュリティコンテキストの <tt class="docutils literal"><span class="pre">isGranted</span></tt> メソッドを使用してください:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
 <span class="p">{</span>
@@ -1433,8 +1430,8 @@
 <p class="last">ファイアーウォールは有効になっている必要があります。そうでなければ、<tt class="docutils literal"><span class="pre">isGranted</span></tt> メソッドが呼ばれた際に例外が投げられます。詳細は、上記のテンプレートのセクションにおける Note を参照してください。</p>
 </div>
 </div>
-<div class="section" id="id23">
-<h2>他のユーザになりすます<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id21">
+<h2>他のユーザになりすます<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
 <p>ときどき、ログアウト、ログインを繰り返すこと無しに、あるユーザから他のユーザに切り替えることができると便利ですね。例えばデバッグをしている際や、特定のユーザのみ再現されるバグを理解する際などです。<tt class="docutils literal"><span class="pre">switch_user</span></tt> ファイアーウォールリスナーを有効化することによって簡単に実現することができます:</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1514,8 +1511,8 @@
 </ul>
 </div>
 </div>
-<div class="section" id="id24">
-<h2>ステートレス認証<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id22">
+<h2>ステートレス認証<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h2>
 <p>デフォルトでは、Symfony2 は、ユーザのセキュリティコンテキストを持続するためにクッキー(セッション)を使用します。しかし、証明書や HTTP 認証を使用する際には、毎回のリクエストで証明書が利用可能なため、持続する必要ありません。こういったケースでは、リクエスト以外何も保存する必要がなければ、ステートレス認証を有効化することができます。つまり、Symfony2 によってクッキーは作られません:</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -1553,13 +1550,13 @@
 <p class="last">フォームログインを使用する際には、 <tt class="docutils literal"><span class="pre">stateless</span></tt> を <tt class="docutils literal"><span class="pre">true</span></tt> に指定していても、Symfony2 はクッキーを作成します。</p>
 </div>
 </div>
-<div class="section" id="id25">
-<h2>最後に<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id23">
+<h2>最後に<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
 <p>セキュリティ機能は、あなたのアプリケーションの深く複雑な問題を正しく解決してくれます。幸いにも、Symfony のセキュリティコンポーネントは、<em>認証</em>と<em>承認</em>をベースにした実績のあるセキュリティモデルに沿っています。認証は、常に最初に起こり、HTTP 認証やログインフォームなどのいくつもの異なる方法を通して、ユーザの同一性を判断するファイアーウォールによって処理されます。クックブックでは、&#8221;remember me&#8221;クッキー機能の実装方法を含め、他の方法で認証処理を実装したサンプルを見つけることができます。</p>
 <p>ユーザがいったん認証されれば、認証の層は、ユーザが特定のリソースへのアクセス権を保持しているか判断することができます。ほとんどの場合において、<em>権限</em>は URL、クラス、メソッドに適用され、ユーザに権限が無い際には、アクセスが拒否されます。しかし、認証レイヤーはもっと深く考えられており、ユーザが与えられたリソースにアクセスできるかどうかを、複数の関係者が判断できるといったような &#8220;voting&#8221; のシステムに沿っています。このことに関するトピックの詳細は、クックブックを参照してください。</p>
 </div>
-<div class="section" id="id26">
-<h2>クックブック でもっと学ぶ<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id24">
+<h2>クックブック でもっと学ぶ<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="../cookbook/security/force_https.html"><em>Forcing HTTP/HTTPS</em></a></li>
 <li><a class="reference internal" href="../cookbook/security/voters.html"><em>Blacklist users by IP address with a custom voter</em></a></li>
@@ -1576,11 +1573,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/security.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/security.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/security.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

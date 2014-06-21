@@ -76,11 +76,11 @@
   <h3>このページのコンテンツ</h3>
   <ul>
 <li><a class="reference internal" href="#">country フィールドタイプ</a><ul>
-<li><a class="reference internal" href="#id3">上書きされたオプション</a><ul>
+<li><a class="reference internal" href="#id1">上書きされたオプション</a><ul>
 <li><a class="reference internal" href="#choices">choices</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id4">継承されたオプション</a><ul>
+<li><a class="reference internal" href="#id2">継承されたオプション</a><ul>
 <li><a class="reference internal" href="#multiple">multiple</a></li>
 <li><a class="reference internal" href="#expanded">expanded</a></li>
 <li><a class="reference internal" href="#preferred-choices">preferred_choices</a></li>
@@ -155,9 +155,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/reference/forms/types/country.html">原文のページ</a>をご確認ください。</p>
-
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
@@ -171,7 +168,7 @@
 <p>各国の値は2文字の国コードです。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">ユーザーのロケールは <a href="#id1"><span class="problematic" id="id2">:phpmethod:`Locale::getDefault`</span></a> を使用して推測されています。</p>
+<p class="last">ユーザーのロケールは <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/locale.getdefault.php" title="Locale"><span class="pre">Locale::getDefault()</span></a></tt> を使用して推測されています。</p>
 </div>
 <p><tt class="docutils literal"><span class="pre">choice</span></tt> タイプとは異なり、<tt class="docutils literal"><span class="pre">choices</span></tt> または <tt class="docutils literal"><span class="pre">choice_list</span></tt> オプションを特定する必要はなく、
 フィールドタイプとして自動的に世界のすべての国を使います。それらのオプションのどちらかを手動で設定する
@@ -216,12 +213,12 @@
 <td><a class="reference internal" href="choice.html"><em>choice</em></a></td>
 </tr>
 <tr class="row-odd"><td>クラス</td>
-<td><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Form\Extension\Core\Type\CountryType</span></tt></td>
+<td><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/Extension/Core/Type/CountryType.html" title="Symfony\Component\Form\Extension\Core\Type\CountryType"><span class="pre">CountryType</span></a></tt></td>
 </tr>
 </tbody>
 </table>
-<div class="section" id="id3">
-<h2>上書きされたオプション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h2>上書きされたオプション<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="choices">
 <h3>choices<a class="headerlink" href="#choices" title="Permalink to this headline">¶</a></h3>
 <p><strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">Symfony\Component\Intl\Intl::getRegionBundle()-&gt;getCountryNames()</span></tt></p>
@@ -229,8 +226,8 @@
 国名の翻訳にはロケールが利用されます。</p>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>継承されたオプション<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>継承されたオプション<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>以下のオプションは <a class="reference internal" href="choice.html"><em>choice</em></a> タイプを継承しています:</p>
 <div class="section" id="multiple">
 <h3>multiple<a class="headerlink" href="#multiple" title="Permalink to this headline">¶</a></h3>
@@ -440,11 +437,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/reference/forms/types/country.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/reference/forms/types/country.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/reference/forms/types/country.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

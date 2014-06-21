@@ -78,7 +78,7 @@
 <li><a class="reference internal" href="#">翻訳</a><ul>
 <li><a class="reference internal" href="#index-1">設定</a></li>
 <li><a class="reference internal" href="#index-2">標準的な翻訳</a><ul>
-<li><a class="reference internal" href="#id6">翻訳のプロセス</a></li>
+<li><a class="reference internal" href="#id4">翻訳のプロセス</a></li>
 <li><a class="reference internal" href="#index-3">メッセージプレースホルダー</a></li>
 </ul>
 </li>
@@ -94,7 +94,7 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#index-10">複数型への対応</a><ul>
-<li><a class="reference internal" href="#id17">間隔を明示した複数型への対応</a></li>
+<li><a class="reference internal" href="#id13">間隔を明示した複数型への対応</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#index-11">テンプレート内の翻訳</a><ul>
@@ -102,9 +102,9 @@
 <li><a class="reference internal" href="#php">PHP テンプレート</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id23">翻訳ロケールの強制</a></li>
-<li><a class="reference internal" href="#id24">データベースコンテンツの翻訳</a></li>
-<li><a class="reference internal" href="#id25">まとめ</a></li>
+<li><a class="reference internal" href="#id19">翻訳ロケールの強制</a></li>
+<li><a class="reference internal" href="#id20">データベースコンテンツの翻訳</a></li>
+<li><a class="reference internal" href="#id21">まとめ</a></li>
 </ul>
 </li>
 </ul>
@@ -163,9 +163,6 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/translation.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>翻訳<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>「国際化」という言葉は、文字列あるいは他のロケール固有の単位を抽出して
@@ -239,9 +236,9 @@
 </div>
 <div class="section" id="index-2">
 <span id="id3"></span><h2>標準的な翻訳<a class="headerlink" href="#index-2" title="Permalink to this headline">¶</a></h2>
-<p>テキストの翻訳は、<tt class="docutils literal"><span class="pre">translator</span></tt> サービス (<tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Translator</span></tt>)
+<p>テキストの翻訳は、<tt class="docutils literal"><span class="pre">translator</span></tt> サービス (<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Translator.html" title="Symfony\Component\Translation\Translator"><span class="pre">Translator</span></a></tt>)
 を通じて行われます。テキストのブロック (<em>メッセージ</em> と呼びます) を翻訳するには、
-<a href="#id4"><span class="problematic" id="id5">:method:`Symfony\\Component\\Translation\\Translator::trans`</span></a> メソッドを使用してください。
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Translator.html#method_trans" title="Symfony\Component\Translation\Translator::trans()"><span class="pre">trans()</span></a></tt> メソッドを使用してください。
 例として、コントローラの中から単純なメッセージを翻訳していると考えてください。:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">()</span>
 <span class="p">{</span>
@@ -290,15 +287,15 @@
 </div>
 <p>ユーザーのロケールがフランス語 (例えば <tt class="docutils literal"><span class="pre">fr_FR</span></tt> または <tt class="docutils literal"><span class="pre">fr_BE</span></tt>) の時には、
 メッセージは <tt class="docutils literal"><span class="pre">J'aime</span> <span class="pre">Symfony2</span></tt> に翻訳されます。</p>
-<div class="section" id="id6">
-<h3>翻訳のプロセス<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id4">
+<h3>翻訳のプロセス<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>実際にメッセージを翻訳するには、 Symfony2 はシンプルなプロセスで行います。</p>
 <ul class="simple">
 <li>セッションに保存されているユーザーの <tt class="docutils literal"><span class="pre">locale</span></tt> を見つけ出します。</li>
 <li>翻訳済みメッセージのカタログが <tt class="docutils literal"><span class="pre">ロケール</span></tt> (例えば <tt class="docutils literal"><span class="pre">fr_FR</span></tt>) に定義されている
 翻訳リソースからロードされます。フォールバックロケールからのメッセージも
 同じようにロードされ、まだ存在していない場合にはカタログに追加されます。最終的な
-結果は、翻訳の大きな「辞書」になります。詳しくは <a class="reference internal" href="#id8">メッセージのカタログ</a> を参照してください。</li>
+結果は、翻訳の大きな「辞書」になります。詳しくは <a class="reference internal" href="#id6">メッセージのカタログ</a> を参照してください。</li>
 <li>メッセージがカタログの中にある場合、翻訳結果が戻り値になります。カタログの中にない場合、
 トランスレータは元のメッセージを返します。</li>
 </ul>
@@ -306,7 +303,7 @@
 一致する文字列を探し、その文字列を返します (メッセージが存在する場合)。</p>
 </div>
 <div class="section" id="index-3">
-<span id="id7"></span><h3>メッセージプレースホルダー<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
+<span id="id5"></span><h3>メッセージプレースホルダー<a class="headerlink" href="#index-3" title="Permalink to this headline">¶</a></h3>
 <p>時によって、メッセージは翻訳の必要がある変数を含んでいることがあります。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">indexAction</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
 <span class="p">{</span>
@@ -377,7 +374,7 @@
 </div>
 </div>
 <div class="section" id="index-4">
-<span id="id8"></span><h2>メッセージのカタログ<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
+<span id="id6"></span><h2>メッセージのカタログ<a class="headerlink" href="#index-4" title="Permalink to this headline">¶</a></h2>
 <p>メッセージが翻訳された時、 Symfony2 はユーザーのロケールに対するメッセージの
 カタログをコンパイルし、メッセージの翻訳を探します。メッセージのカタログは、
 特定のロケールに対する翻訳の辞書のようなものです。例えば、<tt class="docutils literal"><span class="pre">fr_FR</span></tt> ロケールに
@@ -396,7 +393,7 @@ Symfonyが新しい翻訳リソースを検出できるようキャッシュを�
 </div>
 </div>
 <div class="section" id="index-5">
-<span id="id9"></span><h3>翻訳の場所と名前付け規約<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h3>
+<span id="id7"></span><h3>翻訳の場所と名前付け規約<a class="headerlink" href="#index-5" title="Permalink to this headline">¶</a></h3>
 <p>Symfony2 はメッセージファイル (例として翻訳) を2つの場所から探します。</p>
 <ul class="simple">
 <li>バンドル内で見つけたメッセージに対しては、対応するメッセージファイルは
@@ -409,7 +406,7 @@ Symfonyが新しい翻訳リソースを検出できるようキャッシュを�
 いなければなりません。</p>
 <ul class="simple">
 <li><strong>ドメイン</strong>: メッセージをグループに体系づける任意の方法です (例えば <tt class="docutils literal"><span class="pre">admin</span></tt>、
-<tt class="docutils literal"><span class="pre">navigation</span></tt> またはデフォルトの <tt class="docutils literal"><span class="pre">messages</span></tt>)。詳しくは <a class="reference internal" href="#id11">メッセージドメインの使用</a>
+<tt class="docutils literal"><span class="pre">navigation</span></tt> またはデフォルトの <tt class="docutils literal"><span class="pre">messages</span></tt>)。詳しくは <a class="reference internal" href="#id9">メッセージドメインの使用</a>
 を参照してください。</li>
 <li><strong>ロケール</strong>: その翻訳のロケールです (例えば <tt class="docutils literal"><span class="pre">en_GB</span></tt> や <tt class="docutils literal"><span class="pre">en</span></tt> など)。</li>
 <li><strong>ローダー</strong>: Symfony2 がどのようにファイルをロードし、パースするかです (例えば
@@ -425,7 +422,7 @@ Symfony は以下のローダーを提供しています。</p>
 <p>どのローダーを使用するかは完全にあなた (開発者) 次第で、好みの問題です。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">翻訳はデータベースや、 <tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Loader\LoaderInterface</span></tt>
+<p class="last">翻訳はデータベースや、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Loader/LoaderInterface.html" title="Symfony\Component\Translation\Loader\LoaderInterface"><span class="pre">LoaderInterface</span></a></tt>
 の実装であるカスタムクラスによって定義されるその他のストレージに保存することも
 できます。どのようにカスタムローダーを登録するかは
 <tt class="xref doc docutils literal"><span class="pre">Custom</span> <span class="pre">Translation</span> <span class="pre">Loaders</span></tt>
@@ -433,7 +430,7 @@ Symfony は以下のローダーを提供しています。</p>
 </div>
 </div>
 <div class="section" id="index-6">
-<span id="id10"></span><h3>翻訳の作成<a class="headerlink" href="#index-6" title="Permalink to this headline">¶</a></h3>
+<span id="id8"></span><h3>翻訳の作成<a class="headerlink" href="#index-6" title="Permalink to this headline">¶</a></h3>
 <p>それぞれのファイルは、与えられたドメインとロケールに対する ID と翻訳のペアの連なりから
 できています。この ID はそれぞれの翻訳の識別子になっており、アプリケーションあるいは
 ユニークな識別子 (例えば &#8220;symfony2.great&#8221; といったものです。詳しくはこの後の補足を
@@ -557,7 +554,7 @@ Symfony は以下のローダーを提供しています。</p>
 </div>
 </div>
 <div class="section" id="index-7">
-<span id="id11"></span><h2>メッセージドメインの使用<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h2>
+<span id="id9"></span><h2>メッセージドメインの使用<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h2>
 <p>これまで見てきたように、メッセージファイルは翻訳されたロケールごとにまとめられます。
 また、さらに「ドメイン」ごとにもまとめることができます。メッセージファイルを作成
 するさい、ドメインはファイル名の最初の部分になります。デフォルトのドメインは
@@ -577,7 +574,7 @@ Symfony は以下のローダーを提供しています。</p>
 <p>Symfony2 はここでユーザーのロケールの <tt class="docutils literal"><span class="pre">admin</span></tt> ドメイン内のメッセージを探します。</p>
 </div>
 <div class="section" id="index-8">
-<span id="id12"></span><h2>ユーザーロケールの扱い<a class="headerlink" href="#index-8" title="Permalink to this headline">¶</a></h2>
+<span id="id10"></span><h2>ユーザーロケールの扱い<a class="headerlink" href="#index-8" title="Permalink to this headline">¶</a></h2>
 <p>現在のユーザのロケールはセッションに保存され、<tt class="docutils literal"><span class="pre">session</span></tt> サービスを介して
 アクセスできます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$locale</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getLocale</span><span class="p">();</span>
@@ -586,7 +583,7 @@ Symfony は以下のローダーを提供しています。</p>
 </pre></div>
 </div>
 <div class="section" id="index-9">
-<span id="id13"></span><h3>フォールバックロケールとデフォルトロケール<a class="headerlink" href="#index-9" title="Permalink to this headline">¶</a></h3>
+<span id="id11"></span><h3>フォールバックロケールとデフォルトロケール<a class="headerlink" href="#index-9" title="Permalink to this headline">¶</a></h3>
 <p>セッション内でロケールが明確に指定されていない場合、<tt class="docutils literal"><span class="pre">fallback_locale</span></tt> 設定パラメータが
 <tt class="docutils literal"><span class="pre">Translator</span></tt> で使用されます。このパラメータのデフォルトは <tt class="docutils literal"><span class="pre">en</span></tt> です
 (詳しくは <a class="reference internal" href="#id2">設定</a> を参照してください) 。</p>
@@ -672,7 +669,7 @@ Symfony は以下のローダーを提供しています。</p>
 </div>
 </div>
 <div class="section" id="index-10">
-<span id="id14"></span><h2>複数型への対応<a class="headerlink" href="#index-10" title="Permalink to this headline">¶</a></h2>
+<span id="id12"></span><h2>複数型への対応<a class="headerlink" href="#index-10" title="Permalink to this headline">¶</a></h2>
 <p>メッセージの複数型への対応は、ルールがなかなか複雑であるため、大きな問題です。
 例えば、これはロシア語の複数型の数学的表現です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="p">((</span><span class="nv">$number</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nv">$number</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">!=</span> <span class="mi">11</span><span class="p">))</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="p">(((</span><span class="nv">$number</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nv">$number</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">&lt;=</span> <span class="mi">4</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">((</span><span class="nv">$number</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="nv">$number</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">&gt;=</span> <span class="mi">20</span><span class="p">)))</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">2</span><span class="p">);</span>
@@ -685,7 +682,7 @@ Symfony は以下のローダーを提供しています。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="s1">&#39;There is one apple|There are %count% apples&#39;</span>
 </pre></div>
 </div>
-<p>複数型に対応したメッセージを翻訳するため、 <a href="#id15"><span class="problematic" id="id16">:method:`Symfony\\Component\\Translation\\Translator::transChoice`</span></a> メソッドを使用できます。</p>
+<p>複数型に対応したメッセージを翻訳するため、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Translator.html#method_transChoice" title="Symfony\Component\Translation\Translator::transChoice()"><span class="pre">transChoice()</span></a></tt> メソッドを使用できます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$t</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;translator&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">transChoice</span><span class="p">(</span>
     <span class="s1">&#39;There is one apple|There are %count% apples&#39;</span><span class="p">,</span>
     <span class="mi">10</span><span class="p">,</span>
@@ -723,8 +720,8 @@ Symfony は以下のローダーを提供しています。</p>
 <p>タグは翻訳者のためのヒントでしかありませんので、どの複数形の表現を使うか決める
 ロジックには影響しません。タグはコロン (<tt class="docutils literal"><span class="pre">:</span></tt>) で終わる説明を含む文字列になります。
 また、タグが翻訳された元のメッセージと同じである必要はありません。</p>
-<div class="section" id="id17">
-<h3>間隔を明示した複数型への対応<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>間隔を明示した複数型への対応<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <p>メッセージを複数形にする最も簡単な方法は、与えられた数を元にどの文字列を選ぶかの
 Symfony2 の内部ロジックを使うことです。場合によっては、もっと翻訳の動作を自由に
 制御したかったり、違う訳が欲しい時があるでしょう (例えば <tt class="docutils literal"><span class="pre">0</span></tt> に関してや、負の数の時)。
@@ -742,7 +739,7 @@ Symfony2 の内部ロジックを使うことです。場合によっては、�
 <p>例えば、<tt class="docutils literal"><span class="pre">1</span></tt> つのリンゴの場合、標準の表現 <tt class="docutils literal"><span class="pre">There</span> <span class="pre">is</span> <span class="pre">one</span> <span class="pre">apple</span></tt> が使われます。
 <tt class="docutils literal"><span class="pre">2から19</span></tt> 個のリンゴの場合、2番目の標準の表現である <tt class="docutils literal"><span class="pre">There</span> <span class="pre">are</span> <span class="pre">%count%</span>
 <span class="pre">apples</span></tt> が使われます。</p>
-<p><tt class="xref php php-class docutils literal"><span class="pre">Symfony\Component\Translation\Interval</span></tt> クラスで数の有限集合を表せます。</p>
+<p><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Interval.html" title="Symfony\Component\Translation\Interval"><span class="pre">Interval</span></a></tt> クラスで数の有限集合を表せます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">}</span>
 </pre></div>
 </div>
@@ -757,7 +754,7 @@ Symfony2 の内部ロジックを使うことです。場合によっては、�
 </div>
 </div>
 <div class="section" id="index-11">
-<span id="id18"></span><h2>テンプレート内の翻訳<a class="headerlink" href="#index-11" title="Permalink to this headline">¶</a></h2>
+<span id="id14"></span><h2>テンプレート内の翻訳<a class="headerlink" href="#index-11" title="Permalink to this headline">¶</a></h2>
 <p>多くの場合、翻訳はテンプレート内で発生します。 Symfony2 は Twig と PHP テンプレートの
 両方をネイティブでサポートします。</p>
 <div class="section" id="twig">
@@ -786,7 +783,7 @@ Symfony2 の内部ロジックを使うことです。場合によっては、�
 <span class="cp">{%</span> <span class="k">endtranschoice</span> <span class="cp">%}</span><span class="x"></span>
 </pre></div>
 </div>
-<p id="book-translation-filters"><tt class="docutils literal"><span class="pre">trans</span></tt>、<a href="#id19"><span class="problematic" id="id20">``</span></a>transchoice``フィルターは、<a href="#id21"><span class="problematic" id="id22">*</span></a>variable texts*や複雑な式を変換するために使用できます。</p>
+<p id="book-translation-filters"><tt class="docutils literal"><span class="pre">trans</span></tt>、<a href="#id15"><span class="problematic" id="id16">``</span></a>transchoice``フィルターは、<a href="#id17"><span class="problematic" id="id18">*</span></a>variable texts*や複雑な式を変換するために使用できます。</p>
 <div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{{</span> <span class="nv">message</span> <span class="o">|</span> <span class="nf">trans</span> <span class="cp">}}</span><span class="x"></span>
 
 <span class="cp">{{</span> <span class="nv">message</span> <span class="o">|</span> <span class="nf">transchoice</span><span class="o">(</span><span class="m">5</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
@@ -831,8 +828,8 @@ Symfony2 の内部ロジックを使うことです。場合によっては、�
 </div>
 </div>
 </div>
-<div class="section" id="id23">
-<h2>翻訳ロケールの強制<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id19">
+<h2>翻訳ロケールの強制<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h2>
 <p>メッセージの翻訳の際、 Symfony2 はユーザーセッションからのロケール、あるいは
 必要な場合は <tt class="docutils literal"><span class="pre">フォールバック</span></tt> ロケールを使用します。同様に、翻訳で使用する
 ロケールを手動で指定することもできます。</p>
@@ -853,19 +850,19 @@ Symfony2 の内部ロジックを使うことです。場合によっては、�
 </pre></div>
 </div>
 </div>
-<div class="section" id="id24">
-<h2>データベースコンテンツの翻訳<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id20">
+<h2>データベースコンテンツの翻訳<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h2>
 <p>データベースコンテンツの翻訳は <a class="reference external" href="https://github.com/l3pp4rd/DoctrineExtensions">Translatable Extension</a> を通じて Doctrine
 によって扱われるべきです。詳しくは、ライブラリのドキュメントを参照してください。</p>
 </div>
-<div class="section" id="id25">
-<h2>まとめ<a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id21">
+<h2>まとめ<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h2>
 <p>Symfony2 の Translation コンポーネントを使用すると、国際化されたアプリケーションを
 作ることはもはや苦痛なプロセスではなく、いくつかの基本的なステップに要約する
 ことができます。</p>
 <ul class="simple">
-<li><a href="#id26"><span class="problematic" id="id27">:method:`Symfony\\Component\\Translation\\Translator::trans`</span></a> メソッドまたは
-<a href="#id28"><span class="problematic" id="id29">:method:`Symfony\\Component\\Translation\\Translator::transChoice`</span></a> メソッドの
+<li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Translator.html#method_trans" title="Symfony\Component\Translation\Translator::trans()"><span class="pre">trans()</span></a></tt> メソッドまたは
+<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Translation/Translator.html#method_transChoice" title="Symfony\Component\Translation\Translator::transChoice()"><span class="pre">transChoice()</span></a></tt> メソッドの
 いずれかでラッピングすることによって、アプリケーション内のメッセージを抽象化します。</li>
 <li>それぞれのメッセージを、翻訳メッセージファイルを作成することで複数のロケールに
 翻訳します。 メッセージファイルの名前は指定された規約に則っており、Symfony2 は
@@ -882,11 +879,6 @@ Symfony2 の内部ロジックを使うことです。場合によっては、�
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/book/translation.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/book/translation.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/book/translation.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

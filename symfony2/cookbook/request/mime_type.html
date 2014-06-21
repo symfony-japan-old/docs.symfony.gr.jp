@@ -77,7 +77,7 @@
   <ul>
 <li><a class="reference internal" href="#">新しいリクエストのフォーマットとマイムタイプの登録方法</a><ul>
 <li><a class="reference internal" href="#kernel-request"><tt class="docutils literal"><span class="pre">kernel.request</span></tt> リスナを作成する</a></li>
-<li><a class="reference internal" href="#id4">リスナを登録する</a></li>
+<li><a class="reference internal" href="#id2">リスナを登録する</a></li>
 </ul>
 </li>
 </ul>
@@ -136,12 +136,9 @@
         <div class="bodywrapper">
           <div class="body">
             
-
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/request/mime_type.html">原文のページ</a>をご確認ください。</p>
-
   <div class="section" id="index-0">
 <span id="id1"></span><h1>新しいリクエストのフォーマットとマイムタイプの登録方法<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
-<p>全ての <tt class="docutils literal"><span class="pre">Request</span></tt> は &#8220;format&#8221;(例えば、 <tt class="docutils literal"><span class="pre">html</span></tt> や <tt class="docutils literal"><span class="pre">json</span></tt>) を持っており、 <tt class="docutils literal"><span class="pre">Response</span></tt> で返す内容のタイプを決定するのに使われます。実際にリクエストフォーマットは、<a href="#id2"><span class="problematic" id="id3">:method:`Symfony\\Component\\HttpFoundation\\Request::getRequestFormat`</span></a> メソッドを介して <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">Content-Type</span></tt> ヘッダのマイムタイプをセットするのに使われます。内部的には、 Symfony は <tt class="docutils literal"><span class="pre">html</span></tt> や <tt class="docutils literal"><span class="pre">json</span></tt> などの一般的なフォーマットのマップを持っており、それぞれ対応するマイムタイプ <tt class="docutils literal"><span class="pre">text/html</span></tt> や <tt class="docutils literal"><span class="pre">application/json</span></tt> に結び付けられます。もちろん、フォーマットとマイムタイプのエントリも簡単に追加することができます。この記事では、 <tt class="docutils literal"><span class="pre">jsonp</span></tt> フォーマットとそれに対応するマイムタイプの追加方法を説明します。</p>
+<p>全ての <tt class="docutils literal"><span class="pre">Request</span></tt> は &#8220;format&#8221;(例えば、 <tt class="docutils literal"><span class="pre">html</span></tt> や <tt class="docutils literal"><span class="pre">json</span></tt>) を持っており、 <tt class="docutils literal"><span class="pre">Response</span></tt> で返す内容のタイプを決定するのに使われます。実際にリクエストフォーマットは、<tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/Request.html#method_getRequestFormat" title="Symfony\Component\HttpFoundation\Request::getRequestFormat()"><span class="pre">getRequestFormat()</span></a></tt> メソッドを介して <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトの <tt class="docutils literal"><span class="pre">Content-Type</span></tt> ヘッダのマイムタイプをセットするのに使われます。内部的には、 Symfony は <tt class="docutils literal"><span class="pre">html</span></tt> や <tt class="docutils literal"><span class="pre">json</span></tt> などの一般的なフォーマットのマップを持っており、それぞれ対応するマイムタイプ <tt class="docutils literal"><span class="pre">text/html</span></tt> や <tt class="docutils literal"><span class="pre">application/json</span></tt> に結び付けられます。もちろん、フォーマットとマイムタイプのエントリも簡単に追加することができます。この記事では、 <tt class="docutils literal"><span class="pre">jsonp</span></tt> フォーマットとそれに対応するマイムタイプの追加方法を説明します。</p>
 <div class="section" id="kernel-request">
 <h2><tt class="docutils literal"><span class="pre">kernel.request</span></tt> リスナを作成する<a class="headerlink" href="#kernel-request" title="Permalink to this headline">¶</a></h2>
 <p>新しいマイムタイプの定義するキーは、 Symfony カーネルによってディスパッチされる <tt class="docutils literal"><span class="pre">kernel.request</span></tt> イベントを &#8220;listen&#8221; するクラスを作成することです。 <tt class="docutils literal"><span class="pre">kernel.request</span></tt> イベントは、 Symfony のリクエスト処理の初期でディスパッチされるので、リクエストオブジェクトを変更することができるのです。</p>
@@ -162,8 +159,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="id4">
-<h2>リスナを登録する<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h2>リスナを登録する<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>他のリスナのように、 <tt class="docutils literal"><span class="pre">kernel.event_listener</span></tt> タグを追加して、コンフィギュレーションファイルにリスナとして追加、登録する必要があります。</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -215,11 +212,6 @@
 </div>
 
 <div class="common_content_footer">
-<ul>
-  <li> → <a href="http://symfony.com/doc/current/cookbook/request/mime_type.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/request/mime_type.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/request/mime_type.rst">翻訳コミット履歴</a>
-</ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
 </div>

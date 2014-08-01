@@ -948,7 +948,7 @@ Symfony2 では、少し異なるアプローチを提供しています。Symfo
 </ul>
 </div>
 <p><tt class="docutils literal"><span class="pre">asset</span></tt> 関数を使う一番の目的は、アプリケーションをよりポータブルにすることです。アプリケーションが、ホストのルート(<a class="reference external" href="http://example.com">http://example.com</a>)に配置されていた場合、レンダリングされるパスは、<tt class="docutils literal"><span class="pre">/images/logo.png</span></tt> になっているべきです。では、ルートではなくサブディレクトリ(<a class="reference external" href="http://example.com/my_app">http://example.com/my_app</a>)に配置されている場合はどうでしょう。アセットパスは、サブディレクトリ付き(<tt class="docutils literal"><span class="pre">/my_app/images/logo.png</span></tt>)で出力されなければいけません。<tt class="docutils literal"><span class="pre">asset</span></tt> 関数は、アプリケーションがどのように使われているかをみて、この点をケアし、それに応じて適切なパスを生成します。</p>
-<p>また、<tt class="docutils literal"><span class="pre">asset</span></tt> 関数を使うと、アセットの URL に自動的にクエリーストリングを追加できるので、デプロイ時に静的なアセットのキャッシュが残らず強制的に更新されるようにできます。たとえば、<tt class="docutils literal"><span class="pre">/images/logo.png</span></tt> という URL の場合は <tt class="docutils literal"><span class="pre">/images/logo.png?v2</span></tt> となります。詳細は、<em class="xref std std-ref">ref-framework-assets-version</em> コンフィギュレーションオプションを参照してください。</p>
+<p>また、<tt class="docutils literal"><span class="pre">asset</span></tt> 関数を使うと、アセットの URL に自動的にクエリーストリングを追加できるので、デプロイ時に静的なアセットのキャッシュが残らず強制的に更新されるようにできます。たとえば、<tt class="docutils literal"><span class="pre">/images/logo.png</span></tt> という URL の場合は <tt class="docutils literal"><span class="pre">/images/logo.png?v2</span></tt> となります。詳細は、<a class="reference internal" href="../reference/configuration/framework.html#ref-framework-assets-version"><em>assets_version</em></a> コンフィギュレーションオプションを参照してください。</p>
 </div>
 </div>
 <div class="section" id="twig-javascript">

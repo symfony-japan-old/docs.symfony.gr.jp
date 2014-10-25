@@ -3,7 +3,7 @@ blogチュートリアル(2) データベースの設定
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 MySQLにblogsymfony2データベースを作成
 -------------------------------------
@@ -22,17 +22,17 @@ MySQLにblogsymfony2データベースを作成
 データベースへの接続設定
 ------------------------
 
-次に、Symfony側でMySQLに作成したデータベースへ接続する設定を行います。ここではデータベースへ接続するユーザ名、パスワードも **blogsymfony2** であると想定しています（お使いの環境に合わせて変更してください）。エディタで ``app/config/parameters.ini`` ファイルを開き、以下のように編集してください。
+次に、Symfony側でMySQLに作成したデータベースへ接続する設定を行います。ここではデータベースへ接続するユーザ名、パスワードも **blogsymfony2** であると想定しています（お使いの環境に合わせて変更してください）。エディタで ``app/config/parameters.yml`` ファイルを開き、以下のように編集してください。
 
-.. code-block:: ini
+.. code-block:: yml
 
-    [parameters]
-        database_driver   = pdo_mysql
-        database_host     = localhost
-        database_port     =
-        database_name     = blogsymfony2
-        database_user     = blogsymfony2
-        database_password = blogsymfony2
+    parameters:
+        database_driver: pdo_mysql
+        database_host: localhost
+        database_port: null
+        database_name: blogsymfony2
+        database_user: blogsymfony2
+        database_password: blogsymfony2
 
 また、以下にblogsymgony2データベースに対して権限を付与するSQL文の例を載せておきます。
 
@@ -45,4 +45,3 @@ MySQLにblogsymfony2データベースを作成
     Symfony2 Standard Editionのメインの設定ファイルは、\ ``app/config/config.yml`` です。
     Symfony2ではYAML形式の設定ファイルを標準で採用していますが、XMLやPHP、アノテーションなどの設定ファイル形式も使用することができます。
     これらの形式は互換性があり、どの設定形式でも記述できるように配慮されています。
-

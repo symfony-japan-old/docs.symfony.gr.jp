@@ -3,7 +3,7 @@
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 ルーティングのURLパラメータの受け入れられる値
 ---------------------------------------------
@@ -43,23 +43,23 @@ blogアプリケーションの ``routing.yml`` を修正して、\ ``{id}`` に
     blog_index:
         pattern:  /
         defaults: { _controller: MyBlogBundle:Default:index }
-    
+
     blog_new:
         pattern:  /new
         defaults: { _controller: MyBlogBundle:Default:new }
-    
+
     blog_show:
         pattern:  /{id}/show
         defaults: { _controller: MyBlogBundle:Default:show }
         requirements:
             id:  \d+
-    
+
     blog_delete:
         pattern:  /{id}/delete
         defaults: { _controller: MyBlogBundle:Default:delete }
         requirements:
             id:  \d+
-    
+
     blog_edit:
         pattern:  /{id}/edit
         defaults: { _controller: MyBlogBundle:Default:edit }
@@ -73,4 +73,3 @@ blogアプリケーションの ``routing.yml`` を修正して、\ ``{id}`` に
 もっとルーティングについて知りたい場合は、ガイドブックの\ `ルーティング`_\ を参照してください。
 
 .. _`ルーティング`: http://docs.symfony.gr.jp/symfony2/book/routing.html
-

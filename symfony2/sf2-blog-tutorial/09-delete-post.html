@@ -139,7 +139,7 @@
 <h1>blogチュートリアル(9) 記事の削除<a class="headerlink" href="#blog-9" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+<p class="last">この記事は、Symfony 2.5.6 で動作確認しています。</p>
 </div>
 <p>次は、ユーザーが既存の記事を削除できるようにしてみましょう。</p>
 <div class="section" id="uri">
@@ -164,7 +164,7 @@
     <span class="c1">// ...</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">deleteAction</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getEntityManager</span><span class="p">();</span>
+        <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getManager</span><span class="p">();</span>
         <span class="nv">$post</span> <span class="o">=</span> <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="s1">&#39;MyBlogBundle:Post&#39;</span><span class="p">,</span> <span class="nv">$id</span><span class="p">);</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">throw</span> <span class="k">new</span> <span class="nx">NotFoundHttpException</span><span class="p">(</span><span class="s1">&#39;The post does not exist.&#39;</span><span class="p">);</span>

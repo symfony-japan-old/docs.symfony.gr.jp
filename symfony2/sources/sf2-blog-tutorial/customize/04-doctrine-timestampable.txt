@@ -3,7 +3,7 @@
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 ライフサイクル・コールバック
 ----------------------------
@@ -70,7 +70,7 @@ blogアプリケーションの ``Post`` エンティティの投稿日時と更
     class Post
     {
         // ...
-        
+
         /**
          * set values bedore persist
          *
@@ -81,7 +81,7 @@ blogアプリケーションの ``Post`` エンティティの投稿日時と更
             $this->createdAt = new \DateTime();
             $this->updatedAt = new \DateTime();
         }
-    
+
         /**
          * set values bedore update
          *
@@ -91,7 +91,7 @@ blogアプリケーションの ``Post`` エンティティの投稿日時と更
         {
             $this->updatedAt = new \DateTime();
         }
-                
+
         // ...
     }
 
@@ -106,7 +106,7 @@ blogアプリケーションの ``Post`` エンティティの投稿日時と更
                 // $post->setUpdatedAt(new \DateTime());
             // ...
         }
-        
+
         public function editAction($id)
         {
             // ...
@@ -136,4 +136,3 @@ blogアプリケーションの ``Post`` エンティティの投稿日時と更
 .. _`Lifecycle Events documentation`: http://www.doctrine-project.org/docs/orm/2.0/en/reference/events.html#lifecycle-events
 .. _`Registering Event Listeners and Subscribers`: http://symfony.com/doc/current/cookbook/doctrine/event_listeners_subscribers.html
 .. _`Doctrine Extensions: Timestampable: Sluggable, Translatable, etc.`: http://symfony.com/doc/current/cookbook/doctrine/common_extensions.html
-

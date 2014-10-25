@@ -3,7 +3,7 @@ blogチュートリアル(4) テーブルスキーマとエンティティクラ
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 Postモデルの作成
 ----------------
@@ -23,61 +23,61 @@ Doctrineでは、pure phpのクラスでエンティティを定義します。
 
 .. code-block:: console
 
-                                                     
-          Welcome to the Doctrine2 entity generator  
-                                                     
-        
-        
+
+          Welcome to the Doctrine2 entity generator
+
+
+
         This command helps you generate Doctrine2 entities.
-        
+
         First, you need to give the entity name you want to generate.
         You must use the shortcut notation like AcmeBlogBundle:Post.
-        
-        The Entity shortcut name [MyBlogBundle:Post]: 
-        
+
+        The Entity shortcut name [MyBlogBundle:Post]:
+
         Determine the format to use for the mapping information.
-        
-        Configuration format (yml, xml, php, or annotation) [annotation]: 
-        
+
+        Configuration format (yml, xml, php, or annotation) [annotation]:
+
         Instead of starting with a blank entity, you can add some fields now.
         Note that the primary key will be added automatically (named id).
-        
-        Available types: array, object, boolean, integer, smallint, 
+
+        Available types: array, object, boolean, integer, smallint,
         bigint, string, text, datetime, datetimetz, date, time, decimal, float.
-        
-        New field name (press <return> to stop adding fields): 
-        
-        Do you want to generate an empty repository class [no]? 
-        
-                                     
-          Summary before generation  
-                                     
-        
+
+        New field name (press <return> to stop adding fields):
+
+        Do you want to generate an empty repository class [no]?
+
+
+          Summary before generation
+
+
         You are going to generate a "MyBlogBundle:Post" Doctrine2 entity
         using the "annotation" format.
-        
-        Do you confirm generation [yes]? 
-        
-                             
-          Entity generation  
-                             
-        
+
+        Do you confirm generation [yes]?
+
+
+          Entity generation
+
+
         Generating the entity code: OK
-        
-                                                       
-          You can now start using the generated code!  
-                                                       
+
+
+          You can now start using the generated code!
+
 
 ``generate:doctrine:entity`` コマンドによって、\ ``src/My/BlogBundle/Entity/`` ディレクトリが作成され、その中に次のような ``Post.php`` が生成されます:
 
 .. code-block:: php
 
     <?php
-    
+
     namespace My\BlogBundle\Entity;
-    
+
     use Doctrine\ORM\Mapping as ORM;
-    
+
     /**
      * My\BlogBundle\Entity\Post
      *
@@ -87,53 +87,53 @@ Doctrineでは、pure phpのクラスでエンティティを定義します。
     class Post
     {
         /**
-         * @var integer $id
+         * @var integer
          *
          * @ORM\Column(name="id", type="integer")
          * @ORM\Id
          * @ORM\GeneratedValue(strategy="AUTO")
          */
         private $id;
-    
+
         /**
-         * @var string $title
+         * @var string
          *
          * @ORM\Column(name="title", type="string", length=255)
          */
         private $title;
-    
+
         /**
-         * @var text $body
+         * @var string
          *
          * @ORM\Column(name="body", type="text")
          */
         private $body;
-    
+
         /**
-         * @var datetime $createdAt
+         * @var \DateTime
          *
          * @ORM\Column(name="createdAt", type="datetime")
          */
         private $createdAt;
-    
+
         /**
-         * @var datetime $updatedAt
+         * @var \DateTime $updatedAt
          *
          * @ORM\Column(name="updatedAt", type="datetime")
          */
         private $updatedAt;
-    
-    
+
+
         /**
          * Get id
          *
-         * @return integer 
+         * @return integer
          */
         public function getId()
         {
             return $this->id;
         }
-    
+
         /**
          * Set title
          *
@@ -143,71 +143,71 @@ Doctrineでは、pure phpのクラスでエンティティを定義します。
         {
             $this->title = $title;
         }
-    
+
         /**
          * Get title
          *
-         * @return string 
+         * @return string
          */
         public function getTitle()
         {
             return $this->title;
         }
-    
+
         /**
          * Set body
          *
-         * @param text $body
+         * @param string $body
          */
         public function setBody($body)
         {
             $this->body = $body;
         }
-    
+
         /**
          * Get body
          *
-         * @return text 
+         * @return string
          */
         public function getBody()
         {
             return $this->body;
         }
-    
+
         /**
          * Set createdAt
          *
-         * @param datetime $createdAt
+         * @param \DateTime $createdAt
          */
         public function setCreatedAt($createdAt)
         {
             $this->createdAt = $createdAt;
         }
-    
+
         /**
          * Get createdAt
          *
-         * @return datetime 
+         * @return \DateTime
          */
         public function getCreatedAt()
         {
             return $this->createdAt;
         }
-    
+
         /**
          * Set updatedAt
          *
-         * @param datetime $updatedAt
+         * @param \DateTime $updatedAt
          */
         public function setUpdatedAt($updatedAt)
         {
             $this->updatedAt = $updatedAt;
         }
-    
+
         /**
          * Get updatedAt
          *
-         * @return datetime 
+         * @return \DateTime
          */
         public function getUpdatedAt()
         {

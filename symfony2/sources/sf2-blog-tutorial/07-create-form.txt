@@ -3,7 +3,7 @@ blogチュートリアル(7) 記事の追加
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 
 これまでのステップでデータベースに登録されている記事を表示できるようになりました。
@@ -21,11 +21,11 @@ blogチュートリアル(7) 記事の追加
     blog_index:
         pattern:  /
         defaults: { _controller: MyBlogBundle:Default:index }
-    
+
     blog_new:
         pattern:  /new
         defaults: { _controller: MyBlogBundle:Default:new }
-    
+
     blog_show:
         pattern:  /{id}/show
         defaults: { _controller: MyBlogBundle:Default:show }
@@ -49,34 +49,33 @@ Postモデル用のフォームの作成
     {
         // ...
 
-        public function newAction()
+        public function newAction(Request $request)
         {
-            // フォームのビルド
-            $form = $this->createFormBuilder(new Post())  // ここでPostクラスを使うため、ファイルの先頭あたりにuseを追加していることに注意
+            $form = $this->createFormBuilder(new Post())
                 ->add('title')
                 ->add('body')
                 ->getForm();
-    
-            // バリデーション
-            $request = $this->getRequest();
-            if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+
+            if ('POST' == $request->getMethod()) {
+                $form->submit($request);
                 if ($form->isValid()) {
                     // エンティティを永続化
                     $post = $form->getData();
                     $post->setCreatedAt(new \DateTime());
                     $post->setUpdatedAt(new \DateTime());
-                    $em = $this->getDoctrine()->getEntityManager();
+
+                    $em = $this->getDoctrine()->getManager();
                     $em->persist($post);
                     $em->flush();
                     return $this->redirect($this->generateUrl('blog_index'));
                 }
             }
-    
+
             // 描画
             return $this->render('MyBlogBundle:Default:new.html.twig', array(
-                'form' => $form->createView(),
+                    'form' => $form->createView(),
             ));
+
         }
     }
 
@@ -140,7 +139,7 @@ Symfony2では、\ ``FormBuilder`` を用いてコントローラのアクショ
     FORM タグに ``novalidate`` 属性をつけていることに注意してください。
     Symfony2 の Form コンポーネントを使うと、標準で `HTML5 のクライアントサイドフォームバリデーション`_ が有効になります。
     これはとても便利ですが、このチュートリアルではサーバーサイドのバリデーション等の実装の確認も行うため、\ ``novalidate`` 属性によりクライアントサイドバリデーションを無効化しています。
-    
+
 .. note::
 
     Twigで使用可能なフォーム関数を詳しく知りたい方は、\ `Twig Template Form Function Reference`_\ を参照してください。

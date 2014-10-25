@@ -139,7 +139,7 @@
 <h1>カスタマイズ編(3) フラッシュメッセージの表示<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+<p class="last">この記事は、Symfony 2.5.6 で動作確認しています。</p>
 </div>
 <div class="section" id="id2">
 <h2>フラッシュメッセージを表示する<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -150,15 +150,16 @@
 Symfony2にはセッション管理の一環としてフラッシュメッセージを簡単に扱うための機能があります。</p>
 <p>フラッシュメッセージを登録するには、コントローラで以下のように書きます。
 おそらく、POSTリクエストで来たフォームの値を処理して、リダイレクトする前に記述するでしょう。</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">setFlash</span><span class="p">(</span><span class="s1">&#39;notice&#39;</span><span class="p">,</span> <span class="s1">&#39;変更が保存されました！&#39;</span><span class="p">);</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getFlashBag</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;notice&#39;</span><span class="p">,</span> <span class="s1">&#39;変更が保存されました！&#39;</span><span class="p">);</span>
+<span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">setFlash</span><span class="p">(</span><span class="s1">&#39;notice&#39;</span><span class="p">,</span> <span class="s1">&#39;変更が保存されました！&#39;</span><span class="p">);</span>
 </pre></div>
 </div>
 <p>フラッシュメッセージを表示するには、Twigで以下のように書きます。</p>
-<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">if</span> <span class="nv">app.session.hasFlash</span><span class="o">(</span><span class="s1">&#39;notice&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="x"></span>
-<span class="x">    &lt;div class=&quot;flash-notice&quot;&gt;</span>
-<span class="x">        </span><span class="cp">{{</span> <span class="nv">app.session.flash</span><span class="o">(</span><span class="s1">&#39;notice&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
-<span class="x">    &lt;/div&gt;</span>
-<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+<div class="highlight-jinja"><div class="highlight"><pre><span class="cp">{%</span> <span class="k">for</span> <span class="nv">flashMessage</span> <span class="k">in</span> <span class="nv">app.session.flashbag.get</span><span class="o">(</span><span class="s1">&#39;notice&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">        &lt;div class=&quot;flash-notice&quot;&gt;</span>
+<span class="x">                </span><span class="cp">{{</span> <span class="nv">flashMessage</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">        &lt;/div&gt;</span>
+<span class="x"> </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x"></span>
 </pre></div>
 </div>
 </div>
@@ -172,7 +173,7 @@ Symfony2にはセッション管理の一環としてフラッシュメッセー
     <span class="k">public</span> <span class="k">function</span> <span class="nf">newAction</span><span class="p">()</span>
     <span class="p">{</span>
         <span class="c1">// ...</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">setFlash</span><span class="p">(</span><span class="s1">&#39;my_blog&#39;</span><span class="p">,</span> <span class="s1">&#39;記事を追加しました&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getFlashBag</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;my_blog&#39;</span><span class="p">,</span> <span class="s1">&#39;記事を追加しました&#39;</span><span class="p">);</span>
         <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;blog_index&#39;</span><span class="p">));</span>
         <span class="c1">// ...</span>
     <span class="p">}</span>
@@ -180,7 +181,7 @@ Symfony2にはセッション管理の一環としてフラッシュメッセー
     <span class="k">public</span> <span class="k">function</span> <span class="nf">deleteAction</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="c1">// ...</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">setFlash</span><span class="p">(</span><span class="s1">&#39;my_blog&#39;</span><span class="p">,</span> <span class="s1">&#39;記事を削除しました&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getFlashBag</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;my_blog&#39;</span><span class="p">,</span> <span class="s1">&#39;記事を削除しました&#39;</span><span class="p">);</span>
         <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;blog_index&#39;</span><span class="p">));</span>
         <span class="c1">// ...</span>
     <span class="p">}</span>
@@ -188,7 +189,7 @@ Symfony2にはセッション管理の一環としてフラッシュメッセー
     <span class="k">public</span> <span class="k">function</span> <span class="nf">editAction</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="c1">// ...</span>
-        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">setFlash</span><span class="p">(</span><span class="s1">&#39;my_blog&#39;</span><span class="p">,</span> <span class="s1">&#39;記事を編集しました&#39;</span><span class="p">);</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;session&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">getFlashBag</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;my_blog&#39;</span><span class="p">,</span> <span class="s1">&#39;記事を編集しました&#39;</span><span class="p">);</span>
         <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;blog_index&#39;</span><span class="p">));</span>
         <span class="c1">// ...</span>
     <span class="p">}</span>
@@ -198,11 +199,11 @@ Symfony2にはセッション管理の一環としてフラッシュメッセー
 &lt;h1&gt;タグの直前に埋め込みます。</p>
 <div class="highlight-jinja"><div class="highlight"><pre><span class="c">{# src/My/BlogBundle/Resources/views/Default/index.html.twig #}</span><span class="x"></span>
 <span class="c">{# ... #}</span><span class="x"></span>
-<span class="cp">{%</span> <span class="k">if</span> <span class="nv">app.session.hasFlash</span><span class="o">(</span><span class="s1">&#39;my_blog&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="x"></span>
-<span class="x">&lt;div style=&quot;background-color:yellow;color:red;font-weight:bold;&quot;&gt;</span>
-<span class="x">    </span><span class="cp">{{</span> <span class="nv">app.session.flash</span><span class="o">(</span><span class="s1">&#39;my_blog&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x"></span>
-<span class="x">&lt;/div&gt;</span>
-<span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">flashMessage</span> <span class="k">in</span> <span class="nv">app.session.flashbag.get</span><span class="o">(</span><span class="s1">&#39;my_blog&#39;</span><span class="o">)</span> <span class="cp">%}</span><span class="x"></span>
+<span class="x">            &lt;div class=&quot;flash-notice&quot;&gt;</span>
+<span class="x">                    </span><span class="cp">{{</span> <span class="nv">flashMessage</span> <span class="cp">}}</span><span class="x"></span>
+<span class="x">            &lt;/div&gt;</span>
+<span class="x">    </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span><span class="x"></span>
 
 <span class="x">&lt;h1&gt;Blog posts&lt;/h1&gt;</span>
 <span class="c">{# ... #}</span><span class="x"></span>

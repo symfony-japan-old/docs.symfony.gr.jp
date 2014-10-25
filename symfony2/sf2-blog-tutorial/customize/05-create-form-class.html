@@ -139,7 +139,7 @@
 <h1>カスタマイズ編(5) フォームクラスの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+<p class="last">この記事は、Symfony 2.5.6 で動作確認しています。</p>
 </div>
 <div class="section" id="id2">
 <h2>フォームクラス<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
@@ -200,11 +200,11 @@ Formコンポーネントでは、フォームの要素がどんなフォーム�
 </div>
 <p><tt class="docutils literal"><span class="pre">setData()</span></tt> メソッドを使う場合、フォームタイプの推測を活用するために、
 フォームクラス側に以下のメソッドを追加することが望ましいです。</p>
-<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">getDefaultOptions</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span>
 <span class="p">{</span>
-    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-        <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;Acme\StoreBundle\Entity\Product&#39;</span><span class="p">,</span>
-    <span class="p">);</span>
+    <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+      <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My\BlogBUndle\Entity\Post&#39;</span><span class="p">,</span>
+    <span class="p">));</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -218,10 +218,11 @@ Formコンポーネントでは、フォームの要素がどんなフォーム�
 
 <span class="k">use</span> <span class="nx">Symfony\Component\Form\AbstractType</span><span class="p">;</span>
 <span class="k">use</span> <span class="nx">Symfony\Component\Form\FormBuilder</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\OptionsResolver\OptionsResolverInterface</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">PostType</span> <span class="k">extends</span> <span class="nx">AbstractType</span>
 <span class="p">{</span>
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilderInterface</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="nv">$builder</span>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
@@ -229,11 +230,10 @@ Formコンポーネントでは、フォームの要素がどんなフォーム�
         <span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">getDefaultOptions</span><span class="p">(</span><span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
-            <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My\BlogBundle\Entity\Post&#39;</span><span class="p">,</span>
-        <span class="p">);</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">setDefaultOptions</span><span class="p">(</span><span class="nx">OptionsResolverInterface</span> <span class="nv">$resolver</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$resolver</span><span class="o">-&gt;</span><span class="na">setDefaults</span><span class="p">(</span><span class="k">array</span><span class="p">(</span>
+                <span class="s1">&#39;data_class&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;My\BlogBUndle\Entity\Post&#39;</span><span class="p">,</span>
+        <span class="p">));</span>
     <span class="p">}</span>
 
     <span class="k">public</span> <span class="k">function</span> <span class="nf">getName</span><span class="p">()</span>

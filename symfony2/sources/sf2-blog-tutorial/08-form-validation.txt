@@ -3,7 +3,7 @@ blogチュートリアル(8) データのバリデーション
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 
 今回は、このフォームにバリデーションルールを設定して、正しくデータが登録できるようにします。
@@ -22,24 +22,23 @@ blogチュートリアル(8) データのバリデーション
 
     // src/My/BlogBundle/Entity/Post.php
     use Symfony\Component\Validator\Constraints as Assert;
-    
+
     // ...
-    
+
         /**
          * @ORM\Column(name="title", type="string", length=255)
          * @Assert\NotBlank()
-         * @Assert\MinLength(2)
-         * @Assert\MaxLength(50)
+         * @Assert\Length(min=2,max=50)
          */
         protected $title;
-    
+
         /**
          * @ORM\Column(name="body", type="text")
          * @Assert\NotBlank()
-         * @Assert\MinLength(10)
+         * @Assert\Length(min=2)
          */
         protected $body;
-    
+
     // ...
 
 ``Symfony\Component\Validator\Constraints`` 名前空間を ``Assert`` という別名で読み込み、

@@ -3,7 +3,7 @@
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 HTMLタグが出力されていない
 --------------------------
@@ -72,7 +72,7 @@ Symfony2には、テンプレートの継承のためのベース・レイアウ
             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
             <title>{% block title %}Welcome!{% endblock %}</title>
             {% block stylesheets %}{% endblock %}
-            <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+            <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         </head>
         <body>
             {% block body %}{% endblock %}
@@ -106,7 +106,7 @@ extends 構文を記述し、今まで書いてあったコンテンツを body 
 
     {# src/My/BlogBundle/Resources/views/Default/index.html.twig #}
     {% extends 'MyBlogBundle::layout.html.twig' %}
-    
+
     {% block body %}
     <h1>Blog posts</h1>
     <table>
@@ -130,7 +130,7 @@ extends 構文を記述し、今まで書いてあったコンテンツを body 
         </tr>
         {% endfor %}
     </table>
-    
+
     <div>
     <a href="{{ path('blog_new') }}">add post</a>
     </div>
@@ -140,7 +140,7 @@ extends 構文を記述し、今まで書いてあったコンテンツを body 
 
     {# src/My/BlogBundle/Resources/views/Default/show.html.twig #}
     {% extends 'MyBlogBundle::layout.html.twig' %}
-    
+
     {% block body %}
     <h1>{{ post.title }}</h1>
     <p><small>Created: {{ post.createdAt|date('Y/m/d H:i') }}</small></p>
@@ -151,7 +151,7 @@ extends 構文を記述し、今まで書いてあったコンテンツを body 
 
     {# src/My/BlogBundle/Resources/views/Default/new.html.twig #}
     {% extends 'MyBlogBundle::layout.html.twig' %}
-    
+
     {% block body %}
     <h1>Add Post</h1>
     <form action="{{ path('blog_new') }}" method="post" {{ form_enctype(form) }} novalidate>
@@ -164,7 +164,7 @@ extends 構文を記述し、今まで書いてあったコンテンツを body 
 
     {# src/My/BlogBundle/Resources/views/Default/edit.html.twig #}
     {% extends 'MyBlogBundle::layout.html.twig' %}
-    
+
     {% block body %}
     <h1>Edit Post</h1>
     <form action="{{ path('blog_edit', {'id':post.id}) }}" method="post" {{ form_enctype(form) }} novalidate>
@@ -190,4 +190,3 @@ HTMLソースを見てみると、\ ``<html>`` タグが出力されているこ
 もっとテンプレートについて知りたい場合は、ガイドブックの\ `テンプレートの基本`_\ を参照してください。
 
 .. _`テンプレートの基本`: http://docs.symfony.gr.jp/symfony2/book/templating.html
-

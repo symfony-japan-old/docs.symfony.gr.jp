@@ -141,7 +141,7 @@
 <h1>カスタマイズ編(2) Twigのテンプレート継承<a class="headerlink" href="#twig" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+<p class="last">この記事は、Symfony 2.5.6 で動作確認しています。</p>
 </div>
 <div class="section" id="html">
 <h2>HTMLタグが出力されていない<a class="headerlink" href="#html" title="Permalink to this headline">¶</a></h2>
@@ -195,7 +195,7 @@ Twigではテンプレートの継承という別の方法で解決すること�
 <span class="x">        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</span>
 <span class="x">        &lt;title&gt;</span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">title</span> <span class="cp">%}</span><span class="x">Welcome!</span><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="x">&lt;/title&gt;</span>
 <span class="x">        </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">stylesheets</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="x"></span>
-<span class="x">        &lt;link rel=&quot;shortcut icon&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;favicon.ico&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&quot; /&gt;</span>
+<span class="x">        &lt;link rel=&quot;icon&quot; type=&quot;image/x-icon&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">asset</span><span class="o">(</span><span class="s1">&#39;favicon.ico&#39;</span><span class="o">)</span> <span class="cp">}}</span><span class="x">&quot; /&gt;</span>
 <span class="x">    &lt;/head&gt;</span>
 <span class="x">    &lt;body&gt;</span>
 <span class="x">        </span><span class="cp">{%</span> <span class="k">block</span> <span class="nv">body</span> <span class="cp">%}{%</span> <span class="k">endblock</span> <span class="cp">%}</span><span class="x"></span>

@@ -3,7 +3,7 @@ blogチュートリアル(5) ブログ閲覧ページの作成
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 ページの作成
 ------------
@@ -89,14 +89,14 @@ Symfony2 で新しくページを作成する場合、主に2つのステップ�
     {
         public function indexAction()
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $posts = $em->getRepository('MyBlogBundle:Post')->findAll();
             return $this->render('MyBlogBundle:Default:index.html.twig', array('posts' => $posts));
         }
 
         public function showAction($id)
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $post = $em->find('MyBlogBundle:Post', $id);
             return $this->render('MyBlogBundle:Default:show.html.twig', array('post' => $post));
         }
@@ -126,5 +126,5 @@ Doctrine2の ``Repository`` オブジェクトは、個々のモデルに対す�
 例えば ``MyBlogBundle:Default:index.html.twig`` であれば、\ ``MyBlogBundle`` がバンドル名、\ ``Default`` がコントローラ名、\ ``index.html.twig`` がテンプレート名を指します。
 この時、テンプレートファイルは ``src/My/BlogBundle/Resources/views/Default/index.html.twig`` を参照します。
 
-.. _`Symfony2 でのページ作成`: http://docs.symfony.gr.jp/symfony2/book/page_creation.html 
+.. _`Symfony2 でのページ作成`: http://docs.symfony.gr.jp/symfony2/book/page_creation.html
 .. _`ルーティング`: http://docs.symfony.gr.jp/symfony2/book/routing.html

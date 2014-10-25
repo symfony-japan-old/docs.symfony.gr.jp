@@ -3,7 +3,7 @@ blogチュートリアル(10) 記事の編集
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 
 最後に既存の記事を編集できるようにしてみましょう。
@@ -42,22 +42,22 @@ Symfonyでページを追加する際の作業パターンは
         public function editAction($id)
         {
             // DBから取得
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $post = $em->find('MyBlogBundle:Post', $id);
             if (!$post) {
                 throw new NotFoundHttpException('The post does not exist.');
             }
-    
+
             // フォームのビルド
             $form = $this->createFormBuilder($post)
                 ->add('title')
                 ->add('body')
                 ->getForm();
-    
+
             // バリデーション
             $request = $this->getRequest();
             if ('POST' === $request->getMethod()) {
-                $form->bindRequest($request);
+                $form->submit($request);
                 if ($form->isValid()) {
                     // 更新されたエンティティをデータベースに保存
                     $post = $form->getData();
@@ -66,7 +66,7 @@ Symfonyでページを追加する際の作業パターンは
                     return $this->redirect($this->generateUrl('blog_index'));
                 }
             }
-    
+
             // 描画
             return $this->render('MyBlogBundle:Default:edit.html.twig', array(
                 'post' => $post,
@@ -125,7 +125,7 @@ Symfonyでページを追加する際の作業パターンは
         </tr>
         {% endfor %}
     </table>
-    
+
     <div>
     <a href="{{ path('blog_new') }}">add post</a>
     </div>
@@ -136,5 +136,3 @@ Symfonyでページを追加する際の作業パターンは
 コードの入力が完了したら、ブラウザで http://localhost/Symfony/web/app_dev.php/blog/ にアクセスしてみてください。
 各行にEditというリンクが表示されているので、押すと編集ページに遷移します。
 内容を変更して「Save Post」をすれば、記事が保存されて一覧ページにリダイレクトされます。
-
-

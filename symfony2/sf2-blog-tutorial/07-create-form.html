@@ -140,7 +140,7 @@
 <h1>blogチュートリアル(7) 記事の追加<a class="headerlink" href="#blog-7" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+<p class="last">この記事は、Symfony 2.5.6 で動作確認しています。</p>
 </div>
 <p>これまでのステップでデータベースに登録されている記事を表示できるようになりました。
 次はいよいよ、フォームを作成してデータを追加・編集できるよにしてみましょう。</p>
@@ -178,24 +178,22 @@
 <span class="p">{</span>
     <span class="c1">// ...</span>
 
-    <span class="k">public</span> <span class="k">function</span> <span class="nf">newAction</span><span class="p">()</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">newAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
     <span class="p">{</span>
-        <span class="c1">// フォームのビルド</span>
-        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="k">new</span> <span class="nx">Post</span><span class="p">())</span>  <span class="c1">// ここでPostクラスを使うため、ファイルの先頭あたりにuseを追加していることに注意</span>
+        <span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="k">new</span> <span class="nx">Post</span><span class="p">())</span>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">)</span>
             <span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)</span>
             <span class="o">-&gt;</span><span class="na">getForm</span><span class="p">();</span>
 
-        <span class="c1">// バリデーション</span>
-        <span class="nv">$request</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">();</span>
-        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;POST&#39;</span> <span class="o">===</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">())</span> <span class="p">{</span>
-            <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;POST&#39;</span> <span class="o">==</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">())</span> <span class="p">{</span>
+            <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
             <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
                 <span class="c1">// エンティティを永続化</span>
                 <span class="nv">$post</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">();</span>
                 <span class="nv">$post</span><span class="o">-&gt;</span><span class="na">setCreatedAt</span><span class="p">(</span><span class="k">new</span> <span class="nx">\DateTime</span><span class="p">());</span>
                 <span class="nv">$post</span><span class="o">-&gt;</span><span class="na">setUpdatedAt</span><span class="p">(</span><span class="k">new</span> <span class="nx">\DateTime</span><span class="p">());</span>
-                <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getEntityManager</span><span class="p">();</span>
+
+                <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getManager</span><span class="p">();</span>
                 <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">persist</span><span class="p">(</span><span class="nv">$post</span><span class="p">);</span>
                 <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">flush</span><span class="p">();</span>
                 <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">redirect</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">generateUrl</span><span class="p">(</span><span class="s1">&#39;blog_index&#39;</span><span class="p">));</span>
@@ -204,8 +202,9 @@
 
         <span class="c1">// 描画</span>
         <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">render</span><span class="p">(</span><span class="s1">&#39;MyBlogBundle:Default:new.html.twig&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
-            <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">(),</span>
+                <span class="s1">&#39;form&#39;</span> <span class="o">=&gt;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">createView</span><span class="p">(),</span>
         <span class="p">));</span>
+
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>

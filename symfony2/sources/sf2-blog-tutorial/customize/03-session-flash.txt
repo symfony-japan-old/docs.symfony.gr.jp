@@ -3,7 +3,7 @@
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 フラッシュメッセージを表示する
 ------------------------------
@@ -19,17 +19,18 @@ Symfony2にはセッション管理の一環としてフラッシュメッセー
 
 .. code-block:: php
 
+    $this->get('session')->getFlashBag()->set('notice', '変更が保存されました！');
     $this->get('session')->setFlash('notice', '変更が保存されました！');
 
 フラッシュメッセージを表示するには、Twigで以下のように書きます。
 
 .. code-block:: jinja
 
-    {% if app.session.hasFlash('notice') %}
-        <div class="flash-notice">
-            {{ app.session.flash('notice') }}
-        </div>
-    {% endif %}
+  	{% for flashMessage in app.session.flashbag.get('notice') %}
+  		<div class="flash-notice">
+  			{{ flashMessage }}
+  		</div>
+	 {% endfor %}
 
 
 修正する
@@ -42,27 +43,27 @@ Symfony2にはセッション管理の一環としてフラッシュメッセー
 .. code-block:: php
 
     // src/My/BlogBundle/Controller/DefaultController.php
-    
+
         public function newAction()
         {
             // ...
-            $this->get('session')->setFlash('my_blog', '記事を追加しました');
+            $this->get('session')->getFlashBag()->set('my_blog', '記事を追加しました');
             return $this->redirect($this->generateUrl('blog_index'));
             // ...
         }
-    
+
         public function deleteAction($id)
         {
             // ...
-            $this->get('session')->setFlash('my_blog', '記事を削除しました');
+            $this->get('session')->getFlashBag()->set('my_blog', '記事を削除しました');
             return $this->redirect($this->generateUrl('blog_index'));
             // ...
         }
-    
+
         public function editAction($id)
         {
             // ...
-            $this->get('session')->setFlash('my_blog', '記事を編集しました');
+            $this->get('session')->getFlashBag()->set('my_blog', '記事を編集しました');
             return $this->redirect($this->generateUrl('blog_index'));
             // ...
         }
@@ -75,12 +76,12 @@ Symfony2にはセッション管理の一環としてフラッシュメッセー
 
     {# src/My/BlogBundle/Resources/views/Default/index.html.twig #}
     {# ... #}
-    {% if app.session.hasFlash('my_blog') %}
-    <div style="background-color:yellow;color:red;font-weight:bold;">
-        {{ app.session.flash('my_blog') }}
-    </div>
-    {% endif %}
-    
+  	{% for flashMessage in app.session.flashbag.get('my_blog') %}
+  		<div class="flash-notice">
+  			{{ flashMessage }}
+  		</div>
+  	{% endfor %}
+
     <h1>Blog posts</h1>
     {# ... #}
 
@@ -91,4 +92,3 @@ Symfony2にはセッション管理の一環としてフラッシュメッセー
 ブラウザで確認してみましょう。追加・編集・削除の操作の直後に記事一覧が表示されたとき、
 ページ上部に黄色い背景の赤い大きな文字でフラッシュメッセージが表示されているでしょう。
 記事一覧をリロードするとフラッシュメッセージは消えてしまいます。
-

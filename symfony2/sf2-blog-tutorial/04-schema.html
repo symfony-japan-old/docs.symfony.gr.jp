@@ -138,7 +138,7 @@
 <h1>blogチュートリアル(4) テーブルスキーマとエンティティクラス<a class="headerlink" href="#blog-4" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+<p class="last">この記事は、Symfony 2.5.6 で動作確認しています。</p>
 </div>
 <div class="section" id="post">
 <h2>Postモデルの作成<a class="headerlink" href="#post" title="Permalink to this headline">¶</a></h2>
@@ -211,7 +211,7 @@
 <span class="k">class</span> <span class="nc">Post</span>
 <span class="p">{</span>
     <span class="sd">/**</span>
-<span class="sd">     * @var integer $id</span>
+<span class="sd">     * @var integer</span>
 <span class="sd">     *</span>
 <span class="sd">     * @ORM\Column(name=&quot;id&quot;, type=&quot;integer&quot;)</span>
 <span class="sd">     * @ORM\Id</span>
@@ -220,28 +220,28 @@
     <span class="k">private</span> <span class="nv">$id</span><span class="p">;</span>
 
     <span class="sd">/**</span>
-<span class="sd">     * @var string $title</span>
+<span class="sd">     * @var string</span>
 <span class="sd">     *</span>
 <span class="sd">     * @ORM\Column(name=&quot;title&quot;, type=&quot;string&quot;, length=255)</span>
 <span class="sd">     */</span>
     <span class="k">private</span> <span class="nv">$title</span><span class="p">;</span>
 
     <span class="sd">/**</span>
-<span class="sd">     * @var text $body</span>
+<span class="sd">     * @var string</span>
 <span class="sd">     *</span>
 <span class="sd">     * @ORM\Column(name=&quot;body&quot;, type=&quot;text&quot;)</span>
 <span class="sd">     */</span>
     <span class="k">private</span> <span class="nv">$body</span><span class="p">;</span>
 
     <span class="sd">/**</span>
-<span class="sd">     * @var datetime $createdAt</span>
+<span class="sd">     * @var \DateTime</span>
 <span class="sd">     *</span>
 <span class="sd">     * @ORM\Column(name=&quot;createdAt&quot;, type=&quot;datetime&quot;)</span>
 <span class="sd">     */</span>
     <span class="k">private</span> <span class="nv">$createdAt</span><span class="p">;</span>
 
     <span class="sd">/**</span>
-<span class="sd">     * @var datetime $updatedAt</span>
+<span class="sd">     * @var \DateTime $updatedAt</span>
 <span class="sd">     *</span>
 <span class="sd">     * @ORM\Column(name=&quot;updatedAt&quot;, type=&quot;datetime&quot;)</span>
 <span class="sd">     */</span>
@@ -281,7 +281,7 @@
     <span class="sd">/**</span>
 <span class="sd">     * Set body</span>
 <span class="sd">     *</span>
-<span class="sd">     * @param text $body</span>
+<span class="sd">     * @param string $body</span>
 <span class="sd">     */</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">setBody</span><span class="p">(</span><span class="nv">$body</span><span class="p">)</span>
     <span class="p">{</span>
@@ -291,7 +291,7 @@
     <span class="sd">/**</span>
 <span class="sd">     * Get body</span>
 <span class="sd">     *</span>
-<span class="sd">     * @return text</span>
+<span class="sd">     * @return string</span>
 <span class="sd">     */</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">getBody</span><span class="p">()</span>
     <span class="p">{</span>
@@ -301,7 +301,7 @@
     <span class="sd">/**</span>
 <span class="sd">     * Set createdAt</span>
 <span class="sd">     *</span>
-<span class="sd">     * @param datetime $createdAt</span>
+<span class="sd">     * @param \DateTime $createdAt</span>
 <span class="sd">     */</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">setCreatedAt</span><span class="p">(</span><span class="nv">$createdAt</span><span class="p">)</span>
     <span class="p">{</span>
@@ -311,7 +311,7 @@
     <span class="sd">/**</span>
 <span class="sd">     * Get createdAt</span>
 <span class="sd">     *</span>
-<span class="sd">     * @return datetime</span>
+<span class="sd">     * @return \DateTime</span>
 <span class="sd">     */</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">getCreatedAt</span><span class="p">()</span>
     <span class="p">{</span>
@@ -321,7 +321,7 @@
     <span class="sd">/**</span>
 <span class="sd">     * Set updatedAt</span>
 <span class="sd">     *</span>
-<span class="sd">     * @param datetime $updatedAt</span>
+<span class="sd">     * @param \DateTime $updatedAt</span>
 <span class="sd">     */</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">setUpdatedAt</span><span class="p">(</span><span class="nv">$updatedAt</span><span class="p">)</span>
     <span class="p">{</span>
@@ -331,7 +331,7 @@
     <span class="sd">/**</span>
 <span class="sd">     * Get updatedAt</span>
 <span class="sd">     *</span>
-<span class="sd">     * @return datetime</span>
+<span class="sd">     * @return \DateTime</span>
 <span class="sd">     */</span>
     <span class="k">public</span> <span class="k">function</span> <span class="nf">getUpdatedAt</span><span class="p">()</span>
     <span class="p">{</span>

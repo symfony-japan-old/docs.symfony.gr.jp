@@ -138,7 +138,7 @@
 <h1>blogチュートリアル(2) データベースの設定<a class="headerlink" href="#blog-2" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+<p class="last">この記事は、Symfony 2.5.6 で動作確認しています。</p>
 </div>
 <div class="section" id="mysqlblogsymfony2">
 <h2>MySQLにblogsymfony2データベースを作成<a class="headerlink" href="#mysqlblogsymfony2" title="Permalink to this headline">¶</a></h2>
@@ -153,15 +153,14 @@
 </div>
 <div class="section" id="id1">
 <h2>データベースへの接続設定<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>次に、Symfony側でMySQLに作成したデータベースへ接続する設定を行います。ここではデータベースへ接続するユーザ名、パスワードも <strong>blogsymfony2</strong> であると想定しています（お使いの環境に合わせて変更してください）。エディタで <tt class="docutils literal"><span class="pre">app/config/parameters.ini</span></tt> ファイルを開き、以下のように編集してください。</p>
-<div class="highlight-ini"><div class="highlight"><pre><span class="k">[parameters]</span>
-    <span class="na">database_driver</span>   <span class="o">=</span> <span class="s">pdo_mysql</span>
-<span class="s">    database_host     = localhost</span>
-<span class="s">    database_port     =</span>
-<span class="s">    database_name     = blogsymfony2</span>
-<span class="s">    database_user     = blogsymfony2</span>
-<span class="s">    database_password = blogsymfony2</span>
-</pre></div>
+<p>次に、Symfony側でMySQLに作成したデータベースへ接続する設定を行います。ここではデータベースへ接続するユーザ名、パスワードも <strong>blogsymfony2</strong> であると想定しています（お使いの環境に合わせて変更してください）。エディタで <tt class="docutils literal"><span class="pre">app/config/parameters.yml</span></tt> ファイルを開き、以下のように編集してください。</p>
+<div class="highlight-yml"><pre>parameters:
+    database_driver: pdo_mysql
+    database_host: localhost
+    database_port: null
+    database_name: blogsymfony2
+    database_user: blogsymfony2
+    database_password: blogsymfony2</pre>
 </div>
 <p>また、以下にblogsymgony2データベースに対して権限を付与するSQL文の例を載せておきます。</p>
 <div class="highlight-sql"><div class="highlight"><pre><span class="k">GRANT</span> <span class="k">ALL</span> <span class="k">ON</span> <span class="o">`</span><span class="n">blogsymfony2</span><span class="o">`</span><span class="p">.</span><span class="o">*</span> <span class="k">TO</span> <span class="s1">&#39;blogsymfony2&#39;</span><span class="o">@</span><span class="n">localhost</span> <span class="n">IDENTIFIED</span> <span class="k">BY</span> <span class="s1">&#39;blogsymfony2&#39;</span><span class="p">;</span>

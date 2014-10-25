@@ -3,7 +3,7 @@ blogチュートリアル(3) バンドルの作成
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 バンドルの作成
 --------------
@@ -47,70 +47,70 @@ Symfony2では、コアフレームワークの機能からあなたが書こう
 .. code-block:: console
 
     $ php app/console generate:bundle --namespace=My/BlogBundle --format=yml
-    
-                                                
-      Welcome to the Symfony2 bundle generator  
-                                                
-    
-    
+
+
+      Welcome to the Symfony2 bundle generator
+
+
+
     Your application code must be written in bundles. This command helps
     you generate them easily.
-    
+
     Each bundle is hosted under a namespace (like Acme/Bundle/BlogBundle).
     The namespace should begin with a "vendor" name like your company name, your
     project name, or your client name, followed by one or more optional category
     sub-namespaces, and it should end with the bundle name itself
     (which must have Bundle as a suffix).
-    
+
     Use / instead of \ for the namespace delimiter to avoid any problem.
-    
-    Bundle namespace [My/BlogBundle]:     
-    
+
+    Bundle namespace [My/BlogBundle]:
+
     In your code, a bundle is often referenced by its name. It can be the
     concatenation of all namespace parts but it's really up to you to come
     up with a unique name (a good practice is to start with the vendor name).
     Based on the namespace, we suggest MyBlogBundle.
-    
-    Bundle name [MyBlogBundle]: 
-    
+
+    Bundle name [MyBlogBundle]:
+
     The bundle can be generated anywhere. The suggested default directory uses
     the standard conventions.
-    
-    Target directory [/path/to/Symfony/src]: 
-    
+
+    Target directory [/path/to/Symfony/src]:
+
     Determine the format to use for the generated configuration.
-    
-    Configuration format (yml, xml, php, or annotation) [yml]: 
-    
+
+    Configuration format (yml, xml, php, or annotation) [yml]:
+
     To help you getting started faster, the command can generate some
     code snippets for you.
-    
-    Do you want to generate the whole directory structure [no]? 
-    
-                                 
-      Summary before generation  
-                                 
-    
+
+    Do you want to generate the whole directory structure [no]?
+
+
+      Summary before generation
+
+
     You are going to generate a "My\BlogBundle\MyBlogBundle" bundle
     in "/path/to/Symfony/src/" using the "yml" format.
-    
-    Do you confirm generation [yes]? 
-    
-                         
-      Bundle generation  
-                         
-    
+
+    Do you confirm generation [yes]?
+
+
+      Bundle generation
+
+
     Generating the bundle code: OK
     Checking that the bundle is autoloaded: OK
-    Confirm automatic update of your Kernel [yes]? 
+    Confirm automatic update of your Kernel [yes]?
     Enabling the bundle inside the Kernel: OK
-    Confirm automatic update of the Routing [yes]? 
+    Confirm automatic update of the Routing [yes]?
     Importing the bundle routing resource: OK
-    
-                                                   
-      You can now start using the generated code!  
-                                                   
-                                                   
+
+
+      You can now start using the generated code!
+
+
 
 自動生成されるファイル
 ----------------------

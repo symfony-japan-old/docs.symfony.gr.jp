@@ -3,7 +3,7 @@
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 フォームクラス
 --------------
@@ -22,10 +22,10 @@
     <?php
     // src/Acme/StoreBundle/Form/ProductType.php
     namespace Acme\StoreBundle\Form;
-    
+
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\FormBuilder;
-    
+
     class ProductType extends AbstractType
     {
         public function buildForm(FormBuilder $builder, array $options)
@@ -52,15 +52,15 @@ Formコンポーネントでは、フォームの要素がどんなフォーム�
 .. code-block:: php
 
     // src/Acme/StoreBundle/Controller/DefaultController.php
-    
+
     // add this new use statement at the top of the class
     use Acme\StoreBundle\Form\ProductType;
-    
+
     public function indexAction()
     {
         $product = // ...
         $form = $this->createForm(new ProductType(), $product);
-    
+
         // ...
     }
 
@@ -76,11 +76,11 @@ Formコンポーネントでは、フォームの要素がどんなフォーム�
 
 .. code-block:: php
 
-    public function getDefaultOptions(array $options)
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-        return array(
-            'data_class' => 'Acme\StoreBundle\Entity\Product',
-        );
+        $resolver->setDefaults(array(
+          'data_class' => 'My\BlogBUndle\Entity\Post',
+        ));
     }
 
 修正する
@@ -93,27 +93,27 @@ blogアプリケーションのフォームもクラスを分離して再利用�
 
     // src/My/BlogBundle/Form/PostType.php
     namespace My\BlogBundle\Form;
-    
+
     use Symfony\Component\Form\AbstractType;
     use Symfony\Component\Form\FormBuilder;
-    
+    use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
     class PostType extends AbstractType
     {
-        public function buildForm(FormBuilder $builder, array $options)
+        public function buildForm(FormBuilderInterface $builder, array $options)
         {
             $builder
                 ->add('title')
                 ->add('body')
             ;
         }
-        
-        public function getDefaultOptions(array $options)
-        {
-            return array(
-                'data_class' => 'My\BlogBundle\Entity\Post',
-            );
+
+        public function setDefaultOptions(OptionsResolverInterface $resolver) {
+            $resolver->setDefaults(array(
+                    'data_class' => 'My\BlogBUndle\Entity\Post',
+            ));
         }
-        
+
         public function getName()
         {
             return 'post';
@@ -125,7 +125,7 @@ blogアプリケーションのフォームもクラスを分離して再利用�
 .. code-block:: php
 
     use My\BlogBundle\Form\PostType;
-    
+
     class DefaultController extends Controller
     {
         // ...
@@ -138,21 +138,21 @@ blogアプリケーションのフォームもクラスを分離して再利用�
     //            ->add('body')
     //            ->getForm();
             $form = $this->createForm(new PostType(), new Post());
-            
+
             // ...
         }
         // ...
         public function editAction($id)
         {
             // ...
-            
+
             // フォームのビルド
     //        $form = $this->createFormBuilder($post)
     //            ->add('title')
     //            ->add('body')
     //            ->getForm();
             $form = $this->createForm(new PostType(), $post);
-            
+
             // ...
         }
         // ...
@@ -164,4 +164,3 @@ blogアプリケーションのフォームもクラスを分離して再利用�
 ------------------
 
 ブラウザで前と同じ動作をしているか、確認しましょう。
-

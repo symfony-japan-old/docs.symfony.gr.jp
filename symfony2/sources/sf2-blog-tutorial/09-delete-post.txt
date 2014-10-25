@@ -3,7 +3,7 @@ blogチュートリアル(9) 記事の削除
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 
 次は、ユーザーが既存の記事を削除できるようにしてみましょう。
@@ -36,7 +36,7 @@ blogチュートリアル(9) 記事の削除
         // ...
         public function deleteAction($id)
         {
-            $em = $this->getDoctrine()->getEntityManager();
+            $em = $this->getDoctrine()->getManager();
             $post = $em->find('MyBlogBundle:Post', $id);
             if (!$post) {
                 throw new NotFoundHttpException('The post does not exist.');
@@ -79,7 +79,7 @@ blogチュートリアル(9) 記事の削除
         </tr>
         {% endfor %}
     </table>
-    
+
     <div>
     <a href="{{ path('blog_new') }}">add post</a>
     </div>
@@ -90,4 +90,3 @@ blogチュートリアル(9) 記事の削除
 
 コードの入力が完了したら、ブラウザで http://localhost/Symfony/web/app_dev.php/blog/ にアクセスしてみてください。
 各行にDeleteというリンクが出ているので、押すと記事が消えるでしょう。
-

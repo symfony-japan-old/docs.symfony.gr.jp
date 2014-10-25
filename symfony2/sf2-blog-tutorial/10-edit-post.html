@@ -140,7 +140,7 @@
 <h1>blogチュートリアル(10) 記事の編集<a class="headerlink" href="#blog-10" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">この記事は、Symfony 2.0.7 で動作確認しています。</p>
+<p class="last">この記事は、Symfony 2.5.6 で動作確認しています。</p>
 </div>
 <p>最後に既存の記事を編集できるようにしてみましょう。
 ここまで学習された方は、どのような手順で編集機能を実装するか、想像がついていることでしょう。</p>
@@ -171,7 +171,7 @@
     <span class="k">public</span> <span class="k">function</span> <span class="nf">editAction</span><span class="p">(</span><span class="nv">$id</span><span class="p">)</span>
     <span class="p">{</span>
         <span class="c1">// DBから取得</span>
-        <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getEntityManager</span><span class="p">();</span>
+        <span class="nv">$em</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getDoctrine</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">getManager</span><span class="p">();</span>
         <span class="nv">$post</span> <span class="o">=</span> <span class="nv">$em</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="s1">&#39;MyBlogBundle:Post&#39;</span><span class="p">,</span> <span class="nv">$id</span><span class="p">);</span>
         <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nv">$post</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">throw</span> <span class="k">new</span> <span class="nx">NotFoundHttpException</span><span class="p">(</span><span class="s1">&#39;The post does not exist.&#39;</span><span class="p">);</span>
@@ -186,7 +186,7 @@
         <span class="c1">// バリデーション</span>
         <span class="nv">$request</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getRequest</span><span class="p">();</span>
         <span class="k">if</span> <span class="p">(</span><span class="s1">&#39;POST&#39;</span> <span class="o">===</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">getMethod</span><span class="p">())</span> <span class="p">{</span>
-            <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">bindRequest</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+            <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">submit</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
             <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
                 <span class="c1">// 更新されたエンティティをデータベースに保存</span>
                 <span class="nv">$post</span> <span class="o">=</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">getData</span><span class="p">();</span>

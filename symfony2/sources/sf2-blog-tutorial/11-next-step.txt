@@ -3,7 +3,7 @@ blogチュートリアル(11) まとめと応用
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 プログラムは無事に動きましたでしょうか？
 このチュートリアルをマスターできたら、次はどうしますか？
@@ -48,5 +48,3 @@ Symfony2 には非常にたくさんのドキュメントが揃っています�
 .. _`ORM Documentation 2.0`: http://www.doctrine-project.org/projects/orm/2.0/docs/en
 .. _`DBAL Document 2.0`: http://www.doctrine-project.org/projects/dbal/2.0/docs/en
 .. _`FriendsOfSymfony - GitHub`: https://github.com/FriendsOfSymfony/
-
-

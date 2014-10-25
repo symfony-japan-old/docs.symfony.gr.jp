@@ -3,7 +3,7 @@ blogチュートリアル カスタマイズ編
 
 .. note::
 
-    この記事は、Symfony 2.0.7 で動作確認しています。
+    この記事は、Symfony 2.5.6 で動作確認しています。
 
 はじめに
 --------
@@ -23,5 +23,3 @@ blogチュートリアルのカスタマイズ編は、Symfony2をもっと理�
     03-session-flash
     04-doctrine-timestampable
     05-create-form-class
-
-

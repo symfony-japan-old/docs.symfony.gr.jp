@@ -149,14 +149,16 @@
 </pre></div>
 </div>
 <p>とても簡単でした。ビルトインシステム <a class="reference internal" href="../../book/service_container.html#book-service-container-parameters"><em>サービスのパラメータ化</em></a> のアドバンテージを受けることもできます。そうすれば、値を孤立化できますし、また、再利用もできるようになります。</p>
-<div class="highlight-ini"><pre>; app/config/parameters.ini
+<div class="highlight-ini"><div class="highlight"><pre>; app/config/parameters.ini
 [parameters]
-    ga_tracking: UA-xxxxx-x</pre>
+    ga_tracking: UA-xxxxx-x
+</pre></div>
 </div>
-<div class="highlight-yaml"><pre># app/config/config.yml
+<div class="highlight-yaml"><div class="highlight"><pre># app/config/config.yml
 twig:
     globals:
-        ga_tracking: %ga_tracking%</pre>
+        ga_tracking: %ga_tracking%
+</pre></div>
 </div>
 <p>前と全く同じ変数が使用可能になりました。</p>
 <div class="section" id="id2">

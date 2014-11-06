@@ -200,24 +200,26 @@
 <div class="section" id="id2">
 <h3>データベースの設定<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <p>本当のスタート前に、まずは、データベース接続の設定を行う必要があります。慣例として、通常は <tt class="docutils literal"><span class="pre">app/config/parameters.ini</span></tt> で設定を行います。</p>
-<div class="highlight-ini"><pre># app/config/parameters.ini
+<div class="highlight-ini"><div class="highlight"><pre># app/config/parameters.ini
 parameters
     database_driver   = pdo_mysql
     database_host     = localhost
     database_name     = test_project
     database_user     = root
-    database_password = password</pre>
+    database_password = password
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p><tt class="docutils literal"><span class="pre">parameters.ini</span></tt> を通して設定を行うのは、単なる慣習です。このファイルで定義したパラメータは、Doctrine の設定時に、メインの設定ファイルから参照されます。</p>
-<div class="highlight-yaml"><pre>doctrine:
+<div class="highlight-yaml"><div class="highlight"><pre>doctrine:
     dbal:
         driver:   %database_driver%
         host:     %database_host%
         dbname:   %database_name%
         user:     %database_user%
-        password: %database_password%</pre>
+        password: %database_password%
+</pre></div>
 </div>
 <p class="last">データベース情報を、別々のファイルにしておくことによって、各サーバ上で、ファイルを異なるバージョンで保持できるようになります。データベースの設定(もしくは、センシティブな情報)は、簡単にプロジェクトの外部に置くことができます。例えば、Apache 設定ファイル内に置くことも可能です。詳細は、<a class="reference internal" href="../cookbook/configuration/external_parameters.html"><em>サービスコンテナで外部パラメータをセットする方法</em></a> を参照してください。</p>
 </div>

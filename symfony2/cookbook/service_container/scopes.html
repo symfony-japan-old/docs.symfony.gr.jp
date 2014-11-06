@@ -234,7 +234,7 @@
 <p>このクラスのサービスコンフィギュレーションは次のようになります。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     # ...
     my_mailer.class: Acme\HelloBundle\Mail\Mailer
@@ -242,8 +242,9 @@ services:
     my_mailer:
         class:     %my_mailer.class%
         arguments:
-            - "@service_container"
-        # scope: container can be omitted as it is the default</pre>
+            - &quot;@service_container&quot;
+        # scope: container can be omitted as it is the default
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;</span>

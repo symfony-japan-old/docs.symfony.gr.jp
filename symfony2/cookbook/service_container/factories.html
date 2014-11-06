@@ -156,7 +156,7 @@
 <p><tt class="docutils literal"><span class="pre">NewsletterFactory</span></tt> ファクトリクラスを使用してサービスコンテナを設定することで、 <tt class="docutils literal"><span class="pre">NewsletterManager</span></tt> オブジェクトをサービスとして使用可能にすることができます。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     # ...
     newsletter_manager.class: Acme\HelloBundle\Newsletter\NewsletterManager
@@ -165,7 +165,8 @@ services:
     newsletter_manager:
         class:          %newsletter_manager.class%
         factory_class:  %newsletter_factory.class%
-        factory_method: get</pre>
+        factory_method: get
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;</span>
@@ -207,7 +208,7 @@ services:
 <p><tt class="docutils literal"><span class="pre">factory_class</span></tt> を介してファクトリに使用するクラスを指定した際は、メソッドはスタティックに呼ばれます。この例のように、ファクトリ自身がインスタンス化される必要があり、そのインスタンス化されたオブジェクトのメソッドを呼び出すには、ファクトリ自体をサービスとして設定してください。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     # ...
     newsletter_manager.class: Acme\HelloBundle\Newsletter\NewsletterManager
@@ -218,7 +219,8 @@ services:
     newsletter_manager:
         class:            %newsletter_manager.class%
         factory_service:  newsletter_factory
-        factory_method:   get</pre>
+        factory_method:   get
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;</span>
@@ -270,7 +272,7 @@ services:
 <p>ファクトリメソッドに引数を渡す必要があれば、サービスコンテナ内で <tt class="docutils literal"><span class="pre">arguments</span></tt> オプションを呼ぶことができます。例えば、前の例の <tt class="docutils literal"><span class="pre">get</span></tt> メソッドが <tt class="docutils literal"><span class="pre">templating</span></tt> サービスを引数として受けるとしますと、次のようになります。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     # ...
     newsletter_manager.class: Acme\HelloBundle\Newsletter\NewsletterManager
@@ -283,7 +285,8 @@ services:
         factory_service:  newsletter_factory
         factory_method:   get
         arguments:
-            -             @templating</pre>
+            -             @templating
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;</span>

@@ -243,7 +243,7 @@ encoder は、この例では <tt class="docutils literal"><a class="reference e
 <div class="section" id="id4">
 <h3>シリアライズ時に属性を無視する<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
-<p><span>New in version 2.3: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setIgnoredAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setIgnoredAttributes()"><span class="pre">GetSetMethodNormalizer::setIgnoredAttributes</span></a></tt> メソッドは Symfony 2.3 で追加されました。</p>
+<p><span class="versionmodified">New in version 2.3: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setIgnoredAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setIgnoredAttributes()"><span class="pre">GetSetMethodNormalizer::setIgnoredAttributes</span></a></tt> メソッドは Symfony 2.3 で追加されました。</p>
 </div>
 <p>オプションとして、シリアライズ時に元のオブジェクトの属性を無視させることもできます。
 属性を無視させたいときは、 normalizer の定義時に <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setIgnoredAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setIgnoredAttributes()"><span class="pre">setIgnoredAttributes()</span></a></tt>
@@ -286,7 +286,7 @@ encoder は、この例では <tt class="docutils literal"><a class="reference e
 <div class="section" id="id6">
 <h2>アンダースコア付きの属性にキャメルケース式のメソッド名を使う<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
-<p><span>New in version 2.3: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setCamelizedAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setCamelizedAttributes()"><span class="pre">GetSetMethodNormalizer::setCamelizedAttributes</span></a></tt>　は Symfony 2.3 で追加されました。</p>
+<p><span class="versionmodified">New in version 2.3: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Serializer/Normalizer/GetSetMethodNormalizer.html#method_setCamelizedAttributes" title="Symfony\Component\Serializer\Normalizer\GetSetMethodNormalizer::setCamelizedAttributes()"><span class="pre">GetSetMethodNormalizer::setCamelizedAttributes</span></a></tt>　は Symfony 2.3 で追加されました。</p>
 </div>
 <p>シリアライズ後の形式に含まれる属性名にアンダースコアがついていることがあります。（たとえば、 <tt class="docutils literal"><span class="pre">first_name</span></tt> のように）
 もし <tt class="docutils literal"><span class="pre">getFirstName</span></tt> のようなメソッド名を使いたいとしても、通常はアンダースコア付きの属性には <tt class="docutils literal"><span class="pre">getFirst_name</span></tt> のようなメソッド名でゲッター・セッターが使われてしまいます。

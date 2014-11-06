@@ -173,7 +173,8 @@
 <p class="first admonition-title">Tip</p>
 <p>スプールをあなたのプロジェクトのディレクトリ内に保存するには、プロジェクトのルートへの参照ができる <cite>%kernel.root_dir%</cite> パラメータを使用してください。
 :</p>
-<div class="last highlight-yaml"><pre>path: %kernel.root_dir%/spool</pre>
+<div class="last highlight-yaml"><div class="highlight"><pre>path: %kernel.root_dir%/spool
+</pre></div>
 </div>
 </div>
 <p>これで、あなたのアプリケーションがメールを「送信」すれば、実際に送信するのではなく、スプールに追加されるようになりました。スプールからのメッセージの送信を非同期にすることができるようになりました。そして、次のようにスプール内のメッセージを送信するコンソールコマンドがあります。</p>

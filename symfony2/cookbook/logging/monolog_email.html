@@ -202,7 +202,7 @@
 <p>これらのハンドラは、他のハンドラと組み合わせることができますので、メールを送信するのと同時にサーバにもログを付けることができます。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># app/config/config.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># app/config/config.yml
 monolog:
     handlers:
         main:
@@ -224,7 +224,8 @@ monolog:
             from_email: error@example.com
             to_email:   error@example.com
             subject:    An Error Occurred!
-            level:      debug</pre>
+            level:      debug
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;container</span> <span class="na">xmlns=</span><span class="s">&quot;http://symfony.com/schema/dic/services&quot;</span>

@@ -186,14 +186,15 @@
 <p>サービスコンフィギュレーションで、サービスを注入(inject)することができます。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     newsletter_manager.class: Acme\HelloBundle\Newsletter\NewsletterManager
 
 services:
     newsletter_manager:
         class:     %newsletter_manager.class%
-        arguments: [@security.context]</pre>
+        arguments: [@security.context]
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;</span>

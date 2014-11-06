@@ -188,7 +188,7 @@
 <p>これらのクラスのサービスコンフィギュレーションは、以下のようになります。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     # ...
     newsletter_manager.class: Acme\HelloBundle\Mail\NewsletterManager
@@ -208,40 +208,42 @@ services:
         class:     %greeting_card_manager.class%
         calls:
             - [ setMailer, [ @my_mailer ] ]
-            - [ setEmailFormatter, [ @my_email_formatter] ]</pre>
+            - [ setEmailFormatter, [ @my_email_formatter] ]
+</pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
 &lt;parameters&gt;
     &lt;!-- ... --&gt;
-    &lt;parameter key="newsletter_manager.class"&gt;Acme\HelloBundle\Mail\NewsletterManager&lt;/parameter&gt;
-    &lt;parameter key="greeting_card_manager.class"&gt;Acme\HelloBundle\Mail\GreetingCardManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;newsletter_manager.class&quot;&gt;Acme\HelloBundle\Mail\NewsletterManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;greeting_card_manager.class&quot;&gt;Acme\HelloBundle\Mail\GreetingCardManager&lt;/parameter&gt;
 &lt;/parameters&gt;
 
 &lt;services&gt;
-    &lt;service id="my_mailer" ... &gt;
+    &lt;service id=&quot;my_mailer&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="my_email_formatter" ... &gt;
+    &lt;service id=&quot;my_email_formatter&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="newsletter_manager" class="%newsletter_manager.class%"&gt;
-        &lt;call method="setMailer"&gt;
-             &lt;argument type="service" id="my_mailer" /&gt;
+    &lt;service id=&quot;newsletter_manager&quot; class=&quot;%newsletter_manager.class%&quot;&gt;
+        &lt;call method=&quot;setMailer&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_mailer&quot; /&gt;
         &lt;/call&gt;
-        &lt;call method="setEmailFormatter"&gt;
-             &lt;argument type="service" id="my_email_formatter" /&gt;
-        &lt;/call&gt;
-    &lt;/service&gt;
-    &lt;service id="greeting_card_manager" class="%greeting_card_manager.class%"&gt;
-        &lt;call method="setMailer"&gt;
-             &lt;argument type="service" id="my_mailer" /&gt;
-        &lt;/call&gt;
-        &lt;call method="setEmailFormatter"&gt;
-             &lt;argument type="service" id="my_email_formatter" /&gt;
+        &lt;call method=&quot;setEmailFormatter&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_email_formatter&quot; /&gt;
         &lt;/call&gt;
     &lt;/service&gt;
-&lt;/services&gt;</pre>
+    &lt;service id=&quot;greeting_card_manager&quot; class=&quot;%greeting_card_manager.class%&quot;&gt;
+        &lt;call method=&quot;setMailer&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_mailer&quot; /&gt;
+        &lt;/call&gt;
+        &lt;call method=&quot;setEmailFormatter&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_email_formatter&quot; /&gt;
+        &lt;/call&gt;
+    &lt;/service&gt;
+&lt;/services&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Resources/config/services.php</span>
@@ -317,7 +319,7 @@ services:
 <p>同様に、 Symfony2 のサービスコンテナは、コンフィギュレーションでサービスも拡張することができます。そうすることによって、親サービスを特定し、重複を減らすことができます。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     # ...
     newsletter_manager.class: Acme\HelloBundle\Mail\NewsletterManager
@@ -341,35 +343,37 @@ services:
 
     greeting_card_manager:
         class:     %greeting_card_manager.class%
-        parent: mail_manager</pre>
+        parent: mail_manager
+</pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
 &lt;parameters&gt;
     &lt;!-- ... --&gt;
-    &lt;parameter key="newsletter_manager.class"&gt;Acme\HelloBundle\Mail\NewsletterManager&lt;/parameter&gt;
-    &lt;parameter key="greeting_card_manager.class"&gt;Acme\HelloBundle\Mail\GreetingCardManager&lt;/parameter&gt;
-    &lt;parameter key="mail_manager.class"&gt;Acme\HelloBundle\Mail\MailManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;newsletter_manager.class&quot;&gt;Acme\HelloBundle\Mail\NewsletterManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;greeting_card_manager.class&quot;&gt;Acme\HelloBundle\Mail\GreetingCardManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;mail_manager.class&quot;&gt;Acme\HelloBundle\Mail\MailManager&lt;/parameter&gt;
 &lt;/parameters&gt;
 
 &lt;services&gt;
-    &lt;service id="my_mailer" ... &gt;
+    &lt;service id=&quot;my_mailer&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="my_email_formatter" ... &gt;
+    &lt;service id=&quot;my_email_formatter&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="mail_manager" class="%mail_manager.class%" abstract="true"&gt;
-        &lt;call method="setMailer"&gt;
-             &lt;argument type="service" id="my_mailer" /&gt;
+    &lt;service id=&quot;mail_manager&quot; class=&quot;%mail_manager.class%&quot; abstract=&quot;true&quot;&gt;
+        &lt;call method=&quot;setMailer&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_mailer&quot; /&gt;
         &lt;/call&gt;
-        &lt;call method="setEmailFormatter"&gt;
-             &lt;argument type="service" id="my_email_formatter" /&gt;
+        &lt;call method=&quot;setEmailFormatter&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_email_formatter&quot; /&gt;
         &lt;/call&gt;
     &lt;/service&gt;
-    &lt;service id="newsletter_manager" class="%newsletter_manager.class%" parent="mail_manager"/&gt;
-    &lt;service id="greeting_card_manager" class="%greeting_card_manager.class%" parent="mail_manager"/&gt;
-&lt;/services&gt;</pre>
+    &lt;service id=&quot;newsletter_manager&quot; class=&quot;%newsletter_manager.class%&quot; parent=&quot;mail_manager&quot;/&gt;
+    &lt;service id=&quot;greeting_card_manager&quot; class=&quot;%greeting_card_manager.class%&quot; parent=&quot;mail_manager&quot;/&gt;
+&lt;/services&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Resources/config/services.php</span>
@@ -418,7 +422,7 @@ services:
 <p>子サービスのみの依存(dependency)専用に渡すクラスをオーバーライドしたいときもあるでしょう。幸いなことに、子サービスのコンフィギュレーションのメソッド呼び出し(calls)を追加することで、親クラスでセットされた依存(dependency)をオーバーライドすることができます。例えば、 <tt class="docutils literal"><span class="pre">NewsletterManager</span></tt> クラスのみに異なる依存(dependency)を渡したいときは、コンフィギュレーションは以下のようになります。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     # ...
     newsletter_manager.class: Acme\HelloBundle\Mail\NewsletterManager
@@ -446,42 +450,44 @@ services:
 
     greeting_card_manager:
         class:     %greeting_card_manager.class%
-        parent: mail_manager</pre>
+        parent: mail_manager
+</pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
 &lt;parameters&gt;
     &lt;!-- ... --&gt;
-    &lt;parameter key="newsletter_manager.class"&gt;Acme\HelloBundle\Mail\NewsletterManager&lt;/parameter&gt;
-    &lt;parameter key="greeting_card_manager.class"&gt;Acme\HelloBundle\Mail\GreetingCardManager&lt;/parameter&gt;
-    &lt;parameter key="mail_manager.class"&gt;Acme\HelloBundle\Mail\MailManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;newsletter_manager.class&quot;&gt;Acme\HelloBundle\Mail\NewsletterManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;greeting_card_manager.class&quot;&gt;Acme\HelloBundle\Mail\GreetingCardManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;mail_manager.class&quot;&gt;Acme\HelloBundle\Mail\MailManager&lt;/parameter&gt;
 &lt;/parameters&gt;
 
 &lt;services&gt;
-    &lt;service id="my_mailer" ... &gt;
+    &lt;service id=&quot;my_mailer&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="my_alternative_mailer" ... &gt;
+    &lt;service id=&quot;my_alternative_mailer&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="my_email_formatter" ... &gt;
+    &lt;service id=&quot;my_email_formatter&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="mail_manager" class="%mail_manager.class%" abstract="true"&gt;
-        &lt;call method="setMailer"&gt;
-             &lt;argument type="service" id="my_mailer" /&gt;
+    &lt;service id=&quot;mail_manager&quot; class=&quot;%mail_manager.class%&quot; abstract=&quot;true&quot;&gt;
+        &lt;call method=&quot;setMailer&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_mailer&quot; /&gt;
         &lt;/call&gt;
-        &lt;call method="setEmailFormatter"&gt;
-             &lt;argument type="service" id="my_email_formatter" /&gt;
-        &lt;/call&gt;
-    &lt;/service&gt;
-    &lt;service id="newsletter_manager" class="%newsletter_manager.class%" parent="mail_manager"&gt;
-         &lt;call method="setMailer"&gt;
-             &lt;argument type="service" id="my_alternative_mailer" /&gt;
+        &lt;call method=&quot;setEmailFormatter&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_email_formatter&quot; /&gt;
         &lt;/call&gt;
     &lt;/service&gt;
-    &lt;service id="greeting_card_manager" class="%greeting_card_manager.class%" parent="mail_manager"/&gt;
-&lt;/services&gt;</pre>
+    &lt;service id=&quot;newsletter_manager&quot; class=&quot;%newsletter_manager.class%&quot; parent=&quot;mail_manager&quot;&gt;
+         &lt;call method=&quot;setMailer&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_alternative_mailer&quot; /&gt;
+        &lt;/call&gt;
+    &lt;/service&gt;
+    &lt;service id=&quot;greeting_card_manager&quot; class=&quot;%greeting_card_manager.class%&quot; parent=&quot;mail_manager&quot;/&gt;
+&lt;/services&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Resources/config/services.php</span>
@@ -548,7 +554,7 @@ services:
 <p>以下のようなコンフィギュレーションをしているとします</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     # ...
     newsletter_manager.class: Acme\HelloBundle\Mail\NewsletterManager
@@ -568,34 +574,36 @@ services:
         class:     %newsletter_manager.class%
         parent: mail_manager
         calls:
-            - [ setFilter, [ @another_filter ] ]</pre>
+            - [ setFilter, [ @another_filter ] ]
+</pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
 &lt;parameters&gt;
     &lt;!-- ... --&gt;
-    &lt;parameter key="newsletter_manager.class"&gt;Acme\HelloBundle\Mail\NewsletterManager&lt;/parameter&gt;
-    &lt;parameter key="mail_manager.class"&gt;Acme\HelloBundle\Mail\MailManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;newsletter_manager.class&quot;&gt;Acme\HelloBundle\Mail\NewsletterManager&lt;/parameter&gt;
+    &lt;parameter key=&quot;mail_manager.class&quot;&gt;Acme\HelloBundle\Mail\MailManager&lt;/parameter&gt;
 &lt;/parameters&gt;
 
 &lt;services&gt;
-    &lt;service id="my_filter" ... &gt;
+    &lt;service id=&quot;my_filter&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="another_filter" ... &gt;
+    &lt;service id=&quot;another_filter&quot; ... &gt;
       &lt;!-- ... --&gt;
     &lt;/service&gt;
-    &lt;service id="mail_manager" class="%mail_manager.class%" abstract="true"&gt;
-        &lt;call method="setFilter"&gt;
-             &lt;argument type="service" id="my_filter" /&gt;
+    &lt;service id=&quot;mail_manager&quot; class=&quot;%mail_manager.class%&quot; abstract=&quot;true&quot;&gt;
+        &lt;call method=&quot;setFilter&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;my_filter&quot; /&gt;
         &lt;/call&gt;
     &lt;/service&gt;
-    &lt;service id="newsletter_manager" class="%newsletter_manager.class%" parent="mail_manager"&gt;
-         &lt;call method="setFilter"&gt;
-             &lt;argument type="service" id="another_filter" /&gt;
+    &lt;service id=&quot;newsletter_manager&quot; class=&quot;%newsletter_manager.class%&quot; parent=&quot;mail_manager&quot;&gt;
+         &lt;call method=&quot;setFilter&quot;&gt;
+             &lt;argument type=&quot;service&quot; id=&quot;another_filter&quot; /&gt;
         &lt;/call&gt;
     &lt;/service&gt;
-&lt;/services&gt;</pre>
+&lt;/services&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Resources/config/services.php</span>

@@ -391,15 +391,16 @@
 <p>アクションの認証プロバイダを見て行きましょう。そのために、やらなければならないことがあります。まず、上記のサービスを DI コンテナに追加します。上記のファクトリクラスは、サービスの id のリファレンスを作成します。 <tt class="docutils literal"><span class="pre">wsse.security.authentication.provider</span></tt> と <tt class="docutils literal"><span class="pre">wsse.security.authentication.listener</span></tt> です。これらのサービスを定義していきましょう。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/DemoBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/DemoBundle/Resources/config/services.yml
 services:
   wsse.security.authentication.provider:
     class:  Acme\DemoBundle\Security\Authentication\Provider\WsseProvider
-    arguments: ['', %kernel.cache_dir%/security/nonces]
+    arguments: [&#39;&#39;, %kernel.cache_dir%/security/nonces]
 
   wsse.security.authentication.listener:
     class:  Acme\DemoBundle\Security\Firewall\WsseListener
-    arguments: [@security.context, @security.authentication.manager]</pre>
+    arguments: [@security.context, @security.authentication.manager]
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/DemoBundle/Resources/config/services.xml --&gt;</span>

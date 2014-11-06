@@ -150,6 +150,10 @@
 <div class="section" id="id3">
 <h2>機能テスト<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <p>真に優れた機能テストを作成することは困難であるため、一部の開発者は完全にこれを省略します。機能テストを省略しないでください！いくつかの <em>シンプルな</em> 機能テストを定義することで、いかなる大きなエラーであれ、それらをデプロイしてしまう前にすばやく発見できます。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">機能テストを定義することは、結局のところあなたのアプリケーションのページが正常にロードにされるかどうかチェックすることです。</p>
+</div>
 <p>機能テストは以下の例のように簡単です:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="sd">/** @dataProvider provideUrls */</span>
 <span class="k">public</span> <span class="k">function</span> <span class="nf">testPageIsSuccessful</span><span class="p">(</span><span class="nv">$url</span><span class="p">)</span>
@@ -179,6 +183,10 @@
 <div class="section" id="url">
 <h3>機能テスト内のハードコードされたURL<a class="headerlink" href="#url" title="Permalink to this headline">¶</a></h3>
 <p>皆さんのうち一部の方は何故、上記の機能テストがURLジェネレータサービスを使用していないのかを尋ねるかもしれません：</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">機能テストにおいては、URLジェネレータを使用する代わりに、URLのハードコードが使用されます。</p>
+</div>
 <p>テストページのURLを生成するために <tt class="docutils literal"><span class="pre">router</span></tt> サービスを使用した、以下の機能テストについて考えてみましょう。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">testBlogArchives</span><span class="p">()</span>
 <span class="p">{</span>

@@ -161,7 +161,7 @@
 <h1>Doctrine コンフィギュレーションリファレンス<a class="headerlink" href="#doctrine" title="Permalink to this headline">¶</a></h1>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre>doctrine:
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre>doctrine:
     dbal:
         default_connection:   default
         types:
@@ -257,7 +257,7 @@
         auto_generate_proxy_classes:  false
         proxy_dir:            %kernel.cache_dir%/doctrine/orm/Proxies
         proxy_namespace:      Proxies
-        # 以下についてはCookbookで "ResolveTargetEntityListener" クラスを検索してください
+        # 以下についてはCookbookで &quot;ResolveTargetEntityListener&quot; クラスを検索してください
         resolve_target_entities: []
         entity_managers:
             # 名前付けたエンティティマネージャーのコレクション (例 some_em、another_em)
@@ -318,7 +318,8 @@
                     # フィルタの配列
                     some_filter:
                         class:                ~ # 必須
-                        enabled:              false</pre>
+                        enabled:              false
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;</span>

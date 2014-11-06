@@ -155,13 +155,14 @@
 </pre></div>
 </div>
 <p>次に、PHPUnit の設定ファイル <tt class="docutils literal"><span class="pre">app/phpunit.xml.dist</span></tt> を修正して、<tt class="docutils literal"><span class="pre">bootstrap</span></tt> 属性の値を、今作ったファイル名 &#8220;<tt class="docutils literal"><span class="pre">tests.bootstrap.php</span></tt>&#8221; で置換します。</p>
-<div class="highlight-xml"><pre>&lt;!-- app/phpunit.xml.dist --&gt;
+<div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/phpunit.xml.dist --&gt;
 
 &lt;!-- ... --&gt;
 &lt;phpunit
     ...
-    bootstrap = "tests.bootstrap.php"
-&gt;</pre>
+    bootstrap = &quot;tests.bootstrap.php&quot;
+&gt;
+</pre></div>
 </div>
 <p>同じく <tt class="docutils literal"><span class="pre">app/phpunit.xml.dist</span></tt> に環境変数 <tt class="docutils literal"><span class="pre">BOOTSTRAP_CLEAR_CACHE_ENV</span></tt> の値を設定して、どの環境のキャッシュをクリアするかを定義します。</p>
 <div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/phpunit.xml.dist --&gt;</span>

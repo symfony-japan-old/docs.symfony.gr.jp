@@ -217,6 +217,10 @@
 <p>伝統的に、サービスの名前は、衝突を避けるためにクラス名とクラスの場所を組み合わせたものでした。
 そうすると、このサービスは <tt class="docutils literal"><span class="pre">app.utils.slugger</span></tt> と呼ばれる <em>はず</em> です。しかし、短い名前を使うことで、
 コードの読みやすさと使いやすさは向上するでしょう。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">アプリケーションのサービス名は可能な限り短くしましょう。一単語になるのが理想的です。</p>
+</div>
 <p>これで <tt class="docutils literal"><span class="pre">AdminController</span></tt> のようなどんなコントローラーからでも slugger を利用できるようになりました。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">createAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
 <span class="p">{</span>
@@ -235,6 +239,10 @@
 <div class="section" id="yaml">
 <h2>サービス定義：YAML形式<a class="headerlink" href="#yaml" title="Permalink to this headline">¶</a></h2>
 <p>前のセクションでは、 YAML がサービスを定義するのに使われていました。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">サービスを定義するときは YAML 形式を使いましょう。</p>
+</div>
 <p>これには異論があるでしょうが、経験上、開発者の間では YAML と XML が半々で使われており、ほんの少し YAML
 のほうが好まれています。
 どちらの形式も機能は同じなので、どこまでも個人の好みの問題です。</p>
@@ -255,6 +263,10 @@
 </pre></div>
 </div>
 <p>この使い方は煩雑で、アプリケーションのサービスには全く必要ありません。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">アプリケーションのサービスクラス名をパラメータとして定義するのは止めましょう。</p>
+</div>
 <p>この使い方はサードパーティのバンドルから誤って取り入れられたものです。 Symfony がサービスコンテナ機能を
 実装したとき、開発者の中にはこのテクニックによってサービスを上書きできるようにした人もいました。
 しかし、クラス名を変更しただけでサービスを上書きするのは非常に稀なユースケースです。というのも、大抵の場合、
@@ -288,6 +300,10 @@
 <p>Doctrine のエンティティは、データベースに保存することができるプレーンな PHP オブジェクトです。
 Doctrine は、クラスに対して定義されたマッピングメタデータによってエンティティを扱います。マッピングメタデータ
 を定義するには YAML, XML, PHP, アノテーション形式が利用できます。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">Doctrine エンティティのマッピングにはアノテーションを使いましょう。</p>
+</div>
 <p>アノテーションは、マッピングを定義したり探したりするのに、現在のところ最も便利で素早く使える形式です。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">AppBundle\Entity</span><span class="p">;</span>
 

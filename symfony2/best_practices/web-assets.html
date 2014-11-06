@@ -141,6 +141,10 @@
 <p>Webアセットとは、CSSやJavaScript、画像といった、Webサイトのフロントエンドの
 見た目や操作のためのファイルのことを指します。Symfony開発者は慣習的に、それぞれの
 バンドルの <tt class="docutils literal"><span class="pre">Resources/public/</span></tt> ディレクトリにアセットを配置してきました。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">アセットは <tt class="docutils literal"><span class="pre">web/</span></tt> ディレクトリの中に配置しましょう。</p>
+</div>
 <p>Webアセットを複数の異なるバンドルに跨って分散させてしまうと管理するのが
 大変になります。全てのアプリケーションアセットが一箇所にまとまっていれば、
 デザイナーの仕事はずっと楽になるでしょう。</p>
@@ -170,6 +174,11 @@
 に変換するためには何らかの方法が必要です。</p>
 <p>GruntJSのような(PHPではない)ピュアフロントエンドツールを含めて、これらの問題を
 解決するためたくさんのツールが存在しています。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">GruntJSのようなフロントエンドツールに満足していないなら、Asseticを使って
+webアセットを結合し圧縮しましょう。</p>
+</div>
 <p><a class="reference external" href="http://symfony.com/doc/current/cookbook/assetic/asset_management.html">Assetic</a> は、LESSやSassやCoffeScriptといった多くのフロントエンドツールで
 開発されたアセットをコンパイルすることができるAssetマネージャです。
 Asseticで全てのアセットを結合するには、１つのTwigタグで全てのアセットを

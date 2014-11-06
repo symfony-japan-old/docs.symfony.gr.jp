@@ -277,13 +277,14 @@
 <p class="first admonition-title">Note</p>
 <p>テンプレートを書く際には、 <tt class="docutils literal"><span class="pre">enctype</span></tt> 属性を忘れないようにしてください。
 :</p>
-<div class="last highlight-html+php"><pre>&lt;h1&gt;Upload File&lt;/h1&gt;
+<div class="last highlight-html+php"><div class="highlight"><pre>&lt;h1&gt;Upload File&lt;/h1&gt;
 
-&lt;form action="#" method="post" {{ form_enctype(form) }}&gt;
+&lt;form action=&quot;#&quot; method=&quot;post&quot; {{ form_enctype(form) }}&gt;
     {{ form_widget(form) }}
 
-    &lt;input type="submit" value="Upload Document" /&gt;
-&lt;/form&gt;</pre>
+    &lt;input type=&quot;submit&quot; value=&quot;Upload Document&quot; /&gt;
+&lt;/form&gt;
+</pre></div>
 </div>
 </div>
 <p>前のコントローラでは、自動的に送信された名前で <tt class="docutils literal"><span class="pre">Document</span></tt> エンティティを保存します。しかし、ファイルには何も処理をしていないですし、 <tt class="docutils literal"><span class="pre">path</span></tt> プロパティにも、何も指定していないので空になります。</p>

@@ -1038,18 +1038,20 @@ fragment defined above, add the following to the top of the template that
 renders the form:</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>Twig</em><div class="highlight-html+jinja"><pre>{# src/Acme/StoreBundle/Resources/views/Default/index.html.twig #}
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre>{# src/Acme/StoreBundle/Resources/views/Default/index.html.twig #}
 
-{% form_theme form 'AcmeStoreBundle:Form:fields.html.twig' %}
+{% form_theme form &#39;AcmeStoreBundle:Form:fields.html.twig&#39; %}
 
-&lt;form ...&gt;</pre>
+&lt;form ...&gt;
+</pre></div>
 </div>
 </li>
-<li><em>PHP</em><div class="highlight-html+php"><pre>&lt;!-- src/Acme/StoreBundle/Resources/views/Default/index.html.php --&gt;
+<li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre>&lt;!-- src/Acme/StoreBundle/Resources/views/Default/index.html.php --&gt;
 
-&lt;?php $view['form']-&gt;setTheme($form, array('AcmeStoreBundle:Form')) ?&gt;
+&lt;?php $view[&#39;form&#39;]-&gt;setTheme($form, array(&#39;AcmeStoreBundle:Form&#39;)) ?&gt;
 
-&lt;form ...&gt;</pre>
+&lt;form ...&gt;
+</pre></div>
 </div>
 </li>
 </ul>
@@ -1166,14 +1168,15 @@ configuration file:</p>
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/config.xml --&gt;
 
 &lt;twig:config ...&gt;
         &lt;twig:form&gt;
             &lt;resource&gt;AcmeStoreBundle:Form:fields.html.twig&lt;/resource&gt;
         &lt;/twig:form&gt;
         &lt;!-- ... --&gt;
-&lt;/twig:config&gt;</pre>
+&lt;/twig:config&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>
@@ -1248,7 +1251,7 @@ your application configuration file:</p>
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/config.xml --&gt;
 
 &lt;framework:config ...&gt;
     &lt;framework:templating&gt;
@@ -1257,7 +1260,8 @@ your application configuration file:</p>
         &lt;/framework:form&gt;
     &lt;/framework:templating&gt;
     &lt;!-- ... --&gt;
-&lt;/framework:config&gt;</pre>
+&lt;/framework:config&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>

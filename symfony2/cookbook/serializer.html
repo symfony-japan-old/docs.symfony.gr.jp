@@ -152,7 +152,7 @@ Symfony には <a class="reference internal" href="../components/serializer.html
 <div class="section" id="id1">
 <h2>Serializerを有効化する<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="versionadded">
-<p><span>New in version 2.3: </span>シリアライザは以前から Symfony に含まれていましたが、2.3 より前のバージョンでは <tt class="docutils literal"><span class="pre">serializer</span></tt> サービスをわざわざ定義しなければなりませんでした。</p>
+<p><span class="versionmodified">New in version 2.3: </span>シリアライザは以前から Symfony に含まれていましたが、2.3 より前のバージョンでは <tt class="docutils literal"><span class="pre">serializer</span></tt> サービスをわざわざ定義しなければなりませんでした。</p>
 </div>
 <p><tt class="docutils literal"><span class="pre">serializer</span></tt> サービスはデフォルトでは使用できません。シリアライザを使うためには、設定ファイルにより有効化してください。</p>
 <div class="configuration-block">
@@ -165,11 +165,12 @@ Symfony には <a class="reference internal" href="../components/serializer.html
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/config.xml --&gt;
 &lt;framework:config ...&gt;
     &lt;!-- ... --&gt;
-    &lt;framework:serializer enabled="true" /&gt;
-&lt;/framework:config&gt;</pre>
+    &lt;framework:serializer enabled=&quot;true&quot; /&gt;
+&lt;/framework:config&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>

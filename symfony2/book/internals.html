@@ -883,9 +883,10 @@ Firebug などのツールを使って <tt class="docutils literal"><span class=
 <p>Web プロファイラを有効にする場合は、プロファイラ用のルートも同時に有効にしておく必要があります。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre>_profiler:
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre>_profiler:
     resource: @WebProfilerBundle/Resources/config/routing/profiler.xml
-    prefix:   /_profiler</pre>
+    prefix:   /_profiler
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="nt">&lt;import</span> <span class="na">resource=</span><span class="s">&quot;@WebProfilerBundle/Resources/config/routing/profiler.xml&quot;</span> <span class="na">prefix=</span><span class="s">&quot;/_profiler&quot;</span> <span class="nt">/&gt;</span>

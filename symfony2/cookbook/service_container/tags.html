@@ -163,13 +163,14 @@
 :</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/MailerBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/MailerBundle/Resources/config/services.yml
 parameters:
     acme_mailer.transport_chain.class: Acme\MailerBundle\TransportChain
 
 services:
     acme_mailer.transport_chain:
-        class: %acme_mailer.transport_chain.class%</pre>
+        class: %acme_mailer.transport_chain.class%
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/MailerBundle/Resources/config/services.xml --&gt;</span>
@@ -200,7 +201,7 @@ services:
 <p>これで複数の <tt class="docutils literal"><span class="pre">\Swift_Transport</span></tt> クラスを初期化させる必要になりましたので、 <tt class="docutils literal"><span class="pre">addTransport()</span></tt> メソッドを使用し自動的にチェーンへ追加していきます。例として、次のトランスポートをサービスとして追加します。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/MailerBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/MailerBundle/Resources/config/services.yml
 services:
     acme_mailer.transport.smtp:
         class: \Swift_SmtpTransport
@@ -211,7 +212,8 @@ services:
     acme_mailer.transport.sendmail:
         class: \Swift_SendmailTransport
         tags:
-            -  { name: acme_mailer.transport }</pre>
+            -  { name: acme_mailer.transport }
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/MailerBundle/Resources/config/services.xml --&gt;</span>

@@ -243,13 +243,14 @@
 <p>この問題を避けるには、コンフィギュレーションの <tt class="docutils literal"><span class="pre">apply_to</span></tt> オプションを使用して、特定の拡張子に常に適用されるフィルターを指定してください。下記の設定では、全ての <tt class="docutils literal"><span class="pre">.coffee</span></tt> 拡張子を持つファイルを Coffee フィルターに適用させています。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># app/config/config.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># app/config/config.yml
 assetic:
     filters:
         coffee:
             bin: /usr/bin/coffee
             node: /usr/bin/node
-            apply_to: "\.coffee$"</pre>
+            apply_to: &quot;\.coffee$&quot;
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/config/config.xml --&gt;</span>

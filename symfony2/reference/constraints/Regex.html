@@ -193,11 +193,12 @@
 <p><tt class="docutils literal"><span class="pre">description</span></tt> フィールドがあり、有効な文字から始まることを検証したいとします。この検証用の正規表現は <tt class="docutils literal"><span class="pre">/^\w+/</span></tt> で、文字列の先頭に 1 文字以上のアルファベットがあることを示しています。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/BlogBundle/Resources/config/validation.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/BlogBundle/Resources/config/validation.yml
 Acme\BlogBundle\Entity\Author:
     properties:
         description:
-            - Regex: "/^\w+/"</pre>
+            - Regex: &quot;/^\w+/&quot;
+</pre></div>
 </div>
 </li>
 <li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>
@@ -249,14 +250,15 @@ Acme\BlogBundle\Entity\Author:
 <p><a class="reference internal" href="#match">match</a> オプションを <tt class="docutils literal"><span class="pre">false</span></tt> に設定すると、正規表現に<strong>マッチしない</strong>ことを検証できます。次の例では、<tt class="docutils literal"><span class="pre">firstName</span></tt> フィールドに数字が含まれていないことを検証し、エラーの場合にはカスタムメッセージを表示するよう指定しています。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/BlogBundle/Resources/config/validation.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/BlogBundle/Resources/config/validation.yml
 Acme\BlogBundle\Entity\Author:
     properties:
         firstName:
             - Regex:
-                pattern: "/\d/"
+                pattern: &quot;/\d/&quot;
                 match:   false
-                message: Your name cannot contain a number</pre>
+                message: Your name cannot contain a number
+</pre></div>
 </div>
 </li>
 <li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="c1">// src/Acme/BlogBundle/Entity/Author.php</span>

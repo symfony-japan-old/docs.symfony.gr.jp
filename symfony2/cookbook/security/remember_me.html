@@ -150,17 +150,18 @@
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/security.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/security.xml --&gt;
 &lt;config&gt;
     &lt;firewall&gt;
         &lt;remember-me
-            key="aSecretKey"
-            lifetime="3600"
-            path="/"
-            domain="" &lt;!-- デフォルトは $_SERVER で取得される現在のドメインです --&gt;
+            key=&quot;aSecretKey&quot;
+            lifetime=&quot;3600&quot;
+            path=&quot;/&quot;
+            domain=&quot;&quot; &lt;!-- デフォルトは $_SERVER で取得される現在のドメインです --&gt;
         /&gt;
     &lt;/firewall&gt;
-&lt;/config&gt;</pre>
+&lt;/config&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/security.php</span>

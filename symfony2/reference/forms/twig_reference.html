@@ -346,10 +346,11 @@ hidden フィールドや、出力し忘れたフィールドを出力してく�
 <p>テンプレートに <tt class="docutils literal"><span class="pre">form</span></tt> 変数が含まれていて <tt class="docutils literal"><span class="pre">name</span></tt> フィールドの変数にアクセスしたいとき、 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/Form/FormView.html" title="Symfony\Component\Form\FormView"><span class="pre">FormView</span></a></tt> オブジェクトの <tt class="docutils literal"><span class="pre">vars</span></tt> プロパティを使うことによりアクセスできます。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>Twig</em><div class="highlight-html+jinja"><pre>&lt;label for="{{ form.name.vars.id }}"
-    class="{{ form.name.vars.required ? 'required' : '' }}"&gt;
+<li><em>Twig</em><div class="highlight-html+jinja"><div class="highlight"><pre>&lt;label for=&quot;{{ form.name.vars.id }}&quot;
+    class=&quot;{{ form.name.vars.required ? &#39;required&#39; : &#39;&#39; }}&quot;&gt;
     {{ form.name.vars.label }}
-&lt;/label&gt;</pre>
+&lt;/label&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-html+php"><div class="highlight"><pre><span class="nt">&lt;label</span> <span class="na">for=</span><span class="s">&quot;</span><span class="cp">&lt;?php</span> <span class="k">echo</span> <span class="nv">$view</span><span class="p">[</span><span class="s1">&#39;form&#39;</span><span class="p">]</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">vars</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="cp">?&gt;</span><span class="s">&quot;</span>
@@ -362,10 +363,10 @@ hidden フィールドや、出力し忘れたフィールドを出力してく�
 </ul>
 </div>
 <div class="versionadded">
-<p><span>New in version 2.3: </span><tt class="docutils literal"><span class="pre">method</span></tt> と <tt class="docutils literal"><span class="pre">action</span></tt> は Symfony2.3 で追加されました。</p>
+<p><span class="versionmodified">New in version 2.3: </span><tt class="docutils literal"><span class="pre">method</span></tt> と <tt class="docutils literal"><span class="pre">action</span></tt> は Symfony2.3 で追加されました。</p>
 </div>
 <div class="versionadded">
-<p><span>New in version 2.4: </span><tt class="docutils literal"><span class="pre">submitted</span></tt> 変数は Symfony2.4 で追加されました。</p>
+<p><span class="versionmodified">New in version 2.4: </span><tt class="docutils literal"><span class="pre">submitted</span></tt> 変数は Symfony2.4 で追加されました。</p>
 </div>
 <table border="1" class="docutils">
 <colgroup>

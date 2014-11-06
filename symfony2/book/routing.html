@@ -234,7 +234,7 @@
 </ul>
 </div>
 <div class="versionadded">
-<p><span>New in version 2.2: </span><tt class="docutils literal"><span class="pre">path</span></tt> オプションは Symfony 2.2 以降で利用可能です。
+<p><span class="versionmodified">New in version 2.2: </span><tt class="docutils literal"><span class="pre">path</span></tt> オプションは Symfony 2.2 以降で利用可能です。
 これ以前のバージョンでは <tt class="docutils literal"><span class="pre">pattern</span></tt> オプションでした。</p>
 </div>
 <p>ルート <tt class="docutils literal"><span class="pre">blog_show</span></tt> のパスは <tt class="docutils literal"><span class="pre">/blog/*</span></tt> のような URL に該当し、ワイルドカード部分には <tt class="docutils literal"><span class="pre">slug</span></tt> という名前が与えられています。<tt class="docutils literal"><span class="pre">/blog/my-blog-post</span></tt> という URL では、変数 <tt class="docutils literal"><span class="pre">slug</span></tt> が <tt class="docutils literal"><span class="pre">my-blog-post</span></tt> という値となり、コントローラー上でも使用することができます(後述します)。</p>
@@ -827,7 +827,7 @@
 </ul>
 </div>
 <div class="versionadded">
-<p><span>New in version 2.2: </span><tt class="docutils literal"><span class="pre">methods</span></tt> オプションは Symfony 2.2 で追加されました。
+<p><span class="versionmodified">New in version 2.2: </span><tt class="docutils literal"><span class="pre">methods</span></tt> オプションは Symfony 2.2 で追加されました。
 以前のバージョンでは <tt class="docutils literal"><span class="pre">requirements</span></tt> オプションの <tt class="docutils literal"><span class="pre">_method</span></tt> を使ってください。</p>
 </div>
 <p>この2つのルートは全く同じパス (<tt class="docutils literal"><span class="pre">/contact</span></tt>) となってはいるのですが、最初のルートは、GET リクエストにのみマッチするのに対して、二つ目のルートは、POST リクエストにのみマッチします。これの意味するところは、同一の URL でフォームと送信を表示することが可能で、かつ、異なる2つのコントローラーを使い分けることが可能になる、ということです。</p>
@@ -839,7 +839,7 @@
 <div class="section" id="id8">
 <h3>ホスト制約をつける<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
-<p><span>New in version 2.2: </span>ホスト制約は Symfony 2.2 以降で利用可能です。</p>
+<p><span class="versionmodified">New in version 2.2: </span>ホスト制約は Symfony 2.2 以降で利用可能です。</p>
 </div>
 <p>リクエストの HTTP <em>ホスト</em> をルートのマッチ条件に追加できます。
 詳細は、Routing コンポーネントの <tt class="xref doc docutils literal"><span class="pre">/components/routing/hostname_pattern</span></tt> を参照してください。</p>
@@ -847,7 +847,7 @@
 <div class="section" id="book-routing-conditions">
 <span id="id9"></span><h3>制約付きルートマッチの完全なカスタマイズ例<a class="headerlink" href="#book-routing-conditions" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
-<p><span>New in version 2.4: </span>ルートの <tt class="docutils literal"><span class="pre">condition</span></tt> オプションは Symfony 2.4 以降で利用可能です。</p>
+<p><span class="versionmodified">New in version 2.4: </span>ルートの <tt class="docutils literal"><span class="pre">condition</span></tt> オプションは Symfony 2.4 以降で利用可能です。</p>
 </div>
 <p>ルートは、特定のルーティング正規表現ワイルドカード、HTTP メソッド、ホスト名でマッチングします。
 <tt class="docutils literal"><span class="pre">conditions</span></tt> を使うと、式言語を使ってマッチング条件をさらに柔軟に指定できるようになります。</p>

@@ -170,14 +170,15 @@
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/config.xml --&gt;
 &lt;framework:config ... &gt;
     &lt;!-- ... --&gt;
     &lt;framework:templating ... &gt;
-        &lt;framework:engine id="twig" /&gt;
-        &lt;framework:engine id="php" /&gt;
+        &lt;framework:engine id=&quot;twig&quot; /&gt;
+        &lt;framework:engine id=&quot;php&quot; /&gt;
     &lt;/framework:templating&gt;
-&lt;/framework:config&gt;</pre>
+&lt;/framework:config&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;framework&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>

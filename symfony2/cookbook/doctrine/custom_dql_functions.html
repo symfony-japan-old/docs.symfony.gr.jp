@@ -150,28 +150,29 @@
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config.xml --&gt;
-&lt;container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:doctrine="http://symfony.com/schema/dic/doctrine"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd
-                        http://symfony.com/schema/dic/doctrine http://symfony.com/schema/dic/doctrine/doctrine-1.0.xsd"&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/config.xml --&gt;
+&lt;container xmlns=&quot;http://symfony.com/schema/dic/services&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xmlns:doctrine=&quot;http://symfony.com/schema/dic/doctrine&quot;
+    xsi:schemaLocation=&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd
+                        http://symfony.com/schema/dic/doctrine http://symfony.com/schema/dic/doctrine/doctrine-1.0.xsd&quot;&gt;
 
     &lt;doctrine:config&gt;
         &lt;doctrine:orm&gt;
             &lt;!-- ... --&gt;
-            &lt;doctrine:entity-manager name="default"&gt;
+            &lt;doctrine:entity-manager name=&quot;default&quot;&gt;
                 &lt;!-- ... --&gt;
                 &lt;doctrine:dql&gt;
-                    &lt;doctrine:string-function name="test_string&gt;Acme\HelloBundle\DQL\StringFunction&lt;/doctrine:string-function&gt;
-                    &lt;doctrine:string-function name="second_string&gt;Acme\HelloBundle\DQL\SecondStringFunction&lt;/doctrine:string-function&gt;
-                    &lt;doctrine:numeric-function name="test_numeric&gt;Acme\HelloBundle\DQL\NumericFunction&lt;/doctrine:numeric-function&gt;
-                    &lt;doctrine:datetime-function name="test_datetime&gt;Acme\HelloBundle\DQL\DatetimeFunction&lt;/doctrine:datetime-function&gt;
+                    &lt;doctrine:string-function name=&quot;test_string&gt;Acme\HelloBundle\DQL\StringFunction&lt;/doctrine:string-function&gt;
+                    &lt;doctrine:string-function name=&quot;second_string&gt;Acme\HelloBundle\DQL\SecondStringFunction&lt;/doctrine:string-function&gt;
+                    &lt;doctrine:numeric-function name=&quot;test_numeric&gt;Acme\HelloBundle\DQL\NumericFunction&lt;/doctrine:numeric-function&gt;
+                    &lt;doctrine:datetime-function name=&quot;test_datetime&gt;Acme\HelloBundle\DQL\DatetimeFunction&lt;/doctrine:datetime-function&gt;
                 &lt;/doctrine:dql&gt;
             &lt;/doctrine:entity-manager&gt;
         &lt;/doctrine:orm&gt;
     &lt;/doctrine:config&gt;
-&lt;/container&gt;</pre>
+&lt;/container&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config.php</span>

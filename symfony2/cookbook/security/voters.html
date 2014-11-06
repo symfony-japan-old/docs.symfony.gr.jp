@@ -221,7 +221,7 @@
 <p>Voter をセキュリティレイヤーに注入する(inject)には、 Voter をサービスとして宣言して、 &#8220;security.voter&#8221; としてタグ付けする必要があります。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/AcmeBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/AcmeBundle/Resources/config/services.yml
 
 services:
     security.access.blacklist_voter:
@@ -229,7 +229,8 @@ services:
         arguments:  [@service_container, [123.123.123.123, 171.171.171.171]]
         public:     false
         tags:
-            -       { name: security.voter }</pre>
+            -       { name: security.voter }
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/AcmeBundle/Resources/config/services.xml --&gt;</span>

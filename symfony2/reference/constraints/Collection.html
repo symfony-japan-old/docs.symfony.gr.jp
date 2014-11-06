@@ -323,7 +323,7 @@
 <p>Collection 制約によりコレクション中の個々の要素に割り当てられた制約が単純に検証されるだけではありません。デフォルトでは、制約で指定したキーがコレクションに存在しなかったり、想定していないキーが存在した場合、バリデーションエラーがスローされます。</p>
 <p>コレクションからのキーの欠落や、想定しないキーの存在を許可したい場合は、<a class="reference internal" href="#allowmissingfields">allowMissingFields</a> オプションや <a class="reference internal" href="#allowextrafields">allowExtraFields</a> オプションを指定します。上の例では <tt class="docutils literal"><span class="pre">allowMissingFields</span></tt> オプションが <tt class="docutils literal"><span class="pre">true</span></tt> に設定されているので、<tt class="docutils literal"><span class="pre">$personalData</span></tt> プロパティに <tt class="docutils literal"><span class="pre">personal_email</span></tt> 要素または <tt class="docutils literal"><span class="pre">short_bio</span></tt> 要素が存在しなくてもバリデーションエラーは発生しません。</p>
 <div class="versionadded">
-<p><span>New in version 2.3: </span>Symfony 2.3 以降では、<tt class="docutils literal"><span class="pre">Required</span></tt> 制約および <tt class="docutils literal"><span class="pre">Optional</span></tt> 制約が
+<p><span class="versionmodified">New in version 2.3: </span>Symfony 2.3 以降では、<tt class="docutils literal"><span class="pre">Required</span></tt> 制約および <tt class="docutils literal"><span class="pre">Optional</span></tt> 制約が
 <tt class="docutils literal"><span class="pre">Symfony\Component\Validator\Constraints\</span></tt> 名前空間に移動されました。</p>
 </div>
 </div>

@@ -304,7 +304,7 @@ jQuery風のセレクタでDOMを走査することが出来ます。</p>
 </pre></div>
 </div>
 <div class="versionadded">
-<p><span>New in version 2.3: </span>Symfony 2.3 では、 <tt class="docutils literal"><span class="pre">each</span></tt>, <tt class="docutils literal"><span class="pre">reduce</span></tt> メソッドに渡す無名関数は第1引数として <tt class="docutils literal"><span class="pre">Crawler</span></tt>
+<p><span class="versionmodified">New in version 2.3: </span>Symfony 2.3 では、 <tt class="docutils literal"><span class="pre">each</span></tt>, <tt class="docutils literal"><span class="pre">reduce</span></tt> メソッドに渡す無名関数は第1引数として <tt class="docutils literal"><span class="pre">Crawler</span></tt>
 オブジェクトを受け取ります。以前のバージョンでは第1引数は <tt class="docutils literal"><a class="reference external" href="http://php.net/manual/en/class.domnode.php" title="DOMNode"><span class="pre">DOMNode</span></a></tt> でした。</p>
 </div>
 <p>無名関数は引数として <tt class="docutils literal"><span class="pre">Crawler</span></tt> オブジェクトと、ノードリスト中の位置を受け取ります。
@@ -498,7 +498,7 @@ Goutte は Symfony の Crawler を直接受け取り、フォームを送信す�
 <div class="section" id="components-dom-crawler-invalid">
 <span id="id10"></span><h4>選択フィールドに不正な値をセットする<a class="headerlink" href="#components-dom-crawler-invalid" title="Permalink to this headline">¶</a></h4>
 <div class="versionadded">
-<p><span>New in version 2.4: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Form.html#method_disableValidation" title="Symfony\Component\DomCrawler\Form::disableValidation()"><span class="pre">disableValidation()</span></a></tt> メソッドは Symfony 2.4 で追加されました。</p>
+<p><span class="versionmodified">New in version 2.4: </span><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/DomCrawler/Form.html#method_disableValidation" title="Symfony\Component\DomCrawler\Form::disableValidation()"><span class="pre">disableValidation()</span></a></tt> メソッドは Symfony 2.4 で追加されました。</p>
 </div>
 <p>選択フィールド (select, radio) では、不正な値がセット出来ないようバリデーションが有効になっています。
 フォーム全体か単一のフィールドに対して <tt class="docutils literal"><span class="pre">disableValidation()</span></tt> メソッドを呼ぶことで、このバリデーションを無効にして不正な値をセットすることが出来ます。</p>

@@ -152,6 +152,10 @@
 <div class="section" id="symfony">
 <h2>Symfony のインストール<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h2>
 <p>これが Symfony をインストールする上で推奨するたったひとつの方法です。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">常に <a class="reference external" href="https://getcomposer.org/">Composer</a> で Symfony をインストールする</p>
+</div>
 <p>Composer はモダンな PHP アプリケーションで使用されている依存パッケージの管理ツールです。
 プロジェクトに必要なパッケージを追加したり削除するときや
 コードで使用されているサードパーティ製のライブラリを更新するときに Composer を使えばスムーズでしょう。</p>
@@ -290,6 +294,10 @@ Symfony のインストールを全て堅実に確かめたい場合は <a href=
 それ自体をバンドルにするべきではありません。
 さらに加えると、<tt class="docutils literal"><span class="pre">InvoiceBundle</span></tt> が <tt class="docutils literal"><span class="pre">ProductBundle</span></tt> に依存している場合、
 ２つの別々のバンドルにアドバンテージはありません。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">アプリケーションロジックのために <tt class="docutils literal"><span class="pre">AppBundle</span></tt> というただひとつのバンドルを作りなさい</p>
+</div>
 <p>ひとつの <tt class="docutils literal"><span class="pre">AppBundle</span></tt> が動作することがプロジェクトを束ねるということは
 コードがより簡潔になり理解することも容易になるでしょう。
 Symfony 2.6 からは、Symfony の公式ドキュメントでも <tt class="docutils literal"><span class="pre">AppBundle</span></tt> という名前を使います。</p>

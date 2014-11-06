@@ -309,11 +309,11 @@
 </div>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre>services:
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre>services:
     monolog.formatter.session_request:
         class: Monolog\Formatter\LineFormatter
         arguments:
-            - "[%%datetime%%] [%%extra.token%%] %%channel%%.%%level_name%%: %%message%%\n"
+            - &quot;[%%datetime%%] [%%extra.token%%] %%channel%%.%%level_name%%: %%message%%\n&quot;
 
     monolog.processor.session_request:
         class: Acme\MyBundle\SessionRequestProcessor
@@ -327,7 +327,8 @@ monolog:
             type: stream
             path: %kernel.logs_dir%/%kernel.environment%.log
             level: debug
-            formatter: monolog.formatter.session_request</pre>
+            formatter: monolog.formatter.session_request
+</pre></div>
 </div>
 </li>
 </ul>

@@ -293,7 +293,7 @@
 <div class="section" id="http-method-override">
 <span id="configuration-framework-http-method-override"></span><h3>http_method_override<a class="headerlink" href="#http-method-override" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
-<p><span>New in version 2.3: </span><tt class="docutils literal"><span class="pre">http_method_override</span></tt> オプションは Symfony 2.3 から導入されました。</p>
+<p><span class="versionmodified">New in version 2.3: </span><tt class="docutils literal"><span class="pre">http_method_override</span></tt> オプションは Symfony 2.3 から導入されました。</p>
 </div>
 <p><strong>データ型</strong>: <tt class="docutils literal"><span class="pre">Boolean</span></tt> <strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">true</span></tt></p>
 <p>POSTリクエストにおいて、リクエストパラメータ <tt class="docutils literal"><span class="pre">_method</span></tt> が、意図した HTTP メソッドとして使われるかどうかを決定します。
@@ -317,7 +317,7 @@ IDEでそのファイルを開きます。</p>
 <li><tt class="docutils literal"><span class="pre">sublime</span></tt></li>
 </ul>
 <div class="versionadded">
-<p><span>New in version 2.3.14: </span>エディター の <tt class="docutils literal"><span class="pre">emacs</span></tt> と <tt class="docutils literal"><span class="pre">sublime</span></tt> が Symfony 2.3.14 で導入されました。</p>
+<p><span class="versionmodified">New in version 2.3.14: </span>エディター の <tt class="docutils literal"><span class="pre">emacs</span></tt> と <tt class="docutils literal"><span class="pre">sublime</span></tt> が Symfony 2.3.14 で導入されました。</p>
 </div>
 <p>さらにカスタムの url 文字列を指定することもできます。これを行う場合は
 エスケープのためすべてのパーセント記号(<tt class="docutils literal"><span class="pre">%</span></tt>)を二重にする必要があります。例えば、
@@ -365,7 +365,7 @@ IDEでそのファイルを開きます。</p>
 <p>プロキシとして信頼されるべきIPアドレスを設定します。詳細については、
 <tt class="xref doc docutils literal"><span class="pre">/components/http_foundation/trusting_proxies</span></tt> を参照ください。</p>
 <div class="versionadded">
-<p><span>New in version 2.3: </span>CIDR 表記のサポートは Symfonyの2.3 で導入されました。サブネット全体（例： <tt class="docutils literal"><span class="pre">10.0.0.0/8</span></tt> , <tt class="docutils literal"><span class="pre">fc00::/7</span></tt> ）をホワイトリストに登録することができます。</p>
+<p><span class="versionmodified">New in version 2.3: </span>CIDR 表記のサポートは Symfonyの2.3 で導入されました。サブネット全体（例： <tt class="docutils literal"><span class="pre">10.0.0.0/8</span></tt> , <tt class="docutils literal"><span class="pre">fc00::/7</span></tt> ）をホワイトリストに登録することができます。</p>
 </div>
 <div class="configuration-block">
 <ul class="simple">
@@ -596,7 +596,7 @@ URLが <tt class="docutils literal"><span class="pre">https://</span></tt> 、�
 <p><strong>デフォルト</strong>: <tt class="docutils literal"><span class="pre">dev</span></tt> と <tt class="docutils literal"><span class="pre">test</span></tt> 環境では <tt class="docutils literal"><span class="pre">true</span></tt></p>
 <p>プロファイラは、このキーに <tt class="docutils literal"><span class="pre">false</span></tt> を設定することで無効にすることができます。</p>
 <div class="versionadded">
-<p><span>New in version 2.3: </span><tt class="docutils literal"><span class="pre">collect</span></tt> オプションはsymfonyの2.3で導入されました。以前は、<tt class="docutils literal"><span class="pre">profiler.enabled</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> のとき、
+<p><span class="versionmodified">New in version 2.3: </span><tt class="docutils literal"><span class="pre">collect</span></tt> オプションはsymfonyの2.3で導入されました。以前は、<tt class="docutils literal"><span class="pre">profiler.enabled</span></tt> が <tt class="docutils literal"><span class="pre">false</span></tt> のとき、
 プロファイラは実際には有効 <em>でした</em> 。しかし、コレクタが無効になっていました。
 現在は、プロファイラやコレクターを独立に制御することができます。</p>
 </div>
@@ -618,7 +618,7 @@ URLが <tt class="docutils literal"><span class="pre">https://</span></tt> 、�
 <h2>全デフォルト設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre>framework:
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre>framework:
     secret:               ~
     http_method_override: true
     trusted_proxies:      []
@@ -673,7 +673,7 @@ URLが <tt class="docutils literal"><span class="pre">https://</span></tt> 、�
         # set to true to throw an exception when a parameter does not match the requirements
         # set to false to disable exceptions when a parameter does not match the requirements (and return null instead)
         # set to null to disable parameter checks against requirements
-        # 'true' is the preferred configuration in development mode, while 'false' or 'null' might be preferred in production
+        # &#39;true&#39; is the preferred configuration in development mode, while &#39;false&#39; or &#39;null&#39; might be preferred in production
         strict_requirements:  true
 
     # session configuration
@@ -740,7 +740,8 @@ URLが <tt class="docutils literal"><span class="pre">https://</span></tt> 、�
     annotations:
         cache:                file
         file_cache_dir:       %kernel.cache_dir%/annotations
-        debug:                %kernel.debug%</pre>
+        debug:                %kernel.debug%
+</pre></div>
 </div>
 </li>
 </ul>

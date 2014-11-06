@@ -150,6 +150,10 @@
 そこで、 Symfony はアプリケーションの設定を3つの部分に分けて考えるようにしています。</p>
 <div class="section" id="id2">
 <h2>インフラに関係する設定<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">インフラに関係する設定オプションは <tt class="docutils literal"><span class="pre">app/config/parameters.yml</span></tt> ファイルに定義しましょう。</p>
+</div>
 <p>デフォルトの <tt class="docutils literal"><span class="pre">parameters.yml</span></tt> ファイルはそうなっており、データベースとメールサーバーの設定を定義しています。</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/parameters.yml</span>
 <span class="l-Scalar-Plain">parameters</span><span class="p-Indicator">:</span>
@@ -174,6 +178,10 @@
 パスワードに関心を持たないのです。</p>
 <div class="section" id="id3">
 <h3>デフォルトのパラメータ<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">アプリケーションの全てのパラメータを <tt class="docutils literal"><span class="pre">app/config/parameters.yml.dist</span></tt> に定義しましょう。</p>
+</div>
 <p>バージョン2.3以降、 Symfony には <tt class="docutils literal"><span class="pre">parameters.yml.dist</span></tt> という設定ファイルが含まれており、アプリケーションの
 設定で使われるデフォルトのパラメーターリストが保存されています。</p>
 <p>新しい設定パラメータを定義したなら、このファイルにもそのパラメータを追加して、バージョン管理に反映させましょう。
@@ -184,6 +192,10 @@
 </div>
 <div class="section" id="id4">
 <h2>アプリケーションに関する設定<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">アプリケーションの振る舞いに関する設定は <tt class="docutils literal"><span class="pre">app/config/config.yml</span></tt> に定義しましょう。</p>
+</div>
 <p><tt class="docutils literal"><span class="pre">config.yml</span></tt> ファイルには、メール通知の送信元や <a class="reference external" href="http://en.wikipedia.org/wiki/Feature_toggle">feature toggles</a> のような、アプリケーションの振る舞いを
 変える設定が含まれます。
 このようなオプション値を <tt class="docutils literal"><span class="pre">parameters.yml</span></tt> ファイルに定義してしまうと、サーバーごとに変える必要はない設定まで
@@ -195,6 +207,10 @@
 <h3>定数か、設定オプションか<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
 <p>アプリケーションの設定をするときに最もありがちなミスは、ページ分割の1ページあたりの件数のような、滅多に
 変更しない値をオプションとして定義することです。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">滅多に変更しないオプションは定数として定義しましょう。</p>
+</div>
 <p>設定オプションを定義する伝統的な方法の結果として、多くの Symfony アプリケーションで下のようなオプションが
 定義されています。ブログホームページに表示する投稿の数を制御するオプション値です。</p>
 <div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
@@ -245,6 +261,10 @@
 </div>
 <div class="section" id="id6">
 <h2>セマンティックな設定（利用してはいけません）<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">バンドルの設定をセマンティックなDI設定として定義しないようにしましょう。</p>
+</div>
 <p><a class="reference external" href="http://symfony.com/doc/current/cookbook/bundles/extension.html">How to Expose a semantic Configuration for a Bundle</a> で説明されているように、 Symfony のバンドルには設定の方法が
 2つあります。 <tt class="docutils literal"><span class="pre">services.yml</span></tt> を使った通常の設定と、特別な <tt class="docutils literal"><span class="pre">*Extension</span></tt> クラスを使ったセマンティックな設定です。</p>
 <p>セマンティックな設定は強力で、設定項目のバリデーションのような役立つ機能もありますが、セマンティック設定を定義する

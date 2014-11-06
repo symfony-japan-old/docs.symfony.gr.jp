@@ -359,7 +359,8 @@
 <p class="first admonition-title">Note</p>
 <p>パラメーターや引数内で文字列の一部にパーセント記号を使っている場合、
 もう一つパーセント記号を追加してエスケープしなければなりません</p>
-<div class="last highlight-xml"><pre>&lt;argument type="string"&gt;http://symfony.com/?foo=%%s&amp;bar=%%d&lt;/argument&gt;</pre>
+<div class="last highlight-xml"><div class="highlight"><pre>&lt;argument type=&quot;string&quot;&gt;http://symfony.com/?foo=%%s&amp;bar=%%d&lt;/argument&gt;
+</pre></div>
 </div>
 </div>
 <p>パラメータを使うと、サービスに対して外から情報を与えることができます。
@@ -405,15 +406,16 @@
 移しましょう。もし <tt class="docutils literal"><span class="pre">Resources</span></tt> や <tt class="docutils literal"><span class="pre">Resources/config</span></tt> ディレクトリが存在していなければ作成して下さい。</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/HelloBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/HelloBundle/Resources/config/services.yml
 parameters:
     my_mailer.class:      Acme\HelloBundle\Mailer
     my_mailer.transport:  sendmail
 
 services:
     my_mailer:
-        class:        "%my_mailer.class%"
-        arguments:    [%my_mailer.transport%]</pre>
+        class:        &quot;%my_mailer.class%&quot;
+        arguments:    [%my_mailer.transport%]
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;</span>
@@ -643,26 +645,27 @@ Symfony2 のコアサービスは読み込まれません。
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
-&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
-&lt;container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;container xmlns=&quot;http://symfony.com/schema/dic/services&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd&quot;&gt;
 
     &lt;parameters&gt;
         &lt;!-- ... --&gt;
-        &lt;parameter key="newsletter_manager.class"&gt;Acme\HelloBundle\Newsletter\NewsletterManager&lt;/parameter&gt;
+        &lt;parameter key=&quot;newsletter_manager.class&quot;&gt;Acme\HelloBundle\Newsletter\NewsletterManager&lt;/parameter&gt;
     &lt;/parameters&gt;
 
     &lt;services&gt;
-        &lt;service id="my_mailer" ...&gt;
+        &lt;service id=&quot;my_mailer&quot; ...&gt;
         &lt;!-- ... --&gt;
         &lt;/service&gt;
-        &lt;service id="newsletter_manager" class="%newsletter_manager.class%"&gt;
-            &lt;argument type="service" id="my_mailer"/&gt;
+        &lt;service id=&quot;newsletter_manager&quot; class=&quot;%newsletter_manager.class%&quot;&gt;
+            &lt;argument type=&quot;service&quot; id=&quot;my_mailer&quot;/&gt;
         &lt;/service&gt;
     &lt;/services&gt;
-&lt;/container&gt;</pre>
+&lt;/container&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Resources/config/services.php</span>
@@ -737,28 +740,29 @@ Symfony2 のコアサービスは読み込まれません。
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
-&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
-&lt;container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;container xmlns=&quot;http://symfony.com/schema/dic/services&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd&quot;&gt;
 
     &lt;parameters&gt;
         &lt;!-- ... --&gt;
-        &lt;parameter key="newsletter_manager.class"&gt;Acme\HelloBundle\Newsletter\NewsletterManager&lt;/parameter&gt;
+        &lt;parameter key=&quot;newsletter_manager.class&quot;&gt;Acme\HelloBundle\Newsletter\NewsletterManager&lt;/parameter&gt;
     &lt;/parameters&gt;
 
     &lt;services&gt;
-        &lt;service id="my_mailer" ...&gt;
+        &lt;service id=&quot;my_mailer&quot; ...&gt;
         &lt;!-- ... --&gt;
         &lt;/service&gt;
-        &lt;service id="newsletter_manager" class="%newsletter_manager.class%"&gt;
-            &lt;call method="setMailer"&gt;
-                &lt;argument type="service" id="my_mailer" /&gt;
+        &lt;service id=&quot;newsletter_manager&quot; class=&quot;%newsletter_manager.class%&quot;&gt;
+            &lt;call method=&quot;setMailer&quot;&gt;
+                &lt;argument type=&quot;service&quot; id=&quot;my_mailer&quot; /&gt;
             &lt;/call&gt;
         &lt;/service&gt;
     &lt;/services&gt;
-&lt;/container&gt;</pre>
+&lt;/container&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Resources/config/services.php</span>
@@ -792,7 +796,7 @@ Symfony2 のコアサービスは読み込まれません。
 <div class="section" id="request">
 <h3>Request オブジェクトの注入<a class="headerlink" href="#request" title="Permalink to this headline">¶</a></h3>
 <div class="versionadded">
-<p><span>New in version 2.4: </span><tt class="docutils literal"><span class="pre">request_stack</span></tt> サービスは Symfony 2.4 から追加されました。</p>
+<p><span class="versionmodified">New in version 2.4: </span><tt class="docutils literal"><span class="pre">request_stack</span></tt> サービスは Symfony 2.4 から追加されました。</p>
 </div>
 <p>Symfony2 組み込みのサービスは、どれもほとんど同じように振る舞います。コンテナにより単一のインスタンスが作成され、get時や他のサービスへの注入時には同一のインスタンスが返されます。
 標準的な Symfony2 アプリケーションで唯一異なるのが、<tt class="docutils literal"><span class="pre">request</span></tt> サービスです。</p>
@@ -829,21 +833,22 @@ Symfony2 のコアサービスは読み込まれません。
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
-&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
-&lt;container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd"&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- src/Acme/HelloBundle/Resources/config/services.xml --&gt;
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;
+&lt;container xmlns=&quot;http://symfony.com/schema/dic/services&quot;
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+    xsi:schemaLocation=&quot;http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd&quot;&gt;
 
     &lt;services&gt;
-        &lt;service id="my_mailer" ...&gt;
+        &lt;service id=&quot;my_mailer&quot; ...&gt;
         &lt;!-- ... --&gt;
         &lt;/service&gt;
-        &lt;service id="newsletter_manager" class="%newsletter_manager.class%"&gt;
-            &lt;argument type="service" id="my_mailer" on-invalid="ignore" /&gt;
+        &lt;service id=&quot;newsletter_manager&quot; class=&quot;%newsletter_manager.class%&quot;&gt;
+            &lt;argument type=&quot;service&quot; id=&quot;my_mailer&quot; on-invalid=&quot;ignore&quot; /&gt;
         &lt;/service&gt;
     &lt;/services&gt;
-&lt;/container&gt;</pre>
+&lt;/container&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/HelloBundle/Resources/config/services.php</span>

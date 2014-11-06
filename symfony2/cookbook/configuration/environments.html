@@ -220,15 +220,16 @@
 </pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;!-- app/config/config_dev.xml --&gt;
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;!-- app/config/config_dev.xml --&gt;
 &lt;imports&gt;
-    &lt;import resource="config.xml" /&gt;
+    &lt;import resource=&quot;config.xml&quot; /&gt;
 &lt;/imports&gt;
 
 &lt;webprofiler:config
-    toolbar="true"
+    toolbar=&quot;true&quot;
     # ...
-/&gt;</pre>
+/&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="c1">// app/config/config_dev.php</span>
@@ -286,13 +287,15 @@ http://localhost/app_dev.php  -&gt; *dev* environment
 <p>内部的には、デバッグモードの値は、サービスコンテナ( <a class="reference internal" href="../../book/service_container.html"><em>service container</em></a>) 内の <tt class="docutils literal"><span class="pre">kernel.debug</span></tt> パラメータになります。アプリケーションのコンフィギュレーションファイルの中を見ると、このパラメータが使われているのを見ることができます。 例えば、次のようにこのパラメータを参照して、Doctrine DBAL を使用した際にログ機能を有効にしています。</p>
 <div class="last configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre>doctrine:
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre>doctrine:
    dbal:
        logging:  %kernel.debug%
-       # ...</pre>
+       # ...
+</pre></div>
 </div>
 </li>
-<li><em>XML</em><div class="highlight-xml"><pre>&lt;doctrine:dbal logging="%kernel.debug%" ... /&gt;</pre>
+<li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre>&lt;doctrine:dbal logging=&quot;%kernel.debug%&quot; ... /&gt;
+</pre></div>
 </div>
 </li>
 <li><em>PHP</em><div class="highlight-php"><div class="highlight"><pre><span class="nv">$container</span><span class="o">-&gt;</span><span class="na">loadFromExtension</span><span class="p">(</span><span class="s1">&#39;doctrine&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>

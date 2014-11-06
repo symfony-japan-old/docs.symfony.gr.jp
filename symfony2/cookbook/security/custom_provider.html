@@ -288,13 +288,14 @@ more details, see <tt class="docutils literal"><a class="reference external" hre
 <p>Now we make the user provider available as service.</p>
 <div class="configuration-block">
 <ul class="simple">
-<li><em>YAML</em><div class="highlight-yaml"><pre># src/Acme/MailerBundle/Resources/config/services.yml
+<li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre># src/Acme/MailerBundle/Resources/config/services.yml
 parameters:
     webservice_user_provider.class: Acme\WebserviceUserBundle\Security\User\WebserviceUserProvider
 
 services:
     webservice_user_provider:
-        class: %webservice_user_provider.class%</pre>
+        class: %webservice_user_provider.class%
+</pre></div>
 </div>
 </li>
 <li><em>XML</em><div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- src/Acme/WebserviceUserBundle/Resources/config/services.xml --&gt;</span>

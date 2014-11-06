@@ -1,0 +1,359 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>設定 | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">
+<a href="/">Home</a> |
+<a href="../index.html">Symfony2Doc</a>
+
+  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">設定</a><ul>
+<li><a class="reference internal" href="#id2">インフラに関係する設定</a><ul>
+<li><a class="reference internal" href="#id3">デフォルトのパラメータ</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id4">アプリケーションに関する設定</a><ul>
+<li><a class="reference internal" href="#id5">定数か、設定オプションか</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id6">セマンティックな設定（利用してはいけません）</a></li>
+<li><a class="reference internal" href="#symfony">センシティブなオプションを完全に Symfony の外に追い出す</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/best_practices/configuration.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/best_practices/configuration.html">原文のページ</a>をご確認ください。</p>
+
+  <div class="section" id="id1">
+<h1>設定<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>設定は、大抵、アプリケーション内の別々の部分（例えば、インフラとユーザー権限のような）と別々の環境
+（開発環境、プロダクション環境）に関連しています。
+そこで、 Symfony はアプリケーションの設定を3つの部分に分けて考えるようにしています。</p>
+<div class="section" id="id2">
+<h2>インフラに関係する設定<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>デフォルトの <tt class="docutils literal"><span class="pre">parameters.yml</span></tt> ファイルはそうなっており、データベースとメールサーバーの設定を定義しています。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/parameters.yml</span>
+<span class="l-Scalar-Plain">parameters</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">database_driver</span><span class="p-Indicator">:</span>   <span class="l-Scalar-Plain">pdo_mysql</span>
+    <span class="l-Scalar-Plain">database_host</span><span class="p-Indicator">:</span>     <span class="l-Scalar-Plain">127.0.0.1</span>
+    <span class="l-Scalar-Plain">database_port</span><span class="p-Indicator">:</span>     <span class="l-Scalar-Plain">~</span>
+    <span class="l-Scalar-Plain">database_name</span><span class="p-Indicator">:</span>     <span class="l-Scalar-Plain">symfony</span>
+    <span class="l-Scalar-Plain">database_user</span><span class="p-Indicator">:</span>     <span class="l-Scalar-Plain">root</span>
+    <span class="l-Scalar-Plain">database_password</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">~</span>
+
+    <span class="l-Scalar-Plain">mailer_transport</span><span class="p-Indicator">:</span>  <span class="l-Scalar-Plain">smtp</span>
+    <span class="l-Scalar-Plain">mailer_host</span><span class="p-Indicator">:</span>       <span class="l-Scalar-Plain">127.0.0.1</span>
+    <span class="l-Scalar-Plain">mailer_user</span><span class="p-Indicator">:</span>       <span class="l-Scalar-Plain">~</span>
+    <span class="l-Scalar-Plain">mailer_password</span><span class="p-Indicator">:</span>   <span class="l-Scalar-Plain">~</span>
+
+    <span class="c1"># ...</span>
+</pre></div>
+</div>
+<p>このオプションは <tt class="docutils literal"><span class="pre">app/config/config.yml</span></tt> では定義されていません。というのも、アプリケーションの振る舞いに
+全く関係がないからです。
+つまり、アプリケーションは、オプションが正しく設定されている限りでは、データベースの場所やユーザー名や
+パスワードに関心を持たないのです。</p>
+<div class="section" id="id3">
+<h3>デフォルトのパラメータ<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>バージョン2.3以降、 Symfony には <tt class="docutils literal"><span class="pre">parameters.yml.dist</span></tt> という設定ファイルが含まれており、アプリケーションの
+設定で使われるデフォルトのパラメーターリストが保存されています。</p>
+<p>新しい設定パラメータを定義したなら、このファイルにもそのパラメータを追加して、バージョン管理に反映させましょう。
+開発者がプロジェクトをアップデートした時やサーバーにデプロイした時に、 デフォルトの <tt class="docutils literal"><span class="pre">parameters.yml.dist</span></tt> と
+ローカルの <tt class="docutils literal"><span class="pre">parameters.yml</span></tt> の差分の有無を Symfony が自動的に調べます。
+もし差分があれば、 Symfony は新しいパラメータの値を尋ね、その値を <tt class="docutils literal"><span class="pre">parameters.yml</span></tt> に追記します。</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>アプリケーションに関する設定<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">config.yml</span></tt> ファイルには、メール通知の送信元や <a class="reference external" href="http://en.wikipedia.org/wiki/Feature_toggle">feature toggles</a> のような、アプリケーションの振る舞いを
+変える設定が含まれます。
+このようなオプション値を <tt class="docutils literal"><span class="pre">parameters.yml</span></tt> ファイルに定義してしまうと、サーバーごとに変える必要はない設定まで
+サーバーごとに設定しなかればならなくなります。</p>
+<p><tt class="docutils literal"><span class="pre">config.yml</span></tt> に定義されている設定オプションは、大抵、 <a class="reference external" href="http://symfony.com/doc/current/cookbook/configuration/environments.html">execution environment</a> によって変わります。
+そこで、 Symfony には <tt class="docutils literal"><span class="pre">app/config/config_dev.yml</span></tt> と <tt class="docutils literal"><span class="pre">app/config/config_prod.yml</span></tt> があり、環境ごとに
+別の値を設定できるようになっているのです。</p>
+<div class="section" id="id5">
+<h3>定数か、設定オプションか<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>アプリケーションの設定をするときに最もありがちなミスは、ページ分割の1ページあたりの件数のような、滅多に
+変更しない値をオプションとして定義することです。</p>
+<p>設定オプションを定義する伝統的な方法の結果として、多くの Symfony アプリケーションで下のようなオプションが
+定義されています。ブログホームページに表示する投稿の数を制御するオプション値です。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">parameters</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">homepage.num_items</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">10</span>
+</pre></div>
+</div>
+<p>この類いのオプションを最後に変更したのはいつだったか自問してみると、おそらく <em>一度も変更したことがない</em> という
+答えが出るでしょう。変更しない設定を設定オプションにするのは無駄です。このような値は定数として定義するのが良い
+でしょう。
+例えば、 <tt class="docutils literal"><span class="pre">Post</span></tt> エンティティの <tt class="docutils literal"><span class="pre">NUM_ITEMS</span></tt> 定数として定義するのです。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/AppBundle/Entity/Post.php</span>
+<span class="k">namespace</span> <span class="nx">AppBundle\Entity</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Post</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="no">NUM_ITEMS</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>定数として定義する方式の主なメリットは、値をアプリケーション内のどこでも利用できることです。パラメータとして
+定義してしまうと、 Symfony のDIコンテナにアクセスできる場所でしか値を利用できませんでした。</p>
+<p>例えば、定数は <tt class="docutils literal"><span class="pre">constant()</span></tt> ヘルパーを利用して Twig テンプレートの中でも使うことができます、</p>
+<div class="highlight-html+jinja"><div class="highlight"><pre><span class="nt">&lt;p&gt;</span>
+    最新の投稿から <span class="cp">{{</span> <span class="nv">constant</span><span class="o">(</span><span class="s1">&#39;NUM_ITEMS&#39;</span><span class="o">,</span> <span class="nv">post</span><span class="o">)</span> <span class="cp">}}</span> 件表示しています。
+<span class="nt">&lt;/p&gt;</span>
+</pre></div>
+</div>
+<p>コンテナのパラメータを取得できない Doctrine のエンティティやレポジトリからも値を利用できます。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">AppBundle\Repository</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Doctrine\ORM\EntityRepository</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">AppBundle\Entity\Post</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">PostRepository</span> <span class="k">extends</span> <span class="nx">EntityRepository</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">findLatest</span><span class="p">(</span><span class="nv">$limit</span> <span class="o">=</span> <span class="nx">Post</span><span class="o">::</span><span class="na">NUM_ITEMS</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>定数で設定を定義することの唯一の弱点として、テストの時に簡単に値を上書きすることができないので、注意してください。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>セマンティックな設定（利用してはいけません）<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://symfony.com/doc/current/cookbook/bundles/extension.html">How to Expose a semantic Configuration for a Bundle</a> で説明されているように、 Symfony のバンドルには設定の方法が
+2つあります。 <tt class="docutils literal"><span class="pre">services.yml</span></tt> を使った通常の設定と、特別な <tt class="docutils literal"><span class="pre">*Extension</span></tt> クラスを使ったセマンティックな設定です。</p>
+<p>セマンティックな設定は強力で、設定項目のバリデーションのような役立つ機能もありますが、セマンティック設定を定義する
+のにかかる作業が多すぎて、サードパーティのバンドルとして再利用されないバンドルを作る場合には釣り合いが取れないのです。</p>
+</div>
+<div class="section" id="symfony">
+<h2>センシティブなオプションを完全に Symfony の外に追い出す<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h2>
+<p>データベースの接続情報のようなセンシティブなオプションを設定するときには、 Symfony のプロジェクトの外部に保存し、
+環境変数を利用して読み込む方式も推奨します。
+この方式をどのようにして実現するのかについては、 <a class="reference external" href="http://symfony.com/doc/current/cookbook/configuration/external_parameters.html">How to Set external Parameters in the Service Container</a> を
+参照してください。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/best_practices/configuration.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/best_practices/configuration.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/best_practices/configuration.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

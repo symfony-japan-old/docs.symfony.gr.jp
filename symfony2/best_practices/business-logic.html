@@ -1,0 +1,507 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>アプリケーションのビジネスロジックを整理する | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">
+<a href="/">Home</a> |
+<a href="../index.html">Symfony2Doc</a>
+
+  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">アプリケーションのビジネスロジックを整理する</a><ul>
+<li><a class="reference internal" href="#id2">クラスをバンドルの外に置く</a></li>
+<li><a class="reference internal" href="#id3">サービス：名付けと形式</a></li>
+<li><a class="reference internal" href="#yaml">サービス定義：YAML形式</a></li>
+<li><a class="reference internal" href="#id4">サービス定義：クラス名をパラメータにしない</a></li>
+<li><a class="reference internal" href="#id5">永続化レイヤーを利用する</a><ul>
+<li><a class="reference internal" href="#doctrine">Doctrine のマッピング</a></li>
+<li><a class="reference internal" href="#id6">データフィクスチャー</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id7">コーディング規約</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/best_practices/business-logic.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/best_practices/business-logic.html">原文のページ</a>をご確認ください。</p>
+
+  <div class="section" id="id1">
+<h1>アプリケーションのビジネスロジックを整理する<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>コンピュータのソフトウェアの世界では、データがどのように作られ、表示され、保存され、変更されるかを決める
+現実世界のビジネスルールを実装したプログラムを  <strong>ビジネスロジック</strong> あるいはドメインロジックと呼びます。
+（ <a class="reference external" href="http://en.wikipedia.org/wiki/Business_logic">完全な定義</a> を読む）</p>
+<p>Symfony のアプリケーションでは、ビジネスロジックは、フレームワーク（例えばルーティングやコントローラの
+ような）に依存せず、自由に書くことができます。
+サービスとして使われる、ドメインのクラス・ Doctrine のエンティティ・通常の PHP のクラスは、ビジネスロジック
+の一例です。</p>
+<p>ほとんどのプロジェクトにおいて、開発者は全てを <tt class="docutils literal"><span class="pre">AppBundle</span></tt> に置くべきです。AppBundleの中では、ビジネス
+ロジックを整理するための、どんなディレクトリでも作ることができます。</p>
+<div class="highlight-text"><div class="highlight"><pre>symfoy2-project/
+├─ app/
+├─ src/
+│  └─ AppBundle/
+│     └─ Utils/
+│        └─ MyClass.php
+├─ vendor/
+└─ web/
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h2>クラスをバンドルの外に置く<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>しかし、ビジネスロジックをバンドルの中に入れておく技術的な理由は何もありません。 <tt class="docutils literal"><span class="pre">src</span></tt> ディレクトリの
+下に好きな名前空間を定義して、クラスをそこに置くこともできます。</p>
+<div class="highlight-text"><div class="highlight"><pre>symfoy2-project/
+├─ app/
+├─ src/
+│  ├─ Acme/
+│  │   └─ Utils/
+│  │      └─ MyClass.php
+│  └─ AppBundle/
+├─ vendor/
+└─ web/
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last"><tt class="docutils literal"><span class="pre">AppBundle</span></tt> を使うことをお勧めするのは簡単さのためです。バンドルの中に必要なものと
+バンドルの外でも問題ないものがよく理解できている場合は、クラスを <tt class="docutils literal"><span class="pre">AppBundle</span></tt> の外に
+置いても構いません。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>サービス：名付けと形式<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>ブログアプリケーションに、 &#8220;Hello World&#8221; のような投稿タイトルを &#8220;hello-world&#8221; のようなスラグに変換する
+ユーティリティが必要だとします。スラグは、投稿のURLの一部として使われます。</p>
+<p>新しい <tt class="docutils literal"><span class="pre">Slugger</span></tt> クラスを <tt class="docutils literal"><span class="pre">src/AppBundle/Utils/</span></tt> ディレクトリの配下に作り、下記のような <tt class="docutils literal"><span class="pre">slugify()</span></tt>
+メソッドを実装してみましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/AppBundle/Utils/Slugger.php</span>
+<span class="k">namespace</span> <span class="nx">AppBundle\Utils</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Slugger</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">slugify</span><span class="p">(</span><span class="nv">$string</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">return</span> <span class="nb">preg_replace</span><span class="p">(</span>
+            <span class="s1">&#39;/[^a-z0-9]/&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="nx">strtolower</span><span class="p">(</span><span class="nx">trim</span><span class="p">(</span><span class="nb">strip_tags</span><span class="p">(</span><span class="nv">$string</span><span class="p">)))</span>
+        <span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>次に、このクラスのための新しいサービスを定義します。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/services.yml</span>
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="c1"># サービス名は短くしましょう</span>
+    <span class="l-Scalar-Plain">slugger</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AppBundle\Utils\Slugger</span>
+</pre></div>
+</div>
+<p>伝統的に、サービスの名前は、衝突を避けるためにクラス名とクラスの場所を組み合わせたものでした。
+そうすると、このサービスは <tt class="docutils literal"><span class="pre">app.utils.slugger</span></tt> と呼ばれる <em>はず</em> です。しかし、短い名前を使うことで、
+コードの読みやすさと使いやすさは向上するでしょう。</p>
+<p>これで <tt class="docutils literal"><span class="pre">AdminController</span></tt> のようなどんなコントローラーからでも slugger を利用できるようになりました。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">createAction</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// ...</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isSubmitted</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
+        <span class="nv">$slug</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;slugger&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">slugify</span><span class="p">(</span><span class="nv">$post</span><span class="o">-&gt;</span><span class="na">getTitle</span><span class="p">()));</span>
+        <span class="nv">$post</span><span class="o">-&gt;</span><span class="na">setSlug</span><span class="p">(</span><span class="nv">$slug</span><span class="p">);</span>
+
+        <span class="c1">// ...</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="yaml">
+<h2>サービス定義：YAML形式<a class="headerlink" href="#yaml" title="Permalink to this headline">¶</a></h2>
+<p>前のセクションでは、 YAML がサービスを定義するのに使われていました。</p>
+<p>これには異論があるでしょうが、経験上、開発者の間では YAML と XML が半々で使われており、ほんの少し YAML
+のほうが好まれています。
+どちらの形式も機能は同じなので、どこまでも個人の好みの問題です。</p>
+<p>新人にもわかりやすく、シンプルな YAML をお勧めしますが、好きな形式を使って構いません。</p>
+</div>
+<div class="section" id="id4">
+<h2>サービス定義：クラス名をパラメータにしない<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>前の例で、サービスを定義するとき、クラス名をパラメータとして定義していないことにお気付きかもしれません。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/services.yml</span>
+
+<span class="c1"># クラス名をパラメータにしてサービスを定義</span>
+<span class="l-Scalar-Plain">parameters</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">slugger.class</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">AppBundle\Utils\Slugger</span>
+
+<span class="l-Scalar-Plain">services</span><span class="p-Indicator">:</span>
+    <span class="l-Scalar-Plain">slugger</span><span class="p-Indicator">:</span>
+        <span class="l-Scalar-Plain">class</span><span class="p-Indicator">:</span> <span class="s">&quot;%slugger.class%&quot;</span>
+</pre></div>
+</div>
+<p>この使い方は煩雑で、アプリケーションのサービスには全く必要ありません。</p>
+<p>この使い方はサードパーティのバンドルから誤って取り入れられたものです。 Symfony がサービスコンテナ機能を
+実装したとき、開発者の中にはこのテクニックによってサービスを上書きできるようにした人もいました。
+しかし、クラス名を変更しただけでサービスを上書きするのは非常に稀なユースケースです。というのも、大抵の場合、
+新しいサービスには、上書きされるサービスとは違うコンストラクタ引数があるからです。</p>
+</div>
+<div class="section" id="id5">
+<h2>永続化レイヤーを利用する<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>Symfony は、 各 HTTP リクエストに対する HTTP レスポンスを作ることだけを担当する HTTP のフレームワークです。
+そのため、 Symfony は永続化レイヤー（データベースや外部API）にアクセスする方法を提供していません。開発者は
+好きなライブラリやデータ保存方法を選ぶことができます。</p>
+<p>実際には、 Symfony アプリケーションの多くは <a class="reference external" href="http://www.doctrine-project.org/">Doctrine</a> に依存しており、エンティティやレポジトリを
+使ってモデルを定義しています。
+ビジネスロジックと同じく、 Doctrine のエンティティも <tt class="docutils literal"><span class="pre">AppBundle</span></tt> に配置すると良いでしょう。</p>
+<p>一例として、サンプルのブログアプリケーションで定義した3つのエンティティがあります。</p>
+<div class="highlight-text"><div class="highlight"><pre>symfony2-project/
+├─ ...
+└─ src/
+   └─ AppBundle/
+      └─ Entity/
+         ├─ Comment.php
+         ├─ Post.php
+         └─ User.php
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">もちろん、独自の名前空間で <tt class="docutils literal"><span class="pre">src/</span></tt> の直下にエンティティを置くこともできます。</p>
+</div>
+<div class="section" id="doctrine">
+<h3>Doctrine のマッピング<a class="headerlink" href="#doctrine" title="Permalink to this headline">¶</a></h3>
+<p>Doctrine のエンティティは、データベースに保存することができるプレーンな PHP オブジェクトです。
+Doctrine は、クラスに対して定義されたマッピングメタデータによってエンティティを扱います。マッピングメタデータ
+を定義するには YAML, XML, PHP, アノテーション形式が利用できます。</p>
+<p>アノテーションは、マッピングを定義したり探したりするのに、現在のところ最も便利で素早く使える形式です。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">namespace</span> <span class="nx">AppBundle\Entity</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Doctrine\ORM\Mapping</span> <span class="k">as</span> <span class="nx">ORM</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Doctrine\Common\Collections\ArrayCollection</span><span class="p">;</span>
+
+<span class="sd">/**</span>
+<span class="sd"> * @ORM\Entity</span>
+<span class="sd"> */</span>
+<span class="k">class</span> <span class="nc">Post</span>
+<span class="p">{</span>
+    <span class="k">const</span> <span class="no">NUM_ITEMS</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Id</span>
+<span class="sd">     * @ORM\GeneratedValue</span>
+<span class="sd">     * @ORM\Column(type=&quot;integer&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$id</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;string&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$title</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;string&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$slug</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;text&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$content</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;string&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$authorEmail</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\Column(type=&quot;datetime&quot;)</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$publishedAt</span><span class="p">;</span>
+
+    <span class="sd">/**</span>
+<span class="sd">     * @ORM\OneToMany(</span>
+<span class="sd">     *      targetEntity=&quot;Comment&quot;,</span>
+<span class="sd">     *      mappedBy=&quot;post&quot;,</span>
+<span class="sd">     *      orphanRemoval=true</span>
+<span class="sd">     * )</span>
+<span class="sd">     * @ORM\OrderBy({&quot;publishedAt&quot; = &quot;ASC&quot;})</span>
+<span class="sd">     */</span>
+    <span class="k">private</span> <span class="nv">$comments</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">publishedAt</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">\DateTime</span><span class="p">();</span>
+        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">comments</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">ArrayCollection</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// getters and setters ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>全てのメタデータ定義形式に同じ機能があり、何度も書いたようにどの形式を使うかは開発者の自由です。</p>
+</div>
+<div class="section" id="id6">
+<h3>データフィクスチャー<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>Symfony にはデフォルトではデータフィクスチャー機能は存在しないため、フィクスチャーを扱うためには下記のコマンドを
+実行して DoctrineFixturesBundle をインストールする必要があります。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>composer require <span class="s2">&quot;doctrine/doctrine-fixtures-bundle&quot;</span>
+</pre></div>
+</div>
+<p>バンドルを <tt class="docutils literal"><span class="pre">AppKernel.php</span></tt> で有効化します。その際、 <tt class="docutils literal"><span class="pre">dev</span></tt> 環境と <tt class="docutils literal"><span class="pre">test</span></tt> 環境だけにしてください。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">use</span> <span class="nx">Symfony\Component\HttpKernel\Kernel</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">AppKernel</span> <span class="k">extends</span> <span class="nx">Kernel</span>
+<span class="p">{</span>
+    <span class="k">public</span> <span class="k">function</span> <span class="nf">registerBundles</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="nv">$bundles</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+            <span class="c1">// ...</span>
+        <span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">in_array</span><span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">getEnvironment</span><span class="p">(),</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;dev&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">)))</span> <span class="p">{</span>
+            <span class="c1">// ...</span>
+            <span class="nv">$bundles</span><span class="p">[]</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle</span><span class="p">(),</span>
+        <span class="p">}</span>
+
+        <span class="k">return</span> <span class="nv">$bundles</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>単純さを保つために、 <a class="reference external" href="http://symfony.com/doc/master/bundles/DoctrineFixturesBundle/index.html#writing-simple-fixtures">フィクスチャークラス</a> は <em>1つ</em> だけ作ることをおすすめします。クラスが大きくなりすぎる
+場合はもっとたくさんのフィクスチャークラスを作っても構いません。</p>
+<p>少なくとも1つのフィクスチャークラスがあり、データベースへのログイン情報が正しく設定されているのを確認したら、
+下記のコマンドを実行するとフィクスチャーを読み込ませることができます。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>php app/console doctrine:fixtures:load
+
+Careful, database will be purged. Do you want to <span class="k">continue </span>Y/N ? Y
+  &gt; purging database
+  &gt; loading AppBundle<span class="se">\D</span>ataFixtures<span class="se">\O</span>RM<span class="se">\L</span>oadFixtures
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>コーディング規約<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>Symfonh のソースコードは、 PHP コミュニティで定められた <a class="reference external" href="http://www.php-fig.org/psr/psr-1/">PSR-1</a> と <a href="#id11"><span class="problematic" id="id12">`PRS-2`_</span></a> のコーディング規約に
+従っています。詳しくは <a class="reference external" href="http://symfony.com/doc/current/contributing/code/standards.html">Symfonyのコーディング規約</a> を読んでください。
+または、<a class="reference external" href="https://github.com/fabpot/PHP-CS-Fixer">PHP-CS-Fixer</a> コマンドを使うこともできます。PHP-CS-Fixerはコードベース全体のコーディング規約を
+ほんのの数秒で修正することができるコマンドラインツールです。</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/best_practices/business-logic.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/best_practices/business-logic.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/best_practices/business-logic.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

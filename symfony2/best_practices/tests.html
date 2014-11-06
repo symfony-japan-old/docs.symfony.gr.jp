@@ -1,0 +1,304 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>テスト | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../static/jquery.js"></script>
+    <script type="text/javascript" src="../static/underscore.js"></script>
+    <script type="text/javascript" src="../static/doctools.js"></script>
+      <script type="text/javascript" src="../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">
+<a href="/">Home</a> |
+<a href="../index.html">Symfony2Doc</a>
+
+  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">テスト</a><ul>
+<li><a class="reference internal" href="#id2">ユニットテスト</a></li>
+<li><a class="reference internal" href="#id3">機能テスト</a><ul>
+<li><a class="reference internal" href="#url">機能テスト内のハードコードされたURL</a></li>
+<li><a class="reference internal" href="#javascript">JavaScriptの機能テスト</a></li>
+<li><a class="reference internal" href="#id4">機能テストについてさらに学ぶ</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../sources/best_practices/tests.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../book/installation.html">インストール方法</a></li>
+              <li><a href="../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/best_practices/tests.html">原文のページ</a>をご確認ください。</p>
+
+  <div class="section" id="id1">
+<h1>テスト<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>大まかに言うと、テストには2つの種類が存在します。ユニットテストは、特定の関数の入力と出力をテストすることができます。機能テストは、あなたが閲覧するサイト上のページに対して &#8220;ブラウザ&#8221; を制御し、リンクをクリックしたり、フォームに記入を行ったり、ページ上の特定の物事を確認することができます。</p>
+<div class="section" id="id2">
+<h2>ユニットテスト<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>ユニットテストは、Symfonyから独立したクラス内に存在すべき、あなたの &#8220;ビジネスロジック&#8221; をテストするために使用されます。この理由により、Symfonyは実際のところ、ユニットテストのためにあなたがどのツールを使用するかについて意見を持ちません。しかしながら、最もポピュラーなツールは <a class="reference external" href="https://phpunit.de/">PhpUnit</a> と <a class="reference external" href="http://www.phpspec.net/">PhpSpec</a> です。</p>
+</div>
+<div class="section" id="id3">
+<h2>機能テスト<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>真に優れた機能テストを作成することは困難であるため、一部の開発者は完全にこれを省略します。機能テストを省略しないでください！いくつかの <em>シンプルな</em> 機能テストを定義することで、いかなる大きなエラーであれ、それらをデプロイしてしまう前にすばやく発見できます。</p>
+<p>機能テストは以下の例のように簡単です:</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="sd">/** @dataProvider provideUrls */</span>
+<span class="k">public</span> <span class="k">function</span> <span class="nf">testPageIsSuccessful</span><span class="p">(</span><span class="nv">$url</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$client</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">createClient</span><span class="p">();</span>
+    <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+
+    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertTrue</span><span class="p">(</span><span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getResponse</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">isSuccessful</span><span class="p">());</span>
+<span class="p">}</span>
+
+<span class="k">public</span> <span class="k">function</span> <span class="nf">provideUrls</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="k">array</span><span class="p">(</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;/posts&#39;</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;/post/fixture-post-1&#39;</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;/blog/category/fixture-category&#39;</span><span class="p">),</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;/archives&#39;</span><span class="p">),</span>
+        <span class="c1">// ...</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>このコードは全ての与えられたURLが正しくロードできることをチェックし、それは各HTTPレスポンスのステータスコードが <tt class="docutils literal"><span class="pre">200</span></tt> から <tt class="docutils literal"><span class="pre">299</span></tt> の間であることを意味します。
+これは有用に見えないかもしれませんが、かかる労力がいかに少ないかを考慮すると、あなたのアプリケーションで行う価値があります。</p>
+<p>コンピュータソフトウェアにおいて、この種のテストは <a class="reference external" href="http://en.wikipedia.org/wiki/Smoke_testing_(software)">smoke testing</a> と呼ばれ、 <em>「将来のソフトウェアリリースを退けるほど深刻な、単純な失敗を発見にするための予備的なテスト」</em> で構成されます。</p>
+<div class="section" id="url">
+<h3>機能テスト内のハードコードされたURL<a class="headerlink" href="#url" title="Permalink to this headline">¶</a></h3>
+<p>皆さんのうち一部の方は何故、上記の機能テストがURLジェネレータサービスを使用していないのかを尋ねるかもしれません：</p>
+<p>テストページのURLを生成するために <tt class="docutils literal"><span class="pre">router</span></tt> サービスを使用した、以下の機能テストについて考えてみましょう。</p>
+<div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">testBlogArchives</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="nv">$client</span> <span class="o">=</span> <span class="nx">self</span><span class="o">::</span><span class="na">createClient</span><span class="p">();</span>
+    <span class="nv">$url</span> <span class="o">=</span> <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">getContainer</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;router&#39;</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">generate</span><span class="p">(</span><span class="s1">&#39;blog_archives&#39;</span><span class="p">);</span>
+    <span class="nv">$client</span><span class="o">-&gt;</span><span class="na">request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>これは動作するでしょうが、一つ大きな欠点があります。もし開発者が <tt class="docutils literal"><span class="pre">blog_archives</span></tt> ルートのパスを誤って変更した場合、テストは未だ成功しますが、元の（古い）URLは動作しなくなるでしょう！これは、そのURLに対する全てのブックマークが壊れ、あなたが全ての検索エンジンのページランキングを失うことを意味します。</p>
+</div>
+<div class="section" id="javascript">
+<h3>JavaScriptの機能テスト<a class="headerlink" href="#javascript" title="Permalink to this headline">¶</a></h3>
+<p>組み込みの機能テストクライアントは素晴らしいですが、それをあなたのページで、任意のJavaScriptの振る舞いをテストするために使用することはできません。もしあなたがこのテストを行う必要がある場合、PHPUnitの内部から、 <a class="reference external" href="http://mink.behat.org">Mink</a> ライブラリを使用することを検討してください。</p>
+<p>もちろん、もしもあなたが大規模なJavaScriptフロントエンドを使用している場合、純粋なJavaScriptベースのテストツールを検討すべきです。</p>
+</div>
+<div class="section" id="id4">
+<h3>機能テストについてさらに学ぶ<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://github.com/fzaninotto/Faker">Faker</a> と <a class="reference external" href="https://github.com/nelmio/alice">Alice</a> ライブラリを使用して、あなたのテストフィクスチャのため実運用に近いデータを生成することを検討してください。</p>
+</div>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/best_practices/tests.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/best_practices/tests.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/best_practices/tests.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../index.html">トップ（索引）</a></li>
+          <li><a href="../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../book/index.html">ガイドブック</a></li>
+          <li><a href="../cookbook/index.html">クックブック</a></li>
+          <li><a href="../components/index.html">コンポーネント</a></li>
+          <li><a href="../reference/index.html">リファレンス</a></li>
+          <li><a href="../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

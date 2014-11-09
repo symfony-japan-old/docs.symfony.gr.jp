@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Symfony 公式ベストプラクティス | Symfony2日本語ドキュメント</title>
+    <title>国際化 | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
@@ -60,7 +60,7 @@
           <li><a href="../index.html">トップ（索引）</a></li>
           <li><a href="../quick_tour/index.html">クイックツアー</a></li>
           <li><a href="../book/index.html">ガイドブック</a></li>
-          <li><a href="#">ベストプラクティス</a></li>
+          <li><a href="index.html">ベストプラクティス</a></li>
           <li><a href="../cookbook/index.html">クックブック</a></li>
           <li><a href="../components/index.html">コンポーネント</a></li>
           <li><a href="../reference/index.html">リファレンス</a></li>
@@ -75,9 +75,20 @@
   
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">国際化</a><ul>
+<li><a class="reference internal" href="#id2">翻訳ソースのファイルフォーマット</a></li>
+<li><a class="reference internal" href="#id3">翻訳ソースファイルの配置</a></li>
+<li><a class="reference internal" href="#id4">翻訳キー</a></li>
+<li><a class="reference internal" href="#id5">翻訳ファイルのサンプル</a></li>
+</ul>
+</li>
+</ul>
+
   <h3>ソース</h3>
   <ul class="this-page-menu">
-    <li><a href="../sources/best_practices/index.txt"
+    <li><a href="../sources/best_practices/i18n.txt"
            rel="nofollow">ページのソースを表示</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -124,23 +135,88 @@
           <div class="body">
             
 
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/best_practices/index.html">原文のページ</a>をご確認ください。</p>
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/best_practices/i18n.html">原文のページ</a>をご確認ください。</p>
 
-  <div class="section" id="symfony">
-<h1>Symfony 公式ベストプラクティス<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Symfony のベストプラクティス</a></li>
-<li class="toctree-l1"><a class="reference internal" href="creating-the-project.html">プロジェクトの作成</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">設定</a></li>
-<li class="toctree-l1"><a class="reference internal" href="business-logic.html">アプリケーションのビジネスロジックを整理する</a></li>
-<li class="toctree-l1"><a class="reference internal" href="templates.html">テンプレート</a></li>
-<li class="toctree-l1"><a class="reference internal" href="forms.html">フォーム</a></li>
-<li class="toctree-l1"><a class="reference internal" href="i18n.html">国際化</a></li>
-<li class="toctree-l1"><a class="reference internal" href="security.html">セキュリティ</a></li>
-<li class="toctree-l1"><a class="reference internal" href="web-assets.html">Webアセット</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tests.html">テスト</a></li>
-</ul>
+  <div class="section" id="id1">
+<h1>国際化<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>国際化と地域化とは、アプリケーションやコンテンツを特定の地域やユーザーの言語に
+対応させることです。Symfonyでは国際化機能を利用する前に事前に有効化する必要があります。</p>
+<div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
+<span class="l-Scalar-Plain">framework</span><span class="p-Indicator">:</span>
+    <span class="c1"># ...</span>
+    <span class="l-Scalar-Plain">translator</span><span class="p-Indicator">:</span> <span class="p-Indicator">{</span> <span class="nv">fallback</span><span class="p-Indicator">:</span> <span class="s">&quot;%locale%&quot;</span> <span class="p-Indicator">}</span>
+
+<span class="c1"># app/config/parameters.yml</span>
+<span class="l-Scalar-Plain">parameters</span><span class="p-Indicator">:</span>
+    <span class="c1"># ...</span>
+    <span class="l-Scalar-Plain">locale</span><span class="p-Indicator">:</span>     <span class="l-Scalar-Plain">en</span>
+</pre></div>
+</div>
+<div class="section" id="id2">
+<h2>翻訳ソースのファイルフォーマット<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>SymfonyのTranslationコンポーネントは多くの翻訳フォーマットをサポートしています。
+対応フォーマットには、PHP, Qt,  <tt class="docutils literal"><span class="pre">.po</span></tt>, <tt class="docutils literal"><span class="pre">.mo</span></tt>, JSON, CSV, INI, などがあります。</p>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">翻訳ファイルにはXLIFFフォーマットを使用しましょう。</p>
+</div>
+<p>全ての利用可能なフォーマットの中で、XLIFFとgettextだけがプロの翻訳者が利用する
+ツールで幅広く支持されています。また、XLIFFはXMLベースのフォーマットなので、
+翻訳したファイルに構文のミスがないか確認することもできます。</p>
+<p>Symfony 2.6 で XLIFF ファイルの&lt;note&gt;タグのサポートが追加され、翻訳者にとって
+使いやすいものになりました。 XLIFFの&lt;note&gt;タグを利用することで、文脈を定義する
+ことができ、ついに、文脈に応じた翻訳ができるようになりました。</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">Apacheライセンスの <a class="reference external" href="https://github.com/schmittjoh/JMSTranslationBundle">JMSTranslationBundle</a> を使うとWebインターフェース上で
+翻訳ファイルの閲覧と編集を行うことができます。このバンドルにはプロジェクト
+を読み取り自動でXLIFFファイルを更新する優れた抽出機能があります。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>翻訳ソースファイルの配置<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">翻訳ファイルは <tt class="docutils literal"><span class="pre">app/Resources/translations/</span></tt> ディレクトリに置きましょう。</p>
+</div>
+<p>慣習的に、Symfony開発者達は翻訳ファイルをそれぞれのバンドルの <tt class="docutils literal"><span class="pre">Resources/translations/</span></tt>
+ディレクトリに保存してしてきました。</p>
+<p>一方で、Symfony には、アプリケーションリソースのグローバルロケーションとして
+<tt class="docutils literal"><span class="pre">app/Resource</span></tt> ディレクトリがあります。
+翻訳ファイルを <tt class="docutils literal"><span class="pre">app/Resources/translations/</span></tt> に保存すれば、
+他の翻訳ファイルより優先させることができます。
+こうすることでサードパーティのバンドルの翻訳を上書きすることができます。</p>
+</div>
+<div class="section" id="id4">
+<h2>翻訳キー<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<div class="admonition-best-practice admonition best-practice">
+<p class="first admonition-title">Best Practice</p>
+<p class="last">常に翻訳ではコンテンツの文字列の代わりにキーを使うようにしましょう。</p>
+</div>
+<p>キーを利用すれば、全ての翻訳ファイルを変更することなく元のコンテンツを変更することが
+できるので翻訳ファイルの管理が容易になります。</p>
+<p>キーはその位置ではなく、目的を表すべきです。例えば、&#8221;Username&#8221; というフィールド
+を持ったフォームがあるとします。その場合によいキーは <tt class="docutils literal"><span class="pre">label.username</span></tt> です。
+決して <tt class="docutils literal"><span class="pre">edit_form.label.username</span></tt> ではありません</p>
+</div>
+<div class="section" id="id5">
+<h2>翻訳ファイルのサンプル<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h2>
+<p>これまで述べてきた全てのベストプラクティスを適用すると、アプリケーションにおける
+英語用の翻訳サンプルは次のようになります。</p>
+<div class="highlight-xml"><div class="highlight"><pre><span class="c">&lt;!-- app/Resources/translations/messages.en.xliff --&gt;</span>
+<span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;xliff</span> <span class="na">version=</span><span class="s">&quot;1.2&quot;</span> <span class="na">xmlns=</span><span class="s">&quot;urn:oasis:names:tc:xliff:document:1.2&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;file</span> <span class="na">source-language=</span><span class="s">&quot;en&quot;</span> <span class="na">target-language=</span><span class="s">&quot;en&quot;</span> <span class="na">datatype=</span><span class="s">&quot;plaintext&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;body&gt;</span>
+            <span class="nt">&lt;trans-unit</span> <span class="na">id=</span><span class="s">&quot;1&quot;</span><span class="nt">&gt;</span>
+                <span class="nt">&lt;source&gt;</span>title.post_list<span class="nt">&lt;/source&gt;</span>
+                <span class="nt">&lt;target&gt;</span>Post List<span class="nt">&lt;/target&gt;</span>
+            <span class="nt">&lt;/trans-unit&gt;</span>
+        <span class="nt">&lt;/body&gt;</span>
+    <span class="nt">&lt;/file&gt;</span>
+<span class="nt">&lt;/xliff&gt;</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -150,9 +226,9 @@
 
 <div class="common_content_footer">
 <ul>
-  <li> → <a href="http://symfony.com/doc/current/best_practices/index.html">公式英語ドキュメント</a></li>
-  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/best_practices/index.rst">原文コミット履歴</a>
-  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/best_practices/index.rst">翻訳コミット履歴</a>
+  <li> → <a href="http://symfony.com/doc/current/best_practices/i18n.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/best_practices/i18n.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/best_practices/i18n.rst">翻訳コミット履歴</a>
 </ul>
 <br />
 翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
@@ -206,7 +282,7 @@
           <li><a href="../index.html">トップ（索引）</a></li>
           <li><a href="../quick_tour/index.html">クイックツアー</a></li>
           <li><a href="../book/index.html">ガイドブック</a></li>
-          <li><a href="#">ベストプラクティス</a></li>
+          <li><a href="index.html">ベストプラクティス</a></li>
           <li><a href="../cookbook/index.html">クックブック</a></li>
           <li><a href="../components/index.html">コンポーネント</a></li>
           <li><a href="../reference/index.html">リファレンス</a></li>

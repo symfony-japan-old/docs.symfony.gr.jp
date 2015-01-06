@@ -42,6 +42,7 @@ Postモデル用のフォームの作成
 .. code-block:: php
 
     // src/My/BlogBundle/Controller/DefaultController.php
+    use Symfony\Component\HttpFoundation\Request;
     use My\BlogBundle\Entity\Post;
     // ...
 

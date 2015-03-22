@@ -1,0 +1,343 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>サードパーティ製のバンドルを使用する | Symfony2日本語ドキュメント</title>
+    <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../static/jquery.js"></script>
+    <script type="text/javascript" src="../../static/underscore.js"></script>
+    <script type="text/javascript" src="../../static/doctools.js"></script>
+      <script type="text/javascript" src="../../static/js/jquery.corner.js"></script>
+      <script type="text/javascript" src="../../static/configurationblock.js"></script>
+      <script type="text/javascript">
+      $(function(){
+          $('.section h1').corner();
+          $('.highlight-python pre').corner();
+          $('.highlight-yml pre').corner();
+          $('.highlight').corner();
+      });
+      </script>
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+  </head>
+  <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=47270766548";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div id="all">
+  <div id="content">
+    <div id="content_wrapper">
+      <div id="top_menu">
+        <div id="top_menu_wrapper">
+        </div>
+      </div>
+      <div id="header_top">
+        <h1 id="logo_top"><a href="http://docs.symfony.gr.jp/">Symfonyユーザー会ドキュメントポータル</a></h1>
+        <div id="header_top_left"></div>
+      </div>
+      <!-- end #header -->
+      <div id="navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../best_practices/index.html">ベストプラクティス</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+      <div id="main">
+<a href="/">Home</a> |
+<a href="../../index.html">Symfony2Doc</a>
+
+  
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3>このページのコンテンツ</h3>
+  <ul>
+<li><a class="reference internal" href="#">サードパーティ製のバンドルを使用する</a><ul>
+<li><a class="reference internal" href="#a-composer">A) Composerの導入</a><ul>
+<li><a class="reference internal" href="#packagist">1) Packagist から利用するバンドル名を見つける</a></li>
+<li><a class="reference internal" href="#composer">2) Composer でバンドルをインストールする</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#b">B) バンドルの有効化</a></li>
+<li><a class="reference internal" href="#c">C) バンドルの設定</a></li>
+<li><a class="reference internal" href="#id2">その他の設定</a></li>
+</ul>
+</li>
+</ul>
+
+  <h3>ソース</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../sources/cookbook/bundles/installation.txt"
+           rel="nofollow">ページのソースを表示</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>クイック検索</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" size="18" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+          <br />
+          <br />
+          <div id="other">
+            <h3>クイックリンク</h3>
+            <ul>
+              <li><a href="../../book/installation.html">インストール方法</a></li>
+              <li><a href="../../reference/forms/types.html">FormTypeリファレンス</a></li>
+              <li><a href="../../reference/constraints.html">バリデータリファレンス</a></li>
+              <li><a href="http://twig.sensiolabs.org/documentation">Twigリファレンス</a></li>
+              <li><a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/annotations-reference.html">Doctrine ORMアノテーションリファレンス</a></li>
+            </ul>
+
+<br />
+            <h3>コメントリスト</h3>
+
+<script type="text/javascript" src="http://symfony-japan.disqus.com/combination_widget.js?num_items=10&hide_mods=0&color=grey&default_tab=recent&excerpt_length=200"></script><a href="http://disqus.com/">Powered by Disqus</a>
+
+
+            <br />
+            <p>ご質問や翻訳不備等お気軽にコメントください。</p>
+
+            <br />
+          </div>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+
+<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/cookbook/bundles/installation.html">原文のページ</a>をご確認ください。</p>
+
+  <div class="admonition note">
+<p class="first admonition-title">Note</p>
+<ul class="last simple">
+<li>対象バージョン：2.7</li>
+<li>翻訳更新日：2015/03/22</li>
+</ul>
+</div>
+<div class="section" id="index-0">
+<span id="id1"></span><h1>サードパーティ製のバンドルを使用する<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>インストール手順はバンドルにより異なりますが、概ね以下の手順で実施します。</p>
+<ul class="simple">
+<li><a href="#id4"><span class="problematic" id="id5">`A) Composer の導入`_</span></a></li>
+<li><a class="reference internal" href="#b">B) バンドルの有効化</a></li>
+<li><a class="reference internal" href="#c">C) バンドルの設定</a></li>
+</ul>
+<div class="section" id="a-composer">
+<h2>A) Composerの導入<a class="headerlink" href="#a-composer" title="Permalink to this headline">¶</a></h2>
+<p>依存関係は Composer により管理しますので、初めての方は <a class="reference external" href="http://getcomposer.org/doc/00-intro.md">Composer のドキュメント</a> を参照してください。
+Composer を導入後、以下の手順を実施します。</p>
+<div class="section" id="packagist">
+<h3>1) Packagist から利用するバンドル名を見つける<a class="headerlink" href="#packagist" title="Permalink to this headline">¶</a></h3>
+<p>基本的にはバンドルの README にバンドル名が記載されていますが(例： <a class="reference external" href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUserBundle</a>)、見つからない場合は <a class="reference external" href="https://packagist.org">Packagist.org</a> 等から検索することもできます。</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Symfony のバンドルをお探しの方は、<a class="reference external" href="http://knpbundles.com/">KnpBundles.com</a>: も参考にしてみてください。</p>
+</div>
+</div>
+<div class="section" id="composer">
+<h3>2) Composer でバンドルをインストールする<a class="headerlink" href="#composer" title="Permalink to this headline">¶</a></h3>
+<p>バンドル名がわかったら、Composer でバンドルをインストールします。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>composer require friendsofsymfony/user-bundle
+</pre></div>
+</div>
+<p>コマンドを実行することで、適用するプロジェクトに最適なバージョンのバンドルを <tt class="docutils literal"><span class="pre">composer.json</span></tt> に追加し、
+<tt class="docutils literal"><span class="pre">vendor/</span></tt> ディレクトリ配下にダウンロードします。
+特定のバージョンが必要な場合は、ライブラリ名の後ろに <tt class="docutils literal"><span class="pre">:</span></tt> とバージョンを記述してください。
+(参考: <a class="reference external" href="https://getcomposer.org/doc/03-cli.md#require">composer require</a> )</p>
+</div>
+</div>
+<div class="section" id="b">
+<h2>B) バンドルの有効化<a class="headerlink" href="#b" title="Permalink to this headline">¶</a></h2>
+<p>ここまでの手順で、 Symfony プロジェクトにバンドルがインストールされて( <tt class="docutils literal"><span class="pre">vendor/friendsofsymfony/</span></tt> 配下)、オートローダーに認識されました。
+あとは以下のように <tt class="docutils literal"><span class="pre">AppKernel</span></tt>: にバンドルを登録するだけで、バンドルを利用できます。</p>
+<blockquote>
+<div><p>// app/AppKernel.php</p>
+<p>// ...
+class AppKernel extends Kernel
+{</p>
+<blockquote>
+<div><p>// ...</p>
+<p>public function registerBundles()
+{</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>$bundles = array(</dt>
+<dd>// ...,
+new FOSUserBundleFOSUserBundle(),</dd>
+</dl>
+<p>);</p>
+<p>// ...</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+</div>
+<div class="section" id="c">
+<h2>C) バンドルの設定<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h2>
+<p>ほとんどのバンドルでは、以上の手順に加えて <tt class="docutils literal"><span class="pre">app/config/config.yml</span></tt> になんらかの設定を追加する場合があります。
+必要な設定については、各バンドルのドキュメントを参照するか、 <tt class="docutils literal"><span class="pre">config:dump-reference</span></tt> コンソールコマンドから参照します。</p>
+<p>例えば、<tt class="docutils literal"><span class="pre">Assetic</span></tt> の設定は,</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>app/console config:dump-reference AsseticBundle
+</pre></div>
+</div>
+<p>または、</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>app/console config:dump-reference assetic
+</pre></div>
+</div>
+<p>を実行することで、以下のように確認することができます。</p>
+<div class="highlight-text"><div class="highlight"><pre>assetic:
+    debug:                %kernel.debug%
+    use_controller:
+        enabled:              %kernel.debug%
+        profiler:             false
+    read_from:            %kernel.root_dir%/../web
+    write_to:             %assetic.read_from%
+    java:                 /usr/bin/java
+    node:                 /usr/local/bin/node
+    node_paths:           []
+    # ...
+</pre></div>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>その他の設定<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>その他の設定については、利用するバンドルのREADMEファイルを参照してください。
+快適なバンドルライフをお楽しみください！</p>
+</div>
+</div>
+
+
+<div id="page_prev_next">
+</div>
+
+<div class="common_content_footer">
+<ul>
+  <li> → <a href="http://symfony.com/doc/current/cookbook/bundles/installation.html">公式英語ドキュメント</a></li>
+  <li> → <a href="https://github.com/symfony/symfony-docs/commits/master/cookbook/bundles/installation.rst">原文コミット履歴</a>
+  <li> → <a href="https://github.com/symfony-japan/symfony-docs-ja/commits/master/cookbook/bundles/installation.rst">翻訳コミット履歴</a>
+</ul>
+<br />
+翻訳の不備などは、お気軽にコメント欄にてご指摘ください。
+</div>
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'symfony-japan'; // required: replace example with your forum shortname
+
+    // The following are highly recommended additional parameters. Remove the slashes in front to use.
+    // var disqus_identifier = 'unique_dynamic_id_1234';
+    // var disqus_url = 'http://example.com/permalink-to-page.html';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">blog comments powered by <span class="logo-disqus">Disqus</span></a>
+
+<div class="fb-like-box" data-href="http://www.facebook.com/symfonyjapan" data-width="203" data-show-faces="true" data-stream="true" data-border-color="#FFF" data-header="true"></div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="clearer"></div>
+    </div>
+
+      </div>
+      <!-- end #main -->
+    </div>
+    <!-- end #content_wrapper -->
+  </div>
+  <!-- end #content -->
+
+
+  <div id="footer">
+    <div id="footer_wrapper">
+      <div id="footer_content">
+        <div style=" position: relative;">
+          <div id="footer_left"></div>
+          <div id="footer_right"></div>
+        </div>
+        <div id="f_navbar">
+        <ul>
+          <li><a href="../../index.html">トップ（索引）</a></li>
+          <li><a href="../../quick_tour/index.html">クイックツアー</a></li>
+          <li><a href="../../book/index.html">ガイドブック</a></li>
+          <li><a href="../../best_practices/index.html">ベストプラクティス</a></li>
+          <li><a href="../index.html">クックブック</a></li>
+          <li><a href="../../components/index.html">コンポーネント</a></li>
+          <li><a href="../../reference/index.html">リファレンス</a></li>
+          <li><a href="../../contributing/index.html">貢献</a></li>
+        </ul>
+      </div>
+      <!-- end #navbar -->
+        <div>
+          <p id="copyright">
+            <a href="../../contributing/documentation/license.html">ドキュメントの著作権</a>は Symfony 公式に準じます(Creative Commons Attribution-Share Alike 3.0 Unported ライセンス)。<br />
+            Copyright &copy; 2014 Symfony Japan. All rights reserved.<br />
+            &nbsp;&nbsp;&nbsp;Bandwidth and hardware provided by <a href="http://www.asial.co.jp/">アシアル株式会社</a>
+            &nbsp;&nbsp;Powered by <a href="http://sphinx.pocoo.org/">Sphinx</a>
+          </p>
+        </div>
+      </div>
+      <!-- end #footer_content -->
+        </div>
+        <!-- end #footer_wrapper -->
+      </div>
+      <!-- end #footer -->
+    </div>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-16659283-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

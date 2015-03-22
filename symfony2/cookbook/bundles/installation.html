@@ -78,7 +78,7 @@
   <h3>このページのコンテンツ</h3>
   <ul>
 <li><a class="reference internal" href="#">サードパーティ製のバンドルを使用する</a><ul>
-<li><a class="reference internal" href="#a-composer">A) Composerの導入</a><ul>
+<li><a class="reference internal" href="#a-composer">A) Composer の導入</a><ul>
 <li><a class="reference internal" href="#packagist">1) Packagist から利用するバンドル名を見つける</a></li>
 <li><a class="reference internal" href="#composer">2) Composer でバンドルをインストールする</a></li>
 </ul>
@@ -152,12 +152,12 @@
 <span id="id1"></span><h1>サードパーティ製のバンドルを使用する<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>インストール手順はバンドルにより異なりますが、概ね以下の手順で実施します。</p>
 <ul class="simple">
-<li><a href="#id4"><span class="problematic" id="id5">`A) Composer の導入`_</span></a></li>
+<li><a class="reference internal" href="#a-composer">A) Composer の導入</a></li>
 <li><a class="reference internal" href="#b">B) バンドルの有効化</a></li>
 <li><a class="reference internal" href="#c">C) バンドルの設定</a></li>
 </ul>
 <div class="section" id="a-composer">
-<h2>A) Composerの導入<a class="headerlink" href="#a-composer" title="Permalink to this headline">¶</a></h2>
+<h2>A) Composer の導入<a class="headerlink" href="#a-composer" title="Permalink to this headline">¶</a></h2>
 <p>依存関係は Composer により管理しますので、初めての方は <a class="reference external" href="http://getcomposer.org/doc/00-intro.md">Composer のドキュメント</a> を参照してください。
 Composer を導入後、以下の手順を実施します。</p>
 <div class="section" id="packagist">
@@ -184,28 +184,25 @@ Composer を導入後、以下の手順を実施します。</p>
 <h2>B) バンドルの有効化<a class="headerlink" href="#b" title="Permalink to this headline">¶</a></h2>
 <p>ここまでの手順で、 Symfony プロジェクトにバンドルがインストールされて( <tt class="docutils literal"><span class="pre">vendor/friendsofsymfony/</span></tt> 配下)、オートローダーに認識されました。
 あとは以下のように <tt class="docutils literal"><span class="pre">AppKernel</span></tt>: にバンドルを登録するだけで、バンドルを利用できます。</p>
-<blockquote>
-<div><p>// app/AppKernel.php</p>
-<p>// ...
+<div class="highlight-bash"><div class="highlight"><pre>// app/AppKernel.php
+
+// ...
 class AppKernel extends Kernel
-{</p>
-<blockquote>
-<div><p>// ...</p>
-<p>public function registerBundles()
-{</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>$bundles = array(</dt>
-<dd>// ...,
-new FOSUserBundleFOSUserBundle(),</dd>
-</dl>
-<p>);</p>
-<p>// ...</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
-<p>}</p>
-</div></blockquote>
+<span class="o">{</span>
+    // ...
+
+    public <span class="k">function </span>registerBundles<span class="o">()</span>
+    <span class="o">{</span>
+        <span class="nv">$bundles</span> <span class="o">=</span> array<span class="o">(</span>
+            // ...,
+            new FOS<span class="se">\U</span>serBundle<span class="se">\F</span>OSUserBundle<span class="o">()</span>,
+        <span class="o">)</span>;
+
+        // ...
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="c">
 <h2>C) バンドルの設定<a class="headerlink" href="#c" title="Permalink to this headline">¶</a></h2>

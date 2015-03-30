@@ -32,7 +32,10 @@
           $('.highlight').corner();
       });
       </script>
-    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Profiler" href="index.html" />
+    <link rel="next" title="プロファイラーのストレージを変更する" href="storage.html" />
+    <link rel="prev" title="カスタムデータコレクタの作成方法" href="data_collector.html" /> 
   </head>
   <body>
 <div id="fb-root"></div>
@@ -71,6 +74,10 @@
       <div id="main">
 <a href="/">Home</a> |
 <a href="../../index.html">Symfony2Doc</a>
+&raquo;<a href="../index.html">クックブック</a>
+
+&raquo;<a href="index.html">Profiler</a>
+&raquo;プロファイラーを条件に応じて有効化する Matchers の使い方
 
   
       <div class="sphinxsidebar">
@@ -84,6 +91,12 @@
 </li>
 </ul>
 
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="data_collector.html"
+                        title="previous chapter">カスタムデータコレクタの作成方法</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="storage.html"
+                        title="next chapter">プロファイラーのストレージを変更する</a></p>
   <h3>ソース</h3>
   <ul class="this-page-menu">
     <li><a href="../../sources/cookbook/profiler/matchers.txt"
@@ -144,16 +157,16 @@
 </div>
 <div class="section" id="matchers">
 <span id="index-0"></span><h1>プロファイラーを条件に応じて有効化する Matchers の使い方<a class="headerlink" href="#matchers" title="Permalink to this headline">¶</a></h1>
-<p>デフォルトでは Profiler は開発環境でしか有効になっていません。
-しかし、開発者が本番環境でも Profiler を見たいということは想像できます。
-管理者としてログインした場合のみ Profiler を表示させたいという状況もあるでしょう。
-Matchers を使うことで状況に応じて Profiler を有効にすることが可能です。</p>
+<p>デフォルトではプロファイラーは開発環境でしか有効になっていません。
+しかし、開発者が本番環境でもプロファイラーを見たいということは想像できます。
+管理者としてログインした場合のみプロファイラーを表示させたいという状況もあるでしょう。
+Matchers を使うことで状況に応じてプロファイラーを有効にすることが可能です。</p>
 <div class="section" id="built-in-matcher">
 <h2>built-in Matcher を使う<a class="headerlink" href="#built-in-matcher" title="Permalink to this headline">¶</a></h2>
 <p>Symfony は Path と IPアドレスにマッチすることができる
 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/RequestMatcher.html" title="Symfony\Component\HttpFoundation\RequestMatcher"><span class="pre">built-in</span> <span class="pre">matcher</span></a></tt>
 を提供しています。
-例えば、もし <tt class="docutils literal"><span class="pre">168.0.0.1</span></tt> という IP アドレスでアクセスした場合のみ Profiler を表示させたい場合には
+例えば、もし <tt class="docutils literal"><span class="pre">168.0.0.1</span></tt> という IP アドレスでアクセスした場合のみプロファイラーを表示させたい場合には
 このような設定を使います。</p>
 <div class="configuration-block">
 <ul class="simple">
@@ -186,20 +199,20 @@ Matchers を使うことで状況に応じて Profiler を有効にすること�
 </li>
 </ul>
 </div>
-<p>Profiler が有効であるべきパスを <tt class="docutils literal"><span class="pre">path</span></tt> オプションに定義することも可能です。
-例えば、 <tt class="docutils literal"><span class="pre">^/admin/</span></tt> に設定することで <tt class="docutils literal"><span class="pre">/admin/</span></tt> という URL のみ Profiler を有効にできます。</p>
+<p>プロファイラーが有効であるべきパスを <tt class="docutils literal"><span class="pre">path</span></tt> オプションに定義することも可能です。
+例えば、 <tt class="docutils literal"><span class="pre">^/admin/</span></tt> に設定することで <tt class="docutils literal"><span class="pre">/admin/</span></tt> という URL のみプロファイラーを有効にできます。</p>
 </div>
 <div class="section" id="matcher">
 <h2>カスタマイズした Matcher を使う<a class="headerlink" href="#matcher" title="Permalink to this headline">¶</a></h2>
 <p>カスタマイズした Matcher を作ることも可能です。
-これは Profiler を有効にするべきか否かをチェックするサービスです。
+これはプロファイラーを有効にするべきか否かをチェックするサービスです。
 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/RequestMatcherInterface.html" title="Symfony\Component\HttpFoundation\RequestMatcherInterface"><span class="pre">RequestMatcherInterface</span></a></tt>
 を実装したクラスでサービスを作ります。
 このインターフェースには
 <tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpFoundation/RequestMatcherInterface.html#method_matches" title="Symfony\Component\HttpFoundation\RequestMatcherInterface::matches()"><span class="pre">matches()</span></a></tt>.
 というメソッドの実装が必要です。
-このメソッドは、 Profiler が無効の場合は False を、有効な場合は True を返します。</p>
-<p><tt class="docutils literal"><span class="pre">ROLE_SUPER_ADMIN</span></tt> がログインした場合に Profiler を有効にするときはこのように実装します:</p>
+このメソッドは、プロファイラーが無効の場合は False を、有効な場合は True を返します。</p>
+<p><tt class="docutils literal"><span class="pre">ROLE_SUPER_ADMIN</span></tt> がログインした場合にプロファイラーを有効にするときはこのように実装します:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Profiler/SuperAdminMatcher.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\DemoBundle\Profiler</span><span class="p">;</span>
 
@@ -268,7 +281,7 @@ Matchers を使うことで状況に応じて Profiler を有効にすること�
 </ul>
 </div>
 <p>これでサービスが登録されました。最後の仕上げにこのサービスを Matcher として利用し
-Profiler を設定しましょう:</p>
+プロファイラーを設定しましょう:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
@@ -307,6 +320,8 @@ Profiler を設定しましょう:</p>
 
 
 <div id="page_prev_next">
+<a class="prev" href="data_collector.html">< カスタムデータコレクタの作成方法</a>
+<a class="next" href="storage.html">プロファイラーのストレージを変更する ></a>
 </div>
 
 <div class="common_content_footer">

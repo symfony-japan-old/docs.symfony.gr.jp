@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Profiler のストレージを変更する | Symfony2日本語ドキュメント</title>
+    <title>プロファイラーのストレージを変更する | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../../static/configurationblock.css" type="text/css" />
@@ -32,7 +32,10 @@
           $('.highlight').corner();
       });
       </script>
-    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" /> 
+    <link rel="top" title="Symfony2Doc 1.0.0 documentation" href="../../index.html" />
+    <link rel="up" title="Profiler" href="index.html" />
+    <link rel="next" title="クラスのオートローディングの方法" href="../tools/autoloader.html" />
+    <link rel="prev" title="プロファイラーを条件に応じて有効化する Matchers の使い方" href="matchers.html" /> 
   </head>
   <body>
 <div id="fb-root"></div>
@@ -71,10 +74,20 @@
       <div id="main">
 <a href="/">Home</a> |
 <a href="../../index.html">Symfony2Doc</a>
+&raquo;<a href="../index.html">クックブック</a>
+
+&raquo;<a href="index.html">Profiler</a>
+&raquo;プロファイラーのストレージを変更する
 
   
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h4>前のドキュメント</h4>
+  <p class="topless"><a href="matchers.html"
+                        title="previous chapter">プロファイラーを条件に応じて有効化する Matchers の使い方</a></p>
+  <h4>次のドキュメント</h4>
+  <p class="topless"><a href="../tools/autoloader.html"
+                        title="next chapter">クラスのオートローディングの方法</a></p>
   <h3>ソース</h3>
   <ul class="this-page-menu">
     <li><a href="../../sources/cookbook/profiler/storage.txt"
@@ -133,11 +146,11 @@
 <li>翻訳更新日：2014/12/01</li>
 </ul>
 </div>
-<div class="section" id="profiler">
-<span id="index-0"></span><h1>Profiler のストレージを変更する<a class="headerlink" href="#profiler" title="Permalink to this headline">¶</a></h1>
-<p>デフォルトでは Profiler はキャッシュディレクトリ内のファイルに集積されたデータ蓄積します。
+<div class="section" id="index-0">
+<span id="id1"></span><h1>プロファイラーのストレージを変更する<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
+<p>デフォルトではプロファイラーはキャッシュディレクトリ内のファイルに集積されたデータ蓄積します。
 このストレージは <tt class="docutils literal"><span class="pre">dsn</span></tt>, <tt class="docutils literal"><span class="pre">username</span></tt>, <tt class="docutils literal"><span class="pre">password</span></tt>, <tt class="docutils literal"><span class="pre">lifetime</span></tt> を介して調整が可能です。
-例えば、lifetime が１時間として MySQL を Profiler のストレージとして仕様する設定は以下の通りです:</p>
+例えば、lifetime が１時間として MySQL をプロファイラーのストレージとして仕様する設定は以下の通りです:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/config.yml</span>
@@ -189,7 +202,7 @@
 </ul>
 </div>
 <p><tt class="xref doc docutils literal"><span class="pre">HttpKernel</span> <span class="pre">component</span></tt>
-は現在、以下の Profiler 用のストレージをサポートしています。</p>
+は現在、以下のプロファイラー用のストレージをサポートしています。</p>
 <ul class="simple">
 <li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Profiler/FileProfilerStorage.html" title="Symfony\Component\HttpKernel\Profiler\FileProfilerStorage"><span class="pre">FileProfilerStorage</span></a></tt></li>
 <li><tt class="docutils literal"><a class="reference external" href="http://api.symfony.com/master/Symfony/Component/HttpKernel/Profiler/MemcachedProfilerStorage.html" title="Symfony\Component\HttpKernel\Profiler\MemcachedProfilerStorage"><span class="pre">MemcachedProfilerStorage</span></a></tt></li>
@@ -203,6 +216,8 @@
 
 
 <div id="page_prev_next">
+<a class="prev" href="matchers.html">< プロファイラーを条件に応じて有効化する Matchers の使い方</a>
+<a class="next" href="../tools/autoloader.html">クラスのオートローディングの方法 ></a>
 </div>
 
 <div class="common_content_footer">

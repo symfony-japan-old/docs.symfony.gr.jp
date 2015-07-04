@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Symfony のベストプラクティス | Symfony2日本語ドキュメント</title>
+    <title>Symfony ベストプラクティス集 | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../static/basic.css" type="text/css" />
     <link rel="stylesheet" href="../static/pygments.css" type="text/css" />
     <link rel="stylesheet" href="../static/configurationblock.css" type="text/css" />
@@ -77,11 +77,11 @@
         <div class="sphinxsidebarwrapper">
   <h3>このページのコンテンツ</h3>
   <ul>
-<li><a class="reference internal" href="#">Symfony のベストプラクティス</a><ul>
+<li><a class="reference internal" href="#">Symfony ベストプラクティス集</a><ul>
 <li><a class="reference internal" href="#id1">このガイドについて</a></li>
-<li><a class="reference internal" href="#id2">誰のための本か (ヒント: チュートリアルではありません)</a></li>
+<li><a class="reference internal" href="#id2">これは誰のためのドキュメントか (ヒント: これはチュートリアルではありません)</a></li>
 <li><a class="reference internal" href="#id3">アプリケーション</a></li>
-<li><a class="reference internal" href="#id4">既存のアプリケーションをアップデートしない</a></li>
+<li><a class="reference internal" href="#id4">既存のアプリケーションをリファクタリングしないこと</a></li>
 </ul>
 </li>
 </ul>
@@ -141,49 +141,56 @@
 <p class="first admonition-title">Note</p>
 <ul class="last simple">
 <li>対象バージョン：2.3以降</li>
-<li>翻訳更新日：2014/11/03</li>
+<li>翻訳更新日：2015/07/04</li>
 </ul>
 </div>
 <div class="section" id="symfony">
-<span id="index-0"></span><h1>Symfony のベストプラクティス<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h1>
-<p>Symfony は <em>すごく</em> 柔軟なフレームワークとして知られており、小規模なサイトから何十億ものコネクションを処理するエンタープライズなアプリケーションの開発で利用されたり、<em>他の</em> フレームワークの基盤としても利用されています。2011年7月にリリースされてから、コミュニティは Symfony で何ができて、どうするのが <em>一番良い方法</em> かについて多くのことを学んでいます。</p>
-<p>これらのコミュニティのリソース、たとえばブログの記事やプレゼンテーションなどが、Symfony のアプリケーション開発のための非公式な推奨案を生み出してきました。
-残念ながら、これらの多くの推奨案は web アプリケーションにとって必要とされていません。
-大抵、これらの推奨案は不必要に物事をより複雑にし、本来の Symfony の哲学にあっていません。</p>
+<span id="index-0"></span><h1>Symfony ベストプラクティス集<a class="headerlink" href="#symfony" title="Permalink to this headline">¶</a></h1>
+<p>Symfony は <em>とても</em> 柔軟なフレームワークとして知られており、小規模サイトから何十億ものコネクションを処理するエンタープライズアプリケーションの開発で利用されています。また*他の*フレームワークの基盤にもなっています。2011年7月にリリースされて以来、コミュニティは Symfony で何ができて、何が*一番良い方法* かについて多くのことを学びました。</p>
+<p>しかしこれらのコミュニティのリソース、たとえばブログの記事やプレゼンテーションなどが、Symfony アプリケーションを開発する際の非公式な推奨案を生み出してきました。
+残念ながらこれらの多くの推奨案は web アプリケーションにとって必要ではありません。
+大抵の場合、これらの推奨案は物事をむやみに複雑化し、本来のSymfony の哲学に従っていません。</p>
 <div class="section" id="id1">
 <h2>このガイドについて<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
-<p>このガイドは <strong>フルスタックフレームワークである Symfony で web アプリケーションを開発するためのベストプラクティス</strong> についてまとめることでこの状況を正すことが目的です。Symfony の最初の設計者である <a class="reference external" href="https://connect.sensiolabs.com/profile/fabpot">Fabien Potencier</a> によって思い描かれたフレームワークの哲学に合うベストプラクティスがあります。</p>
+<p>このガイドは <strong>フルスタックフレームワーク Symfony を使って web アプリケーションを開発するためのベストプラクティス</strong> を記述することで、この状況を正すことが目的です。このベストプラクティスはフレームワークの原作者 <a class="reference external" href="https://connect.sensiolabs.com/profile/fabpot">Fabien Potencier</a>  によって描かれたフレームワークの哲学にのっとっています。</p>
 <p>このガイドは <strong>次のような場合に特に適しています</strong> :</p>
 <ul class="simple">
-<li>フルスタックの Symfony でウェブサイトや web アプリケーションの開発</li>
+<li>フルスタック Symfony フレームワークを使ってのウェブサイトや web アプリケーションの開発</li>
 </ul>
-<p>また次のような、<strong>Symfony を拡張しあなたの特定の用途にあわせる</strong> ときの、<strong>最初のポイント</strong> としてこのガイドは調度良いかもしれません:</p>
+<p>それ以外にも、<strong>Symfony を拡張しあなたの特定の用途にあわせる</strong> ときの、<strong>スタート地点</strong> としてこのガイドは有用でしょう。</p>
 <ul class="simple">
-<li>Symfony コニュニティに公開しバンドルを共有するとき;</li>
-<li>級開発者やチームが彼ら自身のスタンダードを考えるとき;</li>
+<li>Symfony コニュニティにバンドルを公開し共有するとき;</li>
+<li>上級開発者やチームが自分たちのスタンダードを作るとき;</li>
 <li>高度なカスタマイズが必要とさえる複雑なアプリケーションを開発するとき;</li>
 <li>社内限定でバンドルを共有するとき;</li>
 </ul>
-<p>古い習慣が容易に滅びないということをしっていますし、あなたはベストプラクティスにショックを受けるかもしれません。しかしベストプラクティスに従えばより高速にアプリケーションを開発することができます。しかも複雑さは少なくなり場合によってはより高品質になります。改善を繰り返すという移動目標(moving target)でもあります。</p>
-<p>これらは <strong>任意の推奨案</strong> であるということを覚えておいてください。あなたやあなたのチームにこれらの推奨案は合ったり合わなかったりするでしょう。もしあなた自身のベストプラクティスと方法論を使い続けたいのであればもちろんそうすることができます。Symfony はあなたのやりたいことに合わせるには十分柔軟です。変える必要は全くありません。</p>
+<p>古い習慣はなかなか滅びないでしょうし、ベストプラクティスのいくつかを見てショックを受ける人がいるかもしれません。しかしベストプラクティスに従えばアプリケーションをより高速に、複雑さを抑えながら、より高品質に作ることができます。ベストプラクティスはまた、自ら改善しつづける動く標的(moving target)でもあります。</p>
+<p>これらは <strong>任意の推奨案</strong> であることを覚えておいてください。あなたやあなたのチームはこれら推奨案に従っても従わなくてもよいのです。もしあなたが自分のベストプラクティスと方法論を使い続けたいのなら、もちろんそれもよいでしょう。Symfony は柔軟なのであなたのニーズに合わせることができます。</p>
 </div>
 <div class="section" id="id2">
-<h2>誰のための本か (ヒント: チュートリアルではありません)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
-<p>上級者であれ初級者であれ、すべての Symfony 開発者がこのガイドを読むことができます。しかし、このガイドはチュートリアルではありません。そのため Symfony の基礎知識が必要になるでしょう。全くの初心者であれば、<a class="reference external" href="http://docs.symfony.gr.jp/symfony2/quick_tour/index.html">クイックツアー</a> チュートリアルから始めてみてください。</p>
-<p>故意にこのガイドは短くしています。あなたが莫大な Symfony のドキュメントで見つけることができるようなこと、たとえば dependency injection や フロントコントローラーなどのようなことにつて繰り返し説明したくないからです。あなたが知っていることについてどうすべきかということにだけもっぱら説明していきます。</p>
+<h2>これは誰のためのドキュメントか (ヒント: これはチュートリアルではありません)<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>上級者であれ初級者であれ、すべての Symfony 開発者はこのガイドを読むことができます。しかしこのガイドはチュートリアルではないので、実践しよう思ったらSymfony の基礎知識が必要になるでしょう。全くの初心者であれば、 <a class="reference internal" href="../quick_tour/the_big_picture.html"><em>クイックツアー</em></a> チュートリアルから始めてみてください。</p>
+<p>このガイドはわざと短くしています。 膨大な Symfony のドキュメント内に既にある事柄については繰り返し説明はしません。例えば Dependency Injection や フロントコントローラーなどの話題がそうです。あなたが既に知っていることについてどうすべきかということにフォーカスしています。</p>
 </div>
 <div class="section" id="id3">
 <h2>アプリケーション<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
-<p>このガイドに加えて、あなたが思うようなベストプラクティスで開発されたサンプルアプリケーションを見つけることができるでしょう。<strong>そのアプリケーションはシンプルなブログエンジンです</strong>。なぜシンプルなブログエンジンかというと、このアプリケーションは難しい詳細に覆われることなく Symfony のコンセプトと特徴に集中することができるからです。</p>
-<p>このガイドでは段階的にアプリケーションを開発する代わりに、章を通して選ばれたコードのスニペットを見つけることになるでしょう。アプリケーションとインストール方法の詳細については最終章を参照してください。</p>
+<p>このガイドに加えて、ベストプラクティスを全部詰め込んだサンプルアプリケーションを用意しました。このプロジェクトは Symfony デモ アプリケーション と呼ばれており、Symfony インストーラ で入手することができます。まず、 <a class="reference external" href="https://symfony.com/download">download and install</a> のページを見てインストーラを入手してから下記コマンドを実行してデモアプリケーションをダウンロードしてください。</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="c"># Linux and Mac OS X</span>
+<span class="nv">$ </span>symfony demo
+
+<span class="c"># Windows</span>
+c:<span class="se">\&gt;</span> php symfony demo
+</pre></div>
+</div>
+<p><strong>デモアプリケーションはシンプルなブログエンジンです</strong>。理由はこれなら難しい実装の詳細にとらわれることなく Symfony のコンセプトと機能にフォーカスできるからです。このガイドではアプリケーションを一歩一歩開発する代わりに、コードのスニペットを見るだけですむでしょう。</p>
 </div>
 <div class="section" id="id4">
-<h2>既存のアプリケーションをアップデートしない<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
-<p>このハンドブックを読んだあとに、既存の Symfony のアプリケーションのリファクタリングについて考えるかもしれません。私達の推奨案は明確です: <strong>ベストプラクティスに合致させるために既存アプリケーションをリファクタリングすべきでない</strong>。この理由は様々です。:</p>
+<h2>既存のアプリケーションをリファクタリングしないこと<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p>このハンドブックを読んだあとに、あなたは既存の Symfony アプリケーションをリファクタリングしたくなるかもしれません。私達の推奨案は明確です: <strong>ベストプラクティスに合わせるために既存アプリケーションをリファクタリングすべきではありません。</strong>。理由は様々です。:</p>
 <ul class="simple">
-<li>既存アプリケーションは間違っていません、それらは別のガイダンスに従っているだけです;</li>
-<li>完全なコードベースのリファクタリングはアプリケーションがエラーを起こす傾向がある;</li>
-<li>エンドユーザーに本当に価値のある機能追加やテストの改善に専念し時間を費やすほうが良い;</li>
+<li>あなたの既存アプリケーションは間違っていません、それは別のガイドラインに従っているだけです;</li>
+<li>コードベースをがっつりリファクタリングするとバグを混入しがち;</li>
+<li>リファクタリングに時間を使うよりはテストの改善や機能追加をしてエンドユーザに実価値を届けるほうがよい;</li>
 </ul>
 </div>
 </div>

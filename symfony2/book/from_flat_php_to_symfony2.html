@@ -263,7 +263,7 @@
 </div>
 <div class="section" id="id2">
 <h3>アプリケーション (ドメイン) ロジックの分離<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
-<p>今のところアプリケーションは1つのページしか含んでいませんが、2番目のページが同じデータベース接続、あるいは同じ投稿の配列を使用する必要がある場合はどうでしょうか？アプリケーションのコアの動作とデータアクセスの機能が <tt class="docutils literal"><span class="pre">mode.php</span></tt> という新しいファイルに分離されるよう、コードをリファクタリングしてみましょう。</p>
+<p>今のところアプリケーションは1つのページしか含んでいませんが、2番目のページが同じデータベース接続、あるいは同じ投稿の配列を使用する必要がある場合はどうでしょうか？アプリケーションのコアの動作とデータアクセスの機能が <tt class="docutils literal"><span class="pre">model.php</span></tt> という新しいファイルに分離されるよう、コードをリファクタリングしてみましょう。</p>
 <div class="highlight-html+php"><div class="highlight"><pre><span class="cp">&lt;?php</span>
 
 <span class="c1">// model.php</span>

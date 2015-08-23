@@ -565,11 +565,11 @@
 <p>一般的なフォームログインの処理をカスタマイズする方法など、詳細は <a class="reference internal" href="../cookbook/security/form_login.html"><em>フォームログインをカスタマイズする方法</em></a> を参照してください。</p>
 <div class="sidebar" id="book-security-common-pitfalls">
 <p class="first sidebar-title">よくある落とし穴を避ける</p>
-<p>ログインフォームを組み立てる差には、少しよくある落とし穴に注意してください。</p>
+<p>ログインフォームを組み立てる際には、少しよくある落とし穴に注意してください。</p>
 <p><strong>1. 正しいルートを作成すること</strong></p>
 <p>まず、<tt class="docutils literal"><span class="pre">/login</span></tt> と <tt class="docutils literal"><span class="pre">/login_check</span></tt> ルートが、それぞれ対応する <tt class="docutils literal"><span class="pre">login_path</span></tt> と <tt class="docutils literal"><span class="pre">check_path</span></tt> の設定値に正しく定義されているか確認してください。ここでの設定ミスはログインページではなく、404ページへリダイレクトされることを意味します。または、ログインフォームの送信先が存在しないこととなります(同じログインフォームを何度も見ることになります)。</p>
 <p><strong>2. ログインページはセキュアから除外してあること</strong></p>
-<p>ログインページを閲覧するのに権限が/ <em>不要</em>/ にしてあることを確認してください。例えば次の設定では、<tt class="docutils literal"><span class="pre">/login</span></tt> URL を含む全ての URL で <tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt> 権限を必須にしているため、リダイレクトループに陥ります:</p>
+<p>ログインページを閲覧するのに権限が <em>不要</em> にしてあることを確認してください。例えば次の設定では、 <tt class="docutils literal"><span class="pre">/login</span></tt> URL を含む全ての URL で <tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt> 権限を必須にしているため、リダイレクトループに陥ります:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">access_control</span><span class="p-Indicator">:</span>
@@ -616,7 +616,7 @@
 </li>
 </ul>
 </div>
-<p>また、ファイアーウォールで匿名ユーザによるアクセスを/ <em>許可していなければ</em>/ 、ログインページ用の特別なファイアーウォールを用意し、匿名ユーザによるアクセスを許可してください:</p>
+<p>また、ファイアーウォールで匿名ユーザによるアクセスを <em>許可していなければ</em> 、ログインページ用の特別なファイアーウォールを用意し、匿名ユーザによるアクセスを許可してください:</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="l-Scalar-Plain">firewalls</span><span class="p-Indicator">:</span>
@@ -816,7 +816,7 @@
 </div>
 <div class="section" id="id10">
 <h2>ユーザ<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h2>
-<p>前のセクションでは、あるリソースへの/ <em>権限</em>/ のセットを必須とすることによって、異なるリソースの保護の仕方を学びました。このセクションでは、ユーザの承認の他の側面を探っていきます。</p>
+<p>前のセクションでは、あるリソースへの <em>権限</em> のセットを必須とすることによって、異なるリソースの保護の仕方を学びました。このセクションでは、ユーザの承認の他の側面を探っていきます。</p>
 <div class="section" id="id11">
 <h3>ユーザはどこから来た？ (<em>ユーザプロバイダ</em>)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>認証の際に、ユーザは証明書のセット(だいたいの場合ユーザ名とパスワードになります)を送信します。認証システムの仕事は、ユーザのプールに対し、証明書のマッチをすることです。では、そのユーザのリストはどこから来るのでしょうか？</p>

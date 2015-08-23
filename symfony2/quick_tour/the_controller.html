@@ -164,7 +164,7 @@
 <div class="section" id="id2">
 <h2>フォーマットを使う<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>今日では、Web アプリケーションは単なる HTML ページ以外の形式で応答することも要求されるようになっています。
-RSS フィードのや Web サービス向けの XML 形式、Ajax リクエスト向けの JSON 形式など、さまざまなフォーマットが存在します。
+RSS フィードや Web サービス向けの XML 形式、Ajax リクエスト向けの JSON 形式など、さまざまなフォーマットが存在します。
 Symfony2 におけるフォーマットのサポートは、とても単純です。
 ルートを編集して、<tt class="docutils literal"><span class="pre">_format</span></tt> 変数のデフォルト値として <tt class="docutils literal"><span class="pre">xml</span></tt> を指定してみましょう。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/DemoBundle/Controller/DemoController.php</span>
@@ -222,7 +222,7 @@ Symfony2 におけるフォーマットのサポートは、とても単純で�
 <p><tt class="docutils literal"><span class="pre">generateUrl()</span></tt> メソッドの機能は、テンプレートで使った <tt class="docutils literal"><span class="pre">path()</span></tt> 関数と同じです。
 ルート名とパラメータの配列を引数にとり、ルート名に関連付けられたパターンから URL を生成して返します。</p>
 <p>アクションから別のアクションへフォワードするのも同じように簡単で、<tt class="docutils literal"><span class="pre">forward()</span></tt> メソッドを使います。
-内部的には、フォワード先のアクションへの &#8220;サブリクエスト&#8221; が作られ、そのサブリクエストを実行した結果の <tt class="docutils literal"><span class="pre">Response</span></tt> オブエジェクトが返されます。</p>
+内部的には、フォワード先のアクションへの &#8220;サブリクエスト&#8221; が作られ、そのサブリクエストを実行した結果の <tt class="docutils literal"><span class="pre">Response</span></tt> オブジェクトが返されます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$response</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">forward</span><span class="p">(</span><span class="s1">&#39;AcmeDemoBundle:Hello:fancy&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;name&#39;</span> <span class="o">=&gt;</span> <span class="nv">$name</span><span class="p">,</span> <span class="s1">&#39;color&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;green&#39;</span><span class="p">));</span>
 
 <span class="c1">// ... $response に対して何らかの処理を行うか、そのまま return する</span>

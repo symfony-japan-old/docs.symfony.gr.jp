@@ -746,7 +746,7 @@
 </div>
 <div class="section" id="book-security-securing-channel">
 <span id="id7"></span><h3>チャンネルによるセキュア化<a class="headerlink" href="#book-security-securing-channel" title="Permalink to this headline">¶</a></h3>
-<p>IP によるセキュア化と同じように、新しく aaccess_control のエントリに SSL の使用を追加するだけです。</p>
+<p>IP によるセキュア化と同じように、新しく access_control のエントリに SSL の使用を追加するだけです。</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>YAML</em><div class="highlight-yaml"><div class="highlight"><pre><span class="c1"># app/config/security.yml</span>
@@ -820,7 +820,7 @@
 <div class="section" id="id11">
 <h3>ユーザはどこから来た？ (<em>ユーザプロバイダ</em>)<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <p>認証の際に、ユーザは証明書のセット(だいたいの場合ユーザ名とパスワードになります)を送信します。認証システムの仕事は、ユーザのプールに対し、証明書のマッチをすることです。では、そのユーザのリストはどこから来るのでしょうか？</p>
-<p>Symfony2 では、ユーザは、コンフィギュレーションファイル、データベーステーブル、ウェブサービスなど、あらゆるところに保管することができます。ユーザを認証システムに提供するする機能は総称して、&#8221;ユーザプロバイダ&#8221;と呼びます。Symfony2 では、２つの一般的なユーザプロバイダが標準で付いてきます。１つは、コンフィギュレーションファイルからユーザをロードし、もう１つは、データベーステーブルからユーザをロードします。</p>
+<p>Symfony2 では、ユーザは、コンフィギュレーションファイル、データベーステーブル、ウェブサービスなど、あらゆるところに保管することができます。ユーザを認証システムに提供する機能は総称して、&#8221;ユーザプロバイダ&#8221;と呼びます。Symfony2 では、２つの一般的なユーザプロバイダが標準で付いてきます。１つは、コンフィギュレーションファイルからユーザをロードし、もう１つは、データベーステーブルからユーザをロードします。</p>
 <div class="section" id="id12">
 <h4>コンフィギュレーションファイルでユーザを特定する<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
 <p>ユーザを特定する最も簡単な方法は直接コンフィギュレーションファイルで指定する方法です。実際のところ、それは、この章のサンプルで今まで見てきた方法です。</p>
@@ -886,7 +886,7 @@
 <p>Doctrine ORM を介してユーザをロードするには、<tt class="docutils literal"><span class="pre">User</span></tt> クラスを作成し <tt class="docutils literal"><span class="pre">entity</span></tt> プロバイダを設定するだけなので簡単です。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
-<p class="last">Doctrine ORM や ODM を介してユーザを保存するすることを可能とする、質の高いオープンソースのバンドルが入手可能です。詳細は GitHub 上の <a class="reference external" href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUserBundle</a> を参照してください。</p>
+<p class="last">Doctrine ORM や ODM を介してユーザを保存することを可能とする、質の高いオープンソースのバンドルが入手可能です。詳細は GitHub 上の <a class="reference external" href="https://github.com/FriendsOfSymfony/FOSUserBundle">FOSUserBundle</a> を参照してください。</p>
 </div>
 <p>このアプローチでは、まず、独自の <tt class="docutils literal"><span class="pre">User</span></tt> クラスを作成します。これはデータベースに保存されます。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/UserBundle/Entity/User.php</span>
@@ -1053,7 +1053,7 @@
 </ul>
 </div>
 <p>このケースでは、さらに強力な <tt class="docutils literal"><span class="pre">sha512</span></tt> アルゴリズムを使用しています。また、単にアルゴリズムを (<tt class="docutils literal"><span class="pre">sha512</span></tt>)と文字列で指定したため、システムはパスワードを5000回連続でハッシュ化し、base64 でエンコードをします。言い換えると、パスワードは難読化され、ハッシュ化されたパスワードはデコードできなくなります(ハッシュ化されたパスワードから実際のパスワードを判断することができません)。</p>
-<p>ユーザ登録フォームのようなものがあれば、あなたがユーザのためにハッシュ化されたパスワードを判断できるべきす。User オブジェクトに、どんなアルゴリズムで設定していても、ハッシュ化されたパスワードは常にコントローラから以下の方法で判断されます:</p>
+<p>ユーザ登録フォームのようなものがあれば、あなたがユーザのためにハッシュ化されたパスワードを判断できるべきです。User オブジェクトに、どんなアルゴリズムで設定していても、ハッシュ化されたパスワードは常にコントローラから以下の方法で判断されます:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$factory</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;security.encoder_factory&#39;</span><span class="p">);</span>
 <span class="nv">$user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Acme\UserBundle\Entity\User</span><span class="p">();</span>
 

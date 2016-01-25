@@ -570,7 +570,7 @@ php app/console doctrine:generate:entities Acme
 </pre></div>
 </div>
 <p>もちろん、Doctrine では、より複雑なクエリを Doctrine Query Language (DQL) を使用して書くことも可能です。DQL は SQL と似ていますが、テーブル(例: <tt class="docutils literal"><span class="pre">product</span></tt>)の行ではなくて、1つ以上のエンティティクラスオブジェクト(例: <tt class="docutils literal"><span class="pre">Product</span></tt>)に対してクエリするということを想定しなければなりません。</p>
-<p>Doctrne でクエリするには、2つの選択肢があります。純粋な Doctrine クエリを書くか、Doctrine の Query Buider を使用することです。</p>
+<p>Doctrine でクエリするには、2つの選択肢があります。純粋な Doctrine クエリを書くか、Doctrine の Query Builder を使用することです。</p>
 <div class="section" id="dql">
 <h3>DQL でクエリ<a class="headerlink" href="#dql" title="Permalink to this headline">¶</a></h3>
 <p>商品を検索する際に、値段として<tt class="docutils literal"><span class="pre">19.99</span></tt> 以上の商品のみを、安い順に返したいとします。コントローラ内で、下記のように行います。</p>
@@ -582,7 +582,7 @@ php app/console doctrine:generate:entities Acme
 <span class="nv">$products</span> <span class="o">=</span> <span class="nv">$query</span><span class="o">-&gt;</span><span class="na">getResult</span><span class="p">();</span>
 </pre></div>
 </div>
-<p>SQL に慣れていれば、DQL は、とても自然に感じるでしょう。一番大きな違いは、データベースの行ではなく、オブジェクトの観点からか考える、というところでしょう。こうした理由から、<tt class="docutils literal"><span class="pre">AcmeStoreBundle:Product</span></tt> を <em>from</em> として、そのエイリアスとして <tt class="docutils literal"><span class="pre">p</span></tt> を与えているのです。</p>
+<p>SQL に慣れていれば、DQL は、とても自然に感じるでしょう。一番大きな違いは、データベースの行ではなく、オブジェクトの観点から考える、というところでしょう。こうした理由から、<tt class="docutils literal"><span class="pre">AcmeStoreBundle:Product</span></tt> を <em>from</em> として、そのエイリアスとして <tt class="docutils literal"><span class="pre">p</span></tt> を与えているのです。</p>
 <p><tt class="docutils literal"><span class="pre">getResult()</span></tt> メソッドは、結果の配列を返します。1つのオブジェクトのみを期待している場合は、<tt class="docutils literal"><span class="pre">getSingleResult()</span></tt> メソッドを使用します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$product</span> <span class="o">=</span> <span class="nv">$query</span><span class="o">-&gt;</span><span class="na">getSingleResult</span><span class="p">();</span>
 </pre></div>
@@ -845,6 +845,7 @@ php app/console doctrine:generate:entities Acme
         <span class="nv">$product</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Product</span><span class="p">();</span>
         <span class="nv">$product</span><span class="o">-&gt;</span><span class="na">setName</span><span class="p">(</span><span class="s1">&#39;Foo&#39;</span><span class="p">);</span>
         <span class="nv">$product</span><span class="o">-&gt;</span><span class="na">setPrice</span><span class="p">(</span><span class="mf">19.99</span><span class="p">);</span>
+        <span class="nv">$product</span><span class="o">-&gt;</span><span class="na">setDescription</span><span class="p">(</span><span class="s1">&#39;Lorem ipsum dolor&#39;</span><span class="p">);</span>
         <span class="c1">// この商品をカテゴリに関連付ける</span>
         <span class="nv">$product</span><span class="o">-&gt;</span><span class="na">setCategory</span><span class="p">(</span><span class="nv">$category</span><span class="p">);</span>
 
@@ -981,7 +982,7 @@ php app/console doctrine:generate:entities Acme
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>これで、すべての全ての有効なライフサイクルイベントにおいて、Doctrine にメソッドを実行するように伝えることができるようになりました。あるエンティティが初めて永続化(INSERT)される際に、<tt class="docutils literal"><span class="pre">created</span></tt> という日付のカラムへ現在の日付を入れたいとしましょう。</p>
+<p>これで、全ての有効なライフサイクルイベントにおいて、Doctrine にメソッドを実行するように伝えることができるようになりました。あるエンティティが初めて永続化(INSERT)される際に、<tt class="docutils literal"><span class="pre">created</span></tt> という日付のカラムへ現在の日付を入れたいとしましょう。</p>
 <div class="configuration-block">
 <ul class="simple">
 <li><em>Annotations</em><div class="highlight-php-annotations"><div class="highlight"><pre><span class="sd">/**</span>

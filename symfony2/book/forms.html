@@ -93,13 +93,13 @@
 </ul>
 </li>
 <li><a class="reference internal" href="#book-forms-type-reference">用意されているフィールドタイプ</a><ul>
-<li><a class="reference internal" href="#id10">テキストフィールド</a></li>
-<li><a class="reference internal" href="#id11">選択フィールド</a></li>
-<li><a class="reference internal" href="#id12">日付フィールド、時刻フィールド</a></li>
-<li><a class="reference internal" href="#id13">その他のフィールド</a></li>
-<li><a class="reference internal" href="#id14">フィールドグループ</a></li>
+<li><a class="reference internal" href="#id8">テキストフィールド</a></li>
+<li><a class="reference internal" href="#id9">選択フィールド</a></li>
+<li><a class="reference internal" href="#id10">日付フィールド、時刻フィールド</a></li>
+<li><a class="reference internal" href="#id11">その他のフィールド</a></li>
+<li><a class="reference internal" href="#id12">フィールドグループ</a></li>
 <li><a class="reference internal" href="#hidden">Hidden フィールド</a></li>
-<li><a class="reference internal" href="#id15">ボタンフィールド</a></li>
+<li><a class="reference internal" href="#id13">ボタンフィールド</a></li>
 <li><a class="reference internal" href="#base">Base フィールド</a></li>
 <li><a class="reference internal" href="#index-7">一般的なフィールドタイプのオプション</a></li>
 <li><a class="reference internal" href="#required">required</a></li>
@@ -108,22 +108,22 @@
 </li>
 <li><a class="reference internal" href="#book-forms-field-guessing">フィールドタイプの推測</a></li>
 <li><a class="reference internal" href="#form-rendering-template">フォームのレンダリング</a><ul>
-<li><a class="reference internal" href="#id19">それぞれのフィールドを手動でレンダリングする</a></li>
+<li><a class="reference internal" href="#id17">それぞれのフィールドを手動でレンダリングする</a></li>
 <li><a class="reference internal" href="#twig">Twigテンプレート 関数リファレンス</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#book-form-creating-form-classes">フォームクラスの作成</a></li>
 <li><a class="reference internal" href="#doctrine">フォームと Doctrine</a></li>
 <li><a class="reference internal" href="#index-12">フォームの埋め込み</a><ul>
-<li><a class="reference internal" href="#id22">単一のオブジェクトの埋め込み</a></li>
-<li><a class="reference internal" href="#id23">複数フォームの埋め込み</a></li>
+<li><a class="reference internal" href="#id20">単一のオブジェクトの埋め込み</a></li>
+<li><a class="reference internal" href="#id21">複数フォームの埋め込み</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#form-theming">フォームのテーマ</a><ul>
 <li><a class="reference internal" href="#form-template-blocks">Form Template Blocks</a></li>
 <li><a class="reference internal" href="#form-type-block-inheritance">Form Type Block Inheritance</a></li>
 <li><a class="reference internal" href="#global-form-theming">Global Form Theming</a><ul>
-<li><a class="reference internal" href="#id26">Twig</a></li>
+<li><a class="reference internal" href="#id24">Twig</a></li>
 <li><a class="reference internal" href="#php">PHP</a></li>
 </ul>
 </li>
@@ -374,7 +374,7 @@ Boolean型のプロパティの場合、ゲッターの代わりに「is」で�
 <p>今回実装したコントローラでは、フォームを操作する際に用いる一般的なパターンに乗っ取り、次の3つのことを行います。</p>
 <ol class="arabic simple">
 <li>最初にページがロードされる時は、<tt class="docutils literal"><span class="pre">GET</span></tt> リクエストメソッドによってアクセスされ、コントローラはフォームの生成とレンダリングのみを行います(バインドは行いません)。</li>
-<li>ユーザーが``POST`` メソッドを用いてフォームの送信を行った時、その中に妥当でない値を含んでいる場合(妥当性の検証(バリデーション)は次節で説明します)、バインドされたデータをレンダリングする際に、バリデーションエラーメッセージを含んだ状態でレンダリングが行われます。</li>
+<li>ユーザーが <tt class="docutils literal"><span class="pre">POST</span></tt> メソッドを用いてフォームの送信を行った時、その中に妥当でない値を含んでいる場合(妥当性の検証(バリデーション)は次節で説明します)、バインドされたデータをレンダリングする際に、バリデーションエラーメッセージを含んだ状態でレンダリングが行われます。</li>
 <li>ユーザーが妥当なデータを送信した時、データベースへの保存など <tt class="docutils literal"><span class="pre">$product</span></tt> に対する何らかのアクションを行い、登録完了画面などへリダイレクトします。</li>
 </ol>
 <div class="admonition note">
@@ -469,7 +469,7 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 <p>バリデーションはSymfony2が提供するとても強力な機能で、<a class="reference internal" href="validation.html"><em>独立した章</em></a> が設けられています。</p>
 <div class="section" id="book-forms-validation-groups">
 <span id="index-5"></span><span id="id6"></span><h3>バリデーショングループ<a class="headerlink" href="#book-forms-validation-groups" title="Permalink to this headline">¶</a></h3>
-<p>:ref:<a href="#id7"><span class="problematic" id="id8">`</span></a>バリデーショングループ &lt;book-validation-validation-groups&gt;`を活用したい場合、フォームにバリデーショングループを指定する必要があります:</p>
+<p><a class="reference internal" href="validation.html#book-validation-validation-groups"><em>バリデーショングループ</em></a> を活用したい場合、フォームにバリデーショングループを指定する必要があります:</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="nv">$form</span> <span class="o">=</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">createFormBuilder</span><span class="p">(</span><span class="nv">$users</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span>
         <span class="s1">&#39;validation_groups&#39;</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;registration&#39;</span><span class="p">)</span>
     <span class="p">)</span>
@@ -489,10 +489,10 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 </div>
 </div>
 <div class="section" id="book-forms-type-reference">
-<span id="index-6"></span><span id="id9"></span><h2>用意されているフィールドタイプ<a class="headerlink" href="#book-forms-type-reference" title="Permalink to this headline">¶</a></h2>
+<span id="index-6"></span><span id="id7"></span><h2>用意されているフィールドタイプ<a class="headerlink" href="#book-forms-type-reference" title="Permalink to this headline">¶</a></h2>
 <p>Symfonyでは一般的なフォームで用いるフィールドタイプを網羅しています。</p>
-<div class="section" id="id10">
-<h3>テキストフィールド<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id8">
+<h3>テキストフィールド<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="../reference/forms/types/text.html"><em>text</em></a></li>
 <li><a class="reference internal" href="../reference/forms/types/textarea.html"><em>textarea</em></a></li>
@@ -506,8 +506,8 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 <li><a class="reference internal" href="../reference/forms/types/url.html"><em>url</em></a></li>
 </ul>
 </div>
-<div class="section" id="id11">
-<h3>選択フィールド<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id9">
+<h3>選択フィールド<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="../reference/forms/types/choice.html"><em>choice</em></a></li>
 <li><a class="reference internal" href="../reference/forms/types/entity.html"><em>entity</em></a></li>
@@ -518,8 +518,8 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 <li><a class="reference internal" href="../reference/forms/types/currency.html"><em>currency</em></a></li>
 </ul>
 </div>
-<div class="section" id="id12">
-<h3>日付フィールド、時刻フィールド<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h3>日付フィールド、時刻フィールド<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="../reference/forms/types/date.html"><em>date</em></a></li>
 <li><a class="reference internal" href="../reference/forms/types/datetime.html"><em>datetime</em></a></li>
@@ -527,16 +527,16 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 <li><a class="reference internal" href="../reference/forms/types/birthday.html"><em>birthday</em></a></li>
 </ul>
 </div>
-<div class="section" id="id13">
-<h3>その他のフィールド<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id11">
+<h3>その他のフィールド<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="../reference/forms/types/checkbox.html"><em>checkbox</em></a></li>
 <li><a class="reference internal" href="../reference/forms/types/file.html"><em>file</em></a></li>
 <li><a class="reference internal" href="../reference/forms/types/radio.html"><em>radio</em></a></li>
 </ul>
 </div>
-<div class="section" id="id14">
-<h3>フィールドグループ<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id12">
+<h3>フィールドグループ<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="../reference/forms/types/collection.html"><em>collection</em></a></li>
 <li><a class="reference internal" href="../reference/forms/types/repeated.html"><em>repeated</em></a></li>
@@ -548,8 +548,8 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 <li><a class="reference internal" href="../reference/forms/types/hidden.html"><em>hidden</em></a></li>
 </ul>
 </div>
-<div class="section" id="id15">
-<h3>ボタンフィールド<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h3>ボタンフィールド<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="../reference/forms/types/button.html"><em>button</em></a></li>
 <li><a class="reference internal" href="../reference/forms/types/reset.html"><em>reset</em></a></li>
@@ -565,7 +565,7 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 このやり方については、クックブックの「 <a class="reference internal" href="../cookbook/form/create_custom_field_type.html"><em>カスタムフォームフィールドタイプの作成方法</em></a> 」を見てください。</p>
 </div>
 <div class="section" id="index-7">
-<span id="id16"></span><h3>一般的なフィールドタイプのオプション<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h3>
+<span id="id14"></span><h3>一般的なフィールドタイプのオプション<a class="headerlink" href="#index-7" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">price</span></tt> フィールドに、連想配列でオプションが設定されていたことにはお気づきでしょうか。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="o">-&gt;</span><span class="na">add</span><span class="p">(</span><span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;money&#39;</span><span class="p">,</span> <span class="k">array</span><span class="p">(</span><span class="s1">&#39;currency&#39;</span> <span class="o">=&gt;</span> <span class="s1">&#39;USD&#39;</span><span class="p">))</span>
 </pre></div>
@@ -591,7 +591,7 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 </div>
 </div>
 <div class="section" id="book-forms-field-guessing">
-<span id="index-8"></span><span id="id17"></span><h2>フィールドタイプの推測<a class="headerlink" href="#book-forms-field-guessing" title="Permalink to this headline">¶</a></h2>
+<span id="index-8"></span><span id="id15"></span><h2>フィールドタイプの推測<a class="headerlink" href="#book-forms-field-guessing" title="Permalink to this headline">¶</a></h2>
 <p><tt class="docutils literal"><span class="pre">Product</span></tt> クラスにはバリデーション用のメタデータが設定されているため、Symfonyはそこに含まれる情報からフィールドに関する情報をいくらか得ることができます。
 そして、Symfonyはそれを元にフィールドタイプを「推測」し、フィールドのセットアップを行うことができます。
 先ほど設定したバリデーション制約の場合、<tt class="docutils literal"><span class="pre">name</span></tt> と <tt class="docutils literal"><span class="pre">price</span></tt> フィールドは どちらも <tt class="docutils literal"><span class="pre">text</span></tt> フィールドと推測されます。
@@ -627,7 +627,7 @@ Firefox 4、Chrome 3.0、Opera 9.5などのモダンブラウザを使うと動�
 </div>
 </div>
 <div class="section" id="form-rendering-template">
-<span id="index-9"></span><span id="id18"></span><h2>フォームのレンダリング<a class="headerlink" href="#form-rendering-template" title="Permalink to this headline">¶</a></h2>
+<span id="index-9"></span><span id="id16"></span><h2>フォームのレンダリング<a class="headerlink" href="#form-rendering-template" title="Permalink to this headline">¶</a></h2>
 <p>ここまでの部分で、1行でフォーム全体をレンダリングする方法については説明しました。
 もちろん、より柔軟にレンダリングすることもできます。</p>
 <div class="configuration-block">
@@ -682,8 +682,8 @@ hiddenフィールドのレンダリングし忘れなどを防止するため�
 Symfonyを用いて生成したフォームはその仕組みを最大限活用するようになっています。
 もしこの仕組みを無効にしたい場合、<tt class="docutils literal"><span class="pre">form</span></tt> タグに <tt class="docutils literal"><span class="pre">novalidate</span></tt> 属性を指定するか、サブミットボタンに <tt class="docutils literal"><span class="pre">formnovalidate</span></tt> 属性を指定します。</p>
 </div>
-<div class="section" id="id19">
-<h3>それぞれのフィールドを手動でレンダリングする<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id17">
+<h3>それぞれのフィールドを手動でレンダリングする<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">form_row</span></tt> ヘルパーは、フィールドを手っ取り早くレンダリングするのにうってつけです(「行(row)」のマークアップはカスタマイズも可能です)。
 複雑なフォームの場合はフィールドを好きなように配置することも可能です。</p>
 <div class="configuration-block">
@@ -763,7 +763,7 @@ Symfonyを用いて生成したフォームはその仕組みを最大限活用�
 </div>
 </div>
 <div class="section" id="book-form-creating-form-classes">
-<span id="index-10"></span><span id="id20"></span><h2>フォームクラスの作成<a class="headerlink" href="#book-form-creating-form-classes" title="Permalink to this headline">¶</a></h2>
+<span id="index-10"></span><span id="id18"></span><h2>フォームクラスの作成<a class="headerlink" href="#book-form-creating-form-classes" title="Permalink to this headline">¶</a></h2>
 <p>フォームがコントローラ内で直接組み立てができることは既に解説しました。
 しかしながら、フォームの組み立て処理をクラスとして独立させることで、再利用性の向上につながります。
 次は商品フォームを組み立てる処理をクラス化したものです。</p>
@@ -828,7 +828,7 @@ Symfonyを用いて生成したフォームはその仕組みを最大限活用�
 </div>
 <div class="section" id="doctrine">
 <span id="index-11"></span><h2>フォームと Doctrine<a class="headerlink" href="#doctrine" title="Permalink to this headline">¶</a></h2>
-<p>フォームを目的はオブジェクト(<tt class="docutils literal"><span class="pre">Product</span></tt> など)のデータを HTML のフォームに変換することと、フォームから送信されたデータを元のオブジェクトに反映することです。
+<p>フォームの目的はオブジェクト(<tt class="docutils literal"><span class="pre">Product</span></tt> など)のデータを HTML のフォームに変換することと、フォームから送信されたデータを元のオブジェクトに反映することです。
 ここでは <tt class="docutils literal"><span class="pre">Product</span></tt> オブジェクトをデータベースに保存するやり方について解説しますが、フォームとは直接関係のない内容になります。
 <tt class="docutils literal"><span class="pre">Product</span></tt> クラスを Doctrine を用いて保存できるように設定しているのであれば、次のようにして送信されたデータが妥当な場合に保存を行います。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">if</span> <span class="p">(</span><span class="nv">$form</span><span class="o">-&gt;</span><span class="na">isValid</span><span class="p">())</span> <span class="p">{</span>
@@ -850,12 +850,12 @@ Symfonyを用いて生成したフォームはその仕組みを最大限活用�
 <p>もしフォームの内部に持つオブジェクト(<tt class="docutils literal"><span class="pre">Product</span></tt> など)がDoctrine ORMによってマッピングされている場合、フォームフレームワークはバリデーションのメタデータと同様に、その情報をもとにタイプの推測を行います。</p>
 </div>
 <div class="section" id="index-12">
-<span id="id21"></span><h2>フォームの埋め込み<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
+<span id="id19"></span><h2>フォームの埋め込み<a class="headerlink" href="#index-12" title="Permalink to this headline">¶</a></h2>
 <p>1つのフォームで複数のオブジェクトを使いたいことがしばしばあると思います。
 例えば、<tt class="docutils literal"><span class="pre">User</span></tt> オブジェクトを登録するフォームで <tt class="docutils literal"><span class="pre">Address</span></tt> などの様々なオブジェクトも扱わなければならない場合などです。
 フォームコンポーネントを用いると、簡単かつ自然にこれらの処理が行えます。</p>
-<div class="section" id="id22">
-<h3>単一のオブジェクトの埋め込み<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id20">
+<h3>単一のオブジェクトの埋め込み<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">Product</span></tt> には <tt class="docutils literal"><span class="pre">Category</span></tt> オブジェクトが紐づいているとします。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="c1">// src/Acme/StoreBundle/Entity/Category.php</span>
 <span class="k">namespace</span> <span class="nx">Acme\StoreBundle\Entity</span><span class="p">;</span>
@@ -972,8 +972,8 @@ Symfonyを用いて生成したフォームはその仕組みを最大限活用�
 これらはすべて、メインの <tt class="docutils literal"><span class="pre">Product</span></tt> オブジェクトを操作する一環として行われます。
 <tt class="docutils literal"><span class="pre">Category</span></tt> オブジェクトは <tt class="docutils literal"><span class="pre">$product-&gt;getCategory()</span></tt> のように取得でき、データベースへ保存など、任意に操作できます。</p>
 </div>
-<div class="section" id="id23">
-<h3>複数フォームの埋め込み<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id21">
+<h3>複数フォームの埋め込み<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
 <p><tt class="docutils literal"><span class="pre">collection</span></tt> フィールドタイプを使うと、1つのフォームの中に複数フォームを埋め込むこともできます。
 たとえば、<tt class="docutils literal"><span class="pre">reviews</span></tt> プロパティと、そこに対応する <tt class="docutils literal"><span class="pre">ProductReviewType</span></tt> タイプがあるとして、<tt class="docutils literal"><span class="pre">ProductType</span></tt> を次のように変更します。</p>
 <div class="highlight-php"><div class="highlight"><pre><span class="k">public</span> <span class="k">function</span> <span class="nf">buildForm</span><span class="p">(</span><span class="nx">FormBuilder</span> <span class="nv">$builder</span><span class="p">,</span> <span class="k">array</span> <span class="nv">$options</span><span class="p">)</span>
@@ -989,7 +989,7 @@ Symfonyを用いて生成したフォームはその仕組みを最大限活用�
 </div>
 </div>
 <div class="section" id="form-theming">
-<span id="index-13"></span><span id="id24"></span><h2>フォームのテーマ<a class="headerlink" href="#form-theming" title="Permalink to this headline">¶</a></h2>
+<span id="index-13"></span><span id="id22"></span><h2>フォームのテーマ<a class="headerlink" href="#form-theming" title="Permalink to this headline">¶</a></h2>
 <p>Every part of how a form renders can be customized. You&#8217;re free to change
 how each form &#8220;row&#8221; renders, change the markup used to render errors, or
 even customize how a textarea tag should be rendered. Nothing is off-limits,
@@ -1066,7 +1066,7 @@ the next section.</p>
 <p>In the following section, you&#8217;ll learn more about how to customize different
 portions of a form. For a more extensive discussion, see <a class="reference internal" href="../cookbook/form/form_customization.html"><em>フォームのレンダリングのカスタマイズ方法</em></a>.</p>
 <div class="section" id="form-template-blocks">
-<span id="id25"></span><h3>Form Template Blocks<a class="headerlink" href="#form-template-blocks" title="Permalink to this headline">¶</a></h3>
+<span id="id23"></span><h3>Form Template Blocks<a class="headerlink" href="#form-template-blocks" title="Permalink to this headline">¶</a></h3>
 <p>In Symfony, every part a form that is rendered - HTML form elements, errors,
 labels, etc - is defined in a base theme, which is a collection of blocks
 in Twig and a collection of template files in PHP.</p>
@@ -1148,8 +1148,8 @@ override the default error rendering for <em>all</em> fields, copy and customize
 <h3>Global Form Theming<a class="headerlink" href="#global-form-theming" title="Permalink to this headline">¶</a></h3>
 <p>In addition to <em>theming</em> individual templates, you can also tell Symfony
 to import form customizations across your entire project.</p>
-<div class="section" id="id26">
-<h4>Twig<a class="headerlink" href="#id26" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id24">
+<h4>Twig<a class="headerlink" href="#id24" title="Permalink to this headline">¶</a></h4>
 <p>When using Twig, you&#8217;ve seen how you can use the <tt class="docutils literal"><span class="pre">form_theme</span></tt> Twig tag in a
 template to import form customizations that will be used inside that template.
 You can also tell Symfony to automatically use certain form customizations for

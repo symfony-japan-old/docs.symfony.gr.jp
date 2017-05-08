@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="noindex">
     
     <title>1   PHPフレームワークSymfony2 開発チュートリアル | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../static/basic.css" type="text/css" />
@@ -177,7 +178,7 @@
           <div class="body">
             
 
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/osc2011-nagoya-symfony2-tutorial/symfony2-php-framework-development-tutorial.html">原文のページ</a>をご確認ください。</p>
+<div class="admonition note" style="background-color: #f2dede;"><p class="first admonition-title">ご注意</p><p style="font-weight: bold;">Symfony2日本語翻訳ドキュメントは内容が古くなっております。<a href="http://symfony.com/doc/current/index.html">公式サイト</a>の英語ドキュメントを参照してください。</p></div>
 
   <div class="section" id="phpsymfony2">
 <h1><a class="toc-backref" href="#id38">1&nbsp;&nbsp;&nbsp;PHPフレームワークSymfony2 開発チュートリアル</a><a class="headerlink" href="#phpsymfony2" title="Permalink to this headline">¶</a></h1>
@@ -251,7 +252,7 @@
 <li>注文が確定するとお礼が書かれた最後のページを表示されます。</li>
 </ol>
 <p>それぞれのページの入力内容は次のページを表示する前に検証を行います。注文を確定する際にはその内容をデータベースに保存する必要があります。これらを踏まえたページフローの全体像は以下のようになります。</p>
-<img alt="../images/page-flow.png" src="../images/page-flow.png" />
+<img alt="../images/page-flow.png" src="../_images/page-flow.png" />
 <p>では早速アプリケーションの作成に取り掛かります。</p>
 </div>
 <div class="section" id="id4">
@@ -384,7 +385,7 @@
 </pre></div>
 </div>
 <p>コマンドの実行が終わったら <strong>http://symfony2-osc/app_dev.php/hello/xxx</strong> (xxx部分は任意の文字) にアクセスして動作を確認してみましょう。</p>
-<img alt="../images/hello.png" src="../images/hello.png" />
+<img alt="../images/hello.png" src="../_images/hello.png" />
 <p>問題なくページが表示されればバンドルの作成は完了です。以降は主にバンドル用のディレクトリ <strong>src/Osc/Bundle/DrinkOrderBundle</strong> 以下のファイルやディレクトリに対して変更を加えていくことになります。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -688,7 +689,7 @@
 </div>
 <p>エンティティと同様にコマンドで定義したproduct_idおよびquantityフィールド、そしてidフィールドが宣言されています。table要素がnullの場合、この後のコマンドによるテーブル作成時にエンティティの名称であるDrinkOrderがそのままテーブル名として使われることになります。今回のテーブル名は小文字のdrink_orderにしたいのでtable要素をdrink_orderに書き換えておきます。</p>
 <p>ここまでの変更が終わったら <strong>http://symfony2-osc/app_dev.php/order</strong> にアクセスします。無事フォームが表示されたでしょうか？</p>
-<img alt="../images/order-product.png" src="../images/order-product.png" />
+<img alt="../images/order-product.png" src="../_images/order-product.png" />
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p>ドメインオブジェクトの配置場所</p>
@@ -858,7 +859,7 @@
 </div>
 <p>ただし、このようにバラバラとフィールドとメソッドが追加されるままにしておくとソースコードの可読性を下げてしまうため、手作業で適切な箇所に再配置しておくことをお勧めします。</p>
 <p>では <strong>http://symfony2-osc/app_dev.php/order/address</strong> にアクセスし、配送先情報入力フォームが表示されることを確認しましょう。</p>
-<img alt="../images/order-address.png" src="../images/order-address.png" />
+<img alt="../images/order-address.png" src="../_images/order-address.png" />
 </div>
 <div class="section" id="id14">
 <h4><a class="toc-backref" href="#id50">1.4.2.4&nbsp;&nbsp;&nbsp;ページ遷移の実装</a><a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
@@ -920,7 +921,7 @@
 </pre></div>
 </div>
 <p>では先ほどと同様に <strong>http://symfony2-osc/app_dev.php/order/address</strong> にアクセスし、適当にフォームを埋めて送信ボタンをクリックしてみましょう。上手くいきましたか？</p>
-<img alt="../images/order-route-not-found.png" src="../images/order-route-not-found.png" />
+<img alt="../images/order-route-not-found.png" src="../_images/order-route-not-found.png" />
 <p>まだOscDrinkOrderBundle_confirmationへのルートを定義していないためエラーが発生しますが今のところこれは問題ではありません。遷移の実装は上手くいっています。</p>
 </div>
 </div>
@@ -962,7 +963,7 @@
 </pre></div>
 </div>
 <p>変更が完了したら <strong>http://symfony2-osc/app_dev.php/order/address</strong> にアクセスし、配送先情報入力ページから注文内容確認ページ、注文内容確認ページから注文完了ページに遷移できるか確認しましょう。</p>
-<img alt="../images/order-confirmation.png" src="../images/order-confirmation.png" />
+<img alt="../images/order-confirmation.png" src="../_images/order-confirmation.png" />
 </div>
 <div class="section" id="id16">
 <h3><a class="toc-backref" href="#id52">1.4.4&nbsp;&nbsp;&nbsp;最後のページ - 注文完了ページ</a><a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
@@ -988,13 +989,13 @@
 </pre></div>
 </div>
 <p>変更が完了したら <strong>http://symfony2-osc/app_dev.php/order/confirmation</strong> にアクセスし、注文内容確認ページから注文完了ページに遷移できるか確認しましょう。問題なければ、最初のページから最後のページまでの遷移を確認します。</p>
-<img alt="../images/order-success.png" src="../images/order-success.png" />
+<img alt="../images/order-success.png" src="../_images/order-success.png" />
 <p>以上でページフローの実装はひとまず完了です。</p>
 </div>
 <div class="section" id="id17">
 <h3><a class="toc-backref" href="#id53">1.4.5&nbsp;&nbsp;&nbsp;レイアウトテンプレートの導入</a><a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h3>
 <p>これまで作ってきたページはまだ内容がありませんが、それにしても何か足りない気がしないでしょうか？ <strong>Welcome</strong> ページはどんな感じだったのか <strong>http://symfony2-osc/app_dev.php/</strong> にアクセスして確認してみましょう。</p>
-<img alt="../images/welcome.png" src="../images/welcome.png" />
+<img alt="../images/welcome.png" src="../_images/welcome.png" />
 <p>そうです、Welcomeページの下部にある <strong>Webデバッグツールバー</strong> がこれまで作ってきたページでは表示されないのです。Webデバッグツールバーが差し込まれるようにするには、レスポンスが <strong>&lt;/body&gt;</strong> タグを含むHTMLページでなければなりません。</p>
 <p>それぞれのページがHTML全体を表現するように変更を加えても構いませんが、ここはHTML全体の構造を表現する <strong>レイアウトテンプレート</strong> を作って、それぞれのページのテンプレートがそれを継承するようにしましょう。</p>
 <p>最初にレイアウトテンプレートを作りましょう。</p>
@@ -1030,7 +1031,7 @@
 </pre></div>
 </div>
 <p>では商品選択ページを表示してみましょう。</p>
-<img alt="../images/order-product-with-toolbar.png" src="../images/order-product-with-toolbar.png" />
+<img alt="../images/order-product-with-toolbar.png" src="../_images/order-product-with-toolbar.png" />
 <p>ご覧の通り無事ツールバーが表示されました。残りのテンプレートも同様に変更しておきましょう。</p>
 </div>
 </div>
@@ -1099,7 +1100,7 @@
 </pre></div>
 </div>
 <p>では最初のページにアクセスし、注文内容確認ページまで進めてみましょう。</p>
-<img alt="../images/order-confirmation-with-data.png" src="../images/order-confirmation-with-data.png" />
+<img alt="../images/order-confirmation-with-data.png" src="../_images/order-confirmation-with-data.png" />
 </div>
 <div class="section" id="id20">
 <h3><a class="toc-backref" href="#id56">1.5.2&nbsp;&nbsp;&nbsp;入力内容の修正</a><a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h3>
@@ -1261,7 +1262,7 @@
 </div>
 <p>バリデーションが成功した場合は今までどおりに配送先情報入力ページにリダイレクトします。失敗した場合は再度フォームを表示します。</p>
 <p>変更が完了したら動作確認を行います。わざとバリデーションを失敗させてみましょう。元のフォームにエラーメッセージが表示されればコードは正しく動作しています。</p>
-<img alt="../images/validation-failed.png" src="../images/validation-failed.png" />
+<img alt="../images/validation-failed.png" src="../_images/validation-failed.png" />
 </div>
 <div class="section" id="id25">
 <h3><a class="toc-backref" href="#id61">1.6.2&nbsp;&nbsp;&nbsp;2つ目のフォーム - 配送先情報入力フォーム</a><a class="headerlink" href="#id25" title="Permalink to this headline">¶</a></h3>
@@ -1291,7 +1292,7 @@
 </pre></div>
 </div>
 <p>では最初のページから動作確認してみてください。</p>
-<img alt="../images/validation-unexpected.png" src="../images/validation-unexpected.png" />
+<img alt="../images/validation-unexpected.png" src="../_images/validation-unexpected.png" />
 <p>商品選択フォームで正しい値を入力したにも関わらず、新たに追加した制約の数のエラーが発生してしまいました。これは新たな制約が機能しているからであり正しい動作です。我々はそれぞれのフォームタイプに対応するフィールドのみをバリデーションしたいのですが、そのためにはどうすればいいのでしょうか？</p>
 <p>この問題に対する1つの解決策は <a class="reference external" href="http://symfony.com/doc/2.0/book/validation.html#validation-groups">バリデーショングループ</a> の使用です。まずバリデーション定義を以下のように変更しましょう。</p>
 <p><strong>Resources/config/validation.yml</strong> :</p>
@@ -1336,7 +1337,7 @@
 </pre></div>
 </div>
 <p>では動作確認を行いましょう。</p>
-<img alt="../images/validation-groups.png" src="../images/validation-groups.png" />
+<img alt="../images/validation-groups.png" src="../_images/validation-groups.png" />
 <p>今度は上手くいきました。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -1432,7 +1433,7 @@
 <div class="section" id="id31">
 <h3><a class="toc-backref" href="#id67">1.8.1&nbsp;&nbsp;&nbsp;ページフローの制御</a><a class="headerlink" href="#id31" title="Permalink to this headline">¶</a></h3>
 <p>ここで冒頭に示したページフローを再度見てみましょう。</p>
-<img alt="../images/page-flow.png" src="../images/page-flow.png" />
+<img alt="../images/page-flow.png" src="../_images/page-flow.png" />
 <p>予期しないアプリケーションの動作を防ぐためはフローのルートを制御する必要があります。とはいってもSymfonyの標準機能では完全な制御は難しいため、条件分岐が拡散しすぎない程度に留めておくのが現実的でしょう。</p>
 <p>ここでは予期しない遷移を検出した場合に商品選択ページにリダイレクトするようにコントローラを変更します。</p>
 <p><strong>Controller/DrinkOrderController.php</strong> :</p>
@@ -1524,9 +1525,9 @@
 <h3><a class="toc-backref" href="#id68">1.8.2&nbsp;&nbsp;&nbsp;CSRF対策</a><a class="headerlink" href="#id32" title="Permalink to this headline">¶</a></h3>
 <p>Webページ閲覧者に対する代表的な攻撃手法の一つである <a class="reference external" href="http://ja.wikipedia.org/wiki/%E3%82%AF%E3%83%AD%E3%82%B9%E3%82%B5%E3%82%A4%E3%83%88%E3%83%AA%E3%82%AF%E3%82%A8%E3%82%B9%E3%83%88%E3%83%95%E3%82%A9%E3%83%BC%E3%82%B8%E3%82%A7%E3%83%AA">クロスサイトリクエストフォージェリ(CSRF: Cross-site request forgery)</a> ですが実はすでに対策は完了しています。これはFormオブジェクトにはデフォルトでCSRF対策が組み込まれおり、form_widget()関数によって各フォームに埋めこまれている検証用文字列(<strong>トークン</strong>)がForm::isValid()メソッドの呼び出しによって検証されているためです。</p>
 <p>実際にブラウザのツールを使ってトークンを確認してみましょう。</p>
-<img alt="../images/csrf-token.png" src="../images/csrf-token.png" />
+<img alt="../images/csrf-token.png" src="../_images/csrf-token.png" />
 <p>さらにトークンの値を変更してバリデーションエラーが発生することも確認してみましょう。</p>
-<img alt="../images/csrf-error.png" src="../images/csrf-error.png" />
+<img alt="../images/csrf-error.png" src="../_images/csrf-error.png" />
 </div>
 </div>
 <div class="section" id="id33">

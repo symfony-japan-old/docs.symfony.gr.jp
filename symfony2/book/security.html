@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="noindex">
     
     <title>セキュリティ | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../static/basic.css" type="text/css" />
@@ -180,14 +181,14 @@
           <div class="body">
             
 
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/security.html">原文のページ</a>をご確認ください。</p>
+<div class="admonition note" style="background-color: #f2dede;"><p class="first admonition-title">ご注意</p><p style="font-weight: bold;">Symfony2日本語翻訳ドキュメントは内容が古くなっております。<a href="http://symfony.com/doc/current/index.html">公式サイト</a>の英語ドキュメントを参照してください。</p></div>
 
   <div class="section" id="index-0">
 <span id="id1"></span><h1>セキュリティ<a class="headerlink" href="#index-0" title="Permalink to this headline">¶</a></h1>
 <p>セキュリティは、特定のリソースに対するアクセス権限を持たないユーザからのアクセスを制御するために、２つのステップを行います。</p>
 <p>まず第一のステップは、セキュリティシステムが、ユーザ認証で送られてくる情報から、そのユーザが誰かを識別することです。この処理は<strong>認証</strong>と呼ばれ、そのユーザが誰であるかを探そうとします。</p>
 <p>そしてユーザを特定した後に、第二のステップとして、アクセスしようとしているリソースに対して、そのユーザがアクセス可能かどうかを判断します。この処理は<strong>承認</strong>と呼ばれ、そのユーザがある特定のアクションを行うことのできる権限を保持しているかどうかをチェックします。</p>
-<img alt="../images/security_authentication_authorization.png" class="align-center" src="../images/security_authentication_authorization.png" />
+<img alt="../images/security_authentication_authorization.png" class="align-center" src="../_images/security_authentication_authorization.png" />
 <p>もっとも良い学習方法はサンプルを見ることですので、早速始めましょう。</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -299,24 +300,24 @@
 <h3>ファイアーウォール (認証)<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
 <p>ユーザからファイアーウォールによって保護されている URL にリクエストがあった際に、セキュリティシステムは作動します。ファイアーウォールは、ユーザ認証が必要かどうかを判断し、必要であれば、同ユーザにレスポンスを返し、認証のプロセスを開始します。</p>
 <p>ファイアーウォールは、受け取るリクエストの URL が、設定された正規表現 <tt class="docutils literal"><span class="pre">pattern</span></tt> の値にマッチした際に作動します。この例では、<em>全ての</em>受け取るリクエストは <tt class="docutils literal"><span class="pre">pattern</span></tt> (<tt class="docutils literal"><span class="pre">^/</span></tt>) にマッチします。ファイアーウォールが作動しているからといっても、全ての URL に対してユーザ名とパスワードの入力ボックスによる HTTP 認証が<em>表示されるわけではありません</em>。例えば、全てのユーザは <tt class="docutils literal"><span class="pre">/foo</span></tt> に認証のプロンプト無しにアクセスできます。</p>
-<img alt="../images/security_anonymous_user_access.png" class="align-center" src="../images/security_anonymous_user_access.png" />
+<img alt="../images/security_anonymous_user_access.png" class="align-center" src="../_images/security_anonymous_user_access.png" />
 <p>このファイアーウォールは、<tt class="docutils literal"><span class="pre">anonymous</span></tt> 設定パラメータによって<em>匿名ユーザ</em>を許可しているからです。つまり、このファイアーウォールは完全な認証を必要としていません。<tt class="docutils literal"><span class="pre">foo</span></tt> にアクセスするための特別な<tt class="docutils literal"><span class="pre">権限</span></tt>は存在しないので、ユーザ認証無しに、このリクエストを行うことができます。</p>
 <p><tt class="docutils literal"><span class="pre">anonymous</span></tt> キーを削除してしまうと、このファイアーウォールは<em>毎回</em>ユーザの認証を行うようになります。</p>
 </div>
 <div class="section" id="id4">
 <h3>アクセス制御 (承認)<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
 <p>しかし、ユーザが <tt class="docutils literal"><span class="pre">/admin/foo</span></tt> にリクエストする際には処理は異なります。<tt class="docutils literal"><span class="pre">access_control</span></tt> 設定のセクションにより、正規表現のパターン <tt class="docutils literal"><span class="pre">^/admin</span></tt> (<tt class="docutils literal"><span class="pre">/admin</span></tt> や <tt class="docutils literal"><span class="pre">/admin/*</span></tt> にマッチする全て)にマッチする全ての URL に <tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt> 権限を必要としているからです。権限はほとんどの承認の基礎となります。<tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt> 権限を持つユーザのみが <tt class="docutils literal"><span class="pre">/admin/foo</span></tt> にアクセスが可能です。</p>
-<img alt="../images/security_anonymous_user_denied_authorization.png" class="align-center" src="../images/security_anonymous_user_denied_authorization.png" />
+<img alt="../images/security_anonymous_user_denied_authorization.png" class="align-center" src="../_images/security_anonymous_user_denied_authorization.png" />
 <p>前のケースと同じように、ユーザが最初にリクエストを投げても、このファイアーウォールはユーザ識別を行いません。しかし、アクセス制御のレイヤーがユーザのアクセスを拒否する(匿名ユーザは <tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt> 権限がありません)とすぐに、ファイアーウォールは認証処理を開始します。認証処理は、あなたの使用する認証メカニズム次第です。例えば、フォームログイン認証を使用する際には、ユーザはログインページへリダイレクトされます。また、HTTP 認証を使用する際にはユーザに HTTP 401 のレンスポンスを返し、ユーザ名とパスワードの入力ボックスを表示します。</p>
 <p>そしてユーザは HTTP 認証を求めるアプリケーションに対し証明書を送信します。証明書が有効であれば、最初に送ったリクエストを再び試みることができます。</p>
-<img alt="../images/security_ryan_no_role_admin_access.png" class="align-center" src="../images/security_ryan_no_role_admin_access.png" />
+<img alt="../images/security_ryan_no_role_admin_access.png" class="align-center" src="../_images/security_ryan_no_role_admin_access.png" />
 <p>この例では、ユーザ <tt class="docutils literal"><span class="pre">ryan</span></tt> はこのファイアーウォールにおいて認証に成功します。しかし、<tt class="docutils literal"><span class="pre">ryan</span></tt> は <tt class="docutils literal"><span class="pre">ROLE_ADMIN</span></tt> の権限がないため、<tt class="docutils literal"><span class="pre">/admin/foo</span></tt> にアクセスすると拒否されます。結局、このユーザはアクセスが拒否されたというメッセージを見ることになります。</p>
 <div class="admonition tip">
 <p class="first admonition-title">Tip</p>
 <p class="last">Symfony がユーザのアクセスを拒否すると、そのユーザにはエラー画面を表示し、 HTTP の403ステータスコード(<tt class="docutils literal"><span class="pre">Forbidden</span></tt>) を送ります。アクセス拒否のエラー画面は、クックブック <a class="reference internal" href="../cookbook/controller/error_pages.html#cookbook-error-pages-by-status-code"><em>Error Pages</em></a> の403エラーページのカスタマイズを参考に、カスタマイズすることができます。</p>
 </div>
 <p>そして <tt class="docutils literal"><span class="pre">admin</span></tt> ユーザが <tt class="docutils literal"><span class="pre">admin/foo</span></tt> にリクエストをした際に、同じ処理が行われます。しかし、認証されているので、アクセス制御のレイヤーはそのリクエストを通すことになります:</p>
-<img alt="../images/security_admin_role_access.png" class="align-center" src="../images/security_admin_role_access.png" />
+<img alt="../images/security_admin_role_access.png" class="align-center" src="../_images/security_admin_role_access.png" />
 <p>あるユーザが保護されているリソースにリクエストをする際のフローは分かりやすく、また、とても柔軟です。後で見ることになりますが、認証はフォームログイン、X.509 認証、Twitter 認証など、いろいろな方法で操作することが可能です。認証方法に関係なく、リクエストフローはすべて同じなのです:</p>
 <ol class="arabic simple">
 <li>ユーザが保護されたリソースにアクセスする。</li>

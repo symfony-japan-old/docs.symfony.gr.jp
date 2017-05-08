@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="noindex">
     
     <title>Symfony2 と HTTP の基礎 | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../static/basic.css" type="text/css" />
@@ -162,7 +163,7 @@
           <div class="body">
             
 
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/book/http_fundamentals.html">原文のページ</a>をご確認ください。</p>
+<div class="admonition note" style="background-color: #f2dede;"><p class="first admonition-title">ご注意</p><p style="font-weight: bold;">Symfony2日本語翻訳ドキュメントは内容が古くなっております。<a href="http://symfony.com/doc/current/index.html">公式サイト</a>の英語ドキュメントを参照してください。</p></div>
 
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
@@ -184,7 +185,7 @@
 例えば、Web コミックの <a class="reference external" href="http://xkcd.com/">xkcd</a> 最新情報をチェックしたいとしましょう。
 その場合、おおよそこんな会話が起こっています。</p>
 <div class="figure align-center">
-<img alt="../images/http-xkcd.png" src="../images/http-xkcd.png" />
+<img alt="../images/http-xkcd.png" src="../_images/http-xkcd.png" />
 <p class="caption">browser-&gt;server「おーい！今日の分ある？」/
 server: ページの HTML を用意する /
 server-&gt;browser「あるよ！HTML あげるね。」</p>
@@ -200,7 +201,7 @@ Web の開発ということであれば、サーバーの役割はテキスト�
 クライアントは、サーバーにリクエストを送り、レスポンスを待ちます。</p>
 <p>ブラウザと xkcd の WEB サーバーとのやりとりのうち、最初の部分(リクエスト)を見てみましょう。</p>
 <div class="figure align-center">
-<img alt="../images/http-xkcd-request.png" src="../images/http-xkcd-request.png" />
+<img alt="../images/http-xkcd-request.png" src="../_images/http-xkcd-request.png" />
 <p class="caption">browser-&gt;server「おーい！今日の分ある？」</p>
 </div>
 <p>HTTP において、リクエストは次のようになります。</p>
@@ -254,7 +255,7 @@ HTTP メソッドはリクエストの<em>動詞</em>にあたり、そのリソ
 例えば、GET リクエストであれば、サーバーはリソースを用意し、HTTP レスポンスとして返します。
 xkcd WEB サーバーのレスポンスを見てみましょう。</p>
 <div class="figure align-center">
-<img alt="../images/http-xkcd.png" src="../images/http-xkcd.png" />
+<img alt="../images/http-xkcd.png" src="../_images/http-xkcd.png" />
 <p class="caption">browser-&gt;server「おーい！今日分ある？」/
 server: HTMLを用意する /
 server-&gt;browser「あるよ！HTMLあげるね。」</p>

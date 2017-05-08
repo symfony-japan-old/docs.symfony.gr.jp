@@ -5,6 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="robots" content="noindex">
     
     <title>Serializerコンポーネント | Symfony2日本語ドキュメント</title>
     <link rel="stylesheet" href="../static/basic.css" type="text/css" />
@@ -151,7 +152,7 @@
           <div class="body">
             
 
-<p>コンテンツ上部に更新日の記載のないページは、翻訳の内容が2.0相当のものになっております。最新の内容は<a href="http://symfony.com/doc/current/components/serializer.html">原文のページ</a>をご確認ください。</p>
+<div class="admonition note" style="background-color: #f2dede;"><p class="first admonition-title">ご注意</p><p style="font-weight: bold;">Symfony2日本語翻訳ドキュメントは内容が古くなっております。<a href="http://symfony.com/doc/current/index.html">公式サイト</a>の英語ドキュメントを参照してください。</p></div>
 
   <div class="admonition note" id="index-0">
 <p class="first admonition-title">Note</p>
@@ -165,7 +166,7 @@
 <blockquote>
 <div>Serializer コンポーネントは、オブジェクトを別のフォーマット（XML、JSON、 Yamlなど）に変更するのに使われます。</div></blockquote>
 <p>そのために、 Serializer コンポーネントは下図のようなシンプルな仕組みに従っています。</p>
-<span id="component-serializer-encoders"></span><img alt="../images/serializer_workflow.png" id="component-serializer-normalizers" src="../images/serializer_workflow.png" />
+<span id="component-serializer-encoders"></span><img alt="../images/serializer_workflow.png" id="component-serializer-normalizers" src="../_images/serializer_workflow.png" />
 <p>上の図を見るとわかるように、配列（Array）が仲介として使われています。
 つまり、 Encoder は <strong>フォーマット</strong> を <strong>配列</strong> に変換したり元に戻したりするのを担当し、 Normalizer は <strong>オブジェクト</strong> を <strong>配列</strong> に変換したり戻したりするのを担当しています。</p>
 <p>シリアライズは複雑な課題であり、Serializer コンポーネントはすべてのケースに使えるわけではありませんが、開発者がシリアライズしたいオブジェクトをシリアライズする道具を作るのに役立つでしょう。</p>
